@@ -1,0 +1,25 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  &.top-left {
+    top: 90px;
+    left: 10px;
+    width: unset;
+    height: unset;
+  }
+  &.with-shadow {
+    box-shadow: -1px 2px 9px #bdbdbd;
+  }
+  &.border3 {
+    border-radius: 28px;
+  }
+}

@@ -1,0 +1,13 @@
+export enum MODES {
+  CHOSE_MODE,
+  PLAY_AI,
+  PLAY_WITH_HUMAN
+}
+
+export enum AI_PLAY_MODE {
+  BEGGINER,
+  AMATEUR,
+  INTERMEDIATE,
+  PROFESSIONAL,
+  WORLD_CLASS,
+}

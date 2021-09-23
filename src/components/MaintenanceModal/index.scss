@@ -1,0 +1,18 @@
+.maintenance-modal {
+  background: white;
+  padding: 20px;
+  min-width: 200px;
+  p {
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    width: unset;
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: space-between;
+  }
+}

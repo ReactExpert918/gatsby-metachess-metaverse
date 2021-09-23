@@ -1,0 +1,14 @@
+.choseModeSectionContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  & .headerWrapper{
+    margin-bottom: 52px;
+    display: flex;
+    justify-content: center;
+  }
+  & .squaredWrapper{
+    display: flex;
+  }
+}

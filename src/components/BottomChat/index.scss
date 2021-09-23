@@ -1,0 +1,187 @@
+.bottomChatWrapper {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+
+  overflow-x: auto;
+  .bottomChatItemWrapper {
+    border-radius: 10px 10px 0px 0px;
+
+    margin: 0px 2px;
+    background: #f1f1f1 0% 0% no-repeat padding-box;
+    min-width: 250px;
+    width: calc(100vw * (377 / 1920));
+
+    .bottomChatHeader {
+      border: 3px solid #0f1f38;
+      background: #f1f1f1 0% 0% no-repeat padding-box;
+
+      border-bottom-width: 0px;
+
+      border-radius: 10px 10px 0px 0px;
+
+      max-height: calc(100vw * (51 / 1920));
+      min-height: 30px;
+
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .userInfo {
+        margin-left: 16px;
+        display: flex;
+        align-items: center;
+        .chatIcon {
+          margin-right: 8px;
+          max-height: 26px;
+          max-width: 26px;
+        }
+        p {
+          font-family: var(--bs-font-sans-serif);
+          font-size: 1.1rem;
+          letter-spacing: 1.08px;
+          color: #0f1f38;
+        }
+      }
+      .closeIcon {
+        margin-right: 16px;
+        max-height: 16px;
+        max-width: 16px;
+      }
+    }
+    .chatContent {
+      position: fixed;
+      min-width: 250px;
+      width: calc(100vw * (377 / 1920));
+
+      min-height: 300px;
+      bottom: 0;
+
+      .chatContainer {
+        border: 3px solid #0f1f38;
+        padding: 8px;
+        border-top-width: 2px;
+
+        border-bottom-width: 0px;
+
+        display: flex;
+        flex-direction: column;
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0px 2px 6px #0f1f3829;
+        flex: 1;
+      }
+
+      .messageWrapper {
+        margin: 16px 0px;
+        background: #f6f6f6 0% 0% no-repeat padding-box;
+        border-radius: 0px 14px 14px 25px;
+      }
+      .userMessageWrapper {
+        align-self: flex-end;
+        background: #0f1f38 0% 0% no-repeat padding-box;
+        border-radius: 14px 25px 0px 14px;
+      }
+
+      .messageText {
+        padding: 8px;
+        text-align: left;
+        font-family: var(--bs-font-sans-serif);
+        font-size: 1.1rem;
+        letter-spacing: 1.02px;
+        color: #0f1f38;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .userMessageText {
+        text-align: left;
+        color: #ffffff;
+      }
+
+      .messageTime {
+        padding: 0px 8px 8px;
+        text-align: left;
+        font-family: var(--bs-font-sans-serif);
+        font-size: 0.8rem;
+        letter-spacing: 0.72px;
+        color: #0f1f38;
+      }
+
+      .userMessageTime {
+        color: #ffffff;
+      }
+
+      .separatorWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .scrollMessagesWrapper {
+        overflow-y: scroll;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        max-height: 100%;
+      }
+
+      .separatorLine {
+        border: 1px solid #0f1f38;
+        display: flex;
+        flex: 1;
+      }
+
+      .separatorTitle {
+        margin: 8px;
+        font-family: var(--bs-font-sans-serif);
+        font-size: 0.9rem;
+        letter-spacing: 0.23px;
+        color: #0f1f38;
+      }
+
+      .chatInputWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 16px;
+        border-top: 2px solid #9aa9c1;
+      }
+
+      .chatInputInput {
+        padding: 8px;
+        display: flex;
+        text-align: left;
+        font-family: var(--bs-font-sans-serif);
+        font-size: 1rem;
+        letter-spacing: 1.02px;
+        color: #9aa9c1;
+        border: 0px solid transparent;
+      }
+
+      .emojiInput {
+        margin-right: 8px;
+      }
+    }
+    .unseenNumberIndicatorContainer {
+      margin-left: 4px;
+      width: 23px;
+      height: 23px;
+      border-radius: 12px;
+      background: #297bfb 0% 0% no-repeat padding-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > p {
+        font-weight: bold;
+        font-family: var(--bs-font-sans-serif);
+        font-size: 1rem;
+        letter-spacing: 0.9px !important;
+        color: #ffffff !important;
+      }
+    }
+  }
+}

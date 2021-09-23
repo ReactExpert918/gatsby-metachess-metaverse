@@ -1,0 +1,107 @@
+.chessboardWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  min-width: calc(100vh * (800 / 1920));
+  min-height: calc(100vh * (800 / 1920));
+  // max-height: 100%;
+  // background-color: red;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+}
+
+.chessboardContainer {
+  max-height: 100% !important;
+  min-height: 100% !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.chessboardSidebarWrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  margin-top: 83px;
+  margin-left: calc(100vw * (33 / 1920));
+  margin-right: calc(100vw * (59 / 1920));
+  width: calc(100vw * (468 / 1920));
+  @media (max-width: 768px) {
+    width: 100vw;
+  }
+}
+
+.timersWrapper {
+  display: flex;
+  flex: 1;
+
+  flex-direction: column;
+}
+
+.playerStatus {
+  // flex: 1;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  max-height: 73px !important;
+  min-height: 73px !important;
+
+
+  .elo-container {
+    margin-left: 20px;
+
+    .elo {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .mode {
+      font-size: 14px;
+      color: #607aa2;
+      font-weight: 600;
+      margin-top: -5px;
+    }
+  }
+
+
+  .wonFiguresWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+  }
+  .wonPieceImage {
+    height: 24px;
+    width: 24px;
+  }
+
+  .chessboardOpponentName {
+    text-align: left;
+    font-size: 1.5rem;
+    letter-spacing: 2.07px;
+    line-height: 31px;
+    color: #0f1f38;
+  }
+  &.playerStatusReversed {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    padding-top: 10px;
+    padding-bottom: 0px;
+
+    .elo-container {
+      margin-left: 0;
+      margin-right: 20px;
+    }
+
+    .wonFiguresWrapper {
+      justify-content: flex-start;
+    }
+  }
+}

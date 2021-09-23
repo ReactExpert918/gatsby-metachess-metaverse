@@ -1,0 +1,104 @@
+@import "../../helpers.scss";
+.timer {
+  width: calc(100vw * (154 / 1920));
+  height: calc(100vw * (90 / 1920));
+  min-width: 82px;
+  min-height: 48px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 8px;
+  opacity: 1;
+  font-weight: bold;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 1.8rem;
+  letter-spacing: 0.43px;
+  color: #0f1f38;
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameInfoContainer {
+  display: flex;
+  flex-direction: column;
+  // width: calc(100vw * (468 / 1920));
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 8px;
+  min-height: 130px;
+  padding: calc(100vw * (20 / 1920)) calc(100vw * (25 / 1920));
+  margin: -10px 0px;
+  z-index: 1;
+
+  .block-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .block {
+    margin-bottom: 15px;
+    flex: 0 0 50%;
+  }
+
+  .value {
+    color: #0f1f38;
+  }
+
+  .title-small {
+    font-size: 10px;
+    margin-top:10px;
+    font-weight: 500;
+  }
+
+  .value-image {
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+    &.win {
+      font-size: 19px;
+      color: #0a860a;
+      
+      .trophy {
+        height: 18px;
+      }
+    }
+    &.grey {
+      color: #716e6e;
+    }
+    &.lose {
+      color: #fd2f2f;
+    }
+  }
+
+  
+
+  .trophy {
+    height: 16px;
+    margin-top: 2px;
+  }
+  
+  .title {
+    font-weight: 700;
+    color: #0f1f38;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .mode {
+    color: #607aa2;
+    font-weight: 600;
+  }
+
+}
+
+.gameInfoTitle {
+  text-align: left;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: #0f1f38;
+  margin-bottom: 15px;
+}
