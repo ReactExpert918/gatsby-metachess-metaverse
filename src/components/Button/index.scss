@@ -1,0 +1,42 @@
+.buttonWrapper {
+  background: #297bfb 0% 0% no-repeat padding-box;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--bs-font-sans-serif);
+  font-size: 1.1rem;
+  letter-spacing: 1.19px;
+  padding: 12px 48px;
+  color: #e8e8e8;
+  outline: none;
+  cursor: pointer;
+
+  &.dark {
+    background: #0f1f38 0% 0% no-repeat padding-box;
+  }
+  &.small {
+    padding: 6px 15px;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  &.white{
+    background: #fff 0% 0% no-repeat padding-box;
+    color: #0f1f38;
+    border: 1px solid #0f1f38;
+  }
+}
+
+.outlinedButton {
+  padding: 10px 16px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 2px solid #0f1f38;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1.26px;
+  color: #0f1f38;
+  cursor: pointer;
+}

@@ -1,0 +1,66 @@
+.moveHistoryContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: calc(100vw * (468 / 1920));
+  @media (max-width: 768px) {
+    width: 100vw;
+  }
+
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 8px;
+  margin-top: 83px;
+  margin-bottom: 83px;
+  margin-left: calc(100vw * (59 / 1920));
+  margin-right: calc(100vw * (33 / 1920));
+
+  .title {
+    margin: 25px;
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 0.32px;
+    color: #0f1f38;
+  }
+  .moveHistoryWrapper {
+    flex: 1;
+    overflow-y: scroll;
+    p {
+      padding: 20px 0 20px 25px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 1.3rem;
+      letter-spacing: 0.32px;
+      color: #0f1f38;
+      opacity: 1;
+    }
+    .cellWrapper {
+      height: 334.73px;
+      // overflow-y: scroll;
+      .moveHistoryCell {
+        width: 100%;
+        opacity: 1;
+        p {
+          padding: 14px 0 14px 35px;
+          text-align: left;
+          font-size: 1rem;
+          letter-spacing: 0.26px;
+          opacity: 1;
+        }
+      }
+      .moveHistoryCellOdd {
+        background: #0f1f38 0% 0% no-repeat padding-box;
+        p {
+          color: #ffffff;
+        }
+      }
+      .moveHistoryCellEven {
+        background: #f8f8f8 0% 0% no-repeat padding-box;
+        p {
+          color: #0f1f38;
+        }
+      }
+    }
+  }
+}

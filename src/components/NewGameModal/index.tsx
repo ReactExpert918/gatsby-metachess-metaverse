@@ -1,0 +1,246 @@
+import React, { Component, useState, useContext } from "react";
+import Switch from "react-switch";
+import { SVG_ASSETS } from "../../constants/svgAssets";
+import Modal from "../Modal";
+import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
+
+import { connect } from "react-redux";
+import {
+  GameMode,
+  GameRules,
+  PieceSide,
+} from "../../interfaces/game.interfaces";
+import SocketService from "../../services/socket.service";
+import { navigate } from "gatsby";
+import { ToastContext } from "../ToastProvider";
+import CreatedARoom from "../Toasts/CreatedARoom";
+import { IUser } from "../../store/user/user.interfaces";
+import subscribeToGameStart from "../../lib/gameStart";
+import { IAppState } from "../../store/reducers";
+import { ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
+
+interface IActionProps {
+  setGameRules: typeof GameplayActions.setGameRules;
+  setPlayMode: typeof GameplayActions.setPlayMode;
+  setOpponent: typeof GameplayActions.setOpponent;
+  setPlayerColor: typeof GameplayActions.setPlayerColor;
+  clear: typeof GameplayActions.clear;
+}
+interface ISelectProps {
+  playMode: ISetPlayModePayload;
+}
+
+interface IProps extends IActionProps {
+  closeModal: () => void;
+}
+
+const NewGameModal = (props: IProps & ISelectProps) => {
+  const [checked, setChecked] = useState(false);
+  const [minAmountChessCoin, setMinAmountChessCoin] = useState(0.0);
+  const [maxAmountChessCoin, setMaxAmountChessCoin] = useState(0.0);
+  const [minRatingRange, setMinRatingRange] = useState(1000);
+  const [maxRatingRange, setMaxRatingRange] = useState(1500);
+  const [time, setTime] = useState(3);
+  const [increment, setIncrement] = useState(0);
+  const [gameMode, setGameMode] = useState(GameMode.Casual);
+  const [side, setSide] = useState(null);
+
+  const toastContext = useContext(ToastContext);
+
+  const onCancel = () => {
+    toastContext.hideToast();
+    SocketService.sendData("leave-game", null);
+    props.clear();
+  };
+  const onCreateGame = () => {
+    const chessCoin = checked
+      ? {
+          minium: minAmountChessCoin,
+          maxium: maxAmountChessCoin,
+        }
+      : null;
+    const hostSide = !side
+      ? PieceSide.Random
+      : side === "w"
+      ? PieceSide.White
+      : PieceSide.Black;
+    const gameRules: GameRules = {
+      chessCoin,
+      hostSide,
+      rating: {
+        minium: minRatingRange,
+        maxium: maxRatingRange,
+      },
+      mode: gameMode,
+      time: {
+        base: time,
+        increment,
+      },
+    };
+    subscribeToGameStart(toastContext.hideToast);
+
+    SocketService.sendData(
+      "create-custom-game",
+
+      gameRules,
+      (roomToken: string) => {
+        // TODO: if roomtoken is null, something is wrong with rules
+        console.log("create-custom-game:", roomToken);
+        toastContext.showToast(
+          <CreatedARoom onCancel={onCancel} roomCode={roomToken} />
+        );
+        props.closeModal();
+      }
+    );
+  };
+
+  return (
+    <Modal onClose={props.closeModal}>
+      <div className={"newGame"}>
+        {/* <div className={"headerRow"}>
+          <h3>Betting settings</h3>
+          <div className={"switch"}>
+            <Switch
+              onChange={setChecked}
+              checked={checked}
+              handleDiameter={22}
+              onColor={"#00AC2E"}
+              checkedIcon={false}
+              uncheckedIcon={false}
+            />
+          </div>
+        </div> */}
+        {checked && (
+          <div className={"row"}>
+            <div className={"item"}>
+              <h5>Amount Chess Coin (range)</h5>
+
+              <div className={"sideItems inputValue"}>
+                <input
+                  value={minAmountChessCoin}
+                  onChange={(e) =>
+                    setMinAmountChessCoin(Number(e.target.value))
+                  }
+                  type={"number"}
+                />
+                <div className={"inBetween"}>to</div>
+                <input
+                  value={maxAmountChessCoin}
+                  onChange={(e) =>
+                    setMaxAmountChessCoin(Number(e.target.value))
+                  }
+                  type={"number"}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={"headerRow"}>
+          <h3>Game settings</h3>
+        </div>
+        <div className={"row"}>
+          <div className={"item"}>
+            <h5>Side</h5>
+            <div className={"sideItems"}>
+              <div
+                className={!side ? "sideClicked" : "side"}
+                onClick={() => {
+                  setSide(null);
+                }}
+              >
+                <img src={SVG_ASSETS.bwSide} />
+              </div>
+              <div
+                className={side === "w" ? "sideClicked" : "side"}
+                onClick={() => {
+                  setSide("w");
+                }}
+              >
+                <img src={SVG_ASSETS.wSide} />
+              </div>
+              <div
+                className={side === "b" ? "sideClicked" : "side"}
+                onClick={() => {
+                  setSide("b");
+                }}
+              >
+                <img src={SVG_ASSETS.bSide} />
+              </div>
+            </div>
+          </div>
+          <div className={"item"}>
+            <h5>Mode</h5>
+
+            <div className={"sideItems"}>
+              <select
+                onChange={(e) => setGameMode(e.target.value as any)}
+                value={gameMode}
+              >
+                <option value={GameMode.Casual}>Casual</option>
+                <option value={GameMode.Rated}>Rated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className={"row"}>
+          <div className={"item"}>
+            <h5>Rating range</h5>
+            <div className={"sideItems inputValue"}>
+              <input
+                value={minRatingRange}
+                onChange={(e) => setMinRatingRange(Number(e.target.value))}
+                type={"number"}
+              />
+              <div className={"inBetween"}>to</div>
+              <input
+                value={maxRatingRange}
+                onChange={(e) => setMaxRatingRange(Number(e.target.value))}
+                type={"number"}
+              />
+            </div>
+          </div>
+          <div className={"item"}>
+            <div className={"sideItems timeAndIncrementTitle"}>
+              <h5>Time</h5>
+              <h5>Increment</h5>
+            </div>
+
+            <div className={"sideItems inputValue"}>
+              <input
+                value={time}
+                onChange={(e) => setTime(Number(e.target.value))}
+                type={"number"}
+              />
+              <div className={"inBetween"}>+</div>
+              <input
+                value={increment}
+                onChange={(e) => setIncrement(Number(e.target.value))}
+                type={"number"}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={"createGame"}>
+          <button className={"btn"} onClick={onCreateGame}>
+            Create Game
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+const mapStateToProps = (state: IAppState): ISelectProps => ({
+  playMode: state.gameplay.playMode,
+});
+
+const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
+  setGameRules: GameplayActions.setGameRules,
+  setPlayMode: GameplayActions.setPlayMode,
+  setOpponent: GameplayActions.setOpponent,
+  setPlayerColor: GameplayActions.setPlayerColor,
+  clear: GameplayActions.clear,
+})(NewGameModal);
+
+export default connected;

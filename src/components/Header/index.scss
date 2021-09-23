@@ -1,0 +1,96 @@
+.headerContainer {
+  background: #0f1f38 0% 0% no-repeat padding-box;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  min-height: 80px;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
+}
+
+.headerContainerTransparent {
+  position: absolute;
+  background-color: transparent;
+}
+
+.headerNavigatorContainer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0px 24px;
+}
+
+.headerNavigatorItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 24px;
+
+  .headerActiveIndicator {
+    align-self: flex-end;
+    height: 2px;
+    background-color: #fff;
+    transition: width 0.25s;
+    width: 0px;
+    &.headerActiveIndicatorActive {
+      width: 100%;
+    }
+  }
+  &:hover {
+    .headerActiveIndicator {
+      align-self: flex-start;
+      width: 100%;
+    }
+  }
+}
+
+.headerNavigatorLogo {
+  height: 56px;
+  width: 56px;
+}
+
+.headerNavigatorItemTitle {
+  letter-spacing: 1.32px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.withItemNumberIndicatorContainer {
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-end;
+}
+.itemNumberIndicatorContainer {
+  position: absolute;
+  margin: -10px -10px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  background: #297bfb 0% 0% no-repeat padding-box;
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+}
+.itemNumberIndicatorTitle {
+  font: 15px/20px Segoe UI;
+  letter-spacing: 0.9px;
+  color: #ffffff;
+}
+
+.headerAccountContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.headerNavigatorAccountTitle {
+  letter-spacing: 1.26px;
+  color: #ffffff;
+  padding-left: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+}

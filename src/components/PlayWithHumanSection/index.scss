@@ -1,0 +1,50 @@
+.buttonNewGame {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 2px solid #0f1f38;
+  border-radius: 8px;
+  opacity: 1;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 1.26px;
+  color: #0f1f38;
+  opacity: 1;
+  width: 248px;
+  height: 56px;
+}
+.playWithHumanContainer {
+  display: flex;
+  flex: 1;
+  position: relative;
+  flex-direction: column;
+  width: 1161px;
+  @media (max-width: 1161px) {
+    width: 97vw;
+  }
+  & .backToSelection {
+    margin-bottom: 37px;
+    display: flex;
+    & p {
+      color: #297bfb;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+  &.buttonsContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .mRight {
+    margin-right: 25px;
+  }
+  .mBottom {
+    margin-bottom: 25px;
+  }
+  .titleWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+  }
+}

@@ -1,0 +1,33 @@
+.playWithAISectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  & .backToSelection {
+    margin-bottom: 37px;
+    display: flex;
+    width: 100%;
+    & p {
+      color: #297bfb;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+  & .headerWrapper {
+    margin-bottom: 52px;
+    display: flex;
+    justify-content: center;
+  }
+  & .squaredWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 52px;
+  }
+  & .noMargin:first-child {
+    margin-left: 0;
+  }
+  & .noMargin:last-child {
+    margin-right: 0;
+  }
+}
