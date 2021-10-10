@@ -1,3 +1,8 @@
+
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV.trim()}`,
+});
+
 module.exports = {
   siteMetadata: {
     name: `Hello Chess World!`,
