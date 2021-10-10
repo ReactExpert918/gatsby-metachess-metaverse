@@ -7,7 +7,7 @@ import { navigate } from "gatsby";
 import { MODES } from "../../constants/playModes";
 import { PawnSvg } from "../Images";
 import { IGameplayElos, ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
-import Counter from "../Counter/counter";
+import Counter from "../Counter";
 import { getGameTypeElo, getGameTypeName } from "../../helpers/gameTypeHelper";
 import { GameRules, GameMode } from "../../interfaces/game.interfaces";
 import { IUser } from "../../store/user/user.interfaces";
