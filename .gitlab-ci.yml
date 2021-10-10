@@ -39,6 +39,7 @@ deploy:development:
     - chmod 600 private.key
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -rav --delete -e "ssh -i private.key" ./ $URL:/var/www/brainiacchess/game
+    - ssh -i private.key $URL "cd /var/www/brainiacchess/game && yarn install && yarn build"
     - echo "Application successfully deployed."
 
 deploy:production:
