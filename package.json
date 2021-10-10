@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "gatsby clean",
     "develop": "SET NODE_ENV=development & gatsby develop",
-    "build": "SET NODE_ENV=development & gatsby build",
-    "build-production": "SET NODE_ENV=production & gatsby build",
+    "develop-linux": "NODE_ENV=development & gatsby develop",
+    "build": "NODE_ENV=development & gatsby build",
+    "build-production": "NODE_ENV=production & gatsby build",
     "serve": "gatsby serve"
   },
   "dependencies": {
