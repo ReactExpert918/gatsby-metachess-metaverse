@@ -1,30 +1,9 @@
 
 stages:
-  - build
-  - deploy
+  - build-deploy
 
-build:development:
-  image: node:12.16.0
-  stage: build
-  only:
-    - development
-  script:
-    - npm install -g gatsby-cli
-    - yarn install
-    - yarn build
-  
-build:production:
-  image: node:12.16.0
-  stage: build
-  only:
-    - main
-  script:
-    - npm install -g gatsby-cli
-    - yarn install
-    - yarn build-production
-
-deploy:development:
-  stage: deploy
+build-deploy:development:
+  stage: build-deploy
   image: docker:stable
   environment:
     name: development
@@ -32,18 +11,21 @@ deploy:development:
   only: 
     - development
   script:
+    - echo "Building application..."
+    - npm install
+    - npm run build
+    - echo "Application successfully built."
     - echo "Deploying application..."
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> private.key
     - chmod 600 private.key
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -rav --delete -e "ssh -i private.key" ./ $URL:/var/www/brainiacchess/game
-    - ssh -i private.key $URL "cd /var/www/brainiacchess/game && npm install && npm run build"
+    - rsync -rav --delete -e "ssh -i private.key" public/ $URL:/var/www/brainiacchess/game
     - echo "Application successfully deployed."
 
-deploy:production:
-  stage: deploy
+build-deploy:production:
+  stage: build-deploy
   image: docker:stable
   environment:
     name: production
