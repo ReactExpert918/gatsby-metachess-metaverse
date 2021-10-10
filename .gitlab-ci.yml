@@ -1,9 +1,28 @@
 
 stages:
-  - build-deploy
+  - build
+  - deploy
 
-build-deploy:development:
-  stage: build-deploy
+build:development:
+  image: node:12.16.0
+  stage: build
+  only:
+    - development
+  script:
+    - yarn install
+    - yarn build
+  
+build:production:
+  image: node:12.16.0
+  stage: build
+  only:
+    - main
+  script:
+    - yarn install
+    - yarn build-production
+
+deploy:development:
+  stage: deploy
   image: docker:stable
   environment:
     name: development
@@ -24,8 +43,8 @@ build-deploy:development:
     - rsync -rav --delete -e "ssh -i private.key" public/ $URL:/var/www/brainiacchess/game
     - echo "Application successfully deployed."
 
-build-deploy:production:
-  stage: build-deploy
+deploy:production:
+  stage: deploy
   image: docker:stable
   environment:
     name: production
