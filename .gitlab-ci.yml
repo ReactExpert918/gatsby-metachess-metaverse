@@ -9,7 +9,7 @@ build:development:
   only:
     - development
   script:
-    - yarn add -g gatsby-cli
+    - npm install -g gatsby-cli
     - yarn install
     - yarn build
   
@@ -19,7 +19,7 @@ build:production:
   only:
     - main
   script:
-    - yarn add -g gatsby-cli
+    - npm install -g gatsby-cli
     - yarn install
     - yarn build-production
 
