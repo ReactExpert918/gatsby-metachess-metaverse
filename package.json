@@ -6,10 +6,10 @@
   "scripts": {
     "clean": "gatsby clean",
     "develop": "SET NODE_ENV=development & gatsby develop",
-    "develop-linux": "NODE_ENV=development & gatsby develop",
-    "build": "NODE_ENV=development & gatsby build",
-    "build-production": "NODE_ENV=production2 & gatsby build",
-    "serve": "gatsby serve"
+    "develop-linux": "export NODE_ENV=development & gatsby develop",
+    "build": "export NODE_ENV=development & gatsby build",
+    "build-production": "export NODE_ENV=production & gatsby build",
+    "serve": "export gatsby serve"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
