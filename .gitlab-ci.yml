@@ -9,8 +9,6 @@ build:development:
   only:
     - development
   script:
-    - npm install --global cross-env
-    - cross-env NODE_ENV=development
     - yarn install
     - yarn build
   
@@ -20,7 +18,6 @@ build:production:
   only:
     - main
   script:
-    - npm install -g gatsby-cli
     - yarn install
     - yarn build-production
 
@@ -56,6 +53,11 @@ deploy:production:
   only: 
     - main
   script:
+    - echo "Building application..."
+    - apk add yarn
+    - yarn install
+    - yarn build-production
+    - echo "Application successfully built."
     - echo "Deploying application..."
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

@@ -5,10 +5,10 @@
   "version": "1.1.3",
   "scripts": {
     "clean": "gatsby clean",
-    "develop": "SET NODE_ENV=development & gatsby develop",
-    "develop-linux": "NODE_ENV=development & gatsby develop",
-    "build": "NODE_ENV=development & gatsby build",
-    "build-production": "NODE_ENV=production & gatsby build",
+    "develop": "SET GATSBY_ENV=development& gatsby develop",
+    "develop-linux": "GATSBY_ENV=development gatsby develop",
+    "build": "GATSBY_ENV=development gatsby build",
+    "build-production": "GATSBY_ENV=production gatsby build",
     "serve": "gatsby serve"
   },
   "dependencies": {
