@@ -1,6 +1,6 @@
 
 require("dotenv").config({
-  path: `.env.${process.env.GATSBY_NODE_ENV.trim()}`,
+  path: `.env.${(process.env.GATSBY_NODE_ENV || '').trim()}`,
 });
 
 console.log(process.env.GATSBY_NODE_ENV.trim() == 'development');
