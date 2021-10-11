@@ -1,10 +1,10 @@
 
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV.trim()}`,
+  path: `.env.${process.env.GATSBY_NODE_ENV.trim()}`,
 });
 
-console.log(process.env.NODE_ENV.trim() == 'development');
-console.log(process.env.NODE_ENV);
+console.log(process.env.GATSBY_NODE_ENV.trim() == 'development');
+console.log(process.env.GATSBY_NODE_ENV);
 console.log(process.env.GATSBY_API);
 
 module.exports = {
