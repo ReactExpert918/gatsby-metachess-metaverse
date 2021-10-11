@@ -5,11 +5,11 @@
   "version": "1.1.3",
   "scripts": {
     "clean": "gatsby clean",
-    "develop": "SET NODE_ENV=development & gatsby develop",
-    "develop-linux": "export NODE_ENV=development & gatsby develop",
-    "build": "export NODE_ENV=development & gatsby build",
-    "build-production": "export NODE_ENV=production & gatsby build",
-    "serve": "export gatsby serve"
+    "develop": "SET GATSBY_NODE_ENV=development & gatsby develop",
+    "develop-linux": "GATSBY_NODE_ENV=development & gatsby develop",
+    "build": "GATSBY_NODE_ENV=development & gatsby build",
+    "build-production": "GATSBY_NODE_ENV=production & gatsby build",
+    "serve": "gatsby serve"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
