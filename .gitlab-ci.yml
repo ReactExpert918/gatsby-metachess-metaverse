@@ -33,7 +33,7 @@ deploy:development:
     - development
   script:
     - echo "Building application..."
-    - sudo apt install yarn
+    - apk add yarn
     - yarn install
     - yarn build
     - echo "Application successfully built."
