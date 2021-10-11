@@ -9,7 +9,7 @@ build:development:
   only:
     - development
   script:
-    - npm install --save-dev cross-env
+    - npm install cross-env
     - cross-env NODE_ENV=development
     - yarn install
     - yarn build
