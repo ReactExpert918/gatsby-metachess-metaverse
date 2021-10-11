@@ -10,6 +10,8 @@ build:development:
     - development
   script:
     - npm install -g gatsby-cli
+    - NODE_ENV=development
+    - export NODE_ENV=development
     - yarn install
     - yarn build
   
@@ -25,7 +27,7 @@ build:production:
 
 deploy:development:
   stage: deploy
-  image: node:12.16.0
+  image: docker:stable
   environment:
     name: development
     url: https://dev-game.brainiacchess.network
@@ -34,8 +36,6 @@ deploy:development:
   script:
     - echo "Building application..."
     - apk add yarn
-    - NODE_ENV=development
-    - export NODE_ENV=development
     - yarn install
     - yarn build
     - echo "Application successfully built."
