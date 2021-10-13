@@ -18,7 +18,6 @@ class TokenService {
 
   get user(): string {
     const cookies = new Cookies();
-    debugger
     const token = cookies.get(this.userKey);
     if (!token) {
       return null;
