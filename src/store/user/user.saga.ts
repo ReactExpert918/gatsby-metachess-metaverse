@@ -4,14 +4,18 @@ import { Actions as userActions } from "./user.action";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
 import { IServerStatus, MAINTENANCE_MODE } from "./user.interfaces";
+import { MAIN_WEBSITE } from "../../config";
 
 function* onFetchCurrentUser() {
   try {
     const user = yield call(() => API.execute("GET", ENDPOINTS.USER_SUMMARY));
     console.log(user);
     yield put(userActions.setCurrentUser(user));
-  } catch (e) {
-    console.log("err", e);
+  } catch (res) {
+    if (res.data === "not verified" && res.status === 401) {
+      window.location.href = MAIN_WEBSITE
+    }
+    console.log("err", res);
   }
 }
 
