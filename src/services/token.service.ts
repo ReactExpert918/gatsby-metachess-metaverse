@@ -26,10 +26,11 @@ class TokenService {
   }
 
   set guest(token: string) {
-    console.log("cookies Domin" +COOKIE_DOMAIN)
-    console.log("socket" +SOCKET)
-    console.log("MAIN_WEBSITE" +MAIN_WEBSITE)
-    console.log("API" +API)
+    console.log("Set_Guest_Token _"+token)
+    console.log("cookies_Domain_setting_token_Guest _" + COOKIE_DOMAIN)
+    console.log("socket_Guest_" +SOCKET)
+    console.log("MAIN_WEBSITE_Guest_" +MAIN_WEBSITE)
+    console.log("API_Guest_" +API)
     const cookies = new Cookies();
     if (token) {
       cookies.set(this.guestKey, token, this.cookieOptions());

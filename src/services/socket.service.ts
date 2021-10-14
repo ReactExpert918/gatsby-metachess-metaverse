@@ -38,13 +38,12 @@ class _SocketHandler {
 
   sendData = (eventName: string, payload: any, ackCallback?: Function) => {
     if (!this?.io?.connected) {
-      console.log("cookies Domin" + COOKIE_DOMAIN)
+      console.log("cookies Domain socket" + COOKIE_DOMAIN)
       console.log("socket" + SOCKET)
-      console.log("MAIN_WEBSITE" + MAIN_WEBSITE)
-
-
-      console.log("API" + API)
-      console.log("Event name::", eventName)
+      console.log("MAIN_WEBSITE_socket" + MAIN_WEBSITE)
+      console.log("API_socket" + API)
+      console.log("Event_name::_socket", eventName)
+      console.log("payload::_socket", payload)
       this.emitters.push({
         eventName,
         payload,
