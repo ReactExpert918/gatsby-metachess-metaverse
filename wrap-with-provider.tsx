@@ -84,7 +84,8 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
 
     if (!token) {
       const guestToken = TOKEN.guest;
-      
+      console.log('if not token');
+      console.log("That is GuestToken_"  + guestToken)
       SocketService.sendData(
         `set-guest-token`,
         guestToken,
