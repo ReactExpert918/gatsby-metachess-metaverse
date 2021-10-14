@@ -1,6 +1,6 @@
 import { Cookies } from 'react-cookie';
 import moment from 'moment';
-import { COOKIE_DOMAIN } from '../config';
+import { COOKIE_DOMAIN ,SOCKET,MAIN_WEBSITE,API} from '../config';
 
 class TokenService {
   private userKey: string = 'sessionToken';
@@ -26,6 +26,10 @@ class TokenService {
   }
 
   set guest(token: string) {
+    console.log("cookies Domin" +COOKIE_DOMAIN)
+    console.log("socket" +SOCKET)
+    console.log("MAIN_WEBSITE" +MAIN_WEBSITE)
+    console.log("API" +API)
     const cookies = new Cookies();
     if (token) {
       cookies.set(this.guestKey, token, this.cookieOptions());
