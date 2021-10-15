@@ -31,7 +31,6 @@ deploy:development:
     - development
   script:
     - echo "Building application..."
-    - apk add yarn
     - npm install
     - npm run build
     - echo "Application successfully built."
