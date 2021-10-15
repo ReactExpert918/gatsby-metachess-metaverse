@@ -23,7 +23,7 @@ build:production:
 
 deploy:development:
   stage: deploy
-  image: docker:stable
+  image: node:12.16.0
   environment:
     name: development
     url: https://dev-game.brainiacchess.network
