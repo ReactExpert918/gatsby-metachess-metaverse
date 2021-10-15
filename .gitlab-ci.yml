@@ -1,16 +1,16 @@
 
 stages:
-  - build
+  # - build
   - deploy
 
-build:development:
-  image: node:12.16.0
-  stage: build
-  only:
-    - development
-  script:
-    - npm install
-    - npm run build
+# build:development:
+#   image: node:12.16.0
+#   stage: build
+#   only:
+#     - development
+#   script:
+#     - npm install
+#     - npm run build
   
 build:production:
   image: node:12.16.0
