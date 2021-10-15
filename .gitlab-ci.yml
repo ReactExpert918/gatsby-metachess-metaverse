@@ -9,8 +9,8 @@ build:development:
   only:
     - development
   script:
-    - yarn install
-    - yarn build
+    - npm install
+    - npm run build
   
 build:production:
   image: node:12.16.0
@@ -32,8 +32,8 @@ deploy:development:
   script:
     - echo "Building application..."
     - apk add yarn
-    - yarn install
-    - yarn build
+    - npm install
+    - npm run build
     - echo "Application successfully built."
     - echo "Deploying application..."
     - apk add --no-cache rsync openssh
