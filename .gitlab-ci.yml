@@ -12,14 +12,14 @@ stages:
 #     - npm install
 #     - npm run build
   
-build:production:
-  image: node:12.16.0
-  stage: build
-  only:
-    - main
-  script:
-    - yarn install
-    - yarn build-production
+# build:production:
+#   image: node:12.16.0
+#   stage: build
+#   only:
+#     - main
+#   script:
+#     - yarn install
+#     - yarn build-production
 
 deploy:development:
   stage: deploy
