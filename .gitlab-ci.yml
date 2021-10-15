@@ -23,7 +23,7 @@ stages:
 
 deploy:development:
   stage: deploy
-  image: node:12.16.0
+  image: docker:stable
   environment:
     name: development
     url: https://dev-game.brainiacchess.network
@@ -31,6 +31,8 @@ deploy:development:
     - development
   script:
     - echo "Building application..."
+    - apk add --update nodejs npm
+    - apk add yarn
     - npm install
     - npm run build
     - echo "Application successfully built."
