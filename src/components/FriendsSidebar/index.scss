@@ -1,0 +1,141 @@
+.friendsSidebarWrapper {
+  .modal {
+    width: 375px;
+    height: calc(100vh - 80px);
+    left: unset;
+    right: 0;
+    top: 80px;
+    align-items: flex-start;
+    > div {
+      width: inherit;
+      height: inherit;
+      .friendsSidebarContainer {
+        display: flex;
+        width: inherit;
+        height: inherit;
+        flex-direction: column;
+        border-left: 1px solid #0f1f38;
+        .friendsHeader {
+          background: #0f1f38 0% 0% no-repeat padding-box;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px;
+          span {
+            color: #e8e8e8;
+            text-transform: uppercase;
+            letter-spacing: 1.14px;
+            font-size: 18px;
+            font-weight: 600;
+          }
+          img {
+            width: 20px;
+            cursor: pointer;
+          }
+        }
+        .friendsList {
+          background: #f1f1f1;
+          flex: 0 1 100%;
+          overflow-y: scroll;
+          .addFriend {
+            padding: 15px;
+            letter-spacing: 1.08px;
+            color: #0f1f38;
+            font-weight: 600;
+            line-height: 18px;
+            em {
+              font-size: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.friendsListItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f1f1f1;
+  .friendInfo {
+    display: flex;
+    align-items: center;
+    img {
+      width: 38px;
+      height: 38px;
+    }
+    .friendNameText {
+      color: #0f1f38;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 0 10px;
+      letter-spacing: 1.08px;
+    }
+    .unseenCount {
+      letter-spacing: 0.9px;
+      color: #ffffff;
+      background: #297bfb;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .friendStatus {
+    display: flex;
+    align-items: center;
+    .onlineDot {
+      width: 10px;
+      height: 10px;
+      background: #00ac2e;
+      border-radius: 50%;
+      margin-right: 8px;
+      margin-top: 1px;
+    }
+    .friendStatusText {
+      letter-spacing: 0.66px;
+      color: #0f1f38;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+  }
+  .friendRequestActions {
+    display: flex;
+    img {
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+.friendRequestsContainer {
+  .friendRequestHeader {
+    letter-spacing: 1.14px;
+    color: #e8e8e8;
+    padding: 15px;
+    background: #0f1f38;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    img {
+      width: 20px;
+      cursor: pointer;
+      &.down {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
