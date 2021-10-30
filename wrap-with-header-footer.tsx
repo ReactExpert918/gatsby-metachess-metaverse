@@ -4,6 +4,7 @@ import Footer from "./src/components/Footer";
 import ToastProvider from "./src/components/ToastProvider";
 import SideChat from "./src/components/BottomChat";
 import ChatWrapper from "./src/components/ChatWrapper";
+import FriendsSidebar from "./src/components/FriendsSidebar";
 
 export default ({ element, props }: { element: JSX.Element; props: any }) => {
   return (
@@ -21,6 +22,7 @@ export default ({ element, props }: { element: JSX.Element; props: any }) => {
         </main>
         {/* <Footer {...props}  /> */}
         {/* <SideChat /> */}
+        <FriendsSidebar />
       </>
     </div>
   );
