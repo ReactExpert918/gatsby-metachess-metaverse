@@ -1,52 +1,48 @@
 .friendsSidebarWrapper {
-  .modal {
-    width: 375px;
-    height: calc(100vh - 80px);
-    left: unset;
-    right: 0;
-    top: 80px;
-    align-items: flex-start;
-    > div {
-      width: inherit;
-      height: inherit;
-      .friendsSidebarContainer {
-        display: flex;
-        width: inherit;
-        height: inherit;
-        flex-direction: column;
-        border-left: 1px solid #0f1f38;
-        .friendsHeader {
-          background: #0f1f38 0% 0% no-repeat padding-box;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 15px;
-          span {
-            color: #e8e8e8;
-            text-transform: uppercase;
-            letter-spacing: 1.14px;
-            font-size: 18px;
-            font-weight: 600;
-          }
-          img {
-            width: 20px;
-            cursor: pointer;
-          }
-        }
-        .friendsList {
-          background: #f1f1f1;
-          flex: 0 1 100%;
-          overflow-y: scroll;
-          .addFriend {
-            padding: 15px;
-            letter-spacing: 1.08px;
-            color: #0f1f38;
-            font-weight: 600;
-            line-height: 18px;
-            em {
-              font-size: 20px;
-            }
-          }
+  width: 375px;
+  height: calc(100vh - 80px);
+  position: fixed;
+  left: unset;
+  right: 0;
+  top: 80px;
+  align-items: flex-start;
+  .friendsSidebarContainer {
+    display: flex;
+    width: inherit;
+    height: inherit;
+    flex-direction: column;
+    border-left: 1px solid #0f1f38;
+    .friendsHeader {
+      background: #0f1f38 0% 0% no-repeat padding-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      span {
+        color: #e8e8e8;
+        text-transform: uppercase;
+        letter-spacing: 1.14px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      img {
+        width: 20px;
+        cursor: pointer;
+      }
+    }
+    .friendsList {
+      background: #f1f1f1;
+      flex: 0 1 100%;
+      overflow-y: auto;
+      .addFriend {
+        padding: 15px;
+        letter-spacing: 1.08px;
+        color: #0f1f38;
+        font-weight: 600;
+        line-height: 18px;
+        cursor: pointer;
+        em {
+          font-size: 20px;
         }
       }
     }
@@ -115,6 +111,19 @@
       cursor: pointer;
     }
   }
+  .addFriendActions {
+    span {
+      padding: 0 10px 5px;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      &:hover {
+        background: #ddd;
+        border-radius: 5px;
+        padding-top: 0;
+      }
+    }
+  }
 }
 
 .friendRequestsContainer {
@@ -126,16 +135,34 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
     span {
       font-weight: 600;
       font-size: 18px;
     }
     img {
       width: 20px;
-      cursor: pointer;
       &.down {
         transform: rotate(180deg);
       }
+    }
+  }
+}
+.addFriendSearchInput {
+  display: flex;
+  padding: 15px;
+  input {
+    flex: 1;
+    border: none;
+    background: none;
+    border-bottom: 1px solid #0f1f38;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    color: #0f1f38;
+    &::placeholder {
+      color: #0f1f38;
+      opacity: 0.6;
     }
   }
 }

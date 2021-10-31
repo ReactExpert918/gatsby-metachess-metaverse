@@ -2,8 +2,10 @@ import { IMessage } from "../../components/ChessChat";
 
 export interface IChatReducer {
   chatOpened: boolean;
+  addFriendSearch: boolean;
   activeChats: IChatItem[];
   chatList: IChatItem[];
+  friendsList: IFriend[];
   friendRequests: IFriendRequest[];
 }
 
@@ -16,6 +18,10 @@ export interface IChatItem {
 }
 
 export interface IFriendRequest {
+  id: string;
+  name: string;
+}
+export interface IFriend {
   id: string;
   name: string;
 }
