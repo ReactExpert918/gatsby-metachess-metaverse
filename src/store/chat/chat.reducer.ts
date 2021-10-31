@@ -4,6 +4,7 @@ import { IChatReducer } from "./chat.interfaces";
 
 const INITIAL_STATE: IChatReducer = {
   chatOpened: false,
+  addFriendSearch: false,
   friendRequests: [{ id: "0", name: "John Doe" }],
   activeChats: [
     {
@@ -119,6 +120,24 @@ const INITIAL_STATE: IChatReducer = {
       status: "20 MINUTES AGO",
     },
   ],
+  friendsList: [
+    {
+      id: "1",
+      name: "John Doe",
+    },
+    {
+      id: "2",
+      name: "Marcos",
+    },
+    {
+      id: "3",
+      name: "Faiz Khan",
+    },
+    {
+      id: "4",
+      name: "David Warner",
+    },
+  ],
 };
 
 export default (
@@ -131,6 +150,12 @@ export default (
       [action.type]: {},
       [ACTION_TYPE.TOGGLE_SIDE_CHAT]: {
         chatOpened: !!action.payload ? action.payload : !state.chatOpened,
+        addFriendSearch: state.chatOpened ? false : state.addFriendSearch,
+      },
+      [ACTION_TYPE.TOGGLE_ADD_FRIEND_SEARCH]: {
+        addFriendSearch: !!action.payload
+          ? action.payload
+          : !state.addFriendSearch,
       },
     }[action.type],
   };

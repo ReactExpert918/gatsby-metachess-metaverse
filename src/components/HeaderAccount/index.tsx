@@ -13,6 +13,9 @@ interface ISelectProps {
 
 const HeaderAccount = (props: ISelectProps) => {
   const dispatch = useDispatch();
+  const openSideChatPanel = () => {
+    dispatch(chatActions.toggleSideChat());
+  };
   return (
     <div className="headerNavigatorContainer">
       {/* {props.currentUser?.GuestId ? (
@@ -34,7 +37,7 @@ const HeaderAccount = (props: ISelectProps) => {
           margin: "0 24px",
           cursor: "pointer",
         }}
-        onClick={() => dispatch(chatActions.toggleSideChat())}
+        onClick={openSideChatPanel}
       />
       <img
         src={SmallPieceIcon}
