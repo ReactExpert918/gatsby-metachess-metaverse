@@ -1,22 +1,31 @@
 import React from "react";
-import { IFriendRequest } from "../../store/chat/chat.interfaces";
 import PieceIcon from "../../assets/images/Subtracao_23.svg";
 import ConfirmIcon from "../../assets/images/confirm-circle.png";
 import CancelIcon from "../../assets/images/cancel-circle.png";
+import { useDispatch } from "react-redux";
+import { chatActions } from "../../store/chat/chat.actions";
+import { IFriend } from "../../store/chat/chat.interfaces";
 
 interface IProps {
-  item: IFriendRequest;
+  friendReuest: IFriend;
 }
-const FriendRequestItem = ({ item }: IProps): JSX.Element => {
+const FriendRequestItem = ({ friendReuest }: IProps): JSX.Element => {
+  const dispatch = useDispatch();
+  const confirmRequest = () => {
+    dispatch(chatActions.acceptFriendsRequest(friendReuest.Id));
+  };
+  const refuseRequest = () => {
+    dispatch(chatActions.refuseFriendsRequest(friendReuest.Id));
+  };
   return (
     <div className="friendsListItem">
       <div className="friendInfo">
         <img src={PieceIcon} />
-        <span className="friendNameText">{item.name}</span>
+        <span className="friendNameText">{friendReuest.Account.Fullname}</span>
       </div>
       <div className="friendRequestActions">
-        <img src={ConfirmIcon} />
-        <img src={CancelIcon} />
+        <img src={ConfirmIcon} onClick={confirmRequest} />
+        <img src={CancelIcon} onClick={refuseRequest} />
       </div>
     </div>
   );

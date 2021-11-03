@@ -5,7 +5,7 @@ import { IChatReducer } from "./chat.interfaces";
 const INITIAL_STATE: IChatReducer = {
   chatOpened: false,
   addFriendSearch: false,
-  friendRequests: [{ id: "0", name: "John Doe" }],
+  friendRequests: [],
   activeChats: [
     {
       id: "0",
@@ -47,96 +47,8 @@ const INITIAL_STATE: IChatReducer = {
     },
   ],
   chatList: [
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
   ],
   friendsList: [
-    {
-      id: "1",
-      name: "John Doe",
-    },
-    {
-      id: "2",
-      name: "Marcos",
-    },
-    {
-      id: "3",
-      name: "Faiz Khan",
-    },
-    {
-      id: "4",
-      name: "David Warner",
-    },
   ],
 };
 
@@ -156,6 +68,12 @@ export default (
         addFriendSearch: !!action.payload
           ? action.payload
           : !state.addFriendSearch,
+      },
+      [ACTION_TYPE.SET_FRIENDS_LIST]: {
+        friendsList: action.payload,
+      },
+      [ACTION_TYPE.SET_FRIENDS_REQUESTS]: {
+        friendRequests: action.payload,
       },
     }[action.type],
   };

@@ -55,6 +55,24 @@
   align-items: center;
   padding: 12px 15px;
   background: #f1f1f1;
+  &:hover {
+    .friendStatus {
+      .friendStatusText {
+        display: none;
+      }
+      .remove-friend-icon {
+        display: block;
+      }
+    }
+  }
+  &.noRecord {
+    justify-content: center;
+    span {
+      letter-spacing: 1.08px;
+      color: #0f1f38;
+      opacity: 0.7;
+    }
+  }
   .friendInfo {
     display: flex;
     align-items: center;
@@ -100,6 +118,12 @@
       font-size: 11px;
       text-transform: uppercase;
       font-weight: 600;
+      margin-top: 5px;
+    }
+    .remove-friend-icon {
+      display: none;
+      width: 38px;
+      cursor: pointer;
     }
   }
   .friendRequestActions {

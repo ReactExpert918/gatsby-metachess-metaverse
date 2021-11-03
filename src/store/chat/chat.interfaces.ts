@@ -1,4 +1,5 @@
 import { IMessage } from "../../components/ChessChat";
+import { IUser } from "../user/user.interfaces";
 
 export interface IChatReducer {
   chatOpened: boolean;
@@ -6,7 +7,7 @@ export interface IChatReducer {
   activeChats: IChatItem[];
   chatList: IChatItem[];
   friendsList: IFriend[];
-  friendRequests: IFriendRequest[];
+  friendRequests: IFriend[];
 }
 
 export interface IChatItem {
@@ -14,14 +15,12 @@ export interface IChatItem {
   name: string;
   unseenCount: number;
   messages?: IMessage[];
-  status?: 'online' | string;
-}
-
-export interface IFriendRequest {
-  id: string;
-  name: string;
+  status?: "online" | string;
 }
 export interface IFriend {
-  id: string;
-  name: string;
+  Id: string;
+  Account: IUser & {
+    Fullname: string;
+    IsOnline?: boolean;
+  };
 }
