@@ -17,7 +17,7 @@ const SquaredButton = ({
     HTMLDivElement
   >) => {
   return (
-    <div className={`squareButtonContainer ${className}`} {...restProps}>
+    <div className={`squareButtonContainer ${className || ''}`} {...restProps}>
       <div className="squareButtonChildrenWrapper">
       {children}
       </div>
