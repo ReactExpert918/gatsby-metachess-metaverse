@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import SquaredButton from "../SquaredButton";
+// import buttonPiece from '../../assets/images/buttonPiece.svg'
 import { MODES } from "../../constants/playModes";
 import PawnPiece from "../Pieces/PawnPiece";
 import { IAppState } from "../../store/reducers";
 import { connect } from "react-redux";
+import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
 import MaintenanceModal from "../MaintenanceModal";
-import {
-  IServerStatus,
-  MAINTENANCE_MODE,
-} from "../../store/user/user.interfaces";
-import UserIcon from "../../lib/svgIcons/UserIcon";
+import {IServerStatus, MAINTENANCE_MODE} from "../../store/user/user.interfaces";
 interface IProps {
   setMode: (p: MODES) => void;
 }
@@ -21,23 +19,22 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
   const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
-        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
-          <MaintenanceModal
-            setUserSeen={() => {
-              setUserSeenMaintenance(true);
-            }}
-          />
-        )}
+      {!userSeenMaintenance && props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
+        <MaintenanceModal
+          setUserSeen={() => {
+            setUserSeenMaintenance(true);
+          }}
+        />
+      )}
       <div className={"headerWrapper"}>
-        <p className="header-heading">CHOOSE A GAME MODE</p>
+        <p className={"xx-large"}>CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
           onClick={() => props.setMode(MODES.PLAY_AI)}
           title="PLAY WITH AI"
         >
-          <div className={"bottomAlign mb-25"}>
+          <div className={"centered"}>
             <PawnPiece />
           </div>
         </SquaredButton>
@@ -53,10 +50,9 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           }}
           title="PLAY WITH HUMAN"
         >
-          <div className={"bottomAlign multiple mb-25"}>
-            <UserIcon />
-            <span className="squaredButtonTitle mb-35">VS</span>
-            <UserIcon />
+          <div className={"centered multiple"}>
+            <PawnPiece />
+            <PawnPiece />
           </div>
         </SquaredButton>
       </div>

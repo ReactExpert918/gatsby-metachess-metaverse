@@ -6,9 +6,6 @@ import { connect, useDispatch } from "react-redux";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { chatActions } from "../../store/chat/chat.actions";
-import SearchIcon from "../../lib/svgIcons/SearchIcon";
-import ChatIcon from "../../lib/svgIcons/ChatIcon";
-import BellIcon from "../../lib/svgIcons/BellIcon";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -20,7 +17,7 @@ const HeaderAccount = (props: ISelectProps) => {
     dispatch(chatActions.toggleSideChat());
   };
   return (
-    <div className="headerNavigatorContainer flex-end">
+    <div className="headerNavigatorContainer">
       {/* {props.currentUser?.GuestId ? (
         <a
           href={"javascript:void(0);"}
@@ -32,14 +29,30 @@ const HeaderAccount = (props: ISelectProps) => {
           </p>
         </a>
       ) : ( */}
-      <SearchIcon className="nav-icon" />
-      <ChatIcon className="nav-icon" onClick={openSideChatPanel} />
-      <BellIcon className="nav-icon" />
-      <Link to={"/profile"} className="headerAccountContainer">
-        <span>
-          <img src={SmallPieceIcon} />
-        </span>
-
+      <img
+        src={SmallPieceIcon}
+        style={{
+          height: "35px",
+          width: "38px",
+          margin: "0 24px",
+          cursor: "pointer",
+        }}
+        onClick={openSideChatPanel}
+      />
+      <img
+        src={SmallPieceIcon}
+        style={{
+          height: "35px",
+          width: "38px",
+          margin: "0 24px",
+          cursor: "pointer",
+        }}
+      />
+      <Link
+        to={"/profile"}
+        className="headerNavigatorItem headerAccountContainer"
+      >
+        <img src={SmallPieceIcon} style={{ height: "40px", width: "40px" }} />
         <p className="headerNavigatorAccountTitle">
           {props.currentUser
             ? getOpponentName(false, null, props.currentUser)
