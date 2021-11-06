@@ -1,20 +1,20 @@
 import React from "react";
-import { IFriendRequest } from "../../store/chat/chat.interfaces";
 import SmallLogo from "../../assets/images/Subtracao_22.svg";
 import ConfirmCircleIcon from "../../assets/images/confirm-circle.png";
 import CancelCircleIcon from "../../assets/images/cancel-circle.png";
+import { IUser } from "../../store/user/user.interfaces";
 
 interface Props {
   onPressCancel: () => void;
   onPressConfirm: () => void;
-  item: IFriendRequest;
+  item: IUser;
 }
 
 const FriendRequest = ({ onPressCancel, onPressConfirm, item }: Props) => (
   <div className="chatListItem">
     <div className="userInfo">
       <img className="chatIcon" src={SmallLogo} />
-      <p>{item.name}</p>
+      <p>{item.Fullname}</p>
     </div>
     <div className="buttonsWrapper">
       <img src={ConfirmCircleIcon} onClick={onPressConfirm} />

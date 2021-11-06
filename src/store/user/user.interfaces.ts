@@ -15,6 +15,7 @@ export interface IUserReducer {
   matchesHistory: IMatchHistory[];
   serverStatus: IServerStatus;
   choseMode: MODES;
+  searchedUsersList: IUser[];
 }
 
 export interface IMatchHistory {
@@ -43,7 +44,6 @@ export interface IUser {
   GuestId?: number;
   WonGames: number;
 }
-
 export interface IServerStatus {
   Status: MAINTENANCE_MODE;
 }
