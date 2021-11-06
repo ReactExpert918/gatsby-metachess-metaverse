@@ -2,15 +2,20 @@ import React from "react";
 import { Link } from "gatsby";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import { IAppState } from "../../store/reducers";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
+import { chatActions } from "../../store/chat/chat.actions";
 
 interface ISelectProps {
   currentUser: IUser;
 }
 
 const HeaderAccount = (props: ISelectProps) => {
+  const dispatch = useDispatch();
+  const openSideChatPanel = () => {
+    dispatch(chatActions.toggleSideChat());
+  };
   return (
     <div className="headerNavigatorContainer">
       {/* {props.currentUser?.GuestId ? (
@@ -24,15 +29,36 @@ const HeaderAccount = (props: ISelectProps) => {
           </p>
         </a>
       ) : ( */}
-        <Link
-          to={"/profile"}
-          className="headerNavigatorItem headerAccountContainer"
-        >
-          <img src={SmallPieceIcon} style={{ height: "40px", width: "40px" }} />
-          <p className="headerNavigatorAccountTitle">
-            {props.currentUser ? getOpponentName(false, null, props.currentUser) : ""}
-          </p>
-        </Link>
+      <img
+        src={SmallPieceIcon}
+        style={{
+          height: "35px",
+          width: "38px",
+          margin: "0 24px",
+          cursor: "pointer",
+        }}
+        onClick={openSideChatPanel}
+      />
+      <img
+        src={SmallPieceIcon}
+        style={{
+          height: "35px",
+          width: "38px",
+          margin: "0 24px",
+          cursor: "pointer",
+        }}
+      />
+      <Link
+        to={"/profile"}
+        className="headerNavigatorItem headerAccountContainer"
+      >
+        <img src={SmallPieceIcon} style={{ height: "40px", width: "40px" }} />
+        <p className="headerNavigatorAccountTitle">
+          {props.currentUser
+            ? getOpponentName(false, null, props.currentUser)
+            : ""}
+        </p>
+      </Link>
       {/* )} */}
     </div>
   );

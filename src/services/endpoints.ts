@@ -8,7 +8,16 @@ export const ENDPOINTS = {
   TEST: "ENDPOINTS_TEST",
   USER_SUMMARY: "FETCH_USER",
   MATCHES_HISTORY: "MATCHES_HISTORY",
-  SERVER_STATUS: 'SERVER_STATUS'
+  SERVER_STATUS: "SERVER_STATUS",
+  FIND_USER: "FIND_USER",
+
+  // Friends
+  GET_FRIENDS: "GET_FRIENDS",
+  GET_FRIEND_REQUESTS: "GET_FRIEND_REQUESTS",
+  ACCEPT_FRIEND_REQUEST: "ACCEPT_FRIEND_REQUEST",
+  REJECT_FRIEND_REQUEST: "REJECT_FRIEND_REQUEST",
+  REMOVE_FRIEND: "REMOVE_FRIEND",
+  SEND_FRIEND_REQUEST: "SEND_FRIEND_REQUEST",
 };
 
 const convertQuery = (queries: IQuery[]): string => {
@@ -42,6 +51,22 @@ export const constructUrl = (
       return `${API_BASE_URL}/account/gameHistory`;
     case ENDPOINTS.SERVER_STATUS:
       return `${API_BASE_URL}/serverstatus`;
+    case ENDPOINTS.FIND_USER:
+      return `${API_BASE_URL}/account/find${queries ? convertQuery(queries) : ""}`;
+
+    // Friend's API
+    case ENDPOINTS.GET_FRIENDS:
+      return `${API_BASE_URL}/friend/list`;
+    case ENDPOINTS.GET_FRIEND_REQUESTS:
+      return `${API_BASE_URL}/friend/requests`;
+    case ENDPOINTS.ACCEPT_FRIEND_REQUEST:
+      return `${API_BASE_URL}/friend/requests/${id}/accept`;
+    case ENDPOINTS.REJECT_FRIEND_REQUEST:
+      return `${API_BASE_URL}/friend/requests/${id}/refuse`;
+    case ENDPOINTS.REMOVE_FRIEND:
+      return `${API_BASE_URL}/friend/requests/${id}/remove`;
+    case ENDPOINTS.SEND_FRIEND_REQUEST:
+      return `${API_BASE_URL}/friend/requests/${id}`;
     default:
       return "";
   }

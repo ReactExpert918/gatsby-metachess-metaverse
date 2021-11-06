@@ -3,12 +3,14 @@ import testSagas from './test/saga';
 import gameplaySagas from './gameplay/gameplay.saga';
 import userSagas from './user/user.saga';
 import gamesSaga from './games/games.saga';
+import chatSaga from './chat/chat.saga';
 
 const sagas = [
   ...testSagas,
   ...gameplaySagas,
   ...userSagas,
-  ...gamesSaga
+  ...gamesSaga,
+  ...chatSaga
 ];
 
 export default function* rootSaga(): Generator {

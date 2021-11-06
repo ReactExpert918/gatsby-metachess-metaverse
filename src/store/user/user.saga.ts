@@ -3,7 +3,11 @@ import { ACTION_TYPE } from "./user.action";
 import { Actions as userActions } from "./user.action";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-import { IServerStatus, MAINTENANCE_MODE } from "./user.interfaces";
+import {
+  IServerStatus,
+  IUser,
+  MAINTENANCE_MODE,
+} from "./user.interfaces";
 import { MAIN_WEBSITE } from "../../config";
 
 function* onFetchCurrentUser() {
@@ -13,7 +17,7 @@ function* onFetchCurrentUser() {
     yield put(userActions.setCurrentUser(user));
   } catch (res) {
     if (res.data === "not verified" && res.status === 401) {
-      window.location.href = MAIN_WEBSITE
+      window.location.href = MAIN_WEBSITE;
     }
     console.log("err", res);
   }
@@ -42,6 +46,31 @@ function* onFetchServerStatus() {
   }
 }
 
+function* onFetchUsersByUsername(action: any) {
+  try {
+    const query: IQuery[] = [
+      {
+        name: "query",
+        value: action.payload,
+      },
+    ];
+    const usersList: IUser[] = yield call(() =>
+      API.execute("GET", ENDPOINTS.FIND_USER, null, query)
+    );
+    yield put(userActions.setSearchedUserList(usersList));
+  } catch (e) {
+    yield put(userActions.setSearchedUserList([]));
+    console.log("err", e);
+  }
+}
+
+function* watchFetchSearchedUserList() {
+  yield takeLatest(
+    ACTION_TYPE.FETCH_SEARCHED_USER_LIST as any,
+    onFetchUsersByUsername
+  );
+}
+
 function* watchFetchCurrentUser() {
   yield takeLatest(ACTION_TYPE.FETCH_CURRENT_USER as any, onFetchCurrentUser);
 }
@@ -61,4 +90,5 @@ export default [
   watchFetchCurrentUser,
   watchFetchMatchesHistory,
   watchFetchServerStatus,
+  watchFetchSearchedUserList,
 ];
