@@ -1,33 +1,14 @@
-.choseModeSectionContainer {
+.choseModeSectionContainer{
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 100px;
-  & .headerWrapper {
-    margin-top: 85px;
-    margin-bottom: 120px;
+  & .headerWrapper{
+    margin-bottom: 52px;
     display: flex;
     justify-content: center;
-    .header-heading {
-      font-family: Solway;
-      font-style: normal;
-      font-weight: 800;
-      font-size: 60px;
-      line-height: 45px;
-      text-transform: uppercase;
-      background-image: linear-gradient(
-        #dd962b 0%,
-        #e39c2d 6.56%,
-        #7e300f 49.79%,
-        #dea85e 100%
-      );
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
   }
-  & .squaredWrapper {
+  & .squaredWrapper{
     display: flex;
   }
 }
