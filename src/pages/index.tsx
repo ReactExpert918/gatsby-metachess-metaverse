@@ -51,7 +51,9 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
 
   return (
     <div
-      className={`choseModeContainer desktopMaxWidth`}
+      className={`choseModeContainer desktopMaxWidth ${
+        choseMode === MODES.PLAY_WITH_HUMAN && `no-align-center`
+      }`}
     >
       {choseMode === MODES.CHOSE_MODE && <ChoseModeSection setMode={props.setChoseMode} />}
       {choseMode === MODES.PLAY_AI && (

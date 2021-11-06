@@ -28,10 +28,11 @@
 @import "./components/NewGameModal/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 
-@import url("https://fonts.googleapis.com/css2?family=Solway:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "./components/CirclePercentage/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 @import "./components/ToastProvider/index.scss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "./components/Toasts/index.scss";
 @import "./components/UsersListTable/index.scss";
 @import "./components/SideChat/index.scss";
@@ -49,6 +50,9 @@
 @import "./components/ProfileDateRange/index.scss";
 @import "./components/ProfileSidebar/index.scss";
 @import "./components/ProfileSummary/index.scss";
+
+////
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 // @import "./bootstrap.min.css";
 
@@ -125,8 +129,9 @@ p {
 .wrapContainer {
   display: flex;
   flex-direction: column;
-  background: #0c1221;
+  height: 100vh;
   & .wrapPage {
+    background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -168,24 +173,4 @@ button {
 
 .no-pointer {
   cursor: default;
-}
-
-.mt-75 {
-  margin-top: 75px;
-}
-
-.mb-35 {
-  margin-bottom: 35px;
-}
-
-.mb-25 {
-  margin-bottom: 25px;
-}
-
-.d-flex {
-  display: flex;
-}
-
-.m-0 {
-  margin: 0;
 }
