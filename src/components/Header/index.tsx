@@ -1,8 +1,5 @@
 import React from "react";
 import { Link, navigate } from "gatsby";
-import MainLogo from "../../assets/images/brainchess-logo.png";
-import BellIcon from "../../assets/images/Uniao_77.svg";
-import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import { useDispatch } from "react-redux";
 import { chatActions } from "../../store/chat/chat.actions";
 import HeaderAccount from "../HeaderAccount";
@@ -10,6 +7,7 @@ import store from "../../store";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { MAIN_WEBSITE } from "../../config";
+import BrainiacChessLogo from "../../lib/svgIcons/BrainiacChessLogo";
 interface Props {
   transparent?: boolean;
   uri: string;
@@ -28,29 +26,36 @@ export const HeaderNavigatorItem = ({
     <a
       onClick={() => {
         store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
-        navigate('/');
+        navigate("/");
       }}
       className="headerNavigatorItem"
     >
-      <p className="headerNavigatorItemTitle">{title}</p>
-      <div
+      <p className={`headerNavigatorItemTitle ${active ? "active" : ""}`}>{title}</p>
+      {/* <div
         className={`headerActiveIndicator ${
           active ? "headerActiveIndicatorActive" : ""
         }`}
-      />
+      /> */}
     </a>
   );
 };
+export const HeaderLogo = () => {
+  return (
+    <div className="headerNavigatorContainer">
+      <Link className="mainLogo" to={MAIN_WEBSITE}>
+        <BrainiacChessLogo className="headerNavigatorLogo" />
+      </Link>
+    </div>
+  );
+};
+
 export const HeaderNavigator = ({ currentUri }: { currentUri: string }) => {
   return (
     <div className="headerNavigatorContainer">
-      <Link to={MAIN_WEBSITE}>
-        <img src={MainLogo} className="headerNavigatorLogo" />
-      </Link>
       <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
-      {/* <HeaderNavigatorItem to="/learn" title="LEARN" active={currentUri === '/learn'}/>
+      <HeaderNavigatorItem to="/learn" title="LEARN" active={currentUri === '/learn'}/>
       <HeaderNavigatorItem to="/watch" title="WATCH" active={currentUri === '/watch'}/>
-      <HeaderNavigatorItem to="/community" title="COMMUNITY" active={currentUri === '/community'}/> */}
+      <HeaderNavigatorItem to="/community" title="COMMUNITY" active={currentUri === '/community'}/>
     </div>
   );
 };
@@ -88,6 +93,7 @@ export const withItemNumberIndicator = (
 const Header = ({ ...restProps }: Props) => {
   return (
     <div className={`headerContainer`}>
+      <HeaderLogo />
       <HeaderNavigator currentUri={restProps.uri} />
       <HeaderAccount />
     </div>
