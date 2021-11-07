@@ -1,39 +1,28 @@
 .squareButtonContainer {
   position: relative;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 3px solid #a1a1a1;
-  border-radius: 13px;
-  width: 216px;
-  height: 211px;
-  margin: 0 40px;
+  background: #0c1221;
+  box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7),
+    0px 4px 30px rgba(32, 49, 79, 0.7);
+  width: 400px;
+  height: 356px;
+  margin-right: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  transition: border-color 0.25s;
   * {
     transition: stroke 0.25s;
   }
   p {
     transition: color 0.25s;
   }
-  & p {
-    color: #a1a1a1;
-  }
   &:hover {
     cursor: pointer;
-    border-color: #0f1f38;
-    & p {
-      color: #0f1f38;
-    }
-    & * {
-      stroke: #0f1f38 !important;
-    }
   }
 
-  & .centered {
+  & .bottomAlign {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     &.multiple {
       & div:first-of-type {
         margin-right: 10px;
@@ -44,11 +33,14 @@
 
 .squaredButtonTitle {
   //   position: absolute;
-  margin: 0px auto 15px auto;
-  font-weight: 500;
+  margin: 15px auto 35px auto;
   letter-spacing: 0.84px;
-  font-weight: 600;
-  color: #0f1f38;
+  color: rgba(204, 166, 107, 0.78);
+  font-family: Solway;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 150%;
 }
 
 .squareButtonChildrenWrapper {
