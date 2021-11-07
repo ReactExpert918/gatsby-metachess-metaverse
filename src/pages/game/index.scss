@@ -3,7 +3,6 @@
   flex: 1;
   position: relative;
   flex-direction: column;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
   max-height: calc(100%);
   @media (max-width: 526px) {
     flex-direction: column-reverse;
@@ -19,6 +18,4 @@
   @media (max-width: 768px) {
     flex-wrap: wrap;
   }
-  // justify-content: center;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
 }
