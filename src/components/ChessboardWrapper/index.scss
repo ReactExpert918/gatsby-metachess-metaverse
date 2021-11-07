@@ -4,8 +4,8 @@
   flex-direction: row;
   min-width: calc(100vh * (800 / 1920));
   min-height: calc(100vh * (800 / 1920));
-  // max-height: 100%;
-  // background-color: red;
+  box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7),
+    0px 4px 30px rgba(32, 49, 79, 0.7);
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
@@ -25,10 +25,10 @@
   display: flex;
   flex: 1;
   position: relative;
-  margin-top: 83px;
+  margin-top: 93px;
   margin-left: calc(100vw * (33 / 1920));
   margin-right: calc(100vw * (59 / 1920));
-  width: calc(100vw * (468 / 1920));
+  width: calc(100vw * (369 / 1920));
   @media (max-width: 768px) {
     width: 100vw;
   }
@@ -48,10 +48,9 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   max-height: 73px !important;
   min-height: 73px !important;
-
 
   .elo-container {
     margin-left: 20px;
@@ -68,7 +67,6 @@
     }
   }
 
-
   .wonFiguresWrapper {
     display: flex;
     flex-direction: row;
@@ -84,15 +82,26 @@
 
   .chessboardOpponentName {
     text-align: left;
-    font-size: 1.5rem;
-    letter-spacing: 2.07px;
-    line-height: 31px;
-    color: #0f1f38;
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 18px;
+    text-transform: uppercase;
+    background-image: repeating-linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   &.playerStatusReversed {
     flex-direction: row-reverse;
     align-items: flex-start;
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 0px;
 
     .elo-container {
