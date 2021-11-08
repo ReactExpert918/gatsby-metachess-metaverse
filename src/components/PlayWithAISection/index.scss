@@ -14,15 +14,32 @@
     }
   }
   & .headerWrapper {
-    margin-bottom: 52px;
+    margin-bottom: 82px;
     display: flex;
     justify-content: center;
+    .header-heading {
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 45px;
+      text-transform: uppercase;
+      background-image: linear-gradient(
+        #dd962b 0%,
+        #e39c2d 6.56%,
+        #7e300f 49.79%,
+        #dea85e 100%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
   & .squaredWrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 52px;
+    margin-bottom: 30px;
   }
   & .noMargin:first-child {
     margin-left: 0;

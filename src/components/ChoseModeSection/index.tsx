@@ -59,6 +59,14 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
             <UserIcon />
           </div>
         </SquaredButton>
+        <SquaredButton title="TOURNAMENT" className="tournamentSquad">
+            <PawnPiece />
+            <span className="tLine-1"></span>
+            <UserIcon className="user-1" />
+            <span className="tLine-2"></span>
+            <UserIcon className="user-2" />
+            <span className="tLine-3"></span>
+        </SquaredButton>
       </div>
     </div>
   );

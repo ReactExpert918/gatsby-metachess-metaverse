@@ -89,8 +89,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
   stalemateSound: boolean = false;
   sourceDrag: Square = null;
 
-  
-
   componentDidMount() {
     const { skillLevel, maximumError, probability, playerColor } = this.props;
     this.game = new (Chess as any)();
@@ -140,7 +138,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
   componentWillUnmount() {
     this.removeEventListenersOnSquares();
   }
-  
+
   listenersToRemove: any[] = [];
 
   addEventListenersOnSquares = () => {
@@ -574,10 +572,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     onDragOverSquare={this.onDragOverSquare}
                     // onSquareClick={this.onSquareClick}
                     darkSquareStyle={{
-                      background: "#657B9B 0% 0% no-repeat padding-box",
+                      background: "#674428 0% 0% no-repeat padding-box",
                     }}
                     lightSquareStyle={{
-                      background: "#EFEFEF 0% 0% no-repeat padding-box",
+                      background: "#CCA66A 0% 0% no-repeat padding-box",
                     }}
                     pieces={{
                       wP: (pieceProps) => (

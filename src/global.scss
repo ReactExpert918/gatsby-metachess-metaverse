@@ -26,6 +26,7 @@
 @import "./components/ChoseModeSection/index.scss";
 @import "./components/PlayWithAISection/index.scss";
 @import "./components/NewGameModal/index.scss";
+@import "./components/PageBackground/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=Solway:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
@@ -125,8 +126,8 @@ p {
 .wrapContainer {
   display: flex;
   flex-direction: column;
-  background: #0c1221;
-  min-height: 100vh;
+  min-height: 1003px;
+  position: relative;
   & .wrapPage {
     display: flex;
     flex-direction: column;
@@ -183,10 +184,18 @@ button {
   margin-bottom: 25px;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 .d-flex {
   display: flex;
 }
 
 .m-0 {
   margin: 0;
+}
+
+.m-0-auto {
+  margin: 0 auto;
 }
