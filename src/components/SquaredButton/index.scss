@@ -47,3 +47,56 @@
   display: flex;
   flex: 1;
 }
+
+.tournamentSquad {
+  .squareButtonChildrenWrapper {
+    width: inherit;
+    height: inherit;
+    display: block;
+    position: relative;
+    .user {
+      position: absolute;
+      bottom: 10px;
+      svg {
+        width: 93px;
+        height: 93px;
+      }
+      &.user-1 {
+        left: 30px;
+      }
+      &.user-2 {
+        right: 30px;
+      }
+    }
+    .pawn {
+      justify-content: center;
+      margin-top: 20px;
+      svg {
+        height: 100px;
+      }
+    }
+    .tLine-1 {
+      position: absolute;
+      width: 80px;
+      left: 80px;
+      top: 125px;
+      border-top: 1px solid #a2855b;
+      transform: rotate(-30deg);
+    }
+    .tLine-2 {
+      position: absolute;
+      width: 80px;
+      right: 80px;
+      top: 125px;
+      border-top: 1px solid #a2855b;
+      transform: rotate(30deg);
+    }
+    .tLine-3 {
+      position: absolute;
+      width: 120px;
+      left: 140px;
+      top: 233px;
+      border-top: 1px solid #a2855b;
+    }
+  }
+}
