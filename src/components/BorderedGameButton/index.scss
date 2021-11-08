@@ -1,0 +1,75 @@
+.borderedGameButton {
+  width: 400px;
+  height: 389px;
+  border-top: 2px solid #dd962b;
+  border-bottom: 2px solid #dea85e;
+  background-image: linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    ),
+    linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+  background-size: 2px 100%;
+  background-position: 100% 100%, 0 0;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+  .title {
+    font-family: Solway;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 67px;
+    text-align: center;
+    letter-spacing: 0.01em;
+    color: #cca66b;
+  }
+  .subtitle {
+    font-family: Solway;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 140%;
+    text-align: center;
+    letter-spacing: 0.01em;
+    color: #cca66b;
+    + .comming-soon {
+      margin: 25px 0 67px;
+    }
+  }
+  button {
+    background: linear-gradient(
+      180deg,
+      #dd962b 19.44%,
+      #e39c2d 23.36%,
+      #7e300f 49.18%,
+      #dea85e 79.17%
+    );
+    border-radius: 15px;
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+    padding: 15px 20px;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  .comming-soon {
+    margin: 30px 0 80px;
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.42);
+  }
+}

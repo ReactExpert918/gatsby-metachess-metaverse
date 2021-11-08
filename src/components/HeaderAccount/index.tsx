@@ -9,6 +9,7 @@ import { chatActions } from "../../store/chat/chat.actions";
 import SearchIcon from "../../lib/svgIcons/SearchIcon";
 import ChatIcon from "../../lib/svgIcons/ChatIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
+import { HeaderNavigatorItem } from "../Header";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -21,32 +22,32 @@ const HeaderAccount = (props: ISelectProps) => {
   };
   return (
     <div className="headerNavigatorContainer flex-end">
-      {/* {props.currentUser?.GuestId ? (
-        <a
-          href={"javascript:void(0);"}
-          className="headerNavigatorItem headerAccountContainer no-pointer"
-        >
-          <img src={SmallPieceIcon} style={{ height: "40px", width: "40px" }} />
-          <p className="headerNavigatorAccountTitle">
-            {getOpponentName(false, null, props.currentUser)}
-          </p>
-        </a>
-      ) : ( */}
-      <SearchIcon className="nav-icon" />
-      <ChatIcon className="nav-icon" onClick={openSideChatPanel} />
-      <BellIcon className="nav-icon" />
-      <Link to={"/profile"} className="headerAccountContainer">
-        <span>
-          <img src={SmallPieceIcon} />
-        </span>
+      {props.currentUser && props.currentUser.Username ? (
+        <>
+          <SearchIcon className="nav-icon" />
+          <ChatIcon className="nav-icon" onClick={openSideChatPanel} />
+          <BellIcon className="nav-icon" />
+          <Link to={"/profile"} className="headerAccountContainer">
+            <span>
+              <img src={SmallPieceIcon} />
+            </span>
 
-        <p className="headerNavigatorAccountTitle">
-          {props.currentUser
-            ? getOpponentName(false, null, props.currentUser)
-            : ""}
-        </p>
-      </Link>
-      {/* )} */}
+            <p className="headerNavigatorAccountTitle">
+              {props.currentUser
+                ? getOpponentName(false, null, props.currentUser)
+                : ""}
+            </p>
+          </Link>
+        </>
+      ) : (
+        <>
+          <div className="headerNavigatorContainer flex-end">
+            <SearchIcon className="nav-icon mr-50" />
+            <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
+            <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
+          </div>
+        </>
+      )}
     </div>
   );
 };
