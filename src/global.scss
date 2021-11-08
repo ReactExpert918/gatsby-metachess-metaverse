@@ -42,6 +42,7 @@
 @import "./pages/maintenance/index.scss";
 @import "./components/ActionButtons/index.scss";
 @import "./components/RequestDrawModal/index.scss";
+@import "./components/BorderedGameButton/index.scss";
 
 //  profile
 @import "./pages/profile/index.scss";
@@ -176,8 +177,20 @@ button {
   margin-top: 75px;
 }
 
+.mr-50 {
+  margin-right: 50px !important;
+}
+
+.pr-50 {
+  padding-right: 50px !important;
+}
+
 .mb-35 {
   margin-bottom: 35px;
+}
+
+.mr-30 {
+  margin-right: 30px !important;
 }
 
 .mb-25 {
