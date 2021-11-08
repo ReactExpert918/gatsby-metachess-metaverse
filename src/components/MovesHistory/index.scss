@@ -2,30 +2,31 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: calc(100vw * (468 / 1920));
+  width: calc(100vw * (369 / 1920));
   @media (max-width: 768px) {
     width: 100vw;
   }
 
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 8px;
-  margin-top: 83px;
+  background: #0c1221;
+  box-shadow: 4px 0px 30px #283d61b3, 0px 4px 30px #20314fb3;
+  margin-top: 93px;
   margin-bottom: 83px;
   margin-left: calc(100vw * (59 / 1920));
   margin-right: calc(100vw * (33 / 1920));
 
   .title {
-    margin: 25px;
-    text-align: left;
-    font-size: 1.3rem;
-    font-weight: bold;
-    letter-spacing: 0.32px;
-    color: #0f1f38;
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 150%;
+    text-transform: uppercase;
+    color: #cca66b;
+    padding: 20px 20px 25px;
   }
   .moveHistoryWrapper {
     flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
     p {
       padding: 20px 0 20px 25px;
       text-align: left;
@@ -50,15 +51,15 @@
         }
       }
       .moveHistoryCellOdd {
-        background: #0f1f38 0% 0% no-repeat padding-box;
+        background: transparent;
         p {
-          color: #ffffff;
+          color: #cca66b;
         }
       }
       .moveHistoryCellEven {
-        background: #f8f8f8 0% 0% no-repeat padding-box;
+        background: #cca66b;
         p {
-          color: #0f1f38;
+          color: #ffffff;
         }
       }
     }
