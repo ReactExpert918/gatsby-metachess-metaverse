@@ -1,0 +1,25 @@
+.backgroundImages {
+  position: absolute;
+  overflow: hidden;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  background-color: #0c1221;
+  > * {
+    position: absolute;
+    z-index: 0;
+  }
+  .rookbg {
+    top: 0;
+  }
+  .horsebg {
+    top: 397px;
+    right: 0;
+  }
+  .kingbg {
+    left: 514.6px;
+    top: 805.13px;
+  }
+}
