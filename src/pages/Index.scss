@@ -1,4 +1,25 @@
-.choseModeContainer{
+.borderedButtonWrapper {
   display: flex;
-  align-items: flex-start;
+  margin-top: 115px;
+  .borderedGameButton {
+    margin-right: 20px;
+    &:last-child {
+      margin-right: 0;
+    }
+    .game-2d-icon {
+      position: absolute;
+      top: -140px;
+      left: 45px;
+    }
+    .game-3d-icon {
+      position: absolute;
+      top: -105px;
+      left: -20px;
+    }
+    .game-3df-icon {
+      position: absolute;
+      top: -127px;
+      left: 15px;
+    }
+  }
 }
