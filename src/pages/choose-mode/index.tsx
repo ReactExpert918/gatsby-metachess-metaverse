@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import ChoseModeSection from "../../components/ChoseModeSection";
 import PlayWithAISection from "../../components/PlayWithAISection";
 import { MODES, AI_PLAY_MODE } from "../../constants/playModes";
@@ -9,7 +9,6 @@ import { navigate } from "gatsby";
 import PlayWithHumanSection from "../../components/PlayWithHumanSection";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
-import { isSSR } from "../../lib/utils";
 
 interface IActionProps {
   setPlayMode: typeof GameplayActions.setPlayMode;
