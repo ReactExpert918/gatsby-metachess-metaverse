@@ -1,14 +1,11 @@
 import React from "react";
 import { Link, navigate } from "gatsby";
-import { useDispatch, useSelector } from "react-redux";
-import { chatActions } from "../../store/chat/chat.actions";
 import HeaderAccount from "../HeaderAccount";
 import store from "../../store";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { MAIN_WEBSITE } from "../../config";
 import BrainiacChessLogo from "../../lib/svgIcons/BrainiacChessLogo";
-import { IAppState } from "../../store/reducers";
 interface Props {
   transparent?: boolean;
   uri: string;
@@ -55,40 +52,24 @@ export const HeaderLogo = () => {
 };
 
 export const HeaderNavigator = ({ currentUri }: { currentUri: string }) => {
-  const { currentUser } = useSelector((state: IAppState) => state.user);
   return (
     <div className="headerNavigatorContainer">
-      {currentUser && currentUser.Username ? (
-        <>
-          <HeaderNavigatorItem
-            to="/"
-            title="PLAY"
-            active={currentUri === "/"}
-          />
-          <HeaderNavigatorItem
-            to="/learn"
-            title="LEARN"
-            active={currentUri === "/learn"}
-          />
-          <HeaderNavigatorItem
-            to="/watch"
-            title="WATCH"
-            active={currentUri === "/watch"}
-          />
-          <HeaderNavigatorItem
-            to="/community"
-            title="COMMUNITY"
-            active={currentUri === "/community"}
-          />
-        </>
-      ) : (
-        <>
-          <HeaderNavigatorItem to="/home" title="HOME" />
-          <HeaderNavigatorItem to="/social" title="SOCIAL" />
-          <HeaderNavigatorItem to="/dapps" title="DAPPS" />
-          <HeaderNavigatorItem to="/trade-chess" title="TRADE CHESS" />
-        </>
-      )}
+      <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
+      <HeaderNavigatorItem
+        to="/learn"
+        title="LEARN"
+        active={currentUri === "/learn"}
+      />
+      <HeaderNavigatorItem
+        to="/watch"
+        title="WATCH"
+        active={currentUri === "/watch"}
+      />
+      <HeaderNavigatorItem
+        to="/community"
+        title="COMMUNITY"
+        active={currentUri === "/community"}
+      />
     </div>
   );
 };
