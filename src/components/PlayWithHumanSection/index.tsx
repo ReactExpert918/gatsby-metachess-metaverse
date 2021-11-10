@@ -15,31 +15,25 @@ const PlayWithHumanSection = (props: IProps) => {
   return (
     <>
       <div className="playWithHumanContainer">
-        <div className="titleWrapper">
-          <p className={"xx-large"}>PLAY WITH HUMAN</p>
-        </div>
         <div className={"backToSelection"}>
           <p
             className={"normal"}
             onClick={props.goBack}
           >{`< Choose a game mode`}</p>
         </div>
-        <div className="buttonsContainer">
-          {/* <button
-            className="outlinedButton  mRight mBottom"
-            onClick={() => props.onJoinRoom(joinRoom)}
-          >
-            {"Quick pairing (3+0)"}
-          </button> */}
-          <button
-            className="outlinedButton"
-            onClick={() => setModalCustomGame(true)}
-          >
-            {"Create custom game"}
+        <div className="titleWrapper">
+          <p className="title-heading">PLAY WITH HUMAN</p>
+        </div>
+
+        <div className="gamebuttons">
+          <button onClick={() => setModalCustomGame(true)}>
+            Create custom game
           </button>
-          {/* <button className="outlinedButton  mRight mBottom">
-            {"Challenge an user"}
-          </button> */}
+          <button className="p-lg">Quick pairing</button>
+        </div>
+        <div className="menubuttons">
+          <button className="colored">lobby</button>
+          <button className="outlined">global ranking</button>
         </div>
         <UsersListTable />
       </div>

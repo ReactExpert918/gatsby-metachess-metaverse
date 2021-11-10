@@ -30,11 +30,61 @@
       cursor: pointer;
     }
   }
-  &.buttonsContainer {
-    margin-top: 20px;
+  .gamebuttons {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    button {
+      background: linear-gradient(
+        180deg,
+        #dd962b 19.44%,
+        #e39c2d 23.36%,
+        #7e300f 49.18%,
+        #dea85e 79.17%
+      );
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 10px 57px;
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin: 0 10px;
+      &.p-lg {
+        padding: 10px 107px;
+      }
+    }
+  }
+  .menubuttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    button {
+      cursor: pointer;
+      margin: 0 10px;
+      border: 2px solid #cca66a;
+      box-sizing: border-box;
+      border-radius: 8px;
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 120%;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+    .colored {
+      background: #cca66a;
+      padding: 10px 106px;
+    }
+    .outlined {
+      padding: 10px 38px;
+    }
   }
   .mRight {
     margin-right: 25px;
@@ -46,5 +96,23 @@
     display: flex;
     justify-content: center;
     margin-top: 35px;
+    margin-bottom: 50px;
+    .title-heading {
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 60px;
+      line-height: 45px;
+      text-transform: uppercase;
+      background-image: linear-gradient(
+        #dd962b 0%,
+        #e39c2d 6.56%,
+        #7e300f 49.79%,
+        #dea85e 100%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
   }
 }
