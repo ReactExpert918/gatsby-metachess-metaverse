@@ -1,24 +1,37 @@
 .usersListTable {
-  margin-top: 25px;
-  background: #ffffff;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 8px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   overflow-x: auto;
-  .usersListTableHederWrapper {
+  .usersListTableHeaderWrapper {
     display: flex;
     flex: 1;
     align-items: center;
     flex-direction: row;
-    min-height: 78px;
+    min-height: 59px;
+    p {
+      border: 2px solid #cca66a;
+      box-sizing: border-box;
+      border-radius: 10px;
+      padding: 18px 0;
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 120%;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin: 0 10px;
+      text-align: center;
+      width: 216px;
+    }
   }
   .usersListTableItemWrapper {
     display: flex;
     align-items: center;
     flex-direction: row;
-    height: 58px;
+    margin-bottom: 28px;
     // width: 1161px;
     flex: 1;
     .nameWrapper {
@@ -44,83 +57,100 @@
   }
   .listItems {
     min-height: 250px;
-
-    .usersListTableItemWrapper {
-      cursor:pointer;
-      transition: .3s;
+    .usersListTableItemWrapper > div {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: 0 10px;
+      display: flex;
+      justify-content: center;
+      width: 216px;
+      p {
+        font-family: Solway;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 140%;
+        text-transform: capitalize;
+        color: #ffffff;
+      }
     }
 
-      .side {
-        text-align:center;
-        
-        img {
-          width: 15px;
-          vertical-align: middle;
-        }
-      }
+    .usersListTableItemWrapper {
+      cursor: pointer;
+      transition: 0.3s;
+      margin-bottom: 20px;
+    }
 
-      .cannot-play {
-        cursor:default;
-
-        .elo p {
-          color: #FF2D2D;
-        }
+    .side {
+      padding: 0 !important;
+      height: 55px;
+      align-items: center;
+      img {
+        height: 36px;
       }
+    }
 
-      .my-room {
-        cursor:default;
-        background-color: #0f1f38 !important;
-        .elo p, p {
-          color: #ffffff;
-        }
+    .cannot-play {
+      cursor: default;
+
+      .elo p {
+        color: #ff2d2d;
       }
+    }
+
+    .my-room {
+      cursor: default;
+      // background-color: #0f1f38 !important;
+      .elo p,
+      p {
+        color: #ffffff;
+      }
+    }
 
     .usersListTableItemWrapper:nth-child(odd) {
-      background: #f5f5f5;
+      // background: #f5f5f5;
       &.markedRed {
-        background: #f8ddb1;
+        // background: #f8ddb1;
       }
     }
     .usersListTableItemWrapper:nth-child(even) {
       &.markedRed {
-        background: #ffedcf;
+        // background: #ffedcf;
       }
     }
 
     .usersListTableItemWrapper:hover {
-      background: #bbcdea;
+      // background: #bbcdea;
     }
   }
   .cells > :nth-child(1) {
-    margin-left: 40px;
-
-    max-width: calc(100vw * (613 / 1920)) !important;
-    min-width: calc(100vw * (613 / 1920)) !important;
+    max-width: calc(100vw * (330 / 1920)) !important;
+    min-width: calc(100vw * (330 / 1920)) !important;
     @media (max-width: 1024px) {
-      
-    max-width: calc(1024px * (613 / 1920)) !important;
-    min-width: calc(1024px * (613 / 1920)) !important;  
+      max-width: calc(1024px * (330 / 1920)) !important;
+      min-width: calc(1024px * (330 / 1920)) !important;
     }
-
   }
-  .cells > :nth-child(2) {
-    width: 193px !important;
-  }
-  .cells > :nth-child(3) {
-    width: 153px !important;
-  }
-  .cells > :nth-child(4) {
-    width: 92px !important;
-  }
-  .cells > :nth-child(5) {
-    width: 43px !important;
-  }
-  .cells > :nth-child(6) {
-    width: 142px !important;
-  }
-  .cells > :nth-child(7) {
-    width: 142px !important;
-  }
+  // .cells > :nth-child(2) {
+  //   width: 193px !important;
+  // }
+  // .cells > :nth-child(3) {
+  //   width: 153px !important;
+  // }
+  // .cells > :nth-child(4) {
+  //   width: 92px !important;
+  // }
+  // .cells > :nth-child(5) {
+  //   width: 43px !important;
+  // }
+  // .cells > :nth-child(6) {
+  //   width: 142px !important;
+  // }
+  // .cells > :nth-child(7) {
+  //   width: 142px !important;
+  // }
 }
 
 .usersListTable p {

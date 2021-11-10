@@ -1,7 +1,7 @@
 import React from 'react';
 
 const UsersListTableHeader = () => (
-    <div className="usersListTableHederWrapper usersListTableItemWrapper  cells">
+    <div className="usersListTableHeaderWrapper usersListTableItemWrapper  cells">
         <p>Player</p>
         <p>Mode</p>
         <p>Rating</p>
