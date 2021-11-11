@@ -3,14 +3,7 @@
   width: 733px;
   text-align: center;
   background: #0c1221;
-  border: 2px solid #cca66a;
   position: relative;
-  .close-icon {
-    position: absolute;
-    top: 29px;
-    right: 29px;
-    cursor: pointer;
-  }
   h3 {
     font-size: 1.5rem;
     letter-spacing: 1.62px;
@@ -145,4 +138,47 @@ h5 {
   letter-spacing: 1.2px;
   color: #0f1f38;
   opacity: 1;
+}
+
+@media screen and (max-width: 1000px) {
+  .newGame {
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .newGame {
+    width: auto;
+    .row {
+      flex-direction: column;
+      align-items: center;
+      .item.no-content {
+        display: none;
+      }
+    }
+    .createGame button {
+      font-size: 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .newGame {
+    .headerRow h3 {
+      font-size: 24px;
+    }
+    .row .item {
+      padding-top: 40px;
+      h5 {
+        font-size: 18px;
+      }
+      .sideItems.sides > div {
+        width: 45px;
+        height: 45px;
+        img {
+          height: 30px;
+        }
+      }
+    }
+  }
 }

@@ -116,3 +116,79 @@
     }
   }
 }
+
+@media screen and (max-width: 900px) {
+  .playWithHumanContainer {
+    .titleWrapper {
+      margin-top: 30px;
+      margin-bottom: 35px;
+      .title-heading {
+        font-size: 45px;
+        line-height: 32px;
+      }
+    }
+    .gamebuttons,
+    .menubuttons {
+      flex-direction: row;
+      button {
+        padding: 10px 0 !important;
+        font-size: 18px;
+        flex: 1;
+      }
+    }
+    .menubuttons {
+      margin-top: 25px;
+    }
+    .usersListTable {
+      th {
+        font-size: 14px;
+        padding: 15px;
+      }
+      td {
+        padding: 15px;
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .playWithHumanContainer {
+    .titleWrapper {
+      margin-top: 20px;
+      margin-bottom: 25px;
+      .title-heading {
+        font-size: 30px;
+        line-height: 21px;
+      }
+    }
+    .gamebuttons,
+    .menubuttons {
+      flex-direction: column;
+      padding: 0 10px;
+      button {
+        margin: 20px 0 0;
+        padding: 10px 0 !important;
+        font-size: 18px;
+        width: 100%;
+      }
+    }
+    .menubuttons {
+      margin-top: 25px;
+    }
+    .usersListTable {
+      th {
+        font-size: 14px;
+        padding: 15px;
+      }
+      td {
+        padding: 15px;
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
