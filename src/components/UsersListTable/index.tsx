@@ -85,31 +85,31 @@ const UsersListTable = ({
   modifyGameItems,
 }: IProps) => {
   const { currentUser } = useSelector((state: IAppState) => state.user);
-  // const gameItems: IGameItem[] = [
-  //   {
-  //     gameRules: {
-  //       type: GameType.Blitz,
-  //       rating: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       chessCoin: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       time: {
-  //         base: 5,
-  //         increment: 1,
-  //       },
-  //       mode: GameMode.Rated,
-  //       hostSide: PieceSide.Black,
-  //     },
-  //     host: currentUser,
-  //     roomId: "123",
-  //     status: RoomEvent.GameStarted,
-  //   },
-  // ];
-  const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
+  const gameItems: IGameItem[] = [
+    {
+      gameRules: {
+        type: GameType.Blitz,
+        rating: {
+          maxium: 10,
+          minium: 2,
+        },
+        chessCoin: {
+          maxium: 10,
+          minium: 2,
+        },
+        time: {
+          base: 5,
+          increment: 1,
+        },
+        mode: GameMode.Rated,
+        hostSide: PieceSide.Black,
+      },
+      host: currentUser,
+      roomId: "123",
+      status: RoomEvent.GameStarted,
+    },
+  ];
+  // const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
   useEffect(() => {
     SocketService.subscribeTo({
       eventName: "rooms-page",
@@ -142,12 +142,12 @@ const UsersListTable = ({
 
   return (
     <div className="usersListTable">
-      <UsersListTableHeader />
-
-      <div className="listItems">
-        {(gameItems || [])
-          // .map((g) => mapGameItemsToUserList(g))
-          .map((item, index) => (
+      <table>
+        <thead>
+          <UsersListTableHeader />
+        </thead>
+        <tbody>
+          {(gameItems || []).map((item, index) => (
             <UserListTableItem
               key={item.roomId}
               index={index}
@@ -155,7 +155,12 @@ const UsersListTable = ({
               onPress={onItemPress}
             />
           ))}
-      </div>
+        </tbody>
+      </table>
+
+      {/* <div className="listItems">
+        
+      </div> */}
     </div>
   );
 };
