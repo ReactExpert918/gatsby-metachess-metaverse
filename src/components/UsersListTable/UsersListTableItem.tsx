@@ -37,35 +37,32 @@ const UserListTableItem = ({ item, onPress, currentUser }: Props) => {
 
   };
   
-  return <div
+  return <tr
     onClick={() => itemClick(item.roomId)}
     className={`usersListTableItemWrapper cells ${item.gameRules.chessCoin ? "markedRed" : ""} ${!canPlay ? "cannot-play" : ""} ${isMyRoom ? "my-room" : ""}`}
   > 
-    <div className="nameWrapper">
+    <td className="nameWrapper">
       <p>{getOpponentName(false, null, item.host)}</p>
       {/* {item.badge ? <p className="badge">{item.badge}</p> : null} */}
-    </div>
-    <div>
+    </td>
+    <td>
       <p>{`${getGameTypeName(item.gameRules.time.base)} - ${item.gameRules.mode === GameMode.Casual ? "Casual" : "Rated"}`}</p>
-    </div>
-    <div className="elo">
+    </td>
+    <td className="elo">
       <p>{`${item.gameRules.rating.minium}-${item.gameRules.rating.maxium}`}</p>
-    </div>
-    <div>
+    </td>
+    <td>
       <p>{`${item.gameRules.time.base}+${item.gameRules.time.increment}`}</p>
-    </div>
-    <div className="side">
+    </td>
+    <td className="side">
       {item.gameRules.hostSide === PieceSide.Black ?
            <img src={SVG_ASSETS.bSide} /> :
        item.gameRules.hostSide === PieceSide.White ?
            <img src={SVG_ASSETS.wSide} /> :
            <img src={SVG_ASSETS.bwSide} />
          }
-    </div>
-    {/* <div>
-      <p>{item.chessCoins}</p>
-    </div> */}
-  </div>
+    </td>
+  </tr>
 };
 
 const mapStateToProps = ({
