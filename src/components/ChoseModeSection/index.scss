@@ -31,3 +31,34 @@
     display: flex;
   }
 }
+@media screen and (max-width: 768px) {
+  .squaredWrapper{
+    display: block !important;
+  }
+  .header-heading{
+    font-size: 40px !important;
+  }
+  .choseModeContainer{
+    margin-right: 100px !important;
+  }
+  .squareButtonContainer{
+    margin-top: 20px;
+  }
+}
+@media screen and (max-width: 1260px) {
+  .squaredWrapper{
+    display: block !important;
+  }
+  .choseModeContainer{
+    margin-right: 100px !important;
+  }
+  .squareButtonContainer{
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .header-heading{
+    font-size: 30px !important;
+  }
+}
