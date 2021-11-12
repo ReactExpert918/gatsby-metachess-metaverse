@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  // align-items: flex-start;
   padding: 20px 80px;
   z-index: 2;
 }
@@ -16,7 +16,7 @@
 .headerNavigatorContainer {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin: 0px 20px;
   flex: 1;
   .mainLogo {
@@ -36,7 +36,7 @@
 
 .headerNavigatorItem {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   padding-right: 30px;
   &:hover {
@@ -66,12 +66,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   &.active {
-    background-image: repeating-linear-gradient(
-      #dd962b 0%,
-      #e39c2d 6.56%,
-      #7e300f 49.79%,
-      #dea85e 100%
-    );
+    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
   }
 }
 
@@ -106,12 +101,7 @@
     width: 43px;
     border-radius: 50%;
     padding: 1px;
-    background-image: repeating-linear-gradient(
-      #dd962b 0%,
-      #e39c2d 6.56%,
-      #7e300f 49.79%,
-      #dea85e 100%
-    );
+    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
     img {
       width: 100%;
       height: 100%;
@@ -131,4 +121,48 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.headerNavigatorItemToggle {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.toggleBtn{
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .headerContainer {
+    padding: 20px 0 !important;
+    flex-direction: column;
+  }
+  .headerNavigatorMobile{
+    width: 95%;
+    display: flex;
+    flex-direction: row !important;
+  }
+  .flex-end {
+    justify-content: center !important;
+    flex-direction: row !important;
+    width: 95%;
+  }
+  .toggleBtn{
+    display: block;
+    margin-left: auto;
+    color: white;
+  }
+  .headerNavigatorContainer {
+    flex-direction: column;
+    margin: 5px 20px;
+  }
+  .headerNavigatorContainerMobile{
+    width: 95%;
+  }
+  .headerNavigatorItem {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 1055px){
+  .headerContainer {
+    padding: 20px 0 !important;
+    align-items: unset;
+  }
 }
