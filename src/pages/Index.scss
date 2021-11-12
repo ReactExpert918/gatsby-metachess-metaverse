@@ -23,3 +23,31 @@
     }
   }
 }
+@media only screen and (max-width: 1260px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+  }
+  
+}
+@media only screen and (max-width: 768px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+  }
+  
+}
+@media only screen and (max-width: 430px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+    margin-right: 0 !important;
+  }
+  
+}
