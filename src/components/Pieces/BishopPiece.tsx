@@ -1,7 +1,7 @@
 import React from "react";
 
 export default () => (
-  <div className={"bishop"}>
+  <div className={"bishop d-flex"}>
     <svg
       width="112"
       height="212"

@@ -127,7 +127,7 @@ p {
 .wrapContainer {
   display: flex;
   flex-direction: column;
-  min-height: 1003px;
+  min-height: 100vh;
   position: relative;
   & .wrapPage {
     display: flex;
