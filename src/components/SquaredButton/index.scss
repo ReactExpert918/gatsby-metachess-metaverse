@@ -3,8 +3,8 @@
   background: #0c1221;
   box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7),
     0px 4px 30px rgba(32, 49, 79, 0.7);
-  width: 400px;
-  height: 356px;
+  width: 365px;
+  height: 315px;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
@@ -32,20 +32,29 @@
 }
 
 .squaredButtonTitle {
-  //   position: absolute;
-  margin: 15px auto 35px auto;
+  margin: 15px auto 30px auto;
   letter-spacing: 0.84px;
   color: rgba(204, 166, 107, 0.78);
   font-family: Solway;
   font-style: normal;
   font-weight: 500;
-  font-size: 32px;
+  font-size: 28px;
   line-height: 150%;
 }
 
 .squareButtonChildrenWrapper {
   display: flex;
   flex: 1;
+  .pawn svg,
+  .horse svg,
+  .bishop svg,
+  .rook svg,
+  .king svg {
+    height: 150px;
+  }
+  .user svg {
+    width: 115px;
+  }
 }
 
 .tournamentSquad {
@@ -58,7 +67,7 @@
       position: absolute;
       bottom: 10px;
       svg {
-        width: 93px;
+        width: 85px;
         height: 93px;
       }
       &.user-1 {
@@ -72,30 +81,30 @@
       justify-content: center;
       margin-top: 20px;
       svg {
-        height: 100px;
+        height: 95px;
       }
     }
     .tLine-1 {
       position: absolute;
-      width: 80px;
+      width: 72px;
       left: 80px;
-      top: 125px;
+      top: 105px;
       border-top: 1px solid #a2855b;
       transform: rotate(-30deg);
     }
     .tLine-2 {
       position: absolute;
-      width: 80px;
+      width: 72px;
       right: 80px;
-      top: 125px;
+      top: 105px;
       border-top: 1px solid #a2855b;
       transform: rotate(30deg);
     }
     .tLine-3 {
       position: absolute;
-      width: 120px;
-      left: 140px;
-      top: 233px;
+      width: 108px;
+      left: 128px;
+      top: 201px;
       border-top: 1px solid #a2855b;
     }
   }
