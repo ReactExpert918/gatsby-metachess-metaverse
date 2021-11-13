@@ -116,3 +116,36 @@
     }
   }
 }
+
+@media screen and (max-width: 426px) {
+  .title-heading{
+    font-size: 25px !important;
+  }
+  .gamebuttons button{
+    margin: 10px !important;
+  }
+  .usersListTableItemWrapper{
+    flex-direction: column !important;
+  }
+  .usersListTableHeaderWrapper p{
+    margin: 10px !important ;
+  }
+  .colored{
+    margin-bottom: 10px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .title-heading{
+    font-size: 35px !important;
+  }
+  .gamebuttons button{
+    margin: 10px !important;
+  }
+
+}
+@media screen and (max-width: 656px) {
+  .colored{
+    margin-bottom: 10px !important;
+  }
+
+}

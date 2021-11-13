@@ -146,3 +146,21 @@ h5 {
   color: #0f1f38;
   opacity: 1;
 }
+@media screen and (max-width: 768px) {
+  .newGame{
+    padding: 10px !important;
+    width: 520px !important;
+  }
+  .row{
+    justify-content: center !important;
+  }
+}
+@media screen and (max-width: 550px) {
+  .newGame{
+    padding: 10px !important;
+    width: 300px !important;
+  }
+  .row{
+    flex-direction: column !important;
+  }
+}

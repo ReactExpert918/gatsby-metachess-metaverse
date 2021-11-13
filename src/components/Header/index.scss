@@ -129,7 +129,7 @@
 .toggleBtn{
   display: none;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 769px) {
   .headerContainer {
     padding: 20px 0 !important;
     flex-direction: column;
@@ -138,6 +138,7 @@
     width: 95%;
     display: flex;
     flex-direction: row !important;
+    
   }
   .flex-end {
     justify-content: center !important;
@@ -149,6 +150,10 @@
     margin-left: auto;
     color: white;
   }
+  .toggleBtn img{
+    width: 32px;
+    margin-right: 5px;
+  }
   .headerNavigatorContainer {
     flex-direction: column;
     margin: 5px 20px;
@@ -157,8 +162,17 @@
     width: 95%;
   }
   .headerNavigatorItem {
-    margin-top: 10px;
+    margin-top: 30px;
   }
+  .nav-icon{
+    margin-top: 30px;
+  }
+}
+.mobile-display-show{
+  display: flex !important;
+}
+.mobile-display-hide{
+  display: none !important;
 }
 @media screen and (max-width: 1055px){
   .headerContainer {
@@ -166,3 +180,9 @@
     align-items: unset;
   }
 }
+@media screen and (max-width: 425px){
+  .toggleBtn img {
+    margin-right: 20px !important;
+  }
+}
+
