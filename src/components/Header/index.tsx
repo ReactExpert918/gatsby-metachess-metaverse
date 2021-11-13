@@ -111,8 +111,15 @@ export const withItemNumberIndicator = (
 
 
 const Header = ({ ...restProps }: Props) => {
-  7
   const [menu, setMenu] = useState("flex")
+  const screenWidth=()=>{
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+  }
+ useEffect(() => {
+   screenWidth()
+ }, []) 
   window.onresize = resize;
   function resize() {
     if(window.innerWidth<=768){
@@ -122,11 +129,6 @@ const Header = ({ ...restProps }: Props) => {
       setMenu("flex")
     }
   }
-
-  // if(window.matchMedia('(max-width: 768px)').matches){
-  //   console.log("if")
-  //   setMenu('none')
-  // }
 
   return (
     <div className={`headerContainer`}>
