@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, navigate } from "gatsby";
 import HeaderAccount from "../HeaderAccount";
 import store from "../../store";
@@ -41,24 +41,24 @@ export const HeaderNavigatorItem = ({
     </a>
   );
 };
-export const HeaderLogo = ({setMenu,menu}) => {
+export const HeaderLogo = ({ setMenu, menu }) => {
   return (
     <div className="headerNavigatorContainer headerNavigatorMobile">
       <div>
-      <Link className="mainLogo" to={MAIN_WEBSITE}>
-        <BrainiacChessLogo className="headerNavigatorLogo" />
-      </Link>
+        <Link className="mainLogo" to={MAIN_WEBSITE}>
+          <BrainiacChessLogo className="headerNavigatorLogo" />
+        </Link>
       </div>
-      <div className="toggleBtn" onClick={()=>menu==='flex'?setMenu('none'):setMenu('flex')}>
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/menu--v1.png"/>
+      <div className="toggleBtn" onClick={() => menu === 'flex' ? setMenu('none') : setMenu('flex')}>
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/menu--v1.png" />
       </div>
     </div>
   );
 };
 
-export const HeaderNavigator = ({ currentUri,menu }: { currentUri: string }) => {
+export const HeaderNavigator = ({ currentUri, menu }: { currentUri: string }) => {
   return (
-    <div className="headerNavigatorContainer headerNavigatorContainerMobile" style={{display:`${menu}`}}>
+    <div className="headerNavigatorContainer headerNavigatorContainerMobile" style={{ display: `${menu}` }}>
       <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
       <HeaderNavigatorItem
         to="/learn"
@@ -111,12 +111,28 @@ export const withItemNumberIndicator = (
 
 
 const Header = ({ ...restProps }: Props) => {
+  7
   const [menu, setMenu] = useState("flex")
+  window.onresize = resize;
+  function resize() {
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+    if(window.innerWidth>768){
+      setMenu("flex")
+    }
+  }
+
+  // if(window.matchMedia('(max-width: 768px)').matches){
+  //   console.log("if")
+  //   setMenu('none')
+  // }
+
   return (
     <div className={`headerContainer`}>
       <HeaderLogo setMenu={setMenu} menu={menu} />
-      <HeaderNavigator currentUri={restProps.uri}  menu={menu} />
-      <HeaderAccount menu={menu}/>
+      <HeaderNavigator currentUri={restProps.uri} menu={menu} />
+      <HeaderAccount menu={menu} />
       {/* <a className="test" onClick={()=>setMenu(true)}><i className="fas fa-bars"  aria-hidden="true"></i></a>
       {menu?
       <HeaderNavigator currentUri={restProps.uri} />
