@@ -19,7 +19,6 @@ import subscribeToGameStart from "../../lib/gameStart";
 import { IAppState } from "../../store/reducers";
 import { ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
 import Button from "../Button";
-import CloseIcon from "../../assets/images/CloseIcon.svg";
 
 interface IActionProps {
   setGameRules: typeof GameplayActions.setGameRules;
@@ -97,7 +96,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
   };
 
   return (
-    <Modal onClose={props.closeModal}>
+    <Modal onClose={props.closeModal} withBorder>
       <div className={"newGame"}>
         {/* <div className={"headerRow"}>
           <h3>Betting settings</h3>
@@ -112,9 +111,6 @@ const NewGameModal = (props: IProps & ISelectProps) => {
             />
           </div>
         </div> */}
-        <div className="close-icon" onClick={props.closeModal}>
-          <img src={CloseIcon} />
-        </div>
         <div className={"headerRow"}>
           <h3>Game setup</h3>
         </div>
@@ -163,7 +159,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
           </div>
         </div>
         <div className={"row"}>
-          <div className={"item"}>
+          <div className={"item no-content"}>
           </div>
           <div className={"item"}>
             <div className={"sideItems timeAndIncrementTitle"}>

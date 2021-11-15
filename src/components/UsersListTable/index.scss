@@ -1,16 +1,11 @@
 .usersListTable {
   margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
   overflow-x: auto;
+  table {
+    border-spacing: 20px 20px;
+  }
   .usersListTableHeaderWrapper {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    flex-direction: row;
-    min-height: 59px;
-    p {
+    th {
       border: 2px solid #cca66a;
       box-sizing: border-box;
       border-radius: 10px;
@@ -22,23 +17,12 @@
       line-height: 120%;
       text-transform: uppercase;
       color: #ffffff;
-      margin: 0 10px;
       text-align: center;
+      min-width: 100px;
       width: 216px;
     }
   }
   .usersListTableItemWrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-bottom: 28px;
-    // width: 1161px;
-    flex: 1;
-    .nameWrapper {
-      display: flex;
-      flex: 1;
-      flex-direction: row;
-    }
     .badge {
       display: flex;
       justify-content: center;
@@ -55,79 +39,74 @@
       padding: 2px 25px 3px;
     }
   }
-  .listItems {
-    min-height: 250px;
-    .usersListTableItemWrapper > div {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding-top: 15px;
-      padding-bottom: 15px;
-      margin: 0 10px;
-      display: flex;
-      justify-content: center;
-      width: 216px;
-      p {
-        font-family: Solway;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 140%;
-        text-transform: capitalize;
-        color: #ffffff;
-      }
-    }
-
-    .usersListTableItemWrapper {
-      cursor: pointer;
-      transition: 0.3s;
-      margin-bottom: 20px;
-    }
-
-    .side {
-      padding: 0 !important;
-      height: 55px;
-      align-items: center;
-      img {
-        height: 36px;
-      }
-    }
-
-    .cannot-play {
-      cursor: default;
-
-      .elo p {
-        color: #ff2d2d;
-      }
-    }
-
-    .my-room {
-      cursor: default;
-      // background-color: #0f1f38 !important;
-      .elo p,
-      p {
-        color: #ffffff;
-      }
-    }
-
-    .usersListTableItemWrapper:nth-child(odd) {
-      // background: #f5f5f5;
-      &.markedRed {
-        // background: #f8ddb1;
-      }
-    }
-    .usersListTableItemWrapper:nth-child(even) {
-      &.markedRed {
-        // background: #ffedcf;
-      }
-    }
-
-    .usersListTableItemWrapper:hover {
-      // background: #bbcdea;
+  .usersListTableItemWrapper > td {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    width: 216px;
+    p {
+      font-family: Solway;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 140%;
+      text-transform: capitalize;
+      color: #ffffff;
     }
   }
-  .cells > :nth-child(1) {
-    max-width: calc(100vw * (330 / 1920)) !important;
-    min-width: calc(100vw * (330 / 1920)) !important;
+
+  .usersListTableItemWrapper {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .side {
+    padding: 0 !important;
+    height: 55px;
+    align-items: center;
+    img {
+      height: 36px;
+    }
+  }
+
+  .cannot-play {
+    cursor: default;
+
+    .elo p {
+      color: #ff2d2d;
+    }
+  }
+
+  .my-room {
+    cursor: default;
+    // background-color: #0f1f38 !important;
+    .elo p,
+    p {
+      color: #ffffff;
+    }
+  }
+
+  .usersListTableItemWrapper:nth-child(odd) {
+    // background: #f5f5f5;
+    &.markedRed {
+      // background: #f8ddb1;
+    }
+  }
+  .usersListTableItemWrapper:nth-child(even) {
+    &.markedRed {
+      // background: #ffedcf;
+    }
+  }
+
+  .usersListTableItemWrapper:hover {
+    // background: #bbcdea;
+  }
+  .cells > :nth-child(1),
+  .usersListTableItemWrapper .nameWrapper {
+    max-width: calc(100vw * (450 / 1920)) !important;
+    min-width: calc(100vw * (450 / 1920)) !important;
     @media (max-width: 1024px) {
       max-width: calc(1024px * (330 / 1920)) !important;
       min-width: calc(1024px * (330 / 1920)) !important;
