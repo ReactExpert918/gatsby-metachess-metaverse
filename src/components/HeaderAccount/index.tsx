@@ -21,7 +21,11 @@ const HeaderAccount = (props: ISelectProps) => {
     dispatch(chatActions.toggleSideChat());
   };
   return (
+<<<<<<< src/components/HeaderAccount/index.tsx
     <div className="headerNavigatorContainer flex-end" style={{display:`${props.menu}`}} >
+=======
+    <div className="headerNavigatorContainer flex-end" style={{display:`${props.menu}`}} >
+>>>>>>> src/components/HeaderAccount/index.tsx
       {props.currentUser && props.currentUser.Username ? (
         <>
           <SearchIcon className="nav-icon" />
@@ -41,11 +45,9 @@ const HeaderAccount = (props: ISelectProps) => {
         </>
       ) : (
         <>
-          <div className="headerNavigatorContainer flex-end">
-            <SearchIcon className="nav-icon mr-50" />
-            <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
-            <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
-          </div>
+          <SearchIcon className="nav-icon mr-50" />
+          <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
+          <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
         </>
       )}
     </div>
