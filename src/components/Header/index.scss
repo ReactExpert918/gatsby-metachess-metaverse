@@ -3,13 +3,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  // align-items: flex-start;
   padding: 20px 80px;
   z-index: 2;
-  .nav-links-container {
-    flex: 2;
-    display: flex;
-  }
 }
 
 .headerContainerTransparent {
@@ -20,7 +16,7 @@
 .headerNavigatorContainer {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   margin: 0px 20px;
   flex: 1;
   .mainLogo {
@@ -40,9 +36,9 @@
 
 .headerNavigatorItem {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  padding: 10px 30px 10px 0;
+  padding-right: 30px;
   &:hover {
     .headerActiveIndicator {
       align-self: flex-start;
@@ -70,12 +66,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   &.active {
-    background-image: repeating-linear-gradient(
-      #dd962b 0%,
-      #e39c2d 6.56%,
-      #7e300f 49.79%,
-      #dea85e 100%
-    );
+    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
   }
 }
 
@@ -110,12 +101,7 @@
     width: 43px;
     border-radius: 50%;
     padding: 1px;
-    background-image: repeating-linear-gradient(
-      #dd962b 0%,
-      #e39c2d 6.56%,
-      #7e300f 49.79%,
-      #dea85e 100%
-    );
+    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
     img {
       width: 100%;
       height: 100%;
@@ -136,104 +122,67 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-@media screen and (max-width: 1365px) {
+.headerNavigatorItemToggle {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.toggleBtn{
+  display: none;
+}
+@media screen and (max-width: 769px) {
+  .headerContainer {
+    padding: 20px 0 !important;
+    flex-direction: column;
+  }
+  .headerNavigatorMobile{
+    width: 95%;
+    display: flex;
+    flex-direction: row !important;
+    
+  }
+  .flex-end {
+    justify-content: center !important;
+    flex-direction: row !important;
+    width: 95%;
+  }
+  .toggleBtn{
+    display: block;
+    margin-left: auto;
+    color: white;
+  }
+  .toggleBtn img{
+    width: 32px;
+    margin-right: 5px;
+  }
+  .headerNavigatorContainer {
+    flex-direction: column;
+    margin: 5px 20px;
+  }
+  .headerNavigatorContainerMobile{
+    width: 95%;
+  }
   .headerNavigatorItem {
-    padding-right: 20px;
-    .headerNavigatorItemTitle {
-      font-size: 15px;
-      line-height: 15px;
-    }
+    margin-top: 30px;
+  }
+  .nav-icon{
+    margin-top: 30px;
   }
 }
-
-@media screen and (max-width: 1230px) {
-  .headerNavigatorContainer.headerLogo {
-    flex: unset;
-    margin-right: 60px;
-  }
+.mobile-display-show{
+  display: flex !important;
 }
-
-@media screen and (max-width: 1080px) {
+.mobile-display-hide{
+  display: none !important;
+}
+@media screen and (max-width: 1055px){
   .headerContainer {
-    flex-direction: column;
-    .nav-links-container {
-      width: 100%;
-      margin-top: 15px;
-    }
+    padding: 20px 0 !important;
+    align-items: unset;
+  }
+}
+@media screen and (max-width: 425px){
+  .toggleBtn img {
+    margin-right: 20px !important;
   }
 }
 
-@media screen and (max-width: 900px) {
-  .headerContainer {
-    padding: 20px 0 0;
-    flex-direction: column;
-    max-height: 65px;
-    transition: max-height 2s ease;
-    .nav-links-container {
-      display: none;
-      opacity: 0;
-      max-height: 0;
-      flex-direction: column;
-      width: 100%;
-    }
-    &.show-menu {
-      max-height: 500px;
-      .nav-links-container {
-        display: flex;
-        opacity: 1;
-        max-height: unset;
-      }
-      .mobile-menu {
-        background: url("assets/images/CloseIcon.svg") no-repeat center;
-        background-size: 20px;
-      }
-    }
-    .mobile-menu {
-      background: url("assets/images/menu-mobile.svg") no-repeat;
-      height: 32px;
-      width: 32px;
-      position: absolute;
-      right: 30px;
-      top: 35px;
-    }
-    .headerNavigatorContainer {
-      width: 100%;
-      margin: 0;
-      &.headerLogo {
-        justify-content: center;
-        max-height: 65px;
-        .headerNavigatorLogo {
-          display: flex;
-        }
-      }
-      &.nav-links {
-        justify-content: flex-end;
-        .headerNavigatorItem {
-          padding-top: 50px;
-        }
-      }
-      &.headerAccount {
-        padding-bottom: 20px;
-        border-bottom: 1px solid #6d6461;
-        .nav-icon {
-          margin-top: 30px;
-          margin-right: 30px !important;
-        }
-        .headerNavigatorItem {
-          padding-top: 30px;
-          &.pr-50 {
-            padding-right: 30px !important;
-          }
-        }
-      }
-      .headerNavigatorItem {
-        padding-right: 20px;
-        .headerNavigatorItemTitle {
-          font-size: 14px;
-          line-height: 14px;
-        }
-      }
-    }
-  }
-}

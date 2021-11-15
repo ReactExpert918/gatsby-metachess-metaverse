@@ -3,8 +3,8 @@
   background: #0c1221;
   box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7),
     0px 4px 30px rgba(32, 49, 79, 0.7);
-  width: 365px;
-  height: 315px;
+  width: 400px;
+  height: 356px;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
@@ -86,26 +86,48 @@
     }
     .tLine-1 {
       position: absolute;
-      width: 72px;
-      left: 80px;
-      top: 105px;
+      width: 95px;
+      left: 75px;
+      top: 130px;
       border-top: 1px solid #a2855b;
-      transform: rotate(-30deg);
+      transform: rotate(-40deg);
     }
     .tLine-2 {
       position: absolute;
-      width: 72px;
-      right: 80px;
-      top: 105px;
+      width: 95px;
+      right: 75px;
+      top: 130px;
       border-top: 1px solid #a2855b;
-      transform: rotate(30deg);
+      transform: rotate(40deg);
     }
     .tLine-3 {
       position: absolute;
-      width: 108px;
-      left: 128px;
-      top: 201px;
+      width: 140px;
+      left: 130px;
+      top: 240px;
       border-top: 1px solid #a2855b;
     }
   }
 }
+@media screen and (max-width: 425px) {
+  .squareButtonContainer {
+    width: 300px;
+    height: 300px;
+    // margin-left: 60 px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .squareButtonContainer {
+    margin-left: 60px !important;
+  }
+}
+// @media screen and (max-width: 375px) {
+//   .squareButtonContainer {
+//     margin-left: 40px !important;
+//   }
+// }
+// @media screen and (max-width: 320px) {
+//   .squareButtonContainer {
+//     margin-left: 5px !important;
+//   }
+// }

@@ -21,7 +21,7 @@ const HeaderAccount = (props: ISelectProps) => {
     dispatch(chatActions.toggleSideChat());
   };
   return (
-    <div className="headerNavigatorContainer flex-end headerAccount">
+    <div className="headerNavigatorContainer flex-end headerAccount" style={{display:`${props.menu}`}} >
       {props.currentUser && props.currentUser.Username ? (
         <>
           <SearchIcon className="nav-icon" />

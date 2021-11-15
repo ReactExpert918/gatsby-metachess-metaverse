@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, navigate } from "gatsby";
 import HeaderAccount from "../HeaderAccount";
 import store from "../../store";
@@ -41,19 +41,24 @@ export const HeaderNavigatorItem = ({
     </a>
   );
 };
-export const HeaderLogo = () => {
+export const HeaderLogo = ({ setMenu, menu }) => {
   return (
-    <div className="headerNavigatorContainer headerLogo">
-      <Link className="mainLogo" to={MAIN_WEBSITE}>
-        <BrainiacChessLogo className="headerNavigatorLogo" />
-      </Link>
+    <div className="headerNavigatorContainer headerNavigatorMobile">
+      <div>
+        <Link className="mainLogo" to={MAIN_WEBSITE}>
+          <BrainiacChessLogo className="headerNavigatorLogo" />
+        </Link>
+      </div>
+      <div className="toggleBtn" onClick={() => menu === 'flex' ? setMenu('none') : setMenu('flex')}>
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/menu--v1.png" />
+      </div>
     </div>
   );
 };
 
-export const HeaderNavigator = ({ currentUri }: { currentUri: string }) => {
+export const HeaderNavigator = ({ currentUri, menu }: { currentUri: string }) => {
   return (
-    <div className="headerNavigatorContainer nav-links">
+    <div className="headerNavigatorContainer headerNavigatorContainerMobile" style={{ display: `${menu}` }}>
       <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
       <HeaderNavigatorItem
         to="/learn"
@@ -104,19 +109,37 @@ export const withItemNumberIndicator = (
 //   );
 // };
 
+
 const Header = ({ ...restProps }: Props) => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [menu, setMenu] = useState("flex")
+  const screenWidth=()=>{
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+  }
+ useEffect(() => {
+   screenWidth()
+ }, []) 
+  window.onresize = resize;
+  function resize() {
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+    if(window.innerWidth>768){
+      setMenu("flex")
+    }
+  }
+
   return (
-    <div className={`headerContainer ${showMobileMenu ? "show-menu" : ""}`}>
-      <HeaderLogo />
-      <span
-        className="mobile-menu"
-        onClick={() => setShowMobileMenu((s) => !s)}
-      ></span>
-      <div className="nav-links-container">
-        <HeaderNavigator currentUri={restProps.uri} />
-        <HeaderAccount />
-      </div>
+    <div className={`headerContainer`}>
+      <HeaderLogo setMenu={setMenu} menu={menu} />
+      <HeaderNavigator currentUri={restProps.uri} menu={menu} />
+      <HeaderAccount menu={menu} />
+      {/* <a className="test" onClick={()=>setMenu(true)}><i className="fas fa-bars"  aria-hidden="true"></i></a>
+      {menu?
+      <HeaderNavigator currentUri={restProps.uri} />
+      
+      :""} */}
     </div>
   );
 };
