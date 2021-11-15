@@ -140,6 +140,25 @@ h5 {
   opacity: 1;
 }
 
+@media screen and (max-width: 768px) {
+  .newGame {
+    padding: 10px !important;
+    width: 520px !important;
+  }
+  .row {
+    justify-content: center !important;
+  }
+}
+@media screen and (max-width: 550px) {
+  .newGame {
+    padding: 10px !important;
+    width: 300px !important;
+  }
+  .row {
+    flex-direction: column !important;
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .newGame {
     width: auto;
