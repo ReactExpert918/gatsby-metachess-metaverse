@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../Modal";
-import CloseIcon from "../../assets/images/close-icon-white.png";
+import CloseIcon from "../../assets/images/close-icon-white2.png";
 import FriendRequests from "./FriendRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { IAppState } from "../../store/reducers";
