@@ -36,13 +36,7 @@
     justify-content: center;
     align-items: center;
     button {
-      background: linear-gradient(
-        180deg,
-        #dd962b 19.44%,
-        #e39c2d 23.36%,
-        #7e300f 49.18%,
-        #dea85e 79.17%
-      );
+      background: linear-gradient(180deg, #dd962b 19.44%, #e39c2d 23.36%, #7e300f 49.18%, #dea85e 79.17%);
       cursor: pointer;
       border-radius: 10px;
       padding: 10px 57px;
@@ -104,16 +98,42 @@
       font-size: 60px;
       line-height: 45px;
       text-transform: uppercase;
-      background-image: linear-gradient(
-        #dd962b 0%,
-        #e39c2d 6.56%,
-        #7e300f 49.79%,
-        #dea85e 100%
-      );
+      background-image: linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .title-heading {
+    font-size: 25px !important;
+  }
+  .gamebuttons button {
+    margin: 10px !important;
+  }
+  .usersListTableItemWrapper {
+    flex-direction: column !important;
+  }
+  .usersListTableHeaderWrapper p {
+    margin: 10px !important ;
+  }
+  .colored {
+    margin-bottom: 10px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .title-heading {
+    font-size: 35px !important;
+  }
+  .gamebuttons button {
+    margin: 10px !important;
+  }
+}
+@media screen and (max-width: 656px) {
+  .colored {
+    margin-bottom: 10px !important;
   }
 }
 
