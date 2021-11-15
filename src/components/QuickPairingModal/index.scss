@@ -68,12 +68,15 @@
 @media screen and (max-width: 550px) {
   .quick-pairing-modal {
     padding: 40px 15px 10px;
-    .row .box {
-      height: 80px;
-      p {
-        font-size: 12px;
-        &:first-child {
-          margin-bottom: 10px;
+    .row {
+      flex-direction: row !important;
+      .box {
+        height: 80px;
+        p {
+          font-size: 12px;
+          &:first-child {
+            margin-bottom: 10px;
+          }
         }
       }
     }
