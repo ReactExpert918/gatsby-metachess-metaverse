@@ -180,7 +180,7 @@
       margin-top: 20px;
       margin-bottom: 25px;
       .title-heading {
-        font-size: 30px;
+        font-size: 30px !important;
         line-height: 21px;
       }
     }
@@ -189,7 +189,7 @@
       flex-direction: column;
       padding: 0 10px;
       button {
-        margin: 20px 0 0;
+        margin: 10px !important;
         padding: 10px 0 !important;
         font-size: 18px;
         width: 100%;
