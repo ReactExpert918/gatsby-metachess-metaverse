@@ -15,10 +15,11 @@ const FriendList = (): JSX.Element => {
   useEffect(() => {
     dispatch(chatActions.fetchFriendsList());
   }, []);
+
   return (
     <>
       <div className="addFriend" onClick={showAddFriend}>
-        <em>+</em> Add Friend
+        + Add Friend
       </div>
       {friendsList && friendsList.length ? (
         friendsList.map((friend: IFriend) => (
