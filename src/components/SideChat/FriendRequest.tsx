@@ -1,7 +1,7 @@
 import React from "react";
 import SmallLogo from "../../assets/images/Subtracao_22.svg";
-import ConfirmCircleIcon from "../../assets/images/confirm-circle.png";
-import CancelCircleIcon from "../../assets/images/cancel-circle.png";
+import ConfirmCircleIcon from "../../assets/images/confirm-circle-green.png";
+import CancelCircleIcon from "../../assets/images/cancel-circle-red.png";
 import { IUser } from "../../store/user/user.interfaces";
 
 interface Props {

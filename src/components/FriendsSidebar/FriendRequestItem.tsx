@@ -1,7 +1,7 @@
 import React from "react";
 import PieceIcon from "../../assets/images/Subtracao_23.svg";
-import ConfirmIcon from "../../assets/images/confirm-circle.png";
-import CancelIcon from "../../assets/images/cancel-circle.png";
+import ConfirmIcon from "../../assets/images/confirm-circle-green.png";
+import CancelIcon from "../../assets/images/cancel-circle-red.png";
 import { useDispatch } from "react-redux";
 import { chatActions } from "../../store/chat/chat.actions";
 import { IFriend } from "../../store/chat/chat.interfaces";

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NewGameModal from "../NewGameModal";
 import UsersListTable from "../UsersListTable";
 import SocketService from "../../services/socket.service";
+import QuickPairingModal from "../QuickPairingModal";
 
 interface IProps {
   goBack: () => void;
@@ -11,6 +12,7 @@ interface IProps {
 const PlayWithHumanSection = (props: IProps) => {
   const [joinRoom, setJoinRoom] = useState("");
   const [modalCustomGame, setModalCustomGame] = useState(false);
+  const [modalQuickPairing, setModalQuickPairing] = useState(false);
 
   return (
     <>
@@ -29,7 +31,9 @@ const PlayWithHumanSection = (props: IProps) => {
           <button onClick={() => setModalCustomGame(true)}>
             Create custom game
           </button>
-          <button className="p-lg">Quick pairing</button>
+          <button className="p-lg" onClick={() => setModalQuickPairing(true)}>
+            Quick pairing
+          </button>
         </div>
         <div className="menubuttons">
           <button className="colored">lobby</button>
@@ -39,6 +43,9 @@ const PlayWithHumanSection = (props: IProps) => {
       </div>
       {modalCustomGame && (
         <NewGameModal closeModal={() => setModalCustomGame(false)} />
+      )}
+      {modalQuickPairing && (
+        <QuickPairingModal closeModal={() => setModalQuickPairing(false)} />
       )}
     </>
   );
