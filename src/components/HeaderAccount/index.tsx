@@ -20,6 +20,7 @@ const HeaderAccount = (props: ISelectProps) => {
   const openSideChatPanel = () => {
     dispatch(chatActions.toggleSideChat());
   };
+
   return (
     <div className="headerNavigatorContainer flex-end">
       {props.currentUser && props.currentUser.Username ? (
