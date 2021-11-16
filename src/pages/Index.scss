@@ -48,6 +48,25 @@
   .borderedGameButton{
     margin-bottom: 100px;
     margin-right: 0 !important;
+    width: 300px !important;
+    height: 310px !important;
+    
+  }
+  .game-2d-icon{
+    left: 60px !important;
+  }
+  .game-2d-icon svg{
+    width: 180px !important ;
+  }
+  .game-3d-icon{
+    left: 20px !important;
+  }
+  .game-3d-icon svg {
+    width: 270px !important;
+  }
+  .game-3df-icon svg{
+    width: 270px !important;
+
   }
   
 }
