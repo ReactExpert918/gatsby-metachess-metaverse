@@ -45,14 +45,35 @@
 .squareButtonChildrenWrapper {
   display: flex;
   flex: 1;
-  .pawn svg,
-  .horse svg,
-  .bishop svg,
-  .rook svg,
-  .king svg {
+  .pawn {
+    position: relative;
+    height: 150px;
+    width: auto;
+    &::before {
+      position: absolute;
+      content: "";
+      background-image: url("assets/images/PawnPiece.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      height: 220px;
+      width: 124px;
+      top: -65px;
+      left: calc(50% - 56px);
+    }
+  }
+  .horse,
+  .bishop,
+  .rook,
+  .king,
+  .user {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
     height: 150px;
   }
-  .user svg {
+  .user {
+    background-image: url("assets/images/UserIcon.png");
     width: 115px;
   }
 }
@@ -66,10 +87,8 @@
     .user {
       position: absolute;
       bottom: 10px;
-      svg {
-        width: 85px;
-        height: 93px;
-      }
+      width: 85px;
+      height: 93px;
       &.user-1 {
         left: 30px;
       }
@@ -78,10 +97,11 @@
       }
     }
     .pawn {
-      justify-content: center;
-      margin-top: 20px;
-      svg {
-        height: 95px;
+      &::before {
+        height: 160px;
+        width: 70px;
+        top: -25px;
+        left: calc(50% - 31px);
       }
     }
     .tLine-1 {
