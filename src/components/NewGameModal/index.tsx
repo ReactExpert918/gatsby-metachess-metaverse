@@ -39,8 +39,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
   const [checked, setChecked] = useState(false);
   const [minAmountChessCoin, setMinAmountChessCoin] = useState(0.0);
   const [maxAmountChessCoin, setMaxAmountChessCoin] = useState(0.0);
-  const [minRatingRange, setMinRatingRange] = useState(1000);
-  const [maxRatingRange, setMaxRatingRange] = useState(1500);
+  const [rating, setRating] = useState(5);
   const [time, setTime] = useState(3);
   const [increment, setIncrement] = useState(0);
   const [gameMode, setGameMode] = useState(GameMode.Casual);
@@ -68,10 +67,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
     const gameRules: GameRules = {
       chessCoin,
       hostSide,
-      rating: {
-        minium: minRatingRange,
-        maxium: maxRatingRange,
-      },
+      rating: rating,
       mode: gameMode,
       time: {
         base: time,
