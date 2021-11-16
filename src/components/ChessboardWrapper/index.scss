@@ -25,10 +25,10 @@
   display: flex;
   flex: 1;
   position: relative;
-  margin-top: 93px;
+  margin-top: 83px;
   margin-left: calc(100vw * (33 / 1920));
   margin-right: calc(100vw * (59 / 1920));
-  width: calc(100vw * (369 / 1920));
+  width: calc(100vw * (468 / 1920));
   @media (max-width: 768px) {
     width: 100vw;
   }
@@ -48,7 +48,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   max-height: 73px !important;
   min-height: 73px !important;
 
