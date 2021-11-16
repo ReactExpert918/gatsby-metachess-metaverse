@@ -5,7 +5,7 @@ import store from "../../store";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { MAIN_WEBSITE } from "../../config";
-import BrainiacChessLogo from "../../lib/svgIcons/BrainiacChessLogo";
+import BrainiacChessLogo from "../../assets/images/BrainiacChessLogo.png";
 interface Props {
   transparent?: boolean;
   uri: string;
@@ -46,7 +46,7 @@ export const HeaderLogo = ({ setMenu, menu }) => {
     <div className="headerNavigatorContainer headerNavigatorMobile">
       <div>
         <Link className="mainLogo" to={MAIN_WEBSITE}>
-          <BrainiacChessLogo className="headerNavigatorLogo" />
+          <img src={BrainiacChessLogo} className="headerNavigatorLogo" />
         </Link>
       </div>
       <div className="toggleBtn" onClick={() => menu === 'flex' ? setMenu('none') : setMenu('flex')}>

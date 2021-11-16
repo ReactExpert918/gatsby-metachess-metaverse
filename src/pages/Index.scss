@@ -9,29 +9,23 @@
     .game-2d-icon {
       position: absolute;
       top: -100px;
-      left: 15px;
+      left: 58px;
       display: flex;
-      svg {
-        height: 200px;
-      }
+      height: 200px;
     }
     .game-3d-icon {
       position: absolute;
       top: -93px;
       left: -20px;
-      svg {
-        width: 350px;
-        height: 197px;
-      }
+      width: 350px;
+      height: 197px;
     }
     .game-3df-icon {
       position: absolute;
       top: -105px;
       left: 15px;
-      svg {
-        width: 325px;
-        height: 200px;
-      }
+      width: 325px;
+      height: 200px;
     }
   }
 }

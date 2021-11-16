@@ -49,7 +49,7 @@ const UserListTableItem = ({ item, onPress, currentUser }: Props) => {
       <p>{`${getGameTypeName(item.gameRules.time.base)} - ${item.gameRules.mode === GameMode.Casual ? "Casual" : "Rated"}`}</p>
     </td>
     <td className="elo">
-      <p>{`${item.gameRules.rating.minium}-${item.gameRules.rating.maxium}`}</p>
+      <p>{item.gameRules.rating}</p>
     </td>
     <td>
       <p>{`${item.gameRules.time.base}+${item.gameRules.time.increment}`}</p>

@@ -38,7 +38,6 @@
         & > div {
           width: 61px;
           cursor: pointer;
-          border: 2px solid #cca66a;
         }
         &.dropdownItem {
           position: relative;
@@ -81,7 +80,6 @@
           > div {
             border-radius: 8px;
             margin-right: 20px;
-            border: 2px solid #cca66a;
             width: 58px;
             height: 58px;
             display: flex;
@@ -94,6 +92,7 @@
           .side {
           }
           .sideClicked {
+            border: 2px solid #cca66a;
           }
         }
         .inBetween {
@@ -143,7 +142,6 @@ h5 {
 @media screen and (max-width: 768px) {
   .newGame {
     padding: 10px !important;
-    width: 520px !important;
   }
   .row {
     justify-content: center !important;
@@ -152,7 +150,6 @@ h5 {
 @media screen and (max-width: 550px) {
   .newGame {
     padding: 10px !important;
-    width: 300px !important;
   }
   .row {
     flex-direction: column !important;
@@ -161,7 +158,11 @@ h5 {
 
 @media screen and (max-width: 1000px) {
   .newGame {
-    width: auto !important;
+    width: auto;
+    padding: 20px;
+    .row .item {
+      padding-top: 30px;
+    }
   }
 }
 
