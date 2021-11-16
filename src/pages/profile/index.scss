@@ -11,6 +11,15 @@
     max-height: calc(100vh - 80px);
     overflow: auto;
     padding: 0 20px;
+    position: relative;
+    .close-icon {
+      position: absolute;
+      cursor: pointer;
+      top: 40px;
+      right: 60px;
+      z-index: 1;
+      height: 30px;
+    }
     .profileSummaryWrapper {
       display: flex;
       flex-direction: row;
@@ -24,7 +33,6 @@
       color: #0f1f38;
       font-size: 1.1rem;
     }
-
   }
   .sectionTitle {
     font-family: var(--bs-font-sans-serif);
