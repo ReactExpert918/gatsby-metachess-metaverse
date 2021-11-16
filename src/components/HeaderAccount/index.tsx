@@ -41,11 +41,9 @@ const HeaderAccount = (props: ISelectProps) => {
         </>
       ) : (
         <>
-          <div className="headerNavigatorContainer flex-end">
-            <SearchIcon className="nav-icon mr-50" />
-            <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
-            <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
-          </div>
+          <SearchIcon className="nav-icon mr-50" />
+          <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
+          <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
         </>
       )}
     </div>

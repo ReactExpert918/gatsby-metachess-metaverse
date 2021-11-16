@@ -264,6 +264,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     return this.props.playerColor === this.game?.turn();
   };
+  allowDrag = (obj: { piece: Piece; sourceSquare: Square }) =>
+    this.props.playerColor === obj.piece[0];
 
   onSquareClick = (square: Square) => {
     if (!this.playerCanPlay()) {
@@ -554,7 +556,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
               display: "flex",
               flex: 1,
               flexDirection: "column",
-              justifyContent: "center",
+              justifyContent: "start",
             }}
           >
             {!isSSR && (
@@ -566,7 +568,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     position={this.game?.fen()}
                     onDrop={this.onDrop}
                     draggable={this.playerCanPlay()}
-                    allowDrag={this.playerCanPlay}
+                    allowDrag={this.allowDrag}
                     orientation={playerColor === "b" ? "black" : "white"}
                     squareStyles={combinedSquareStyles}
                     onDragOverSquare={this.onDragOverSquare}
