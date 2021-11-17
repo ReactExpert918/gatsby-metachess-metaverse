@@ -69,5 +69,16 @@
   .moveHistoryContainer{
     width: 94vw !important;
     flex: none;
+    order: 2;
+  }
+  .chessboardContainer {
+    order: 1;
+  }
+  .chessboardSidebarWrapper {
+    order: 3;
+    width: auto;
+  }
+  .gameWrapper {
+    justify-content: center;
   }
 }
