@@ -5,7 +5,7 @@ import { AI_PLAY_MODE } from "../constants/playModes";
 type MovePieceType = (param: IPieceMove, isAI: boolean) => void;
 
 class _Stockfish {
-  private stockfish: any
+  private stockfish: any;
   private game: ChessInstance;
   private movePiece: MovePieceType;
 
@@ -52,13 +52,13 @@ class _Stockfish {
   changeReferences = (game: ChessInstance, movePiece: MovePieceType) => {
     this.game = game;
     this.movePiece = movePiece;
-  }
+  };
 
   init = (
     skillLevel: number,
     maximumError: number,
     probability: number,
-    playerColor: 'b' | 'w',
+    playerColor: "b" | "w",
     game: ChessInstance,
     movePiece: MovePieceType,
     aiDifficulty: AI_PLAY_MODE
@@ -77,10 +77,15 @@ class _Stockfish {
         const x = event.data.split("bestmove ")[1].substring(0, 4);
         const sourceSquare = x.substring(0, 2);
         const targetSquare = x.substring(2, 4);
-        this.movePiece({
-          sourceSquare,
-          targetSquare,
-        }, true);
+        setTimeout(() => {
+          this.movePiece(
+            {
+              sourceSquare,
+              targetSquare,
+            },
+            true
+          );
+        }, 200);
       }
     };
 
@@ -97,13 +102,13 @@ class _Stockfish {
     this.stockfish.postMessage(
       `setoption name Skill Level Probability value ${this.aiProbability}`
     );
-  }
+  };
 
   handleAIPlay = () => {
     this.stockfish.postMessage("position fen " + this.game.fen());
     this.stockfish.postMessage(`go depth ${this.aiDepth}`);
-  }
-};
+  };
+}
 
 const Stockfish = new _Stockfish();
 
