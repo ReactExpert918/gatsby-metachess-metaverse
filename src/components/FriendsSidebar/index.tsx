@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "../Modal";
 import CloseIcon from "../../assets/images/close-icon-white2.png";
 import FriendRequests from "./FriendRequests";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,11 +7,14 @@ import { chatActions } from "../../store/chat/chat.actions";
 import FriendList from "./FriendList";
 import AddFriend from "./AddFriend";
 
+const MAX_NUM_FRIENDS = 200;
+
 const FriendsSidebar = (): JSX.Element => {
   const dispatch = useDispatch();
   const { chatOpened, addFriendSearch } = useSelector(
     (state: IAppState) => state.chat
   );
+  const { friendsList } = useSelector((state: IAppState) => state.chat);
 
   if (!chatOpened) return <></>;
   return (
@@ -20,7 +22,12 @@ const FriendsSidebar = (): JSX.Element => {
       <div className="friendsSidebarWrapper">
         <div className="friendsSidebarContainer">
           <div className="friendsHeader">
-            <span>Friends</span>
+            <div>
+              <span>Friends</span>
+              <span style={{marginLeft: '16px'}}>
+                {friendsList.length}/{MAX_NUM_FRIENDS}
+              </span>
+            </div>
             <img
               src={CloseIcon}
               onClick={() => dispatch(chatActions.toggleSideChat())}
