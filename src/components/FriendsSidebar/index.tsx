@@ -72,4 +72,5 @@ const FriendsSidebar = (): JSX.Element => {
     </>
   );
 };
+
 export default FriendsSidebar;
