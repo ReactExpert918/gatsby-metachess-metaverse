@@ -46,10 +46,8 @@ const INITIAL_STATE: IChatReducer = {
       ],
     },
   ],
-  chatList: [
-  ],
-  friendsList: [
-  ],
+  chatList: [],
+  friendsList: [],
 };
 
 export default (
