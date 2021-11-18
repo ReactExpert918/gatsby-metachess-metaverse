@@ -22,8 +22,8 @@ const PlayWithAISection = (props: IProps) => {
       <div className={"squaredWrapper"}>
         <SquaredButton
           className={"noMargin"}
-          onClick={() => props.setPlayMode(AI_PLAY_MODE.BEGGINER)}
-          title="BEGGINER"
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.BEGINNER)}
+          title="BEGINNER"
         >
           <div className="bottomAlign">
             <span className="d-flex pawn"></span>
