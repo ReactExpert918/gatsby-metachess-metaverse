@@ -68,11 +68,11 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
           <p className="gameInfoTitle">{"Game Info"}</p>
           {playMode.isAI ? (
             <>
-              <p>
+              <p className="gameDetail">
                 Opponent:{" "}
                 {getOpponentName(playMode.isAI, playMode.aiMode, opponent)}
               </p>
-              <p>Opponent color: {playerColor === "w" ? "Black" : "White"}</p>
+              <p className="gameDetail">Opponent color: {playerColor === "w" ? "Black" : "White"}</p>
             </>
           ) : (
             <div className="block-container">
