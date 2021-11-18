@@ -89,8 +89,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
   stalemateSound: boolean = false;
   sourceDrag: Square = null;
 
-  
-
   componentDidMount() {
     const { skillLevel, maximumError, probability, playerColor } = this.props;
     this.game = new (Chess as any)();
@@ -140,7 +138,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
   componentWillUnmount() {
     this.removeEventListenersOnSquares();
   }
-  
+
   listenersToRemove: any[] = [];
 
   addEventListenersOnSquares = () => {
@@ -266,6 +264,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     return this.props.playerColor === this.game?.turn();
   };
+  allowDrag = (obj: { piece: Piece; sourceSquare: Square }) =>
+    this.props.playerColor === obj.piece[0];
 
   onSquareClick = (square: Square) => {
     if (!this.playerCanPlay()) {
@@ -556,7 +556,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
               display: "flex",
               flex: 1,
               flexDirection: "column",
-              justifyContent: "center",
+              justifyContent: "start",
             }}
           >
             {!isSSR && (
@@ -568,16 +568,16 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     position={this.game?.fen()}
                     onDrop={this.onDrop}
                     draggable={this.playerCanPlay()}
-                    allowDrag={this.playerCanPlay}
+                    allowDrag={this.allowDrag}
                     orientation={playerColor === "b" ? "black" : "white"}
                     squareStyles={combinedSquareStyles}
                     onDragOverSquare={this.onDragOverSquare}
                     // onSquareClick={this.onSquareClick}
                     darkSquareStyle={{
-                      background: "#657B9B 0% 0% no-repeat padding-box",
+                      background: "#674428 0% 0% no-repeat padding-box",
                     }}
                     lightSquareStyle={{
-                      background: "#EFEFEF 0% 0% no-repeat padding-box",
+                      background: "#CCA66A 0% 0% no-repeat padding-box",
                     }}
                     pieces={{
                       wP: (pieceProps) => (
