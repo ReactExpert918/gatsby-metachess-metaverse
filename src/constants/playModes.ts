@@ -5,7 +5,7 @@ export enum MODES {
 }
 
 export enum AI_PLAY_MODE {
-  BEGGINER,
+  BEGINNER,
   AMATEUR,
   INTERMEDIATE,
   PROFESSIONAL,
