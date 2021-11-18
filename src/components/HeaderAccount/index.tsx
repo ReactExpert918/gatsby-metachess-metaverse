@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "gatsby";
-import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import { IAppState } from "../../store/reducers";
 import { connect, useDispatch } from "react-redux";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { chatActions } from "../../store/chat/chat.actions";
+import { HeaderNavigatorItem } from "../Header";
 import SearchIcon from "../../lib/svgIcons/SearchIcon";
 import ChatIcon from "../../lib/svgIcons/ChatIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
-import { HeaderNavigatorItem } from "../Header";
+import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 
 interface ISelectProps {
   currentUser: IUser;
