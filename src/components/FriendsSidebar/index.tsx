@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import CloseIcon from "../../assets/images/close-icon-white2.png";
+import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import FriendRequests from "./FriendRequests";
 import { useDispatch, useSelector } from "react-redux";
 import { IAppState } from "../../store/reducers";
 import { chatActions } from "../../store/chat/chat.actions";
+import SocketService from "../../services/socket.service";
 import FriendList from "./FriendList";
 import AddFriend from "./AddFriend";
+import { IFriend } from "../../store/chat/chat.interfaces";
+
+import CloseIcon from "../../assets/images/close-icon-white2.png";
 
 const MAX_NUM_FRIENDS = 200;
 
@@ -14,9 +18,28 @@ const FriendsSidebar = (): JSX.Element => {
   const { chatOpened, addFriendSearch } = useSelector(
     (state: IAppState) => state.chat
   );
-  const { friendsList } = useSelector((state: IAppState) => state.chat);
+  const { friendsList, friendRequests } = useSelector(
+    (state: IAppState) => state.chat
+  );
+
+  useEffect(() => {
+    SocketService.subscribeTo({
+      eventName: "friend-request",
+      callback: (friend: IFriend) => {
+        toast.success(`${friend.Account.Username} sent a friend request.`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: false,
+        });
+        dispatch(
+          chatActions.setFriendsRequestsList([friend, ...friendRequests])
+        );
+      },
+    });
+  }, []);
 
   if (!chatOpened) return <></>;
+
   return (
     <>
       <div className="friendsSidebarWrapper">
@@ -24,7 +47,7 @@ const FriendsSidebar = (): JSX.Element => {
           <div className="friendsHeader">
             <div>
               <span>Friends</span>
-              <span style={{marginLeft: '16px'}}>
+              <span style={{ marginLeft: "16px" }}>
                 {friendsList.length}/{MAX_NUM_FRIENDS}
               </span>
             </div>
