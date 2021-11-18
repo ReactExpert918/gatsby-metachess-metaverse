@@ -6,8 +6,8 @@ export const getOpponentName = (isAI: boolean, playMode: AI_PLAY_MODE, opponent:
     switch (playMode) {
       case AI_PLAY_MODE.AMATEUR:
         return `AMATEUR AI`;
-      case AI_PLAY_MODE.BEGGINER:
-        return `BEGGINER AI`;
+      case AI_PLAY_MODE.BEGINNER:
+        return `BEGINNER AI`;
       case AI_PLAY_MODE.INTERMEDIATE:
         return `INTERMEDIATE AI`;
       case AI_PLAY_MODE.PROFESSIONAL:

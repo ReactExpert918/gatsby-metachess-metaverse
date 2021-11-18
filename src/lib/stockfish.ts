@@ -16,7 +16,7 @@ class _Stockfish {
 
   private set aiSettings(aiDifficulty: AI_PLAY_MODE) {
     switch (aiDifficulty) {
-      case AI_PLAY_MODE.BEGGINER:
+      case AI_PLAY_MODE.BEGINNER:
         this.aiDepth = 1;
         this.aiSkillLevel = 0;
         this.aiMaximumErrorLevel = 600;
