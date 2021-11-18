@@ -36,7 +36,14 @@ const FriendsSidebar = (): JSX.Element => {
         );
       },
     });
-  }, []);
+
+    SocketService.subscribeTo({
+      eventName: "friend-added",
+      callback: (friend: IFriend) => {
+        dispatch(chatActions.setFriendsList([friend, ...friendsList]));
+      },
+    });
+  }, [friendsList, friendRequests]);
 
   if (!chatOpened) return <></>;
 

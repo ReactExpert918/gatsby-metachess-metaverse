@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
 import { ACTION_TYPE, chatActions } from "./chat.actions";
@@ -75,7 +75,10 @@ function* onAcceptFriendRequest(action: any) {
         action.payload
       )
     );
-    yield put(chatActions.fetchFriendsRequestsList());
+    yield all([
+      chatActions.fetchFriendsList(),
+      chatActions.fetchFriendsRequestsList(),
+    ]);
     toast.success("Friend request accepted successfully!");
   } catch (e: any) {
     let errorText = "";
