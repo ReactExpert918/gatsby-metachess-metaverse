@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import orderBy from "lodash/orderBy";
 import SocketService from "../../services/socket.service";
 import { chatActions } from "../../store/chat/chat.actions";
 import { IFriend } from "../../store/chat/chat.interfaces";
@@ -19,15 +20,15 @@ const FriendList = (): JSX.Element => {
     dispatch(chatActions.toggleAddFriendSearch(true));
   };
 
+  useEffect(() => {
+    dispatch(chatActions.fetchFriendsList());
+  }, []);
+
   const updateFriendStatus = (friend: ISocketFriend) => {
     const friendIndex = friendsList.findIndex((f) => f.Id === friend.Id);
     friendsList[friendIndex].Account.IsOnline = friend.Online;
     dispatch(chatActions.setFriendsList(friendsList));
   };
-
-  useEffect(() => {
-    dispatch(chatActions.fetchFriendsList());
-  }, []);
 
   useEffect(() => {
     if (friendsList.length === 0) {
@@ -42,13 +43,19 @@ const FriendList = (): JSX.Element => {
     });
   }, [friendsList]);
 
+  const orderedFriendsList = orderBy(
+    friendsList,
+    ["Account.IsOnline", "Account.Username"],
+    ["desc", "asc"]
+  );
+
   return (
     <>
       <div className="addFriend" onClick={showAddFriend}>
         + Add Friend
       </div>
-      {friendsList && friendsList.length ? (
-        friendsList.map((friend: IFriend) => (
+      {orderedFriendsList && orderedFriendsList.length ? (
+        orderedFriendsList.map((friend: IFriend) => (
           <FriendListItem friend={friend} key={friend.Id} />
         ))
       ) : (
