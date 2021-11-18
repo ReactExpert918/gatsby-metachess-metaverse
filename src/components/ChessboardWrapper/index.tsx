@@ -354,7 +354,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
         ? this.game.history()[1]
         : this.game.history()[0];
     if (isAI) {
-      this.props.handleMove(newFen, this.game.turn(), moveHistory, true);
+      this.props.handleMove(newFen, this.game.turn(), moveHistory);
     } else {
       this.removeHighlightSquare(sourceSquare);
       this.props.handleMove(newFen, this.game.turn(), moveHistory);
