@@ -10,6 +10,7 @@ const AddFriendSearchInput = ({ value, onChange }: IProps): JSX.Element => {
       <input
         type="text"
         placeholder="Search friend here..."
+        autoFocus
         value={value}
         onChange={onChange}
       />
