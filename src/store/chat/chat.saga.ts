@@ -115,7 +115,6 @@ function* onRemoveFriend(action: any) {
       API.execute("POST", ENDPOINTS.REMOVE_FRIEND, null, null, action.payload)
     );
     yield put(chatActions.fetchFriendsList());
-    toast.success("Friend removed successfully!");
   } catch (e: any) {
     toast.error("Something went wrong, please try again!");
   }
