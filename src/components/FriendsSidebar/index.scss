@@ -38,6 +38,7 @@
       }
     }
     .friendsList {
+      position: relative;
       background: #0c1221;
       flex: 0 1 100%;
       overflow-y: auto;
@@ -184,6 +185,9 @@
 }
 
 .friendRequestsContainer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   .friendRequestHeader {
     letter-spacing: 1.14px;
     color: #e8e8e8;

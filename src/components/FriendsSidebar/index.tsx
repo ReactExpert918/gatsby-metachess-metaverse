@@ -64,9 +64,15 @@ const FriendsSidebar = (): JSX.Element => {
             />
           </div>
           <div className="friendsList">
-            {addFriendSearch ? <AddFriend /> : <FriendList />}
+            {addFriendSearch ? (
+              <AddFriend />
+            ) : (
+              <>
+                <FriendList />
+                <FriendRequests />
+              </>
+            )}
           </div>
-          {!addFriendSearch && <FriendRequests />}
         </div>
       </div>
     </>
