@@ -63,9 +63,7 @@ export default (
         addFriendSearch: state.chatOpened ? false : state.addFriendSearch,
       },
       [ACTION_TYPE.TOGGLE_ADD_FRIEND_SEARCH]: {
-        addFriendSearch: !!action.payload
-          ? action.payload
-          : !state.addFriendSearch,
+        addFriendSearch: action.payload,
       },
       [ACTION_TYPE.SET_FRIENDS_LIST]: {
         friendsList: action.payload,
