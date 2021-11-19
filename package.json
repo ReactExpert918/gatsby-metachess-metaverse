@@ -19,7 +19,7 @@
     "@types/moment": "^2.13.0",
     "@types/recompose": "^0.30.7",
     "chess.js": "^0.11.0",
-    "chessboardjsx": "^2.4.4",
+    "chessboardjsx": "^2.4.2",
     "gatsby": "2.13.28",
     "gatsby-plugin-react-helmet": "3.3.10",
     "gatsby-plugin-sass": "2.1.3",
