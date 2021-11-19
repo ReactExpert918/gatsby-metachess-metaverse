@@ -31,9 +31,7 @@ const FriendsSidebar = (): JSX.Element => {
           autoClose: 10000,
           closeOnClick: false,
         });
-        dispatch(
-          chatActions.setFriendsRequestsList([friend, ...friendRequests])
-        );
+        dispatch(chatActions.addFriendRequest(friend));
       },
     });
 
@@ -43,7 +41,7 @@ const FriendsSidebar = (): JSX.Element => {
         dispatch(chatActions.setFriendsList([friend, ...friendsList]));
       },
     });
-  }, [friendsList, friendRequests]);
+  }, []);
 
   if (!chatOpened) return <></>;
 

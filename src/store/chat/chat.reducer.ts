@@ -73,6 +73,9 @@ export default (
       [ACTION_TYPE.SET_FRIENDS_REQUESTS]: {
         friendRequests: action.payload,
       },
+      [ACTION_TYPE.ADD_FRIEND_REQUEST]: {
+        friendRequests: [action.payload, ...state.friendRequests],
+      },
     }[action.type],
   };
 };
