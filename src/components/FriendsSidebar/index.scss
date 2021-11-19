@@ -1,11 +1,12 @@
 .friendsSidebarWrapper {
   width: 505px;
-  height: calc(100vh - 80px);
+  height: 100vh;
   position: fixed;
   left: unset;
   right: 0;
-  top: 80px;
+  top: 0;
   align-items: flex-start;
+  z-index: 1000;
   .friendsSidebarContainer {
     display: flex;
     width: inherit;
