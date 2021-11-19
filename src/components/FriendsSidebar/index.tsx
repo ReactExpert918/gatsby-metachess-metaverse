@@ -41,6 +41,10 @@ const FriendsSidebar = (): JSX.Element => {
     });
   }, []);
 
+  const showFriendsList = () => {
+    dispatch(chatActions.toggleAddFriendSearch(false));
+  };
+
   if (!chatOpened) return <></>;
 
   return (
@@ -48,7 +52,7 @@ const FriendsSidebar = (): JSX.Element => {
       <div className="friendsSidebarWrapper">
         <div className="friendsSidebarContainer">
           <div className="friendsHeader">
-            <div>
+            <div style={{ cursor: "pointer" }} onClick={showFriendsList}>
               <span>Friends</span>
               <span style={{ marginLeft: "16px" }}>
                 {friendsList.length}/{MAX_NUM_FRIENDS}
