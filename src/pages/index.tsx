@@ -16,7 +16,7 @@ const ChooseGame = () => {
   }, []);
 
   return (
-    <div className={"choseModeSectionContainer"}>
+    <div className={"choseModeSectionContainer m-auto"}>
       <div className={"headerWrapper"}>
         <p className="header-heading">GAME</p>
       </div>
