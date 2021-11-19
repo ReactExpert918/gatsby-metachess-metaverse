@@ -18,9 +18,7 @@ const FriendsSidebar = (): JSX.Element => {
   const { chatOpened, addFriendSearch } = useSelector(
     (state: IAppState) => state.chat
   );
-  const { friendsList, friendRequests } = useSelector(
-    (state: IAppState) => state.chat
-  );
+  const { friendsList } = useSelector((state: IAppState) => state.chat);
 
   useEffect(() => {
     SocketService.subscribeTo({
@@ -38,7 +36,7 @@ const FriendsSidebar = (): JSX.Element => {
     SocketService.subscribeTo({
       eventName: "friend-added",
       callback: (friend: IFriend) => {
-        dispatch(chatActions.setFriendsList([friend, ...friendsList]));
+        dispatch(chatActions.addFriend(friend));
       },
     });
   }, []);

@@ -70,6 +70,9 @@ export default (
       [ACTION_TYPE.SET_FRIENDS_LIST]: {
         friendsList: action.payload,
       },
+      [ACTION_TYPE.ADD_FRIEND]: {
+        friendsList: [action.payload, ...state.friendsList],
+      },
       [ACTION_TYPE.SET_FRIENDS_REQUESTS]: {
         friendRequests: action.payload,
       },
