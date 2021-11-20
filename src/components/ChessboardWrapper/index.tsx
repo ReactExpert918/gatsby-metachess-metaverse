@@ -568,7 +568,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     position={this.game?.fen()}
                     onDrop={this.onDrop}
                     draggable={this.playerCanPlay()}
-                    allowDrag={this.allowDrag}
+                    allowDrag={this.playerCanPlay}
                     orientation={playerColor === "b" ? "black" : "white"}
                     squareStyles={combinedSquareStyles}
                     onDragOverSquare={this.onDragOverSquare}
