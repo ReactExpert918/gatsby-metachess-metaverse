@@ -3120,10 +3120,10 @@ chess.js@^0.11.0:
   resolved "https://registry.yarnpkg.com/chess.js/-/chess.js-0.11.0.tgz#e1802179b944eab5daf11b5d4bce08cdcadbeffa"
   integrity sha512-yTpi6XbRMkBtnjSvbt6wEp9Y7JzhJl1MC3GNn67q5ClyccXxCRf5cMPSUg4OblrUapg1kLHm7WzxxEVp20NK1Q==
 
-chessboardjsx@^2.4.2:
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/chessboardjsx/-/chessboardjsx-2.4.7.tgz#ae63ecd4b3bd266ce56735d5018b87d770453bf6"
-  integrity sha512-cJN06EWkrRPSQhOFEbw16zL5D9N6jYs29N2gG0IzSDhDpzWyHaTfUcLq/7e0moZ5Pr7m7vbhEyKuw8/lV22YOA==
+chessboardjsx@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/chessboardjsx/-/chessboardjsx-2.4.2.tgz#69b607f67a7bd8c66b86d7e33dfb631cd87f6533"
+  integrity sha512-nVPRmE/peE5e+Pscz0DJVWPli2Q7fg6d8YQfqMfr21oIzOwswX5kUF+Fl1ZthKk6KD5qey0YJ0v+LTLmxCTtRQ==
   dependencies:
     deep-diff "1.0.1"
     lodash.isequal "4.5.0"
