@@ -21,8 +21,8 @@ export const getGameTypeElo = (gameType: GameType, user: IUser) => {
 
 export const getGameType = (time: number) => {
   if (time <= 2) return GameType.Bullet;
-  else if (time > 2 && time <= 5) return GameType.Rapid;
-  else if (time > 5 && time <= 15) return GameType.Blitz;
+  else if (time > 2 && time <= 5) return GameType.Blitz;
+  else if (time > 5 && time <= 10) return GameType.Rapid;
   else return GameType.Classical;
 }
 
