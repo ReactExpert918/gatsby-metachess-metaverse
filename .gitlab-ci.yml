@@ -1,25 +1,25 @@
 
 stages:
-  - build
+  # - build
   - deploy
 
-build:development:
-  image: node:14.18.1
-  stage: build
-  only:
-    - development
-  script:
-    - yarn install
-    - yarn build
+# build:development:
+#   image: node:14.18.1
+#   stage: build
+#   only:
+#     - development
+#   script:
+#     - yarn install
+#     - yarn build
   
-build:production:
-  image: node:14.18.1
-  stage: build
-  only:
-    - main
-  script:
-    - yarn install
-    - yarn build-production
+# build:production:
+#   image: node:14.18.1
+#   stage: build
+#   only:
+#     - main
+#   script:
+#     - yarn install
+#     - yarn build-production
 
 deploy:development:
   stage: deploy
