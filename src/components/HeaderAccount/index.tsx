@@ -7,7 +7,7 @@ import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { chatActions } from "../../store/chat/chat.actions";
 import { HeaderNavigatorItem } from "../Header";
 import SearchIcon from "../../lib/svgIcons/SearchIcon";
-import ChatIcon from "../../lib/svgIcons/ChatIcon";
+import FriendsIcon from "../../lib/svgIcons/FriendsIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 
@@ -26,7 +26,7 @@ const HeaderAccount = (props: ISelectProps) => {
       {props.currentUser && props.currentUser.Username ? (
         <>
           <SearchIcon className="nav-icon" />
-          <ChatIcon className="nav-icon" onClick={openSideChatPanel} />
+          <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
           <BellIcon className="nav-icon" />
           <Link to={"/profile"} className="headerAccountContainer">
             <span>
