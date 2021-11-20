@@ -45,37 +45,27 @@ const FriendsSidebar = (): JSX.Element => {
     dispatch(chatActions.toggleAddFriendSearch(false));
   };
 
-  if (!chatOpened) return <></>;
-
   return (
-    <>
-      <div className="friendsSidebarWrapper">
-        <div className="friendsSidebarContainer">
-          <div className="friendsHeader">
-            <div style={{ cursor: "pointer" }} onClick={showFriendsList}>
-              <span>Friends</span>
-              <span style={{ marginLeft: "16px" }}>
-                {friendsList.length}/{MAX_NUM_FRIENDS}
-              </span>
-            </div>
-            <img
-              src={CloseIcon}
-              onClick={() => dispatch(chatActions.toggleSideChat())}
-            />
+    <div className={`friendsSidebarWrapper ${chatOpened ? "sidebarOpen" : ""}`}>
+      <div className="friendsSidebarContainer">
+        <div className="friendsHeader">
+          <div style={{ cursor: "pointer" }} onClick={showFriendsList}>
+            <span>Friends</span>
+            <span style={{ marginLeft: "16px" }}>
+              {friendsList.length}/{MAX_NUM_FRIENDS}
+            </span>
           </div>
-          <div className="friendsList">
-            {addFriendSearch ? (
-              <AddFriend />
-            ) : (
-              <>
-                <FriendList />
-                <FriendRequests />
-              </>
-            )}
-          </div>
+          <img
+            src={CloseIcon}
+            onClick={() => dispatch(chatActions.toggleSideChat())}
+          />
         </div>
+        <div className="friendsList">
+          {addFriendSearch ? <AddFriend /> : <FriendList />}
+        </div>
+        {!addFriendSearch && <FriendRequests />}
       </div>
-    </>
+    </div>
   );
 };
 
