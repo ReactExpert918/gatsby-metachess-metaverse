@@ -39,10 +39,10 @@ const CreatedARoom = ({ onCancel, roomCode }: Props) => {
   return (
     <div className="toastContainer topLeft">
       <p className="title">
-        {"Waiting for a player to join your custom game..."}
+        {"Waiting for a player to join your match..."}
       </p>
       <br />
-      <p className="gameCodeTitle">{"CUSTOM GAME CODE:"}</p>
+      <p className="gameCodeTitle">{"MATCH CODE:"}</p>
       <p className="gameCode">{roomCode}</p>
       <br />
       <div>
