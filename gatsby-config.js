@@ -1,6 +1,6 @@
-console.log(process.env.GATSBY_ENV);
+console.log(process.env.NODE_ENV);
 require("dotenv").config({
-  path: `.env.${process.env.GATSBY_ENV}`,
+  path: `.env.development`,
 });
 
 module.exports = {
