@@ -59,6 +59,7 @@ interface IProps {
   isReplay: boolean;
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
+  moveHistoryData: string[];
 }
 
 class ChessboardWrapper extends Component<IProps, IState> {
@@ -314,7 +315,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
       return;
     }
     const { pieceSquare } = this.state;
-
     // see if the move is legal
     const move = this.game.move(
       typeof nextMove === "string"
