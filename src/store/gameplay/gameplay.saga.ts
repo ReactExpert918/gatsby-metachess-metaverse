@@ -43,7 +43,7 @@ function* onGameStart() {
   } = (yield select()) as IAppState;
 
   if (!gameRules) return;
-  
+
   BLACK_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
@@ -54,20 +54,13 @@ function* onGameStart() {
     gameRules.time.increment,
     startGameDate
   );
+
   yield put(
     gameplayActions.setTimer({
       black: BLACK_TIMER.timeLeft,
       white: WHITE_TIMER.timeLeft,
     })
   );
-
-  if (onMove === "b") {
-    BLACK_TIMER.reinit(startGameDate, dispatchTimerChange);
-    WHITE_TIMER.stop(startGameDate, false);
-  } else {
-    WHITE_TIMER.reinit(startGameDate, dispatchTimerChange);
-    BLACK_TIMER.stop(startGameDate, false);
-  }
 }
 
 function* onSetLastTimestamp({ payload }: { payload: number }) {
@@ -113,7 +106,8 @@ function* onClear() {
 }
 
 function* onResumeGame({ payload }: { payload: IGameResume }) {
-  const { gameRules, side, timeLeft, opponentTimeLeft, isYourTurn, gameElos } = payload;
+  const { gameRules, side, timeLeft, opponentTimeLeft, isYourTurn, gameElos } =
+    payload;
 
   BLACK_TIMER = new Timer(
     gameRules.time.base,
@@ -126,39 +120,34 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
     payload.startDate
   );
 
+  const lastTimestamp =
+    payload.history.length > 0
+      ? payload.history[payload.history.length - 1].timestamp
+      : payload.startDate;
 
-
-  const lastTimestamp = payload.history.length > 0 ? payload.history[payload.history.length - 1].timestamp : payload.startDate;
-  
   if (side === PieceSide.White) {
-    
     if (isYourTurn) {
       BLACK_TIMER.stop(lastTimestamp);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
-    }
-    else {
+    } else {
       WHITE_TIMER.stop(lastTimestamp);
       BLACK_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
 
     WHITE_TIMER.timeLeft = timeLeft;
     BLACK_TIMER.timeLeft = opponentTimeLeft;
-  }
-  else {
-
+  } else {
     if (isYourTurn) {
       WHITE_TIMER.stop(lastTimestamp);
       BLACK_TIMER.reinit(lastTimestamp, dispatchTimerChange);
-    }
-    else {
+    } else {
       BLACK_TIMER.stop(lastTimestamp);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
-    
+
     BLACK_TIMER.timeLeft = timeLeft;
     WHITE_TIMER.timeLeft = opponentTimeLeft;
   }
-
 
   yield put(
     gameplayActions.setTimer({
@@ -166,10 +155,8 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       black: BLACK_TIMER.timeLeft,
     })
   );
-  
-  yield put(
-    gameplayActions.setGameElos(gameElos)
-  );
+
+  yield put(gameplayActions.setGameElos(gameElos));
 
   yield put(
     gameplayActions.setPlayerColor(payload.side === PieceSide.Black ? "b" : "w")
@@ -208,17 +195,15 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
     )
   );
 
-  
   // payload.history.forEach((x, index) => {
   //   if (index % 2 === 0) {
-    //     BLACK_TIMER.reinit(x.timestamp, dispatchTimerChange);
-    //     WHITE_TIMER.stop(x.timestamp);
-    //   } else {
-      //     WHITE_TIMER.reinit(x.timestamp, dispatchTimerChange);
-      //     BLACK_TIMER.stop(x.timestamp);
-      //   }
-      // });
-  
+  //     BLACK_TIMER.reinit(x.timestamp, dispatchTimerChange);
+  //     WHITE_TIMER.stop(x.timestamp);
+  //   } else {
+  //     WHITE_TIMER.reinit(x.timestamp, dispatchTimerChange);
+  //     BLACK_TIMER.stop(x.timestamp);
+  //   }
+  // });
 
   // const lastTimeStamp =
   //   payload.history[payload.history.length - 1]?.timestamp ?? payload.startDate;
