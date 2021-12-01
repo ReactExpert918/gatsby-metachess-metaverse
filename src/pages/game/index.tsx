@@ -16,7 +16,7 @@ import {
 import MovesHistory from "../../components/MovesHistory";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
-import { navigate } from "@reach/router";
+import { navigate } from "gatsby";
 import { isSSR } from "../../lib/utils";
 import store from "../../store";
 import RequestDrawModal from "../../components/RequestDrawModal";

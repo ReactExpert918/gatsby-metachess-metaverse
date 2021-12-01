@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  width: calc(100vw * (369 / 1920));
+  width: calc(100vw * (468 / 1920));
   @media (max-width: 768px) {
     width: 100vw;
   }
 
   background: #0c1221;
   box-shadow: 4px 0px 30px #283d61b3, 0px 4px 30px #20314fb3;
-  margin-top: 93px;
+  margin-top: 83px;
   margin-bottom: 83px;
   margin-left: calc(100vw * (59 / 1920));
   margin-right: calc(100vw * (33 / 1920));
@@ -63,5 +63,22 @@
         }
       }
     }
+  }
+}
+@media only screen and (max-width: 430px){
+  .moveHistoryContainer{
+    width: 94vw !important;
+    flex: none;
+    order: 2;
+  }
+  .chessboardContainer {
+    order: 1;
+  }
+  .chessboardSidebarWrapper {
+    order: 3;
+    width: auto;
+  }
+  .gameWrapper {
+    justify-content: center;
   }
 }

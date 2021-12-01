@@ -6,8 +6,8 @@ import ProfileSidebar from "../../components/ProfileSidebar";
 import { IAppState } from "../../store/reducers";
 import { IUser } from "../../store/user/user.interfaces";
 import { connect } from "react-redux";
-
-
+import CloseIcon from "../../assets/images/close-icon.png";
+import { navigate } from "gatsby";
 interface Props {
   currentUser: IUser;
 }
@@ -30,6 +30,7 @@ const Profile = ({currentUser, fetchCurrentUser}: Props & IActionProps) => {
     <div className={"profileWrapper"}>
       <ProfileSidebar currentUser={currentUser} />
       <div className="profileOverall">
+      <img src={CloseIcon} className="close-icon" onClick={()=>navigate('/')} />
         {!currentUser ? 
         <div></div> : currentUser.GuestId ?
         <div className="logged-in-feature">This area is not available for guests.</div> :

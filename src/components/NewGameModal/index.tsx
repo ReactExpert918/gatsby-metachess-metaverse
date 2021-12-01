@@ -18,6 +18,7 @@ import { IUser } from "../../store/user/user.interfaces";
 import subscribeToGameStart from "../../lib/gameStart";
 import { IAppState } from "../../store/reducers";
 import { ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
+import Button from "../Button";
 
 interface IActionProps {
   setGameRules: typeof GameplayActions.setGameRules;
@@ -38,8 +39,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
   const [checked, setChecked] = useState(false);
   const [minAmountChessCoin, setMinAmountChessCoin] = useState(0.0);
   const [maxAmountChessCoin, setMaxAmountChessCoin] = useState(0.0);
-  const [minRatingRange, setMinRatingRange] = useState(1000);
-  const [maxRatingRange, setMaxRatingRange] = useState(1500);
+  const [rating, setRating] = useState(5);
   const [time, setTime] = useState(3);
   const [increment, setIncrement] = useState(0);
   const [gameMode, setGameMode] = useState(GameMode.Casual);
@@ -67,10 +67,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
     const gameRules: GameRules = {
       chessCoin,
       hostSide,
-      rating: {
-        minium: minRatingRange,
-        maxium: maxRatingRange,
-      },
+      rating: rating,
       mode: gameMode,
       time: {
         base: time,
@@ -95,7 +92,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
   };
 
   return (
-    <Modal onClose={props.closeModal}>
+    <Modal onClose={props.closeModal} withBorder>
       <div className={"newGame"}>
         {/* <div className={"headerRow"}>
           <h3>Betting settings</h3>
@@ -110,39 +107,13 @@ const NewGameModal = (props: IProps & ISelectProps) => {
             />
           </div>
         </div> */}
-        {checked && (
-          <div className={"row"}>
-            <div className={"item"}>
-              <h5>Amount Chess Coin (range)</h5>
-
-              <div className={"sideItems inputValue"}>
-                <input
-                  value={minAmountChessCoin}
-                  onChange={(e) =>
-                    setMinAmountChessCoin(Number(e.target.value))
-                  }
-                  type={"number"}
-                />
-                <div className={"inBetween"}>to</div>
-                <input
-                  value={maxAmountChessCoin}
-                  onChange={(e) =>
-                    setMaxAmountChessCoin(Number(e.target.value))
-                  }
-                  type={"number"}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className={"headerRow"}>
-          <h3>Game settings</h3>
+          <h3>Game setup</h3>
         </div>
         <div className={"row"}>
           <div className={"item"}>
-            <h5>Side</h5>
-            <div className={"sideItems"}>
+            <h5>Select sides</h5>
+            <div className={"sideItems sides"}>
               <div
                 className={!side ? "sideClicked" : "side"}
                 onClick={() => {
@@ -172,7 +143,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
           <div className={"item"}>
             <h5>Mode</h5>
 
-            <div className={"sideItems"}>
+            <div className={"sideItems dropdownItem"}>
               <select
                 onChange={(e) => setGameMode(e.target.value as any)}
                 value={gameMode}
@@ -184,25 +155,12 @@ const NewGameModal = (props: IProps & ISelectProps) => {
           </div>
         </div>
         <div className={"row"}>
-          <div className={"item"}>
-            <h5>Rating range</h5>
-            <div className={"sideItems inputValue"}>
-              <input
-                value={minRatingRange}
-                onChange={(e) => setMinRatingRange(Number(e.target.value))}
-                type={"number"}
-              />
-              <div className={"inBetween"}>to</div>
-              <input
-                value={maxRatingRange}
-                onChange={(e) => setMaxRatingRange(Number(e.target.value))}
-                type={"number"}
-              />
-            </div>
+          <div className={"item no-content"}>
           </div>
           <div className={"item"}>
             <div className={"sideItems timeAndIncrementTitle"}>
               <h5>Time</h5>
+              <span className="inBetween"></span>
               <h5>Increment</h5>
             </div>
 
@@ -222,9 +180,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
           </div>
         </div>
         <div className={"createGame"}>
-          <button className={"btn"} onClick={onCreateGame}>
-            Create Game
-          </button>
+          <Button onClick={onCreateGame}>Create Game</Button>
         </div>
       </div>
     </Modal>
