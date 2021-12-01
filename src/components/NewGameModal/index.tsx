@@ -51,7 +51,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
     toastContext.hideToast();
     SocketService.sendData("leave-game", null);
     props.clear();
-  }; 
+  };
   const onCreateGame = () => {
     const chessCoin = checked
       ? {
@@ -75,14 +75,18 @@ const NewGameModal = (props: IProps & ISelectProps) => {
       },
     };
     subscribeToGameStart(toastContext.hideToast);
-    SocketService.sendData("create-custom-game", gameRules, (roomToken: string) => {
-      // TODO: if roomtoken is null, something is wrong with rules
-      console.log("create-custom-game:", roomToken);
-      toastContext.showToast(
-        <CreatedARoom onCancel={onCancel} roomCode={roomToken} />
-      );
-      props.closeModal();
-    });
+    SocketService.sendData(
+      "create-custom-game",
+      gameRules,
+      (roomToken: string) => {
+        // TODO: if roomtoken is null, something is wrong with rules
+        console.log("create-custom-game:", roomToken);
+        toastContext.showToast(
+          <CreatedARoom onCancel={onCancel} roomCode={roomToken} />
+        );
+        props.closeModal();
+      }
+    );
   };
 
   return (
