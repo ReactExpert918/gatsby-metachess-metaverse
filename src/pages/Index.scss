@@ -1,6 +1,6 @@
 .borderedButtonWrapper {
   display: flex;
-  margin-top: 115px;
+  margin-top: 75px;
   .borderedGameButton {
     margin-right: 20px;
     &:last-child {
@@ -8,18 +8,71 @@
     }
     .game-2d-icon {
       position: absolute;
-      top: -140px;
-      left: 45px;
+      top: -100px;
+      left: 58px;
+      display: flex;
+      height: 200px;
     }
     .game-3d-icon {
       position: absolute;
-      top: -105px;
+      top: -93px;
       left: -20px;
+      width: 350px;
+      height: 197px;
     }
     .game-3df-icon {
       position: absolute;
-      top: -127px;
+      top: -105px;
       left: 15px;
+      width: 325px;
+      height: 200px;
     }
   }
+}
+@media only screen and (max-width: 1260px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+  }
+  
+}
+@media only screen and (max-width: 768px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+  }
+  
+}
+@media only screen and (max-width: 430px) {
+  .borderedButtonWrapper{
+    display: block !important;
+  }
+  .borderedGameButton{
+    margin-bottom: 100px;
+    margin-right: 0 !important;
+    width: 300px !important;
+    height: 310px !important;
+    
+  }
+  .game-2d-icon{
+    left: 60px !important;
+  }
+  .game-2d-icon svg{
+    width: 180px !important ;
+  }
+  .game-3d-icon{
+    left: 20px !important;
+  }
+  .game-3d-icon svg {
+    width: 270px !important;
+  }
+  .game-3df-icon svg{
+    width: 270px !important;
+
+  }
+  
 }

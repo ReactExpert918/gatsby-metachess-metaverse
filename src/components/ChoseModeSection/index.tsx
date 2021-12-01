@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
-import PawnPiece from "../Pieces/PawnPiece";
 import { IAppState } from "../../store/reducers";
 import { connect } from "react-redux";
 import MaintenanceModal from "../MaintenanceModal";
@@ -9,7 +8,6 @@ import {
   IServerStatus,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
-import UserIcon from "../../lib/svgIcons/UserIcon";
 interface IProps {
   setMode: (p: MODES) => void;
 }
@@ -38,7 +36,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           title="PLAY WITH AI"
         >
           <div className={"bottomAlign mb-25"}>
-            <PawnPiece />
+            <span className="d-flex pawn"></span>
           </div>
         </SquaredButton>
         <SquaredButton
@@ -54,18 +52,18 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           title="PLAY WITH HUMAN"
         >
           <div className={"bottomAlign multiple mb-25"}>
-            <UserIcon />
+            <span className="d-flex user"></span>
             <span className="squaredButtonTitle mb-35">VS</span>
-            <UserIcon />
+            <span className="d-flex user"></span>
           </div>
         </SquaredButton>
         <SquaredButton title="TOURNAMENT" className="tournamentSquad">
-            <PawnPiece />
-            <span className="tLine-1"></span>
-            <UserIcon className="user-1" />
-            <span className="tLine-2"></span>
-            <UserIcon className="user-2" />
-            <span className="tLine-3"></span>
+          <span className="d-flex pawn"></span>
+          <span className="tLine-1"></span>
+          <span className="d-flex user user-1"></span>
+          <span className="tLine-2"></span>
+          <span className="d-flex user user-2"></span>
+          <span className="tLine-3"></span>
         </SquaredButton>
       </div>
     </div>

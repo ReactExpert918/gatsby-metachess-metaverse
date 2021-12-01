@@ -37,7 +37,7 @@
 @import "./components/UsersListTable/index.scss";
 @import "./components/SideChat/index.scss";
 @import "./components/BottomChat/index.scss";
-@import "./components/NewGameModal/index.scss";
+@import "./components/QuickPairingModal/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 @import "./pages/maintenance/index.scss";
 @import "./components/ActionButtons/index.scss";
@@ -66,7 +66,7 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
-  font-family: var(--bs-font-sans-serif);
+  font-family: Solway;//var(--bs-font-sans-serif);
 }
 html,
 body,
@@ -127,7 +127,7 @@ p {
 .wrapContainer {
   display: flex;
   flex-direction: column;
-  min-height: 1003px;
+  min-height: 100vh;
   position: relative;
   & .wrapPage {
     display: flex;
@@ -209,6 +209,6 @@ button {
   margin: 0;
 }
 
-.m-0-auto {
-  margin: 0 auto;
+.m-auto {
+  margin: auto;
 }

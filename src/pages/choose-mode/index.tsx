@@ -50,7 +50,7 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
 
   return (
     <div
-      className="choseModeContainer m-0-auto"
+      className="choseModeContainer m-auto"
     >
       {choseMode === MODES.CHOSE_MODE && <ChoseModeSection setMode={props.setChoseMode} />}
       {choseMode === MODES.PLAY_AI && (

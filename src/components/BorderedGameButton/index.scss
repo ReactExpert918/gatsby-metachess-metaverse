@@ -1,6 +1,6 @@
 .borderedGameButton {
-  width: 400px;
-  height: 389px;
+  width: 340px;
+  height: 275px;
   border-top: 2px solid #dd962b;
   border-bottom: 2px solid #dea85e;
   background-image: linear-gradient(
@@ -22,8 +22,8 @@
     font-family: Solway;
     font-style: normal;
     font-weight: bold;
-    font-size: 64px;
-    line-height: 67px;
+    font-size: 50px;
+    line-height: 50px;
     text-align: center;
     letter-spacing: 0.01em;
     color: #cca66b;
@@ -32,13 +32,13 @@
     font-family: Solway;
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
-    line-height: 140%;
+    font-size: 30px;
+    line-height: 30px;
     text-align: center;
     letter-spacing: 0.01em;
     color: #cca66b;
     + .comming-soon {
-      margin: 25px 0 67px;
+      margin: 25px 0 35px;
     }
   }
   button {
@@ -53,21 +53,21 @@
     font-family: Solway;
     font-style: normal;
     font-weight: 800;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 22px;
+    line-height: 22px;
     padding: 15px 20px;
-    margin-bottom: 50px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     color: #ffffff;
     cursor: pointer;
   }
   .comming-soon {
-    margin: 30px 0 80px;
+    margin: 20px 0 50px;
     font-family: Solway;
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 22px;
+    line-height: 22px;
     text-align: center;
     letter-spacing: 0.03em;
     color: rgba(255, 255, 255, 0.42);
