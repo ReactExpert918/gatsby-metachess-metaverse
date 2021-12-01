@@ -12,11 +12,10 @@ interface IProps {
 }
 
 const QuickPairingModal = (props: IProps) => {
-
-  const onQuickPlay = (base:number,increment:number) => {
-    const hostSide =  PieceSide.Random
+  const onQuickPlay = (base: number, increment: number) => {
+    const hostSide = PieceSide.Random;
     const gameRules: GameRules = {
-      chessCoin:null,
+      chessCoin: null,
       hostSide,
       rating: 5,
       mode: GameMode.Casual,
@@ -25,13 +24,9 @@ const QuickPairingModal = (props: IProps) => {
         increment,
       },
     };
-    SocketService.sendData(
-      "quick-play",
-      gameRules,
-      (roomToken: string) => {
-        console.log("quick-play:", roomToken);
-      }
-    );
+    SocketService.sendData("quick-play", gameRules, (roomToken: string) => {
+      console.log("quick-play:", roomToken);
+    });
   };
   return (
     <Modal onClose={props.closeModal} withBorder>
@@ -41,7 +36,7 @@ const QuickPairingModal = (props: IProps) => {
         </div>
         <div className="row-boxes">
           <div className="row">
-            <div className="box" onClick={()=>onQuickPlay(1,0)}>
+            <div className="box" onClick={() => onQuickPlay(1, 0)}>
               <p>1+0</p>
               <p>bullet</p>
             </div>
