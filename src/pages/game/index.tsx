@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
 import GameInfo from "../../components/ChessboardWrapper/GameInfo";
 import { PageProps } from "gatsby";
-import { ISetPlayModePayload, IGameplayElos } from "../../store/gameplay/gameplay.interfaces";
+import {
+  ISetPlayModePayload,
+  IGameplayElos,
+} from "../../store/gameplay/gameplay.interfaces";
 import { IAppState } from "../../store/reducers";
 import {
   GameRules,
@@ -20,6 +23,7 @@ import { navigate } from "gatsby";
 import { isSSR } from "../../lib/utils";
 import store from "../../store";
 import RequestDrawModal from "../../components/RequestDrawModal";
+import AbortGameModal from "../../components/AbortGameModal";
 import OpponentLeftModal from "../../components/OpponentLeftModal";
 import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 
@@ -36,6 +40,8 @@ interface IState {
   showDrawModal: boolean;
   showAwaitingDrawModal: boolean;
   showOpponentLeftModal: boolean;
+  showAbortModal: boolean;
+  playerName: string;
 }
 
 interface IActionProps {
@@ -70,6 +76,7 @@ interface ISelectProps {
   currentUser: IUser;
   winner: "b" | "w";
   gameElos: IGameplayElos;
+  moveHistoryData: string[];
 }
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
@@ -96,6 +103,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     showDrawModal: false,
     showAwaitingDrawModal: false,
     showOpponentLeftModal: false,
+    showAbortModal: false,
+    playerName: "",
   };
 
   constructor(props: any) {
@@ -104,7 +113,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   }
 
   componentDidMount() {
-
     if (!this.props.playMode) {
       return;
     }
@@ -123,21 +131,59 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
           }
         });
       }
+      setTimeout(() => {
+        const { moveHistoryData, playerColor, opponent } = this.props;
+        if (moveHistoryData.length === 0) {
+          let xPlayer = "";
+          if (playerColor === "w") {
+            xPlayer = "You";
+          } else {
+            xPlayer = opponent.Username || "Guest";
+          }
+          this.onCancelledGame(xPlayer);
+        }
+      }, 25000);
     }
 
     this.props.setGameMounted(true);
+  }
+
+  componentDidUpdate() {
+    const {
+      moveHistoryData: newNoveHistoryData,
+      playerColor,
+      opponent,
+    } = this.props;
+    setTimeout(() => {
+      if (newNoveHistoryData.length) {
+        if (newNoveHistoryData.length === 1) {
+          let xPlayer = "";
+          if (playerColor === "b") {
+            xPlayer = "You";
+          } else {
+            xPlayer = opponent.Username || "Guest";
+          }
+          this.onCancelledGame(xPlayer);
+        }
+      }
+    }, 25000);
   }
 
   componentWillUnmount() {
     this.unmounted = true;
     this.props.clear();
 
-    if (!this.props.winner && this.props.playMode && !this.props.isReplay && !this.props.playMode.isAI) {
+    if (
+      !this.props.winner &&
+      this.props.playMode &&
+      !this.props.isReplay &&
+      !this.props.playMode.isAI
+    ) {
       SocketService.sendData("leave-game", null, null);
       this.props.setLoseMatchForLeaving({
         opponentName: getOpponentName(false, null, this.props.opponent),
         eloLost: this.props.gameElos.eloLose,
-        eloDraw: this.props.gameElos.eloDraw
+        eloDraw: this.props.gameElos.eloDraw,
       });
     }
     this.props.setGameElos(null);
@@ -146,6 +192,12 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   onDrawRequested = () => {
     this.setState({
       showDrawModal: true,
+    });
+  };
+
+  onCancelledGame = (playerName: string) => {
+    SocketService.sendData("game-cancelled", null, () => {
+      this.setState({ showAbortModal: true, playerName });
     });
   };
 
@@ -191,7 +243,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         eventName: "request-draw",
         callback: this["request-draw"],
       });
-
       SocketService.subscribeTo({
         eventName: "leave-game-prompt",
         callback: this["leave-game-prompt"],
@@ -204,7 +255,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       return;
     }
 
-    const { opponent } = this.props;
+    const { opponent, moveHistoryData } = this.props;
     if (
       opponent &&
       this.chessboardWrapperRef?.current &&
@@ -214,18 +265,27 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
     }
 
-    this.props.setLastTimestamp(move.timestamp);
-
     this.props.addToHistoryWithTimestamp({
       move: move.move,
       timestamp: move.timestamp,
     });
 
+    if (moveHistoryData.length > 1) {
+      this.props.setLastTimestamp(move.timestamp);
+    }
+
     console.log("on move-piece::", move);
   };
 
-  ["resign"] = ({winner} : any) => {
-    this.onGameEnd(winner.Id === this.props.currentUser.Id && winner.GuestId === this.props.currentUser.GuestId ? this.props.playerColor : (this.props.playerColor === "w" ? "b" : "w"));
+  ["resign"] = ({ winner }: any) => {
+    this.onGameEnd(
+      winner.Id === this.props.currentUser.Id &&
+        winner.GuestId === this.props.currentUser.GuestId
+        ? this.props.playerColor
+        : this.props.playerColor === "w"
+        ? "b"
+        : "w"
+    );
   };
 
   ["answer-draw-request"] = (drawAccepted: boolean) => {
@@ -282,8 +342,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             return;
         }
       });
-    }
-    else if (!isReplay && !isHumanVsHuman && move) {
+    } else if (!isReplay && !isHumanVsHuman && move) {
       this.props.addToHistoryWithTimestamp({
         move: move,
         timestamp: new Date().getTime(),
@@ -319,7 +378,13 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
 
   realReplay = async () => {
     const {
-      gameplay: { historyWithTimestamp, startGameDate, playMode, endGameDate, winner },
+      gameplay: {
+        historyWithTimestamp,
+        startGameDate,
+        playMode,
+        endGameDate,
+        winner,
+      },
     } = store.getState() as IAppState;
     this.props.startGame();
     let lastDate = startGameDate;
@@ -338,7 +403,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
 
     for await (const m of historyWithTimestamp) {
       if (this.unmounted) return;
-      
+
       await doTheMovePromise(m.timestamp - lastDate, () => {
         if (this.unmounted) return;
         this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
@@ -346,8 +411,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       });
       lastDate = m.timestamp;
     }
-    
-    const endAt = playMode ? new Date().getTime() + 2000 : endGameDate - lastDate;
+
+    const endAt = playMode
+      ? new Date().getTime() + 2000
+      : endGameDate - lastDate;
     if (this.unmounted) return;
     if (endAt > 0)
       setTimeout(() => {
@@ -402,7 +469,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     });
   };
 
-
   render() {
     const {
       skillLevel,
@@ -413,8 +479,18 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       drawTimes,
       showDrawModal,
       showAwaitingDrawModal,
+      showAbortModal,
+      playerName,
     } = this.state;
-    const { playMode, opponent, currentUser, playerColor, gameRules, gameElos } = this.props;
+    const {
+      playMode,
+      opponent,
+      currentUser,
+      playerColor,
+      gameRules,
+      gameElos,
+      moveHistoryData,
+    } = this.props;
 
     if (!this.props.playMode) {
       navigate("/");
@@ -435,7 +511,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     //   navigate("/");
     //   return null;
     // }
-    
 
     return (
       <div className="gameContainer">
@@ -449,7 +524,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
               );
             }}
             onClose={() => {
-              this.setState({showEndModal: false});
+              this.setState({ showEndModal: false });
             }}
             opponent={opponent}
             key={String(showEndModal)}
@@ -476,7 +551,12 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             confirmDraw={this.confirmDraw}
           />
         )}
-
+        {showAbortModal && (
+          <AbortGameModal
+            onClose={() => this.setState({ showAbortModal: false })}
+            playerName={playerName}
+          />
+        )}
         <div className="gameWrapper">
           {/* <Chat /> */}
           <MovesHistory />
@@ -498,8 +578,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             currentUser={currentUser}
             isReplay={this.props.isReplay}
             playMode={playMode}
+            moveHistoryData={moveHistoryData}
           />
-          
+
           <GameInfo
             resing={this.onResign}
             onDraw={this.onDrawRequest}
@@ -537,7 +618,8 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   isResume: state.gameplay.isResume,
   gameFen: state.gameplay.gameFen,
   winner: state.gameplay.winner,
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  moveHistoryData: state.gameplay.moveHistory,
 });
 
 const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
