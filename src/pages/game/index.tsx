@@ -131,42 +131,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
           }
         });
       }
-      setTimeout(() => {
-        const { moveHistoryData, playerColor, opponent } = this.props;
-        if (moveHistoryData.length === 0) {
-          let xPlayer = "";
-          if (playerColor === "w") {
-            xPlayer = "You";
-          } else {
-            xPlayer = opponent.Username || "Guest";
-          }
-          this.onCancelledGame(xPlayer);
-        }
-      }, 25000);
     }
 
     this.props.setGameMounted(true);
-  }
-
-  componentDidUpdate() {
-    const {
-      moveHistoryData: newNoveHistoryData,
-      playerColor,
-      opponent,
-    } = this.props;
-    setTimeout(() => {
-      if (newNoveHistoryData.length) {
-        if (newNoveHistoryData.length === 1) {
-          let xPlayer = "";
-          if (playerColor === "b") {
-            xPlayer = "You";
-          } else {
-            xPlayer = opponent.Username || "Guest";
-          }
-          this.onCancelledGame(xPlayer);
-        }
-      }
-    }, 25000);
   }
 
   componentWillUnmount() {
@@ -196,9 +163,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   };
 
   onCancelledGame = (playerName: string) => {
-    SocketService.sendData("game-cancelled", null, () => {
-      this.setState({ showAbortModal: true, playerName });
-    });
+    this.setState({ showAbortModal: true, playerName });
   };
 
   initialize = () => {
@@ -242,6 +207,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "request-draw",
         callback: this["request-draw"],
+      });
+      SocketService.subscribeTo({
+        eventName: "game-cancelled",
+        callback: this["game-cancelled"],
       });
       SocketService.subscribeTo({
         eventName: "leave-game-prompt",
@@ -298,6 +267,28 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
 
   ["request-draw"] = () => {
     this.onDrawRequested();
+  };
+
+  ["game-cancelled"] = () => {
+    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;
+    if (moveHistoryData.length === 0) {
+      let xPlayer = "";
+      if (playerColor === "w") {
+        xPlayer = currentUser.Username || "You";
+      } else {
+        xPlayer = opponent.Username || "Guest";
+      }
+      this.onCancelledGame(xPlayer);
+    }
+    if (moveHistoryData.length === 1) {
+      let xPlayer = "";
+      if (playerColor === "b") {
+        xPlayer = currentUser.Username || "You";
+      } else {
+        xPlayer = opponent.Username || "Guest";
+      }
+      this.onCancelledGame(xPlayer);
+    }
   };
 
   ["leave-game-prompt"] = () => {
@@ -553,8 +544,12 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         )}
         {showAbortModal && (
           <AbortGameModal
-            onClose={() => this.setState({ showAbortModal: false })}
             playerName={playerName}
+            onCancel={() => {
+              this.setState({ showAbortModal: false, showEndModal: false });
+              this.props.clear();
+              navigate("/");
+            }}
           />
         )}
         <div className="gameWrapper">
