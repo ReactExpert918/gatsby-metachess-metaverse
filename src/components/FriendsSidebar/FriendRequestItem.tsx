@@ -21,7 +21,9 @@ const FriendRequestItem = ({ friendReuest }: IProps): JSX.Element => {
     <div className="friendsListItem">
       <div className="friendInfo">
         <img src={PieceIcon} />
-        <span className="friendNameText">{friendReuest.Account.Fullname}</span>
+        <span className="friendNameText">
+          {friendReuest.Account.Fullname || friendReuest.Account.Username}
+        </span>
       </div>
       <div className="friendRequestActions">
         <img src={ConfirmIcon} onClick={confirmRequest} />

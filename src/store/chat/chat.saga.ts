@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest } from "redux-saga/effects";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
 import { ACTION_TYPE, chatActions } from "./chat.actions";
@@ -53,6 +53,8 @@ function* onSendFriendRequest(action: any) {
         case 3:
           errorText = "Already added as friend";
       }
+    } else if (e.status == 406) {
+      errorText = "Limit of friends exceeded (200)";
     } else if (e.status == 409) {
       errorText = "Friend request was already sent to that user!";
     } else {
@@ -73,10 +75,19 @@ function* onAcceptFriendRequest(action: any) {
         action.payload
       )
     );
-    yield put(chatActions.fetchFriendsRequestsList());
+    yield all([
+      chatActions.fetchFriendsList(),
+      chatActions.fetchFriendsRequestsList(),
+    ]);
     toast.success("Friend request accepted successfully!");
   } catch (e: any) {
-    toast.error("Something went wrong, please try again!");
+    let errorText = "";
+    if (e.status == 406) {
+      errorText = "Limit of friends exceeded (200)";
+    } else {
+      errorText = "Something went wrong, please try again!";
+    }
+    toast.error(errorText);
   }
 }
 
@@ -104,7 +115,6 @@ function* onRemoveFriend(action: any) {
       API.execute("POST", ENDPOINTS.REMOVE_FRIEND, null, null, action.payload)
     );
     yield put(chatActions.fetchFriendsList());
-    toast.success("Friend removed successfully!");
   } catch (e: any) {
     toast.error("Something went wrong, please try again!");
   }

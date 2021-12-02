@@ -1,17 +1,31 @@
+$sidebarWidth: 505px;
+
 .friendsSidebarWrapper {
-  width: 505px;
-  height: calc(100vh - 80px);
+  width: $sidebarWidth;
+  height: 100vh;
   position: fixed;
   left: unset;
   right: 0;
-  top: 80px;
+  top: 0;
   align-items: flex-start;
+  z-index: 1000;
+  transform: translateX($sidebarWidth);
+  transition: transform 0.3s;
+
+  &.sidebarOpen {
+    transform: translateX(0);
+  }
+
   .friendsSidebarContainer {
+    position: relative;
     display: flex;
     width: inherit;
     height: inherit;
     flex-direction: column;
-    border-left: 1px solid #0f1f38;
+    border: 2px solid #cca66a;
+    border-right: none;
+    box-sizing: border-box;
+
     .friendsHeader {
       display: flex;
       justify-content: space-between;
@@ -36,12 +50,11 @@
         cursor: pointer;
       }
     }
+
     .friendsList {
       background: #0c1221;
       flex: 0 1 100%;
       overflow-y: auto;
-      border: 2px solid #cca66a;
-      box-sizing: border-box;
       .addFriend {
         padding: 17px 40px;
         letter-spacing: 1.08px;
@@ -183,6 +196,18 @@
 }
 
 .friendRequestsContainer {
+  position: absolute;
+  bottom: 51px;
+  width: 100%;
+  background-color: #0c1221;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+
+  &.showRequests {
+    bottom: 0;
+    transform: translateY(0);
+  }
+
   .friendRequestHeader {
     letter-spacing: 1.14px;
     color: #e8e8e8;
@@ -204,6 +229,7 @@
     }
   }
 }
+
 .addFriendSearchInput {
   display: flex;
   padding: 15px;

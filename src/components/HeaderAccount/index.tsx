@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "gatsby";
-import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import { IAppState } from "../../store/reducers";
 import { connect, useDispatch } from "react-redux";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { chatActions } from "../../store/chat/chat.actions";
-import ChatIcon from "../../assets/images/ChatIcon.svg";
-import SearchIcon from "../../assets/images/SearchIcon.png";
-import BellIcon from "../../assets/images/BellIcon.png";
 import { HeaderNavigatorItem } from "../Header";
+import SearchIcon from "../../lib/svgIcons/SearchIcon";
+import FriendsIcon from "../../lib/svgIcons/FriendsIcon";
+import BellIcon from "../../lib/svgIcons/BellIcon";
+import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -20,13 +20,14 @@ const HeaderAccount = (props: ISelectProps) => {
   const openSideChatPanel = () => {
     dispatch(chatActions.toggleSideChat());
   };
+
   return (
-    <div className="headerNavigatorContainer flex-end" style={{display:`${props.menu}`}} >
+    <div className="headerNavigatorContainer flex-end">
       {props.currentUser && props.currentUser.Username ? (
         <>
-          <img src={SearchIcon} className="nav-icon" />
-          <img src={ChatIcon} className="nav-icon" onClick={openSideChatPanel} />
-          <img src={BellIcon} className="nav-icon" />
+          <SearchIcon className="nav-icon" />
+          <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
+          <BellIcon className="nav-icon" />
           <Link to={"/profile"} className="headerAccountContainer">
             <span>
               <img src={SmallPieceIcon} />
@@ -41,9 +42,11 @@ const HeaderAccount = (props: ISelectProps) => {
         </>
       ) : (
         <>
-          <img src={SearchIcon} className="nav-icon mr-50" />
-          <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
-          <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
+          <div className="headerNavigatorContainer flex-end">
+            <SearchIcon className="nav-icon mr-50" />
+            <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
+            <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
+          </div>
         </>
       )}
     </div>

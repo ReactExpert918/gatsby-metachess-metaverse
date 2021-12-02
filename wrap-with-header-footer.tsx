@@ -32,6 +32,7 @@ export default ({ element, props }: { element: JSX.Element; props: any }) => {
           rtl={false}
           draggable
           pauseOnHover
+          theme='colored'
         />
       </>
     </div>
