@@ -10,11 +10,17 @@ const FriendRequests = (): JSX.Element => {
   const dispatch = useDispatch();
   const [showRequests, setShowRequests] = useState(false);
   const { friendRequests } = useSelector((state: IAppState) => state.chat);
+
   useEffect(() => {
     dispatch(chatActions.fetchFriendsRequestsList());
   }, []);
+
   return (
-    <div className="friendRequestsContainer">
+    <div
+      className={`friendRequestsContainer ${
+        showRequests ? "showRequests" : ""
+      }`}
+    >
       <div
         className="friendRequestHeader"
         onClick={() => setShowRequests((s) => !s)}
