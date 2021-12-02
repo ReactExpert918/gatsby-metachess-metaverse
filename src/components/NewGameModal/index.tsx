@@ -75,10 +75,8 @@ const NewGameModal = (props: IProps & ISelectProps) => {
       },
     };
     subscribeToGameStart(toastContext.hideToast);
-
     SocketService.sendData(
       "create-custom-game",
-
       gameRules,
       (roomToken: string) => {
         // TODO: if roomtoken is null, something is wrong with rules
@@ -155,8 +153,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
           </div>
         </div>
         <div className={"row"}>
-          <div className={"item no-content"}>
-          </div>
+          <div className={"item no-content"}></div>
           <div className={"item"}>
             <div className={"sideItems timeAndIncrementTitle"}>
               <h5>Time</h5>
