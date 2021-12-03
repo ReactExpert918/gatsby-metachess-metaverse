@@ -41,34 +41,34 @@ const QuickPairingModal = (props: IProps) => {
               <p>bullet</p>
             </div>
             <div className="box">
-              <p>1+0</p>
+              <p>1+3</p>
               <p>bullet</p>
             </div>
             <div className="box">
-              <p>1+0</p>
+              <p>2+1</p>
               <p>bullet</p>
             </div>
             <div className="box">
-              <p>1+0</p>
-              <p>bullet</p>
+              <p>3+0</p>
+              <p>blitz</p>
             </div>
           </div>
           <div className="row">
             <div className="box">
-              <p>1+0</p>
-              <p>bullet</p>
+              <p>3+2</p>
+              <p>blitz</p>
             </div>
             <div className="box">
-              <p>1+0</p>
-              <p>bullet</p>
+              <p>5+0</p>
+              <p>blitz</p>
             </div>
             <div className="box">
-              <p>1+0</p>
-              <p>bullet</p>
+              <p>5+2</p>
+              <p>blitz</p>
             </div>
             <div className="box">
-              <p>1+0</p>
-              <p>bullet</p>
+              <p>10+0</p>
+              <p>rapid</p>
             </div>
           </div>
           <div className="row">
