@@ -9,6 +9,7 @@ import { PageProps } from "gatsby";
 import {
   ISetPlayModePayload,
   IGameplayElos,
+  ITimer,
 } from "../../store/gameplay/gameplay.interfaces";
 import { IAppState } from "../../store/reducers";
 import {
@@ -74,6 +75,7 @@ interface ISelectProps {
   isResume: boolean;
   gameFen: string;
   currentUser: IUser;
+  timer: ITimer;
   winner: "b" | "w";
   gameElos: IGameplayElos;
   moveHistoryData: string[];
@@ -477,6 +479,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       playMode,
       opponent,
       currentUser,
+      timer,
       playerColor,
       gameRules,
       gameElos,
@@ -571,6 +574,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             aiDifficulty={playMode.aiMode}
             opponent={opponent}
             currentUser={currentUser}
+            timer={timer}
             isReplay={this.props.isReplay}
             playMode={playMode}
             moveHistoryData={moveHistoryData}
@@ -607,6 +611,7 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   opponent: state.gameplay.opponent,
   playerColor: state.gameplay.playerColor,
   isReplay: state.gameplay.isReplay,
+  timer: state.gameplay.timer,
   gameRules: state.gameplay.gameRules,
   gameElos: state.gameplay.gameElos,
   missedSocketActions: state.gameplay.missedSocketActions,
