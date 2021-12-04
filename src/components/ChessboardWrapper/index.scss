@@ -114,8 +114,33 @@
     }
   }
 }
-@media only screen and (max-width: 430px){
-.chessboardContainer{
-  min-height: 0% !important;
+@media only screen and (max-width: 430px) {
+  .chessboardContainer {
+    min-height: 0% !important;
+  }
 }
+
+@media only screen and (max-width: 450px) {
+  .playerStatus {
+    max-height: 40px !important;
+    min-height: 40px !important;
+  }
+  .timer-mobile {
+    display: flex;
+    color: #cca66b;
+    background: #0c1221;
+    box-shadow: 4px 0px 30px #283d61b3, 0px 4px 30px #20314fb3;
+  }
+  .timer-desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 451px) {
+  .timer-mobile {
+    display: none;
+  }
+  .timer-desktop {
+    display: flex;
+  }
 }
