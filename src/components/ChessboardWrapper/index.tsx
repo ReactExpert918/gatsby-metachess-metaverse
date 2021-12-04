@@ -14,9 +14,13 @@ import { INITIAL_FEN } from "../../pages/game";
 import { connect } from "react-redux";
 import { IAppState } from "../../store/reducers";
 import { IUser } from "../../store/user/user.interfaces";
-import { ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
+import {
+  ISetPlayModePayload,
+  ITimer,
+} from "../../store/gameplay/gameplay.interfaces";
 import { getGameType } from "../../helpers/gameTypeHelper";
 import { GameRules } from "../../interfaces/game.interfaces";
+import Timer from "../Timer";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 const WINDOW_WIDTH_LIMIT = 768;
 
@@ -56,6 +60,7 @@ interface IProps {
   onGameEnd: (winner: "b" | "w" | "draw") => void;
   chessSize?: number;
   currentUser: IUser;
+  timer: ITimer;
   isReplay: boolean;
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
@@ -502,6 +507,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
       timerBonus,
       playMode,
       currentUser,
+      timer,
       gameRules,
       ...restProps
     } = this.props;
@@ -538,6 +544,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
         style={{ maxWidth: chessWidth }}
         {...restProps}
       >
+        {!playMode.isAI && (
+          <Timer className="timer-mobile mt-20" timeLeft={playerColor === "b" ? timer?.white : timer?.black} />
+        )}
         <PlayerStatus
           chessAscii={chessAscii}
           gameType={gameType}
@@ -633,6 +642,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
           name={this.props.isReplay ? undefined : "YOU"}
           reverse={true}
         />
+        {!playMode.isAI && (
+          <Timer className="timer-mobile" timeLeft={playerColor === "w" ? timer?.white : timer?.black} />
+        )}
       </div>
     );
   }
