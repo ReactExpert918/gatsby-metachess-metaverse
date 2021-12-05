@@ -69,25 +69,23 @@ interface IProps {
 
 class ChessboardWrapper extends Component<IProps, IState> {
   game: ChessInstance;
-  constructor(props) {
-    super(props)
-    this.state = {
-      squareStyles: {},
-      squareStylesExceptions: {
-        checkOrCheckmate: {},
-        lastMove: {},
-      },
-      dropSquareStyle: {},
-      pieceSquare: null,
-      blackTimerTime: props.timerLimit,
-      whiteTimerTime: props.timerLimit,
-      gameReady: true,
-      blackChecked: false,
-      whiteChecked: false,
-  
-      isFastHide: false,
-    };
-  }
+  state: IState = {
+    squareStyles: {},
+    squareStylesExceptions: {
+      checkOrCheckmate: {},
+      lastMove: {},
+    },
+    dropSquareStyle: {},
+    pieceSquare: null,
+    blackTimerTime: this.props.timerLimit,
+    whiteTimerTime: this.props.timerLimit,
+    gameReady: true,
+    blackChecked: false,
+    whiteChecked: false,
+
+    isFastHide: false,
+  };
+
   wrapperRef: RefObject<HTMLDivElement> = React.createRef();
   chessboard: typeof Chessboard | (() => null) = (): any => null;
   stockfish: any;
