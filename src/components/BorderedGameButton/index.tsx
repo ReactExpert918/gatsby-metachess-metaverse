@@ -24,7 +24,7 @@ const BorderedGameButton = ({
           Play now
         </button>
       ) : (
-        <span className="comming-soon">Comming soon</span>
+        <span className="coming-soon">Coming soon</span>
       )}
     </div>
   );
