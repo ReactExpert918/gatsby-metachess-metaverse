@@ -43,6 +43,7 @@ interface IState {
   showOpponentLeftModal: boolean;
   showAbortModal: boolean;
   playerName: string;
+  showFirstMoveTime: boolean;
 }
 
 interface IActionProps {
@@ -51,6 +52,8 @@ interface IActionProps {
   setOpponent: typeof GameplayActions.setOpponent;
   setPlayerColor: typeof GameplayActions.setPlayerColor;
   setLastTimestamp: typeof GameplayActions.setLastTimestamp;
+  setFirstMoveTimer: typeof GameplayActions.setFirstMoveTimer;
+  setFirstTimer: typeof GameplayActions.setFirstTimer;
   clear: typeof GameplayActions.clear;
   setLoseMatchForLeaving: typeof GameplayActions.setLoseMatchForLeaving;
   stopTimers: typeof GameplayActions.stopTimers;
@@ -76,6 +79,7 @@ interface ISelectProps {
   gameFen: string;
   currentUser: IUser;
   timer: ITimer;
+  firstTimer: ITimer;
   winner: "b" | "w";
   gameElos: IGameplayElos;
   moveHistoryData: string[];
@@ -107,6 +111,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     showOpponentLeftModal: false,
     showAbortModal: false,
     playerName: "",
+    showFirstMoveTime: true,
   };
 
   constructor(props: any) {
@@ -133,6 +138,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
           }
         });
       }
+      // this.props.setFirstTimer(25000);
     }
 
     this.props.setGameMounted(true);
@@ -241,7 +247,12 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       timestamp: move.timestamp,
     });
 
+    if (moveHistoryData.length === 1) {
+      this.props.setFirstMoveTimer();
+    }
+
     if (moveHistoryData.length > 1) {
+      this.setState({ showFirstMoveTime: false });
       this.props.setLastTimestamp(move.timestamp);
     }
 
@@ -452,6 +463,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       });
     });
   };
+
   confirmDraw = () => {
     SocketService.sendData("answer-draw-request", true, () => {
       this.setState({
@@ -474,6 +486,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       showAwaitingDrawModal,
       showAbortModal,
       playerName,
+      showFirstMoveTime,
     } = this.state;
     const {
       playMode,
@@ -584,6 +597,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             resing={this.onResign}
             onDraw={this.onDrawRequest}
             drawEnabled={drawTimes < 5}
+            showFirstMoveTime={showFirstMoveTime}
           />
 
           {this.state.showOpponentLeftModal && (
@@ -612,6 +626,7 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   playerColor: state.gameplay.playerColor,
   isReplay: state.gameplay.isReplay,
   timer: state.gameplay.timer,
+  firstTimer: state.gameplay.firstTimer,
   gameRules: state.gameplay.gameRules,
   gameElos: state.gameplay.gameElos,
   missedSocketActions: state.gameplay.missedSocketActions,
@@ -628,6 +643,8 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setOpponent: GameplayActions.setOpponent,
   setPlayerColor: GameplayActions.setPlayerColor,
   setLastTimestamp: GameplayActions.setLastTimestamp,
+  setFirstMoveTimer: GameplayActions.setFirstMoveTimer,
+  setFirstTimer: GameplayActions.setFirstTimer,
   stopTimers: GameplayActions.stopTimers,
   clear: GameplayActions.clear,
   addToHistoryWithTimestamp: GameplayActions.addToHistoryWithTimestamp,
