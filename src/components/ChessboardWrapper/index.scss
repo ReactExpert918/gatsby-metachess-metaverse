@@ -134,6 +134,9 @@
   .timer-desktop {
     display: none;
   }
+  .timer-desktop-first {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 451px) {
@@ -142,5 +145,8 @@
   }
   .timer-desktop {
     display: flex;
+  }
+  .timer-desktop-first {
+    margin-bottom: 10px;
   }
 }

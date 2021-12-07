@@ -13,6 +13,9 @@ import { IUser } from "../user/user.interfaces";
 let BLACK_TIMER: Timer = null;
 let WHITE_TIMER: Timer = null;
 
+let BLACK_FIRST_MOVE_TIMER: Timer = null;
+let WHITE_FIRST_MOVE_TIMER: Timer = null;
+
 const dispatchTimerChange = () => {
   if (!WHITE_TIMER || !BLACK_TIMER) {
     return;
@@ -21,6 +24,18 @@ const dispatchTimerChange = () => {
     gameplayActions.setTimer({
       white: WHITE_TIMER.timeLeft,
       black: BLACK_TIMER.timeLeft,
+    })
+  );
+};
+
+const dispatchFirstTimerChange = () => {
+  if (!WHITE_FIRST_MOVE_TIMER || !BLACK_FIRST_MOVE_TIMER) {
+    return;
+  }
+  store.dispatch(
+    gameplayActions.setFirstTimer({
+      white: WHITE_FIRST_MOVE_TIMER.timeLeft,
+      black: BLACK_FIRST_MOVE_TIMER.timeLeft,
     })
   );
 };
@@ -55,6 +70,25 @@ function* onGameStart() {
     startGameDate
   );
 
+  BLACK_FIRST_MOVE_TIMER = new Timer(25 / 60, 0, startGameDate);
+
+  WHITE_FIRST_MOVE_TIMER = new Timer(25 / 60, 0, startGameDate);
+
+  yield put(
+    gameplayActions.setFirstTimer({
+      black: BLACK_FIRST_MOVE_TIMER.timeLeft,
+      white: WHITE_FIRST_MOVE_TIMER.timeLeft,
+    })
+  );
+
+  if (onMove === "b") {
+    BLACK_FIRST_MOVE_TIMER.reinit(startGameDate, dispatchFirstTimerChange);
+    WHITE_FIRST_MOVE_TIMER.stop(startGameDate, false);
+  } else {
+    WHITE_FIRST_MOVE_TIMER.reinit(startGameDate, dispatchFirstTimerChange);
+    BLACK_FIRST_MOVE_TIMER.stop(startGameDate, false);
+  }
+
   yield put(
     gameplayActions.setTimer({
       black: BLACK_TIMER.timeLeft,
@@ -82,13 +116,25 @@ function* onSetLastTimestamp({ payload }: { payload: number }) {
   if (!BLACK_TIMER || !WHITE_TIMER) {
     return;
   }
-
   if (gameplay.onMove === "b") {
     BLACK_TIMER.reinit(payload, dispatchTimerChange);
     WHITE_TIMER.stop(payload);
   } else {
     WHITE_TIMER.reinit(payload, dispatchTimerChange);
     BLACK_TIMER.stop(payload);
+  }
+}
+
+function* onSetFirstMoveTimer({}: {}) {
+  const {
+    gameplay: { startGameDate, onMove },
+  } = (yield select()) as IAppState;
+  if (onMove === "b") {
+    BLACK_FIRST_MOVE_TIMER.reinit(startGameDate, dispatchFirstTimerChange);
+    WHITE_FIRST_MOVE_TIMER.stop(startGameDate, false);
+  } else {
+    WHITE_FIRST_MOVE_TIMER.reinit(startGameDate, dispatchFirstTimerChange);
+    BLACK_FIRST_MOVE_TIMER.stop(startGameDate, false);
   }
 }
 
@@ -236,6 +282,13 @@ function* watchSetLastTimestamp() {
   yield takeLatest(ACTION_TYPE.SET_LAST_TIMESTAMP as any, onSetLastTimestamp);
 }
 
+function* watchSetFirstMoveTimer() {
+  yield takeLatest(
+    ACTION_TYPE.SET_LAST_TIMESTAMP_FIRST_MOVE as any,
+    onSetFirstMoveTimer
+  );
+}
+
 function* watchGameStart() {
   yield takeLatest(ACTION_TYPE.START_GAME as any, onGameStart);
 }
@@ -251,6 +304,7 @@ function* watchStopTimers() {
 export default [
   watchGameplayMoveHistory,
   watchSetLastTimestamp,
+  watchSetFirstMoveTimer,
   watchGameStart,
   watchClear,
   watchStopTimers,
