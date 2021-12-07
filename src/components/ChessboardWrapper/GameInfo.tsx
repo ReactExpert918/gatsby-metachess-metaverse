@@ -20,6 +20,7 @@ interface ISelectProps {
   playerColor: "b" | "w";
   opponent: IUser;
   timer: ITimer;
+  firstTimer: ITimer;
   isReplay: boolean;
   gameElos: IGameplayElos;
 }
@@ -28,6 +29,7 @@ interface IGameInfoProps {
   resign: () => void;
   drawEnabled: boolean;
   onDraw: () => void;
+  showFirstMoveTime: boolean;
 }
 
 const getOpponentColor = (playerColor: "b" | "w") => {
@@ -41,10 +43,12 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
     playerColor,
     opponent,
     timer,
+    firstTimer,
     gameElos,
     resign,
     onDraw,
     drawEnabled,
+    showFirstMoveTime,
   } = props;
 
   const onResign = () => {
@@ -54,6 +58,18 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
+        {!playMode.isAI && showFirstMoveTime && (
+          <div>
+            <Timer
+              className="timer-desktop-first"
+              timeLeft={
+                getOpponentColor(playerColor) === "w"
+                  ? firstTimer?.white
+                  : firstTimer?.black
+              }
+            />
+          </div>
+        )}
         {!playMode.isAI && (
           <Timer
             className="timer-desktop"
@@ -127,23 +143,35 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
             </div>
           )}
         </div>
-        {!playMode.isAI && (
-          <>
-            <Timer
-              className="timer-desktop"
-              timeLeft={playerColor === "w" ? timer?.white : timer?.black}
-            />
-            {!props.isReplay && (
-              <ActionButtons
-                draw={onDraw}
-                drawEnabled={drawEnabled}
-                resign={() => {
-                  onResign();
-                }}
+        <div>
+          {!playMode.isAI && showFirstMoveTime && (
+            <>
+              <Timer
+                className="timer-desktop-first"
+                timeLeft={
+                  playerColor === "w" ? firstTimer?.white : firstTimer?.black
+                }
               />
-            )}
-          </>
-        )}
+            </>
+          )}
+          {!playMode.isAI && (
+            <>
+              <Timer
+                className="timer-desktop"
+                timeLeft={playerColor === "w" ? timer?.white : timer?.black}
+              />
+              {!props.isReplay && (
+                <ActionButtons
+                  draw={onDraw}
+                  drawEnabled={drawEnabled}
+                  resign={() => {
+                    onResign();
+                  }}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -156,6 +184,7 @@ const mapStateToProps = ({
     playerColor,
     opponent,
     timer,
+    firstTimer,
     isReplay,
     gameElos,
   },
@@ -165,6 +194,7 @@ const mapStateToProps = ({
   playerColor,
   opponent,
   timer,
+  firstTimer,
   isReplay,
   gameElos,
 });
@@ -180,6 +210,7 @@ const T = (p: any) => {
       resign={Object.values(p)[0]}
       onDraw={Object.values(p)[1]}
       drawEnabled={Object.values(p)[2]}
+      showFirstMoveTime={Object.values(p)[3]}
     />
   );
 };
