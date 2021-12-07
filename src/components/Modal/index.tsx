@@ -11,6 +11,9 @@ interface IProps {
 }
 
 class Modal extends Component<IProps> {
+  constructor(props: any){
+    super(props);
+  }
   modalRef = createRef<HTMLDivElement>();
 
   componentDidMount() {
