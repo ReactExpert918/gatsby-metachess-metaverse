@@ -1,5 +1,10 @@
 import { AI_PLAY_MODE } from "../../constants/playModes";
-import { GameRules, IMoveSocket, PieceSide, ILoseMatchForLeaving } from "../../interfaces/game.interfaces";
+import {
+  GameRules,
+  IMoveSocket,
+  PieceSide,
+  ILoseMatchForLeaving,
+} from "../../interfaces/game.interfaces";
 import { IUser } from "../user/user.interfaces";
 import { Timer } from "../../lib/timer";
 
@@ -12,10 +17,11 @@ export interface IGameplayReducer {
   opponent: IUser;
   lastTimestamp: number;
   timer: ITimer;
+  firstTimer: ITimer;
   historyWithTimestamp: IMoveWithTimestamp[];
   startGameDate: number;
   endGameDate: number;
-  winner: 'b' | 'w';
+  winner: "b" | "w";
   isReplay: boolean;
   missedSocketActions: any[];
   gameMounted: boolean;
@@ -54,8 +60,8 @@ export enum ResultCondition {
   Timeout,
   Resign,
   Leave,
-  DrawRequest
-};
+  DrawRequest,
+}
 
 export interface IGameResume {
   identifier: string;
@@ -67,5 +73,5 @@ export interface IGameResume {
   isYourTurn: boolean;
   side: PieceSide;
   startDate: number;
-  gameElos: IGameplayElos
+  gameElos: IGameplayElos;
 }

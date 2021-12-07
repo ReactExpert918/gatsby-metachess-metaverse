@@ -1,7 +1,12 @@
 import { Action } from "../generators";
 import { ACTION_TYPE } from "./gameplay.action";
 import { IGameplayReducer } from "./gameplay.interfaces";
-import { PieceSide, GameMode, GameType, ILoseMatchForLeaving } from "../../interfaces/game.interfaces";
+import {
+  PieceSide,
+  GameMode,
+  GameType,
+  ILoseMatchForLeaving,
+} from "../../interfaces/game.interfaces";
 import { INITIAL_FEN } from "../../pages/game";
 
 const INITIAL_STATE: IGameplayReducer = {
@@ -37,6 +42,10 @@ const INITIAL_STATE: IGameplayReducer = {
     black: null,
     white: null,
   },
+  firstTimer: {
+    black: null,
+    white: null,
+  },
   historyWithTimestamp: [],
   isReplay: false,
   startGameDate: null,
@@ -48,7 +57,7 @@ const INITIAL_STATE: IGameplayReducer = {
   isResume: false,
   gameFen: INITIAL_FEN,
   gameElos: null,
-  loseMatchForLeaving: null
+  loseMatchForLeaving: null,
 };
 
 export default (state = INITIAL_STATE, action: Action): IGameplayReducer => {
@@ -89,8 +98,14 @@ export default (state = INITIAL_STATE, action: Action): IGameplayReducer => {
       [ACTION_TYPE.SET_LAST_TIMESTAMP]: {
         lastTimestamp: action.payload,
       },
+      [ACTION_TYPE.SET_LAST_TIMESTAMP_FIRST_MOVE]: {
+        lastTimestamp: action.payload,
+      },
       [ACTION_TYPE.SET_TIMER]: {
         timer: action.payload,
+      },
+      [ACTION_TYPE.SET_FIRST_TIMER]: {
+        firstTimer: action.payload,
       },
       [ACTION_TYPE.ADD_TO_HISTORY_WITH_TIMESTAMP]: {
         historyWithTimestamp: [...state.historyWithTimestamp, action.payload],
