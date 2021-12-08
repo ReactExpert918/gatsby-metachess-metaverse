@@ -27,6 +27,7 @@ import RequestDrawModal from "../../components/RequestDrawModal";
 import AbortGameModal from "../../components/AbortGameModal";
 import OpponentLeftModal from "../../components/OpponentLeftModal";
 import { getGameTypeElo } from "../../helpers/gameTypeHelper";
+import ActionButtons from "../../components/ActionButtons";
 
 interface IState {
   drawTimes: number;
@@ -579,7 +580,13 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             playMode={playMode}
             moveHistoryData={moveHistoryData}
           />
-
+          {!playMode.isAI && !this.props.isReplay && (
+            <ActionButtons
+              draw={this.onDrawRequest}
+              drawEnabled={drawTimes < 5}
+              resign={this.onResign}
+            />
+          )}
           <GameInfo
             resing={this.onResign}
             onDraw={this.onDrawRequest}
