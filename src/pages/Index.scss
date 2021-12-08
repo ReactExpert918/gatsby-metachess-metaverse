@@ -59,19 +59,25 @@
     
   }
   .game-2d-icon{
-    left: 60px !important;
+    left: 39px !important;
   }
   .game-2d-icon svg{
     width: 180px !important ;
   }
   .game-3d-icon{
-    left: 20px !important;
+    left: 0 !important;
+    width: 300px !important;
+    height: auto !important;
+    top: -75px !important;
   }
   .game-3d-icon svg {
     width: 270px !important;
   }
-  .game-3df-icon svg{
-    width: 270px !important;
+  .game-3df-icon {
+    width: 300px !important;
+    left: 0 !important;
+    top: -95px !important;
+    height: auto !important;
 
   }
   
