@@ -65,20 +65,36 @@
     }
   }
 }
-@media only screen and (max-width: 430px){
-  .moveHistoryContainer{
+@media only screen and (max-width: 430px) {
+  .moveHistoryContainer {
     width: 94vw !important;
     flex: none;
-    order: 2;
+    order: 3;
   }
   .chessboardContainer {
     order: 1;
   }
   .chessboardSidebarWrapper {
-    order: 3;
+    order: 4;
     width: auto;
   }
   .gameWrapper {
     justify-content: center;
+    .actionButtonsWrapper {
+      display: flex;
+      order: 2;
+    }
+  }
+  .timersWrapper .actionButtonsWrapper {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 431px) {
+  .gameWrapper .actionButtonsWrapper {
+    display: none;
+  }
+  .timersWrapper .actionButtonsWrapper {
+    display: flex;
   }
 }
