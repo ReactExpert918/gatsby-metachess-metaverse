@@ -15,9 +15,10 @@
   font-size: 24px;
   text-transform: uppercase;
   color: #ffffff;
+  font-family: Solway;
 
   &.dark {
-    background: #0f1f38 0% 0% no-repeat padding-box;
+    background: #cca66a;
   }
   &.small {
     padding: 6px 15px;
@@ -26,9 +27,9 @@
     font-weight: 600;
   }
   &.white {
-    background: #fff 0% 0% no-repeat padding-box;
-    color: #0f1f38;
-    border: 1px solid #0f1f38;
+    background: none;
+    color: #fff;
+    border: 2px solid #cca66a;
   }
 }
 
