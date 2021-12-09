@@ -26,7 +26,7 @@ export const HeaderNavigatorItem = ({
     <a
       onClick={() => {
         store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
-        navigate("/");
+        navigate(to);
       }}
       className={`headerNavigatorItem ${className || ""}`}
     >
@@ -61,17 +61,17 @@ export const HeaderNavigator = ({ currentUri, menu }: { currentUri: string }) =>
     <div className="headerNavigatorContainer headerNavigatorContainerMobile" style={{ display: `${menu}` }}>
       <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
       <HeaderNavigatorItem
-        to="/learn"
+        to="/"
         title="LEARN"
         active={currentUri === "/learn"}
       />
       <HeaderNavigatorItem
-        to="/watch"
+        to="/"
         title="WATCH"
         active={currentUri === "/watch"}
       />
       <HeaderNavigatorItem
-        to="/community"
+        to="/"
         title="COMMUNITY"
         active={currentUri === "/community"}
       />

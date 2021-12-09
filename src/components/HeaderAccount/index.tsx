@@ -10,6 +10,7 @@ import SearchIcon from "../../lib/svgIcons/SearchIcon";
 import FriendsIcon from "../../lib/svgIcons/FriendsIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
+import { MAIN_WEBSITE } from "../../config";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -44,8 +45,8 @@ const HeaderAccount = (props: ISelectProps) => {
         <>
           <div className="headerNavigatorContainer flex-end">
             <SearchIcon className="nav-icon mr-50" />
-            <HeaderNavigatorItem className="pr-50" to="/login" title="LOGIN" />
-            <HeaderNavigatorItem to="/sign-up" title="SIGNUP" />
+            <HeaderNavigatorItem className="pr-50" to={`${MAIN_WEBSITE}login?r=game`} title="LOGIN" />
+            <HeaderNavigatorItem to={`${MAIN_WEBSITE}signup?r=game`} title="SIGNUP" />
           </div>
         </>
       )}
