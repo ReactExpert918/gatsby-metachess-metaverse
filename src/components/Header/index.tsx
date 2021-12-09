@@ -14,19 +14,25 @@ interface Props {
 export const HeaderNavigatorItem = ({
   title,
   to,
+  url,
   active,
   className,
 }: {
   title: string;
-  to: string;
+  to?: string;
+  url?: string;
   active?: boolean;
   className?: string;
 }) => {
   return (
     <a
       onClick={() => {
-        store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
-        navigate(to);
+        if(url) {
+          window.location.href = url;
+        } else {
+          store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
+          navigate(to);
+        }
       }}
       className={`headerNavigatorItem ${className || ""}`}
     >
