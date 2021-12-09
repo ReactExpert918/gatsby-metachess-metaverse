@@ -14,9 +14,13 @@ import { INITIAL_FEN } from "../../pages/game";
 import { connect } from "react-redux";
 import { IAppState } from "../../store/reducers";
 import { IUser } from "../../store/user/user.interfaces";
-import { ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
+import {
+  ISetPlayModePayload,
+  ITimer,
+} from "../../store/gameplay/gameplay.interfaces";
 import { getGameType } from "../../helpers/gameTypeHelper";
 import { GameRules } from "../../interfaces/game.interfaces";
+import Timer from "../Timer";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 const WINDOW_WIDTH_LIMIT = 768;
 
@@ -56,29 +60,35 @@ interface IProps {
   onGameEnd: (winner: "b" | "w" | "draw") => void;
   chessSize?: number;
   currentUser: IUser;
+  timer: ITimer;
   isReplay: boolean;
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
+  moveHistoryData: string[];
 }
 
 class ChessboardWrapper extends Component<IProps, IState> {
   game: ChessInstance;
-  state: IState = {
-    squareStyles: {},
-    squareStylesExceptions: {
-      checkOrCheckmate: {},
-      lastMove: {},
-    },
-    dropSquareStyle: {},
-    pieceSquare: null,
-    blackTimerTime: this.props.timerLimit,
-    whiteTimerTime: this.props.timerLimit,
-    gameReady: true,
-    blackChecked: false,
-    whiteChecked: false,
+  constructor(props: any){
+    super(props);
+    this.state = {
+      squareStyles: {},
+      squareStylesExceptions: {
+        checkOrCheckmate: {},
+        lastMove: {},
+      },
+      dropSquareStyle: {},
+      pieceSquare: null,
+      blackTimerTime: props.timerLimit,
+      whiteTimerTime: props.timerLimit,
+      gameReady: true,
+      blackChecked: false,
+      whiteChecked: false,
+  
+      isFastHide: false,
+    };
+  }
 
-    isFastHide: false,
-  };
   wrapperRef: RefObject<HTMLDivElement> = React.createRef();
   chessboard: typeof Chessboard | (() => null) = (): any => null;
   stockfish: any;
@@ -88,8 +98,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
   checkmateSound: boolean = false;
   stalemateSound: boolean = false;
   sourceDrag: Square = null;
-
-  
 
   componentDidMount() {
     const { skillLevel, maximumError, probability, playerColor } = this.props;
@@ -140,7 +148,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
   componentWillUnmount() {
     this.removeEventListenersOnSquares();
   }
-  
+
   listenersToRemove: any[] = [];
 
   addEventListenersOnSquares = () => {
@@ -266,6 +274,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     return this.props.playerColor === this.game?.turn();
   };
+  allowDrag = (obj: { piece: Piece; sourceSquare: Square }) =>
+    this.props.playerColor === obj.piece[0];
 
   onSquareClick = (square: Square) => {
     if (!this.playerCanPlay()) {
@@ -314,7 +324,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
       return;
     }
     const { pieceSquare } = this.state;
-
     // see if the move is legal
     const move = this.game.move(
       typeof nextMove === "string"
@@ -502,6 +511,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
       timerBonus,
       playMode,
       currentUser,
+      timer,
       gameRules,
       ...restProps
     } = this.props;
@@ -538,6 +548,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
         style={{ maxWidth: chessWidth }}
         {...restProps}
       >
+        {!playMode.isAI && (
+          <Timer className="timer-mobile mt-20" timeLeft={playerColor === "b" ? timer?.white : timer?.black} />
+        )}
         <PlayerStatus
           chessAscii={chessAscii}
           gameType={gameType}
@@ -556,7 +569,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
               display: "flex",
               flex: 1,
               flexDirection: "column",
-              justifyContent: "center",
+              justifyContent: "start",
             }}
           >
             {!isSSR && (
@@ -568,16 +581,16 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     position={this.game?.fen()}
                     onDrop={this.onDrop}
                     draggable={this.playerCanPlay()}
-                    allowDrag={this.playerCanPlay}
+                    allowDrag={this.allowDrag}
                     orientation={playerColor === "b" ? "black" : "white"}
                     squareStyles={combinedSquareStyles}
                     onDragOverSquare={this.onDragOverSquare}
                     // onSquareClick={this.onSquareClick}
                     darkSquareStyle={{
-                      background: "#657B9B 0% 0% no-repeat padding-box",
+                      background: "#674428 0% 0% no-repeat padding-box",
                     }}
                     lightSquareStyle={{
-                      background: "#EFEFEF 0% 0% no-repeat padding-box",
+                      background: "#CCA66A 0% 0% no-repeat padding-box",
                     }}
                     pieces={{
                       wP: (pieceProps) => (
@@ -633,6 +646,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
           name={this.props.isReplay ? undefined : "YOU"}
           reverse={true}
         />
+        {!playMode.isAI && (
+          <Timer className="timer-mobile" timeLeft={playerColor === "w" ? timer?.white : timer?.black} />
+        )}
       </div>
     );
   }

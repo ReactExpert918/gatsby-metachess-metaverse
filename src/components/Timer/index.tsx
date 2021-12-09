@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 interface IProps {
   timeLeft: number;
+  className?: string;
 }
 
 interface IState {
@@ -21,9 +22,9 @@ class Timer extends Component<IProps> {
       : minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
   }
   render() {
-    const { timeLeft } = this.props;
+    const { timeLeft, className } = this.props;
     return (
-      <div className={"timer"}>
+      <div className={`timer ${className || ''}`}>
         {" "}
         {this.getMinutesAndSeconds(timeLeft <= 0 ? 0 : timeLeft)}{" "}
       </div>

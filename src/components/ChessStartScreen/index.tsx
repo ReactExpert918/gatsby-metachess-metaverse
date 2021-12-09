@@ -46,7 +46,7 @@ const ChessStartScreen = ({
 
         <h2>CHOOSE AI DIFFICULTY</h2>
         <div className="squaredButtonsWrapper">
-          <SquaredButton onClick={startGame} title="BEGGINER">
+          <SquaredButton onClick={startGame} title="BEGINNER">
             <img src={buttonPiece}  className="buttonPiece"/>
           </SquaredButton>
           <SquaredButton onClick={startGame} title="AMATEUR">

@@ -1,15 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, navigate } from "gatsby";
-import MainLogo from "../../assets/images/brainchess-logo.png";
-import BellIcon from "../../assets/images/Uniao_77.svg";
-import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
-import { useDispatch } from "react-redux";
-import { chatActions } from "../../store/chat/chat.actions";
 import HeaderAccount from "../HeaderAccount";
 import store from "../../store";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { MAIN_WEBSITE } from "../../config";
+import BrainiacChessLogo from "../../assets/images/BrainiacChessLogo.png";
 interface Props {
   transparent?: boolean;
   uri: string;
@@ -18,39 +14,73 @@ interface Props {
 export const HeaderNavigatorItem = ({
   title,
   to,
+  url,
   active,
+  className,
 }: {
   title: string;
-  to: string;
+  to?: string;
+  url?: string;
   active?: boolean;
+  className?: string;
 }) => {
   return (
     <a
       onClick={() => {
-        store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
-        navigate('/');
+        if(url) {
+          window.location.href = url;
+        } else {
+          store.dispatch(Actions.setChoseMode(MODES.CHOSE_MODE));
+          navigate(to);
+        }
       }}
-      className="headerNavigatorItem"
+      className={`headerNavigatorItem ${className || ""}`}
     >
-      <p className="headerNavigatorItemTitle">{title}</p>
-      <div
+      <p className={`headerNavigatorItemTitle ${active ? "active" : ""}`}>
+        {title}
+      </p>
+      {/* <div
         className={`headerActiveIndicator ${
           active ? "headerActiveIndicatorActive" : ""
         }`}
-      />
+      /> */}
     </a>
   );
 };
-export const HeaderNavigator = ({ currentUri }: { currentUri: string }) => {
+export const HeaderLogo = ({ setMenu, menu }) => {
   return (
-    <div className="headerNavigatorContainer">
-      <Link to={MAIN_WEBSITE}>
-        <img src={MainLogo} className="headerNavigatorLogo" />
-      </Link>
+    <div className="headerNavigatorContainer headerNavigatorMobile">
+      <div>
+        <Link className="mainLogo" to={MAIN_WEBSITE}>
+          <img src={BrainiacChessLogo} className="headerNavigatorLogo" />
+        </Link>
+      </div>
+      <div className="toggleBtn" onClick={() => menu === 'flex' ? setMenu('none') : setMenu('flex')}>
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/menu--v1.png" />
+      </div>
+    </div>
+  );
+};
+
+export const HeaderNavigator = ({ currentUri, menu }: { currentUri: string }) => {
+  return (
+    <div className="headerNavigatorContainer headerNavigatorContainerMobile" style={{ display: `${menu}` }}>
       <HeaderNavigatorItem to="/" title="PLAY" active={currentUri === "/"} />
-      {/* <HeaderNavigatorItem to="/learn" title="LEARN" active={currentUri === '/learn'}/>
-      <HeaderNavigatorItem to="/watch" title="WATCH" active={currentUri === '/watch'}/>
-      <HeaderNavigatorItem to="/community" title="COMMUNITY" active={currentUri === '/community'}/> */}
+      <HeaderNavigatorItem
+        to="/"
+        title="LEARN"
+        active={currentUri === "/learn"}
+      />
+      <HeaderNavigatorItem
+        to="/"
+        title="WATCH"
+        active={currentUri === "/watch"}
+      />
+      <HeaderNavigatorItem
+        to="/"
+        title="COMMUNITY"
+        active={currentUri === "/community"}
+      />
     </div>
   );
 };
@@ -85,11 +115,37 @@ export const withItemNumberIndicator = (
 //   );
 // };
 
+
 const Header = ({ ...restProps }: Props) => {
+  const [menu, setMenu] = useState("flex")
+  const screenWidth=()=>{
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+  }
+ useEffect(() => {
+   screenWidth()
+ }, []) 
+  window.onresize = resize;
+  function resize() {
+    if(window.innerWidth<=768){
+      setMenu("none")
+    }
+    if(window.innerWidth>768){
+      setMenu("flex")
+    }
+  }
+
   return (
     <div className={`headerContainer`}>
+      <HeaderLogo setMenu={setMenu} menu={menu} />
+      <HeaderNavigator currentUri={restProps.uri} menu={menu} />
+      <HeaderAccount menu={menu} />
+      {/* <a className="test" onClick={()=>setMenu(true)}><i className="fas fa-bars"  aria-hidden="true"></i></a>
+      {menu?
       <HeaderNavigator currentUri={restProps.uri} />
-      <HeaderAccount />
+      
+      :""} */}
     </div>
   );
 };

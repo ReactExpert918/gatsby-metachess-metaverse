@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import UsersListTableHeader from "./UsersListTableHeader";
 import UserListTableItem from "./UsersListTableItem";
 import SocketService from "../../services/socket.service";
-import { IGameItem } from "../../store/games/games.interfaces";
+import { IGameItem, RoomEvent } from "../../store/games/games.interfaces";
 import { IAppState } from "../../store/reducers";
 import { connect, useSelector } from "react-redux";
 import { Actions as GamesActions } from "../../store/games/games.action";
@@ -84,6 +84,31 @@ const UsersListTable = ({
   setCurrentUser,
   modifyGameItems,
 }: IProps) => {
+  const { currentUser } = useSelector((state: IAppState) => state.user);
+  // const gameItems: IGameItem[] = [
+  //   {
+  //     gameRules: {
+  //       type: GameType.Blitz,
+  //       rating: {
+  //         maxium: 10,
+  //         minium: 2,
+  //       },
+  //       chessCoin: {
+  //         maxium: 10,
+  //         minium: 2,
+  //       },
+  //       time: {
+  //         base: 5,
+  //         increment: 1,
+  //       },
+  //       mode: GameMode.Rated,
+  //       hostSide: PieceSide.Black,
+  //     },
+  //     host: currentUser,
+  //     roomId: "123",
+  //     status: RoomEvent.GameStarted,
+  //   },
+  // ];
   const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
   useEffect(() => {
     SocketService.subscribeTo({
@@ -92,20 +117,21 @@ const UsersListTable = ({
         modifyGameItems(args);
       },
     });
-    SocketService.sendData(`join-rooms-page`, null, ({rooms, user} : IJoinRoomsPage) => {
-      setCurrentUser({...user});
-      setGameItems(rooms);
-    });
+    SocketService.sendData(
+      `join-rooms-page`,
+      null,
+      ({ rooms, user }: IJoinRoomsPage) => {
+        setCurrentUser({ ...user });
+        setGameItems(rooms);
+      }
+    );
 
     return () => {
-      SocketService.sendData(`leave-rooms-page`, null, () => {
-        
-      });
+      SocketService.sendData(`leave-rooms-page`, null, () => {});
     };
   }, []);
 
   const onItemPress = (roomId: string) => {
-
     subscribeToGameStart();
 
     SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
@@ -116,12 +142,12 @@ const UsersListTable = ({
 
   return (
     <div className="usersListTable">
-      <UsersListTableHeader />
-
-      <div className="listItems">
-        {(gameItems || [])
-          // .map((g) => mapGameItemsToUserList(g))
-          .map((item, index) => (
+      <table>
+        <thead>
+          <UsersListTableHeader />
+        </thead>
+        <tbody>
+          {(gameItems || []).map((item, index) => (
             <UserListTableItem
               key={item.roomId}
               index={index}
@@ -129,11 +155,15 @@ const UsersListTable = ({
               onPress={onItemPress}
             />
           ))}
-      </div>
+        </tbody>
+      </table>
+
+      {/* <div className="listItems">
+        
+      </div> */}
     </div>
   );
 };
-
 
 const connected = connect(null, {
   setGameItems: GamesActions.setGameItems,

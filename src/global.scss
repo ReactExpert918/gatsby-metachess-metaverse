@@ -16,6 +16,7 @@
 @import "./components/Timer/index.scss";
 @import "./components/Header/index.scss";
 @import "./components/Footer/index.scss";
+@import "./components/FriendsSidebar/index.scss";
 @import "./components/Home/index.scss";
 @import "./components/Button/index.scss";
 @import "./components/SquaredButton/index.scss";
@@ -25,22 +26,23 @@
 @import "./components/ChoseModeSection/index.scss";
 @import "./components/PlayWithAISection/index.scss";
 @import "./components/NewGameModal/index.scss";
+@import "./components/PageBackground/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Solway:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "./components/CirclePercentage/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 @import "./components/ToastProvider/index.scss";
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "./components/Toasts/index.scss";
 @import "./components/UsersListTable/index.scss";
 @import "./components/SideChat/index.scss";
 @import "./components/BottomChat/index.scss";
-@import "./components/NewGameModal/index.scss";
+@import "./components/QuickPairingModal/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
 @import "./pages/maintenance/index.scss";
 @import "./components/ActionButtons/index.scss";
 @import "./components/RequestDrawModal/index.scss";
+@import "./components/BorderedGameButton/index.scss";
 
 //  profile
 @import "./pages/profile/index.scss";
@@ -49,9 +51,6 @@
 @import "./components/ProfileDateRange/index.scss";
 @import "./components/ProfileSidebar/index.scss";
 @import "./components/ProfileSummary/index.scss";
-
-////
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 // @import "./bootstrap.min.css";
 
@@ -67,7 +66,7 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
-  font-family: var(--bs-font-sans-serif);
+  font-family: Solway;//var(--bs-font-sans-serif);
 }
 html,
 body,
@@ -128,9 +127,9 @@ p {
 .wrapContainer {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  position: relative;
   & .wrapPage {
-    background-color: #f8f8f8;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -172,4 +171,48 @@ button {
 
 .no-pointer {
   cursor: default;
+}
+
+.mt-75 {
+  margin-top: 75px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-50 {
+  margin-right: 50px !important;
+}
+
+.pr-50 {
+  padding-right: 50px !important;
+}
+
+.mb-35 {
+  margin-bottom: 35px;
+}
+
+.mr-30 {
+  margin-right: 30px !important;
+}
+
+.mb-25 {
+  margin-bottom: 25px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.m-auto {
+  margin: auto;
 }

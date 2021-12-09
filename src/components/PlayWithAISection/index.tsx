@@ -1,12 +1,6 @@
 import React from "react";
 import SquaredButton from "../SquaredButton";
-import buttonPiece from "../../assets/images/buttonPiece.svg";
 import { AI_PLAY_MODE } from "../../constants/playModes";
-import HorsePiece from "../Pieces/HorsePiece";
-import PawnPiece from "../Pieces/PawnPiece";
-import BishopPiece from "../Pieces/BishopPiece";
-import RookPiece from "../Pieces/RookPiece";
-import KingPiece from "../Pieces/KingPiece";
 
 interface IProps {
   setPlayMode: (p: AI_PLAY_MODE) => void;
@@ -23,16 +17,16 @@ const PlayWithAISection = (props: IProps) => {
         >{`< Choose a game mode`}</p>
       </div>
       <div className={"headerWrapper"}>
-        <p className={"xx-large"}>CHOOSE AI DIFFICULTY</p>
+        <p className="header-heading">CHOOSE AI DIFFICULTY</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
           className={"noMargin"}
-          onClick={() => props.setPlayMode(AI_PLAY_MODE.BEGGINER)}
-          title="BEGGINER"
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.BEGINNER)}
+          title="BEGINNER"
         >
-          <div className="centered">
-            <PawnPiece />
+          <div className="bottomAlign">
+            <span className="d-flex pawn"></span>
           </div>
         </SquaredButton>
 
@@ -40,8 +34,8 @@ const PlayWithAISection = (props: IProps) => {
           onClick={() => props.setPlayMode(AI_PLAY_MODE.AMATEUR)}
           title="AMATEUR"
         >
-          <div className="centered">
-            <HorsePiece />
+          <div className="bottomAlign">
+            <span className="d-flex horse"></span>
           </div>
         </SquaredButton>
 
@@ -50,8 +44,8 @@ const PlayWithAISection = (props: IProps) => {
           onClick={() => props.setPlayMode(AI_PLAY_MODE.INTERMEDIATE)}
           title="INTERMEDIATE"
         >
-          <div className="centered">
-            <BishopPiece />
+          <div className="bottomAlign">
+            <span className="d-flex bishop"></span>
           </div>
         </SquaredButton>
       </div>
@@ -61,8 +55,8 @@ const PlayWithAISection = (props: IProps) => {
           onClick={() => props.setPlayMode(AI_PLAY_MODE.PROFESSIONAL)}
           title="PROFESSIONAL"
         >
-          <div className="centered">
-            <RookPiece />
+          <div className="bottomAlign">
+            <span className="d-flex rook"></span>
           </div>
         </SquaredButton>
 
@@ -71,8 +65,8 @@ const PlayWithAISection = (props: IProps) => {
           onClick={() => props.setPlayMode(AI_PLAY_MODE.WORLD_CLASS)}
           title="WORLD CLASS"
         >
-          <div className="centered">
-            <KingPiece />
+          <div className="bottomAlign">
+            <span className="d-flex king"></span>
           </div>
         </SquaredButton>
       </div>
