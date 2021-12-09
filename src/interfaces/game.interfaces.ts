@@ -35,7 +35,7 @@ export interface ILoseMatchForLeaving {
 export interface GameRules {
   chessCoin: MinMax;
   hostSide: PieceSide;
-  rating: MinMax;
+  rating: number;
   mode: GameMode;
   time: Time;
   type: GameType;

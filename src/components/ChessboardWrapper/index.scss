@@ -4,8 +4,8 @@
   flex-direction: row;
   min-width: calc(100vh * (800 / 1920));
   min-height: calc(100vh * (800 / 1920));
-  // max-height: 100%;
-  // background-color: red;
+  box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7),
+    0px 4px 30px rgba(32, 49, 79, 0.7);
 
   @media (max-width: 768px) {
     flex-wrap: wrap;
@@ -52,22 +52,22 @@
   max-height: 73px !important;
   min-height: 73px !important;
 
-
   .elo-container {
     margin-left: 20px;
 
     .elo {
       font-size: 17px;
       font-weight: 600;
+      color: #ada29f;
+      opacity: 0.7;
     }
     .mode {
       font-size: 14px;
-      color: #607aa2;
+      color: #ada29f;
       font-weight: 600;
       margin-top: -5px;
     }
   }
-
 
   .wonFiguresWrapper {
     display: flex;
@@ -84,15 +84,26 @@
 
   .chessboardOpponentName {
     text-align: left;
-    font-size: 1.5rem;
-    letter-spacing: 2.07px;
-    line-height: 31px;
-    color: #0f1f38;
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 18px;
+    text-transform: uppercase;
+    background-image: repeating-linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   &.playerStatusReversed {
     flex-direction: row-reverse;
     align-items: flex-start;
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 0px;
 
     .elo-container {
@@ -103,5 +114,41 @@
     .wonFiguresWrapper {
       justify-content: flex-start;
     }
+  }
+}
+@media only screen and (max-width: 430px) {
+  .chessboardContainer {
+    min-height: 0% !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .playerStatus {
+    max-height: 40px !important;
+    min-height: 40px !important;
+  }
+  .timer-mobile {
+    display: flex;
+    color: #cca66b;
+    background: #0c1221;
+    box-shadow: 4px 0px 30px #283d61b3, 0px 4px 30px #20314fb3;
+  }
+  .timer-desktop {
+    display: none;
+  }
+  .timer-desktop-first {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 451px) {
+  .timer-mobile {
+    display: none;
+  }
+  .timer-desktop {
+    display: flex;
+  }
+  .timer-desktop-first {
+    margin-bottom: 10px;
   }
 }

@@ -1,3 +1,8 @@
+
+require("dotenv").config({
+  path: `.env.${process.env.GATSBY_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     name: `Hello Chess World!`,

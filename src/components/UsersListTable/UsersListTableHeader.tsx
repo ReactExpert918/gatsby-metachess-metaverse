@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 const UsersListTableHeader = () => (
-    <div className="usersListTableHederWrapper usersListTableItemWrapper  cells">
-        <p>Player</p>
-        <p>Mode</p>
-        <p>Rating</p>
-        <p>Time</p>
-        <p>Side</p>
-        {/* <p>Chess Coins</p> */}
-    </div>
-)
+  <tr className="usersListTableHeaderWrapper usersListTableItemWrapper  cells">
+    <th>Player</th>
+    <th>Mode</th>
+    <th>Rating</th>
+    <th>Time</th>
+    <th>Side</th>
+    {/* <p>Chess Coins</p> */}
+  </tr>
+);
 
-export default UsersListTableHeader
+export default UsersListTableHeader;

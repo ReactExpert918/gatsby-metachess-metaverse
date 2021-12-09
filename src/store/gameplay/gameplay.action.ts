@@ -6,7 +6,10 @@ import {
   IGameResume,
   IGameplayElos,
 } from "./gameplay.interfaces";
-import { GameRules, ILoseMatchForLeaving } from "../../interfaces/game.interfaces";
+import {
+  GameRules,
+  ILoseMatchForLeaving,
+} from "../../interfaces/game.interfaces";
 import { IUser } from "../user/user.interfaces";
 
 export enum ACTION_TYPE {
@@ -19,7 +22,9 @@ export enum ACTION_TYPE {
   "SET_OPPONENT" = "gameplay_SET_OPPONENT",
   "CLEAR" = "gameplay_CLEAR",
   "SET_LAST_TIMESTAMP" = "gameplay_SET_LAST_TIMESTAMP",
+  "SET_LAST_TIMESTAMP_FIRST_MOVE" = "gameplay_SET_LAST_TIMESTAMP_FIRST_MOVE",
   "SET_TIMER" = "gameplay_SET_TIMER",
+  "SET_FIRST_TIMER" = "gameplay_SET_FIRST_TIMER",
   "STOP_TIMERS" = "gameplay_STOP_TIMERS",
   "ADD_TO_HISTORY_WITH_TIMESTAMP" = "gameplay_ADD_TO_HISTORY_WITH_TIMESTAMP",
   "SET_HISTORY_WITH_TIMESTAMP" = "gameplay_SET_HISTORY_WITH_TIMESTAMP",
@@ -50,8 +55,14 @@ export const Actions = {
   setOpponent: createAction<IUser>(ACTION_TYPE.SET_OPPONENT),
   clear: createAction<any>(ACTION_TYPE.CLEAR),
   setLastTimestamp: createAction<number>(ACTION_TYPE.SET_LAST_TIMESTAMP),
+  setFirstMoveTimer: createAction<number>(
+    ACTION_TYPE.SET_LAST_TIMESTAMP_FIRST_MOVE
+  ),
   setTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER),
-  setLoseMatchForLeaving: createAction<ILoseMatchForLeaving>(ACTION_TYPE.SET_LOSE_MATCH_FOR_LEAVING),
+  setFirstTimer: createAction<ITimer>(ACTION_TYPE.SET_FIRST_TIMER),
+  setLoseMatchForLeaving: createAction<ILoseMatchForLeaving>(
+    ACTION_TYPE.SET_LOSE_MATCH_FOR_LEAVING
+  ),
   stopTimers: createAction<void>(ACTION_TYPE.STOP_TIMERS),
   addToHistoryWithTimestamp: createAction<IMoveWithTimestamp>(
     ACTION_TYPE.ADD_TO_HISTORY_WITH_TIMESTAMP

@@ -8,6 +8,7 @@ const INITIAL_STATE: IUserReducer = {
   matchesHistory: null,
   serverStatus: null,
   choseMode: MODES.CHOSE_MODE,
+  searchedUsersList: []
 };
 
 export default (
@@ -29,6 +30,9 @@ export default (
       },
       [ACTION_TYPE.SET_CHOSE_MODE]: {
         choseMode: action.payload,
+      },
+      [ACTION_TYPE.SET_SEARCHED_USER_LIST]: {
+        searchedUsersList: action.payload,
       },
     }[action.type],
   };

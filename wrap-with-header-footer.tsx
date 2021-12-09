@@ -1,9 +1,11 @@
 import React from "react";
+import { ToastContainer } from "react-toastify";
 import Header from "./src/components/Header";
-import Footer from "./src/components/Footer";
-import ToastProvider from "./src/components/ToastProvider";
-import SideChat from "./src/components/BottomChat";
 import ChatWrapper from "./src/components/ChatWrapper";
+import ToastProvider from "./src/components/ToastProvider";
+import FriendsSidebar from "./src/components/FriendsSidebar";
+import "react-toastify/dist/ReactToastify.css";
+import PageBackground from "./src/components/PageBackground";
 
 export default ({ element, props }: { element: JSX.Element; props: any }) => {
   return (
@@ -21,6 +23,17 @@ export default ({ element, props }: { element: JSX.Element; props: any }) => {
         </main>
         {/* <Footer {...props}  /> */}
         {/* <SideChat /> */}
+        <FriendsSidebar />
+        <PageBackground />
+        <ToastContainer
+          autoClose={3000}
+          hideProgressBar
+          closeOnClick
+          rtl={false}
+          draggable
+          pauseOnHover
+          theme='colored'
+        />
       </>
     </div>
   );

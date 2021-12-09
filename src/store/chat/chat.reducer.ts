@@ -4,7 +4,8 @@ import { IChatReducer } from "./chat.interfaces";
 
 const INITIAL_STATE: IChatReducer = {
   chatOpened: false,
-  friendRequests: [{ id: "0", name: "John Doe" }],
+  addFriendSearch: false,
+  friendRequests: [],
   activeChats: [
     {
       id: "0",
@@ -45,80 +46,8 @@ const INITIAL_STATE: IChatReducer = {
       ],
     },
   ],
-  chatList: [
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-    {
-      id: "0",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "online",
-    },
-    {
-      id: "1",
-      name: "John Doe",
-      unseenCount: 2,
-      status: "20 MINUTES AGO",
-    },
-  ],
+  chatList: [],
+  friendsList: [],
 };
 
 export default (
@@ -131,6 +60,22 @@ export default (
       [action.type]: {},
       [ACTION_TYPE.TOGGLE_SIDE_CHAT]: {
         chatOpened: !!action.payload ? action.payload : !state.chatOpened,
+        addFriendSearch: state.chatOpened ? false : state.addFriendSearch,
+      },
+      [ACTION_TYPE.TOGGLE_ADD_FRIEND_SEARCH]: {
+        addFriendSearch: action.payload,
+      },
+      [ACTION_TYPE.SET_FRIENDS_LIST]: {
+        friendsList: action.payload,
+      },
+      [ACTION_TYPE.ADD_FRIEND]: {
+        friendsList: [action.payload, ...state.friendsList],
+      },
+      [ACTION_TYPE.SET_FRIENDS_REQUESTS]: {
+        friendRequests: action.payload,
+      },
+      [ACTION_TYPE.ADD_FRIEND_REQUEST]: {
+        friendRequests: [action.payload, ...state.friendRequests],
       },
     }[action.type],
   };

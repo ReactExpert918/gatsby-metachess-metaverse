@@ -1,5 +1,5 @@
 import socketIO from 'socket.io-client';
-import { SOCKET } from '../config';
+import { SOCKET,API, COOKIE_DOMAIN, MAIN_WEBSITE } from '../config';
 
 interface ISocketHandler {
   callback: (payload: any) => void;
@@ -38,7 +38,12 @@ class _SocketHandler {
 
   sendData = (eventName: string, payload: any, ackCallback?: Function) => {
     if (!this?.io?.connected) {
-      console.log("Event name::", eventName)
+      console.log("cookies Domain socket" + COOKIE_DOMAIN)
+      console.log("socket" + SOCKET)
+      console.log("MAIN_WEBSITE_socket" + MAIN_WEBSITE)
+      console.log("API_socket" + API)
+      console.log("Event_name::_socket", eventName)
+      console.log("payload::_socket", payload)
       this.emitters.push({
         eventName,
         payload,

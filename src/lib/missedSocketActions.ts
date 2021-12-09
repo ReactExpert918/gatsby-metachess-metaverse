@@ -18,7 +18,6 @@ const appendCallback = (name: string) => (params: any) => {
 };
 
 export const addMissedSocketActions = () => {
-
   SocketService.subscribeTo({
     eventName: "game-timeout",
     callback: appendCallback("game-timeout"),
@@ -28,7 +27,7 @@ export const addMissedSocketActions = () => {
     eventName: "move-piece",
     callback: (params: IMoveSocket) => {
       const currentState = store.getState() as IAppState;
-      if(currentState.gameplay.gameMounted){
+      if (currentState.gameplay.gameMounted) {
         return;
       }
 
@@ -56,6 +55,11 @@ export const addMissedSocketActions = () => {
   SocketService.subscribeTo({
     eventName: "request-draw",
     callback: appendCallback("request-draw"),
+  });
+
+  SocketService.subscribeTo({
+    eventName: "game-cancelled",
+    callback: appendCallback("game-cancelled"),
   });
 
   SocketService.subscribeTo({
