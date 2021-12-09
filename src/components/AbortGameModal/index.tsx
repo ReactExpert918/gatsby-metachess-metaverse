@@ -10,7 +10,7 @@ const AbortGameModal = ({ playerName = "", onCancel = () => null }: Props) => {
   useEffect(() => {
     setTimeout(() => {
       onCancel();
-    }, 1200);
+    }, 5000);
   }, []);
 
   const title = "Game cancelled";

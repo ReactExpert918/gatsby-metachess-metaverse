@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Modal from "../Modal";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
@@ -9,7 +9,6 @@ import {
   GameType,
 } from "../../interfaces/game.interfaces";
 import subscribeToGameStart from "../../lib/gameStart";
-import { ToastContext } from "../ToastProvider";
 import JoiningOpponent from "../Toasts/JoiningOpponent";
 import SocketService from "../../services/socket.service";
 
@@ -22,13 +21,17 @@ interface IActionProps {
 }
 
 const QuickPairingModal = (props: IProps) => {
-  const toastContext = useContext(ToastContext);
+  const [openWaitingPopup, setOpenWaitingPopup] = useState(false);
 
   const onCancel = () => {
-    SocketService.sendData("cancel-quickplay", null, () => {
-      toastContext.hideToast();
-      props.clear();
-    });
+    setOpenWaitingPopup(false);
+    SocketService.sendData("cancel-quickplay", null);
+    SocketService.sendData("leave-game", null);
+    props.clear();
+  };
+
+  const closePopup = () => {
+    setOpenWaitingPopup(false);
   };
 
   const onQuickPlay = (base: number, increment: number, type: GameType) => {
@@ -47,13 +50,14 @@ const QuickPairingModal = (props: IProps) => {
     if (base === 0) {
       delete gameRules.time;
     }
-    subscribeToGameStart(toastContext.hideToast);
+
+    subscribeToGameStart(closePopup);
     SocketService.sendData(
       "quick-play",
       gameRules,
       (quickPlayFound: boolean) => {
         if (quickPlayFound) {
-          toastContext.showToast(<JoiningOpponent onCancel={onCancel} />);
+          setOpenWaitingPopup(true);
         }
       }
     );
@@ -61,6 +65,7 @@ const QuickPairingModal = (props: IProps) => {
   return (
     <Modal onClose={props.closeModal} withBorder>
       <div className="quick-pairing-modal">
+        {openWaitingPopup && <JoiningOpponent onCancel={onCancel} />}
         <div className={"headerRow"}>
           <h3>Quick pairing</h3>
         </div>
