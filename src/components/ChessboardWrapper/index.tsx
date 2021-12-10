@@ -102,9 +102,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
   componentDidMount() {
     const { skillLevel, maximumError, probability, playerColor } = this.props;
     this.game = new (Chess as any)();
-    console.log('====================================');
-    console.log("value assigned to game", this.game);
-    console.log('====================================');
     this.chessboard = Chessboard;
     this.forceUpdate();
     this.addEventListenersOnSquares();
@@ -382,14 +379,11 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
   highlightPossibleSquares = (square: Square) => {
     // get list of possible moves for this square
-    console.log('--------- log started for highlightPossibleSquares');
-    console.log('square value', square);
-    console.log('this.game', this.game);
     const moves = this.game.moves({
       square,
       verbose: true,
     });
-    console.log('moves', moves);
+
     // exit if there are no moves available for this square
     if (moves.length === 0) {
       return;
@@ -505,6 +499,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
         this.props.onGameEnd("draw");
       }, 300);
       this.stalemateSound = false;
+    }
+    if(this.listenersToRemove && this.listenersToRemove.length == 0) {
+      this.addEventListenersOnSquares();
     }
   }
 
