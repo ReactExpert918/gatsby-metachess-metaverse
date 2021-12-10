@@ -69,7 +69,7 @@ interface IProps {
 
 class ChessboardWrapper extends Component<IProps, IState> {
   game: ChessInstance;
-  constructor(props: any){
+  constructor(props: any) {
     super(props);
     this.state = {
       squareStyles: {},
@@ -84,7 +84,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
       gameReady: true,
       blackChecked: false,
       whiteChecked: false,
-  
+
       isFastHide: false,
     };
   }
@@ -152,7 +152,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
   listenersToRemove: any[] = [];
 
   addEventListenersOnSquares = () => {
-    setTimeout(() => {
+    const interval = setInterval(() => {
+      console.log('====================================');
+      console.log("setinterval called");
+      console.log('====================================');
       const touchStartListener = (testId: string) => () => {
         const pieceSquareId = testId;
         if (
@@ -179,6 +182,9 @@ class ChessboardWrapper extends Component<IProps, IState> {
           touchStartListener(element.getAttribute("data-squareid"))
         );
       });
+      if (this.listenersToRemove.length > 0) {
+        clearInterval(interval);
+      }
     }, 1000);
   };
 
@@ -500,9 +506,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
       }, 300);
       this.stalemateSound = false;
     }
-    if(this.listenersToRemove && this.listenersToRemove.length == 0) {
-      this.addEventListenersOnSquares();
-    }
   }
 
   render() {
@@ -552,7 +555,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
         {...restProps}
       >
         {!playMode.isAI && (
-          <Timer className="timer-mobile mt-20" timeLeft={playerColor === "b" ? timer?.white : timer?.black} />
+          <Timer
+            className="timer-mobile mt-20"
+            timeLeft={playerColor === "b" ? timer?.white : timer?.black}
+          />
         )}
         <PlayerStatus
           chessAscii={chessAscii}
@@ -650,7 +656,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
           reverse={true}
         />
         {!playMode.isAI && (
-          <Timer className="timer-mobile" timeLeft={playerColor === "w" ? timer?.white : timer?.black} />
+          <Timer
+            className="timer-mobile"
+            timeLeft={playerColor === "w" ? timer?.white : timer?.black}
+          />
         )}
       </div>
     );
