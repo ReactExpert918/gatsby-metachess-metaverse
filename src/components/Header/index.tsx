@@ -5,7 +5,7 @@ import store from "../../store";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { MAIN_WEBSITE } from "../../config";
-import BrainiacChessLogo from "../../assets/images/BrainiacChessLogo.png";
+import BrainiacChessLogo from "../../assets/images/metachess_logo_horizontal.png";
 interface Props {
   transparent?: boolean;
   uri: string;
