@@ -14,10 +14,10 @@ const Home = () => {
       <div className="homeContainer">
         <h2>NOT JUST A GAME. A COMMUNITY</h2>
         <p className="homeParagraph">
-        BrainiacChess is building an online chess gaming platform that is incentivized using digital currency. In a simpler statement, you earn rewards in the form of cryptocurrency for doing what you love doing, playing chess! 
+        MetaChess is building an online chess gaming platform that is incentivized using digital currency. In a simpler statement, you earn rewards in the form of cryptocurrency for doing what you love doing, playing chess! 
         </p>
         <br />
-        <p className="homeParagraph">Organization of online tournaments will be an active part of the BrainiacChess platform where participants can earn rewards, socialize and bet against their leading rivals!</p>
+        <p className="homeParagraph">Organization of online tournaments will be an active part of the MetaChess platform where participants can earn rewards, socialize and bet against their leading rivals!</p>
       </div>
     </>
   );
