@@ -104,7 +104,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
     this.game = new (Chess as any)();
     this.chessboard = Chessboard;
     this.forceUpdate();
-    this.addEventListenersOnSquares();
     if (this.props.isAI) {
       Stockfish.init(
         skillLevel,
@@ -123,7 +122,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
     if (nextProps.fen === INITIAL_FEN) {
       this.setState(
         {
-          squareStyles: {},
+          //squareStyles: {},
           squareStylesExceptions: {
             checkOrCheckmate: {},
             lastMove: {},
@@ -145,60 +144,18 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
   }
 
-  componentWillUnmount() {
-    this.removeEventListenersOnSquares();
-  }
-
-  listenersToRemove: any[] = [];
-
-  addEventListenersOnSquares = () => {
-    const interval = setInterval(() => {
-      console.log('====================================');
-      console.log("setinterval called");
-      console.log('====================================');
-      const touchStartListener = (testId: string) => () => {
-        const pieceSquareId = testId;
-        if (
-          pieceSquareId.length === 2 &&
-          pieceSquareId[0] >= "a" &&
-          pieceSquareId[0] <= "h" &&
-          pieceSquareId[1] >= "1" &&
-          pieceSquareId[1] <= "8"
-        ) {
-          // if (!this.state.pieceSquare)
-          this.onSquareClick(pieceSquareId as Square);
-        }
-      };
-      document.querySelectorAll(`div[data-squareid]`).forEach((element) => {
-        this.listenersToRemove.push(
-          touchStartListener(element.getAttribute("data-squareid"))
-        );
-        element.addEventListener(
-          "touchstart",
-          touchStartListener(element.getAttribute("data-squareid"))
-        );
-        element.addEventListener(
-          "mousedown",
-          touchStartListener(element.getAttribute("data-squareid"))
-        );
-      });
-      if (this.listenersToRemove.length > 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
-  };
-
-  removeEventListenersOnSquares = () => {
-    if (!this.listenersToRemove.length) return;
-    document
-      .querySelectorAll(`div[data-squareid]`)
-      .forEach((element, index) => {
-        element.removeEventListener(
-          "touchstart",
-          this.listenersToRemove[index]
-        );
-        element.removeEventListener("mousedown", this.listenersToRemove[index]);
-      });
+  onPieceClick = (testId: string) => {
+    console.log("onPieceClick", testId);
+    const pieceSquareId = testId;
+    if (
+      pieceSquareId.length === 2 &&
+      pieceSquareId[0] >= "a" &&
+      pieceSquareId[0] <= "h" &&
+      pieceSquareId[1] >= "1" &&
+      pieceSquareId[1] <= "8"
+    ) {
+      this.onSquareClick(pieceSquareId as Square);
+    }
   };
 
   // keep clicked square style and remove hint squares
@@ -594,7 +551,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     orientation={playerColor === "b" ? "black" : "white"}
                     squareStyles={combinedSquareStyles}
                     onDragOverSquare={this.onDragOverSquare}
-                    // onSquareClick={this.onSquareClick}
+                    onSquareClick={this.onPieceClick}
+                    //onPieceClick={this.onPieceClick}
                     darkSquareStyle={{
                       background: "#674428 0% 0% no-repeat padding-box",
                     }}
