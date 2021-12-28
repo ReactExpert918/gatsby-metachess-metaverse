@@ -20,5 +20,22 @@ module.exports = {
         path: `${__dirname}/static/fonts/`,
       },
     },
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        // You can add multiple tracking ids and a pageview event will be fired for all of them.
+        trackingIds: [
+          'G-LBDDJ6NTKY', // Google Analytics / GA
+          // optional
+          // 'OPTIONAL----AW-CONVERSION_ID', // Google Ads / Adwords / AW
+          // 'OPTIONAL----DC-FLOODIGHT_ID', // Marketing Platform advertising products (Display & Video 360, Search Ads 360, and Campaign Manager)
+        ],
+        // This object is used for configuration specific to this plugin
+        pluginConfig: {
+          // Puts tracking script in the head instead of the body
+          head: true,
+        },
+      },
+    },
   ],
 };
