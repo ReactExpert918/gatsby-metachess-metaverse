@@ -1,0 +1,53 @@
+.rulesText {
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 150%;
+    color: rgba(255, 255, 255, 0.78);
+    padding: 0 6vmax;
+    margin-bottom: 6vmin;
+}
+
+.sub-headingRules {
+    font-family: Solway;
+    margin-bottom: 4vmin;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.8rem;
+    line-height: 150%;
+    text-transform: uppercase;
+    color: rgba(204, 166, 107, 0.78);
+}
+
+ol {
+    margin-left: 0;
+    padding-left: 0;
+    list-style: none;
+    & li {
+        margin-bottom: 2vmin;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        & p {
+            font-family: Solway;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 150%;
+            flex: 44;
+            color: rgba(255, 255, 255, 0.78);
+        }
+    }
+}
+
+.bullet {
+    width: 3vmin;
+    height: 3vmin;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: #cca66a;
+    margin-right: 1vmax;
+}
