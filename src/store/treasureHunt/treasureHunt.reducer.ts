@@ -7,6 +7,9 @@ const INITIAL_STATE: ITreasureHuntReducer = {
   chancesRemaining: 6,
   lootAcquired: 0,
   gameOver: false,
+  playMode: null,
+  startGameDate: null,
+  endGameDate: null,
 };
 
 export default (

@@ -16,10 +16,10 @@ import TreasureLoot from "../../components/TreasureHuntLootInfo";
 import Modal from "../../components/Modal";
 
 const WINDOW_WIDTH_LIMIT = 768;
+export interface squareStyles {
+  [square in Square]?: CSSProperties;
+}
 const index = () => {
-  interface squareStyles {
-    [square in Square]?: CSSProperties;
-  }
   const dispatch = useDispatch();
   const [playingTreasure, playTreasure] = useAudio(treasureAudio);
   const [playingWrong, playWrong] = useAudio(wrongAudio);
@@ -32,7 +32,6 @@ const index = () => {
     console.log(pieceSquare);
     return {
       [pieceSquare]: {
-        transition: "all 0.5s ease",
         background: `url(${crackedImage})`,
       },
     };
@@ -60,22 +59,24 @@ const index = () => {
       (move: move) =>
         (tempObj = { ...tempObj, ...squareStyling(Object.keys(move)[0]) })
     );
-    console.log(tempObj);
+    // console.log(tempObj);
     setSquareStyles((squareStyles: squareStyles) => ({
       ...squareStyles,
       ...tempObj,
     }));
-  }, [gameOver]);
+  }, []);
   //square click handler
   const handleSquareClick = (squareId: string): void => {
     if (Object.keys(moveList).includes(squareId) || gameOver) return;
-    console.log(squareId);
+    document
+      .querySelector(`div[data-squareid="${squareId}"]`)
+      .classList.add("animating");
     playWrong();
     dispatch(Actions.onMove({ [squareId]: 0 }));
-    setSquareStyles((squareStyles: squareStyles) => ({
-      ...squareStyles,
-      ...squareStyling(squareId),
-    }));
+    // setSquareStyles((squareStyles: squareStyles) => ({
+    //   ...squareStyles,
+    //   ...squareStyling(squareId),
+    // }));
   };
   return (
     <section className="gameContainer">
@@ -96,7 +97,7 @@ const index = () => {
           style={{ maxWidth: chessWidth, marginBottom: "4vmax" }}
         >
           <div
-            className={"chessboardWrapper"}
+            className={"chessboardWrapper treasureHunt"}
             style={{ minWidth: chessWidth, minHeight: "70%", flex: "initial" }}
             ref={wrapperRef}
           >
@@ -112,12 +113,11 @@ const index = () => {
                 width={chessWidth}
                 onSquareClick={handleSquareClick}
                 squareStyles={squareStyles}
-                // lightSquareStyle={}
               />
             </div>
           </div>
         </div>
-        <GameInfo />
+        <GameInfo setSquareStyles={setSquareStyles} />
       </section>
     </section>
   );
