@@ -41,7 +41,7 @@ const index = () => {
     if (!isSSR) windowWidth = window.innerWidth;
     // const limitedHeight =
     if (!isSSR) windowHeight = window.innerHeight;
-  })
+  }, []);
   let chessHeight = WINDOW_WIDTH_LIMIT;
   let chessWidth =
     windowWidth <= WINDOW_WIDTH_LIMIT
