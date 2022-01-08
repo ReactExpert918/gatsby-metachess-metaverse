@@ -38,9 +38,11 @@ const index = () => {
   let windowHeight = WINDOW_WIDTH_LIMIT;
   let windowWidth = 1280;
   useEffect(() => {
-    if (!isSSR) windowWidth = window.innerWidth;
+    if (!isSSR && typeof window !== "undefined")
+      windowWidth = window.innerWidth;
     // const limitedHeight =
-    if (!isSSR) windowHeight = window.innerHeight;
+    if (!isSSR && typeof window !== "undefined")
+      windowHeight = window.innerHeight;
   }, []);
   let chessHeight = WINDOW_WIDTH_LIMIT;
   let chessWidth =
