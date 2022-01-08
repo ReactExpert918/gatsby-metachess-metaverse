@@ -109,11 +109,15 @@ const index = () => {
                 justifyContent: "start",
               }}
             >
-              <Chessboard
-                width={chessWidth}
-                onSquareClick={handleSquareClick}
-                squareStyles={squareStyles}
-              />
+              {!isSSR && (
+                <React.Suspense fallback={<div />}>
+                  <Chessboard
+                    width={chessWidth}
+                    onSquareClick={handleSquareClick}
+                    squareStyles={squareStyles}
+                  />
+                </React.Suspense>
+              )}
             </div>
           </div>
         </div>
