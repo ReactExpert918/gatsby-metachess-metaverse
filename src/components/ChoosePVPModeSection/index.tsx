@@ -15,7 +15,7 @@ interface IProps {
 interface ISelectChooseModeSectionProps extends IProps {
   serverStatus: IServerStatus;
 }
-const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
+const ChoosePVPModeSection = (props: ISelectChooseModeSectionProps) => {
   const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
   return (
     <div className={"choseModeSectionContainer"}>
@@ -31,30 +31,6 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
-        <SquaredButton
-          onClick={() => props.setMode(MODES.PVE_MODE)}
-          title="Player vs Environment"
-        >
-          <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVE</p>
-          </div>
-        </SquaredButton>
-        <SquaredButton
-          onClick={() => props.setMode(MODES.PVP_MODE)}
-          title="Player vs Player"
-        >
-          <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVP</p>
-          </div>
-        </SquaredButton>
-        {/* <SquaredButton
-          onClick={() => props.setMode(MODES.PLAY_AI)}
-          title="PLAY WITH AI"
-        >
-          <div className={"bottomAlign mb-25"}>
-            <span className="d-flex pawn"></span>
-          </div>
-        </SquaredButton>
         <SquaredButton
           onClick={() => {
             setUserSeenMaintenance(false);
@@ -80,7 +56,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           <span className="tLine-2"></span>
           <span className="d-flex user user-2"></span>
           <span className="tLine-3"></span>
-        </SquaredButton> */}
+        </SquaredButton>
       </div>
     </div>
   );
@@ -92,6 +68,6 @@ const mapStateToProps = (state: IAppState) => ({
 
 const connected = connect<ISelectChooseModeSectionProps>(
   mapStateToProps as any
-)(ChoseModeSection);
+)(ChoosePVPModeSection);
 
 export default connected;
