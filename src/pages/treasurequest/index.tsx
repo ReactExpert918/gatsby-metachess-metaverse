@@ -13,7 +13,6 @@ import MoveHistory from "../../components/MovesHistoryTreasureHunt";
 import GameInfo from "../../components/GameInfoTreasureHunt";
 import { move } from "../../store/treasureHunt/treasureHunt.interface";
 import TreasureLoot from "../../components/TreasureHuntLootInfo";
-import Modal from "../../components/Modal";
 
 const WINDOW_WIDTH_LIMIT = 768;
 export interface squareStyles {
