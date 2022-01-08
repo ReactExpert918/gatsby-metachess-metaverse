@@ -3,7 +3,6 @@ import { Square } from "chess.js";
 import crackedImage from "../../assets/images/crackedImage.jpg";
 import treasureAudio from "../../assets/audios/treasureSound.mp3";
 import wrongAudio from "../../assets/audios/wrongSound.mp3";
-import Chessboard from "chessboardjsx";
 import { useDispatch, useSelector } from "react-redux";
 import { IAppState } from "../../store/reducers";
 import { Actions } from "../../store/treasureHunt/treasureHunt.action";
@@ -13,6 +12,7 @@ import MoveHistory from "../../components/MovesHistoryTreasureHunt";
 import GameInfo from "../../components/GameInfoTreasureHunt";
 import { move } from "../../store/treasureHunt/treasureHunt.interface";
 import TreasureLoot from "../../components/TreasureHuntLootInfo";
+const Chessboard = React.lazy(() => import("chessboardjsx"));
 
 const WINDOW_WIDTH_LIMIT = 768;
 export interface squareStyles {
