@@ -4,7 +4,7 @@ stages:
   - deploy
 
 build:development:
-  image: node:12.16.0
+  image: node:12.20.0
   stage: build
   only:
     - development
@@ -13,7 +13,7 @@ build:development:
     - yarn build
   
 build:production:
-  image: node:12.16.0
+  image: node:12.20.0
   stage: build
   only:
     - main
