@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
 import { connect } from "react-redux";
 import MaintenanceModal from "../MaintenanceModal";
+import { Actions as UserActions } from "../../store/user/user.action";
 import {
   IServerStatus,
+  IUser,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
 interface IProps {
-  setMode: (p: MODES) => void;
+  setMode: typeof UserActions.setChoseMode;
 }
 
-interface ISelectChooseModeSectionProps extends IProps {
+interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
+  user: IUser;
 }
-const ChoosePVEModeSection = (props: ISelectChooseModeSectionProps) => {
+const ChoosePVEModeSection = (
+  props: ISelectChooseModeSectionProps & IProps
+) => {
   const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const tooltipRef = useRef<HTMLSpanElement>(null);
   return (
     <div className={"choseModeSectionContainer"}>
       {!userSeenMaintenance &&
@@ -42,13 +48,28 @@ const ChoosePVEModeSection = (props: ISelectChooseModeSectionProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
-          onClick={() => props.setMode(MODES.PLAY_TREASURE_QUEST)}
+          onClick={() => {
+            if (props.user) props.setMode(MODES.PLAY_TREASURE_QUEST);
+          }}
           title="Treasure Quest"
+          className="tooltip"
+          onMouseEnter={() =>
+            (!props.user || !Object.keys(props.user).length) &&
+            tooltipRef.current.classList.add("visible")
+          }
+          onMouseLeave={() =>
+            (!props.user || !Object.keys(props.user).length) &&
+            tooltipRef.current.classList.remove("visible")
+          }
         >
           <div className={"bottomAlign mb-25"}>
             <span className="d-flex chest"></span>
             {/* <span className="squaredButtonTitle mb-35">VS</span> */}
             <span className="d-flex user"></span>
+
+            <span className="tooltiptext" ref={tooltipRef}>
+              Guests are not allowed to play this mode
+            </span>
           </div>
         </SquaredButton>
         {/* <SquaredButton
@@ -84,6 +105,7 @@ const ChoosePVEModeSection = (props: ISelectChooseModeSectionProps) => {
 
 const mapStateToProps = (state: IAppState) => ({
   serverStatus: state.user.serverStatus,
+  user: state.user.currentUser,
 });
 
 const connected = connect<ISelectChooseModeSectionProps>(

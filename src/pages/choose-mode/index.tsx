@@ -78,7 +78,10 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
         <ChoosePVPModeSection setMode={props.setChoseMode} />
       )}
       {choseMode === MODES.PLAY_TREASURE_QUEST && (
-        <TreasureQuestRulesSection setTreasureMode={setTreasureQuestPlayMode} />
+        <TreasureQuestRulesSection
+          setTreasureMode={setTreasureQuestPlayMode}
+          goBack={onGoBack}
+        />
       )}
       {choseMode === MODES.PLAY_AI && (
         <PlayWithAISection setPlayMode={setAIPlayMode} goBack={onGoBack} />

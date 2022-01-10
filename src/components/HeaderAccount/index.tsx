@@ -18,6 +18,7 @@ interface ISelectProps {
 
 const HeaderAccount = (props: ISelectProps) => {
   const dispatch = useDispatch();
+  console.log(props.currentUser);
   const openSideChatPanel = () => {
     dispatch(chatActions.toggleSideChat());
   };
@@ -45,8 +46,15 @@ const HeaderAccount = (props: ISelectProps) => {
         <>
           <div className="headerNavigatorContainer flex-end">
             <SearchIcon className="nav-icon mr-50" />
-            <HeaderNavigatorItem className="pr-50" url={`${MAIN_WEBSITE}login?r=game`} title="LOGIN" />
-            <HeaderNavigatorItem url={`${MAIN_WEBSITE}signup?r=game`} title="SIGNUP" />
+            <HeaderNavigatorItem
+              className="pr-50"
+              url={`${MAIN_WEBSITE}login?r=game`}
+              title="LOGIN"
+            />
+            <HeaderNavigatorItem
+              url={`${MAIN_WEBSITE}signup?r=game`}
+              title="SIGNUP"
+            />
           </div>
         </>
       )}
