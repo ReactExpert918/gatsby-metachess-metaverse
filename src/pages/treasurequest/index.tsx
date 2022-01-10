@@ -115,19 +115,16 @@ const index = () => {
       "treasure-hunt-place",
       squareId,
       (response: placeSquareResponse | null) => {
-        if (!response)
-          toast.error("Server Error! Try Again!", {
+        if (response === null) {
+          toast.error("Server Error! Could not capture click. Try Again!", {
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 10000,
             closeOnClick: true,
           });
-        else if (response.status === PlayEnum.OK || PlayEnum.OKGameFinished) {
-          if (response === null)
-            toast.error("Server Error! Could not capture click. Try Again!", {
-              position: toast.POSITION.BOTTOM_RIGHT,
-              autoClose: 10000,
-              closeOnClick: true,
-            });
+        } else if (
+          response.status === PlayEnum.OK ||
+          response.status === PlayEnum.OKGameFinished
+        ) {
           let treasureValue: number = 0;
           if (!response.level) {
             playWrong();
@@ -138,9 +135,13 @@ const index = () => {
             console.log(treasureValue, response);
           }
           dispatch(Actions.onMove({ [squareId]: treasureValue }));
+          if (response.status === PlayEnum.OKGameFinished)
+            dispatch(Actions.setGameEndDate(new Date().getTime()));
           document
             .querySelector(`div[data-squareid="${squareId}"]`)
-            .classList.add("animating");
+            .classList.add(
+              `animating-${(treasureValue && "treasure") || "digging"}`
+            );
         } else if (response.status === PlayEnum.AttemptsExceeded) {
           toast.error("You Have Already exceeded number of attempts", {
             position: toast.POSITION.BOTTOM_RIGHT,

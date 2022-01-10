@@ -1,4 +1,4 @@
-import { ISetPlayModePayload } from "./treasureHunt.interfaces";
+import { ISetPlayModePayload } from "./treasureHunt.interface";
 import { createAction } from "../generators";
 import { move } from "./treasureHunt.interface";
 
