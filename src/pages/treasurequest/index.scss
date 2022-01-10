@@ -18,8 +18,12 @@
     & div[data-squareId] div {
         transition: all 0.5s ease;
     }
-    & .animating {
+    & .animating.animating-digging {
         animation: noTreasure 0.5s ease;
+        animation-fill-mode: forwards;
+    }
+    & .animating.animating-treasure {
+        animation: treasureFound 0.5s ease;
         animation-fill-mode: forwards;
     }
 }
@@ -27,6 +31,15 @@
 @keyframes noTreasure {
     50% {
         background: crimson;
+    }
+    100% {
+        background: url("assets/images/crackedImage.jpg");
+    }
+}
+
+@keyframes treasureFound {
+    50% {
+        background: gold;
     }
     100% {
         background: url("assets/images/crackedImage.jpg");

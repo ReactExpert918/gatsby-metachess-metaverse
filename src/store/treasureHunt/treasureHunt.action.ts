@@ -1,4 +1,4 @@
-import { ISetPlayModePayload } from "./treasureHunt.interfaces";
+import { ISetPlayModePayload, moveList } from "./treasureHunt.interface";
 import { createAction } from "../generators";
 import { move } from "./treasureHunt.interface";
 
@@ -9,6 +9,8 @@ export enum ACTION_TYPE {
   "SET_TREASURE_MODE" = "SET_TREASURE_MODE",
   "SET_GAME_START_DATE" = "SET_GAME_START_DATE",
   "SET_GAME_END_DATE" = "SET_GAME_END_DATE",
+  "SET_GAME_RESUMED" = "SET_GAME_RESUMED",
+  "SET_IS_RESUME" = "SET_IS_RESUME",
 }
 
 export const Actions = {
@@ -20,4 +22,8 @@ export const Actions = {
   ),
   setGameStartDate: createAction<number>(ACTION_TYPE.SET_GAME_START_DATE),
   setGameEndDate: createAction<number>(ACTION_TYPE.SET_GAME_END_DATE),
+  resumeGame: createAction<{ moveList: moveList; loot: number }>(
+    ACTION_TYPE.SET_GAME_RESUMED
+  ),
+  setIsResume: createAction<boolean>(ACTION_TYPE.SET_IS_RESUME),
 };

@@ -5,10 +5,14 @@ import {
   ITreasureHuntReducer,
   move,
 } from "../../store/treasureHunt/treasureHunt.interface";
+import { IServerStatus } from "../../store/user/user.interfaces";
 
 const MoveHistory = () => {
   const { moveList: moveHistory } = useSelector(
     (state: IAppState): ITreasureHuntReducer => state.treasureHunt
+  );
+  const { serverStatus }: { serverStatus: IServerStatus } = useSelector(
+    (state: IAppState) => state.user
   );
   return (
     <div className="moveHistoryContainer" style={{ marginTop: "0" }}>
@@ -26,7 +30,11 @@ const MoveHistory = () => {
                 }
               >
                 <p>
-                  {Object.keys(move)[0]} - {Object.values(move)[0]} Shah
+                  {move.place} -{" "}
+                  {(move.level &&
+                    serverStatus[`Level${move.level}TreasureValue`]) ||
+                    0}{" "}
+                  Shah
                 </p>
               </div>
             ))
