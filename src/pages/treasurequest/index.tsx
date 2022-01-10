@@ -111,48 +111,48 @@ const index = () => {
   //square click handler
   const handleSquareClick = (squareId: string): void => {
     if (Object.keys(moveList).includes(squareId) || gameOver) return;
-    document
-      .querySelector(`div[data-squareid="${squareId}"]`)
-      .classList.add("animating");
     SocketService.sendData(
       "treasure-hunt-place",
       squareId,
       (response: placeSquareResponse | null) => {
-        if (response === null)
-          toast.error("Server Error! Could not capture click. Try Again!", {
+        if (!response)
+          toast.error("Server Error! Try Again!", {
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 10000,
             closeOnClick: true,
           });
-        let treasureValue: number = 0;
-        if (response.level === null) {
-          playWrong();
-          treasureValue = 0;
-        } else {
-          playTreasure();
-          treasureValue = serverStatus[`Level${response.level}TreasureValue`];
-        }
-
-        switch (response.status) {
-          case PlayEnum.OK:
-            dispatch(Actions.onMove({ [squareId]: treasureValue }));
-            break;
-          case PlayEnum.AttemptsExceeded:
-            toast.error("You Have Already exceeded number of attempts", {
+        else if (response.status === PlayEnum.OK || PlayEnum.OKGameFinished) {
+          if (response === null)
+            toast.error("Server Error! Could not capture click. Try Again!", {
               position: toast.POSITION.BOTTOM_RIGHT,
               autoClose: 10000,
               closeOnClick: true,
             });
-            break;
-          case PlayEnum.OKGameFinished:
-            dispatch(Actions.onMove({ [squareId]: treasureValue }));
-            break;
-          case PlayEnum.PlaceAlreadyClicked:
-            toast.error("You Have Already clicked this square", {
-              position: toast.POSITION.BOTTOM_RIGHT,
-              autoClose: 10000,
-              closeOnClick: true,
-            });
+          let treasureValue: number = 0;
+          if (!response.level) {
+            playWrong();
+            treasureValue = 0;
+          } else {
+            playTreasure();
+            treasureValue = serverStatus[`Level${response.level}TreasureValue`];
+            console.log(treasureValue, response);
+          }
+          dispatch(Actions.onMove({ [squareId]: treasureValue }));
+          document
+            .querySelector(`div[data-squareid="${squareId}"]`)
+            .classList.add("animating");
+        } else if (response.status === PlayEnum.AttemptsExceeded) {
+          toast.error("You Have Already exceeded number of attempts", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 10000,
+            closeOnClick: true,
+          });
+        } else if (response.status === PlayEnum.PlaceAlreadyClicked) {
+          toast.error("You Have Already Clicked This Square", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 10000,
+            closeOnClick: true,
+          });
         }
       }
     );
