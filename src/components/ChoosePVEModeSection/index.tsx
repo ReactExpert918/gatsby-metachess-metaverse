@@ -49,16 +49,16 @@ const ChoosePVEModeSection = (
         </SquaredButton>
         <SquaredButton
           onClick={() => {
-            if (props.user) props.setMode(MODES.PLAY_TREASURE_QUEST);
+            if (props.user.Username) props.setMode(MODES.PLAY_TREASURE_QUEST);
           }}
           title="Treasure Quest"
           className="tooltip"
           onMouseEnter={() =>
-            (!props.user || !Object.keys(props.user).length) &&
+            (!props.user || !props.user.Username) &&
             tooltipRef.current.classList.add("visible")
           }
           onMouseLeave={() =>
-            (!props.user || !Object.keys(props.user).length) &&
+            (!props.user || !props.user.Username) &&
             tooltipRef.current.classList.remove("visible")
           }
         >
