@@ -1,27 +1,50 @@
 import React, { CSSProperties, RefObject, useEffect, useState } from "react";
 import { Square } from "chess.js";
+import { navigate } from "gatsby";
 import crackedImage from "../../assets/images/crackedImage.jpg";
 import treasureAudio from "../../assets/audios/treasureSound.mp3";
 import wrongAudio from "../../assets/audios/wrongSound.mp3";
 import { useDispatch, useSelector } from "react-redux";
 import { IAppState } from "../../store/reducers";
 import { Actions } from "../../store/treasureHunt/treasureHunt.action";
+import { Actions as UserActions } from "../../store/user/user.action";
 import useAudio from "../../helpers/hooks/useAudio";
 import { isSSR } from "../../lib/utils";
 import MoveHistory from "../../components/MovesHistoryTreasureHunt";
 import GameInfo from "../../components/GameInfoTreasureHunt";
 import { move } from "../../store/treasureHunt/treasureHunt.interface";
 import TreasureLoot from "../../components/TreasureHuntLootInfo";
+import SocketService from "../../services/socket.service";
+import { toast } from "react-toastify";
+import { MODES } from "../../constants/playModes";
+import { IServerStatus } from "../../store/user/user.interfaces";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
 const WINDOW_WIDTH_LIMIT = 768;
 export interface squareStyles {
   [square in Square]?: CSSProperties;
 }
+interface todayAttempts {
+  todayAttempts: number;
+}
+export enum PlayEnum {
+  OK,
+  OKGameFinished,
+  AttemptsExceeded,
+  PlaceAlreadyClicked,
+}
+interface placeSquareResponse {
+  status: PlayEnum;
+  level: null | number;
+}
+
 const index = () => {
   const dispatch = useDispatch();
   const [playingTreasure, playTreasure] = useAudio(treasureAudio);
   const [playingWrong, playWrong] = useAudio(wrongAudio);
+  const { serverStatus }: { serverStatus: IServerStatus } = useSelector(
+    (state: IAppState) => state.user
+  );
   const wrapperRef: RefObject<HTMLDivElement> = React.useRef();
   const { moveList, gameOver } = useSelector(
     (state: IAppState) => state.treasureHunt
@@ -35,12 +58,8 @@ const index = () => {
       },
     };
   };
-  let windowHeight = WINDOW_WIDTH_LIMIT;
   let windowWidth = 1280;
   if (!isSSR) windowWidth = window.innerWidth;
-
-  // const limitedHeight =
-  if (!isSSR) windowHeight = window.innerHeight;
   let chessWidth =
     windowWidth <= WINDOW_WIDTH_LIMIT
       ? windowWidth
@@ -51,6 +70,30 @@ const index = () => {
     chessHeight = wrapperRef.current.clientHeight;
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
+  useEffect(() => {
+    SocketService.sendData(
+      "start-treasure-hunt",
+      null,
+      (response: boolean | todayAttempts) => {
+        console.log(response);
+        const message =
+          response === null
+            ? `Game Could Not Be Created.`
+            : typeof response === "object"
+            ? `You have exceeded the number of attempts for today. You have already played ${response.todayAttempts} times`
+            : "";
+        if (response !== true) {
+          toast.error(message, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 10000,
+            closeOnClick: true,
+          });
+          dispatch(UserActions.setChoseMode(MODES.CHOSE_MODE));
+          navigate("/choose-mode");
+        }
+      }
+    );
+  }, []);
   // if user navigates back to page set color of selected pieces
   useEffect(() => {
     // console.log("gere");
@@ -71,12 +114,48 @@ const index = () => {
     document
       .querySelector(`div[data-squareid="${squareId}"]`)
       .classList.add("animating");
-    playWrong();
-    dispatch(Actions.onMove({ [squareId]: 0 }));
-    // setSquareStyles((squareStyles: squareStyles) => ({
-    //   ...squareStyles,
-    //   ...squareStyling(squareId),
-    // }));
+    SocketService.sendData(
+      "treasure-hunt-place",
+      squareId,
+      (response: placeSquareResponse | null) => {
+        if (response === null)
+          toast.error("Server Error! Could not capture click. Try Again!", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 10000,
+            closeOnClick: true,
+          });
+        let treasureValue: number = 0;
+        if (response.level === null) {
+          playWrong();
+          treasureValue = 0;
+        } else {
+          playTreasure();
+          treasureValue = serverStatus[`Level${response.level}TreasureValue`];
+        }
+
+        switch (response.status) {
+          case PlayEnum.OK:
+            dispatch(Actions.onMove({ [squareId]: treasureValue }));
+            break;
+          case PlayEnum.AttemptsExceeded:
+            toast.error("You Have Already exceeded number of attempts", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 10000,
+              closeOnClick: true,
+            });
+            break;
+          case PlayEnum.OKGameFinished:
+            dispatch(Actions.onMove({ [squareId]: treasureValue }));
+            break;
+          case PlayEnum.PlaceAlreadyClicked:
+            toast.error("You Have Already clicked this square", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 10000,
+              closeOnClick: true,
+            });
+        }
+      }
+    );
   };
   return (
     <section className="gameContainer">

@@ -3,11 +3,18 @@ import { TREASURE_QUEST_MODES } from "../../constants/playModes";
 
 interface IProps {
   setTreasureMode: (mode: TREASURE_QUEST_MODES) => void;
+  goBack: () => void;
 }
 
 const index = (props: IProps) => {
   return (
-    <div className={"choseModeSectionContainer"}>
+    <div className={"chooseTreasureQuestModeSection"}>
+      <div className={"backToSelection"}>
+        <p
+          className={"normal"}
+          onClick={props.goBack}
+        >{`< Choose a game mode`}</p>
+      </div>
       <div className={"headerWrapper"} style={{ marginBottom: "4vmin" }}>
         <p className="header-heading">Treasure Quest</p>
       </div>
@@ -69,14 +76,14 @@ const index = (props: IProps) => {
       >
         <button
           className="claimButton"
-          style={{ width: "initial", padding: "15px 4vmax" }}
+          style={{ width: "initial", padding: "2vmin 2vmax" }}
           onClick={() => props.setTreasureMode(TREASURE_QUEST_MODES.REV_SHARE)}
         >
           REV-SHARE MODE
         </button>
         <button
           className="claimButton"
-          style={{ width: "initial", padding: "15px 4vmax" }}
+          style={{ width: "initial", padding: "2vmin 2vmax" }}
           onClick={() => props.setTreasureMode(TREASURE_QUEST_MODES.SOLO_QUEST)}
         >
           SOLO QUEST MORE

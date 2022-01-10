@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
+import { Actions as UserActions } from "../../store/user/user.action";
 import { connect } from "react-redux";
 import MaintenanceModal from "../MaintenanceModal";
 import {
@@ -9,13 +10,13 @@ import {
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
 interface IProps {
-  setMode: (p: MODES) => void;
+  setMode: typeof UserActions.setChoseMode;
 }
 
-interface ISelectChooseModeSectionProps extends IProps {
+interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
 }
-const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
+const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
   const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
   return (
     <div className={"choseModeSectionContainer"}>
