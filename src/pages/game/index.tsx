@@ -92,7 +92,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   fen: string = INITIAL_FEN;
   oldFen: string = INITIAL_FEN;
   chessboardWrapperRef = React.createRef<ChessboardWrapper>();
-
   initialized: boolean = false;
 
   unmounted = false;
@@ -115,6 +114,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     showFirstMoveTime: true,
   };
 
+  idTimeoutShowModal: NodeJS.Timeout = null;
   constructor(props: any) {
     super(props);
     this.onResign = this.onResign.bind(this);
@@ -148,7 +148,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   componentWillUnmount() {
     this.unmounted = true;
     this.props.clear();
-
+    clearTimeout(this.idTimeoutShowModal);
     if (
       !this.props.winner &&
       this.props.playMode &&
@@ -195,7 +195,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             winner = null;
           }
           this.props.stopTimers();
-          this.setState({ showEndModal: true, winner });
+          this.idTimeoutShowModal = setTimeout(
+            () => this.setState({ showEndModal: true, winner }),
+            2000
+          );
           console.log("game-timeout:", params);
         },
       });
@@ -361,7 +364,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
 
   onGameEnd = (winner: "b" | "w" | "draw", isReplay = false) => {
     this.props.stopTimers();
-    this.setState({ showEndModal: true, winner });
+    this.idTimeoutShowModal = setTimeout(
+      () => this.setState({ showEndModal: true, winner }),
+      2000
+    );
 
     if (!isReplay && this.props.playMode.isHumanVsHuman) {
       this.props.setGameEndDate(Date.now());
