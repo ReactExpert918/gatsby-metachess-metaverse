@@ -1,4 +1,5 @@
 import React, { Component, createRef } from "react";
+import Draggable from "react-draggable";
 import CloseIcon from "../../assets/images/CloseIcon.svg";
 
 interface IProps {
@@ -6,12 +7,13 @@ interface IProps {
   onClose: () => void;
   isTopLeft?: boolean;
   withShadow?: boolean;
+  draggable?: boolean;
   withBorder?: boolean;
   withCloseIcon?: boolean;
 }
 
 class Modal extends Component<IProps> {
-  constructor(props: any){
+  constructor(props: any) {
     super(props);
   }
   modalRef = createRef<HTMLDivElement>();
@@ -30,7 +32,14 @@ class Modal extends Component<IProps> {
     }
     this.props.onClose();
   };
-
+  modal = (
+    <div ref={this.modalRef} className="modal-wrapper">
+      <div className="close-icon" onClick={this.props.onClose}>
+        <img src={CloseIcon} />
+      </div>
+      {this.props.children}
+    </div>
+  );
   render() {
     return (
       <div
@@ -38,12 +47,11 @@ class Modal extends Component<IProps> {
           this.props.withShadow && "with-shadow"
         } ${this.props.withBorder && `border3`}`}
       >
-        <div ref={this.modalRef} className="modal-wrapper">
-          <div className="close-icon" onClick={this.props.onClose}>
-            <img src={CloseIcon} />
-          </div>
-          {this.props.children}
-        </div>
+        {this.props.draggable ? (
+          <Draggable>{this.modal}</Draggable>
+        ) : (
+          this.modal
+        )}
       </div>
     );
   }
