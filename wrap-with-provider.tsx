@@ -90,7 +90,9 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       SocketService.sendData(
         `set-guest-token`,
         guestToken,
-        (params: { user: IUser; token: string }) => {
+        (params: { user: IUser; token: string } | string) => {
+          if (params === "already authenticated")
+            navigate("/already-authenticated");
           const tokenToSet = params.token ? params.token : guestToken;
           TOKEN.guest = tokenToSet;
           API.initialize();

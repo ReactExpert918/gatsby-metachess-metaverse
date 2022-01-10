@@ -23,17 +23,20 @@ export default (
       [ACTION_TYPE.SET_ON_MOVE]: {
         moveList: [...state.moveList, action.payload],
         chancesRemaining: state.chancesRemaining - 1,
-        gameOver: state.chancesRemaining === 1,
       },
       [ACTION_TYPE.CLAIM_SHAH]: {
         lootAcquired: 0,
       },
-
+      [ACTION_TYPE.SET_GAME_END_DATE]: {
+        endGameDate: action.payload,
+        gameOver: true,
+      },
       [ACTION_TYPE.RESET_GAME]: {
         moveList: [],
         chancesRemaining: 6,
         lootAcquired: 0,
         gameOver: false,
+        startGameDate: new Date().getTime(),
       },
     }[action.type],
   };
