@@ -21,19 +21,25 @@ import {
   MAINTENANCE_MODE,
   IUser,
 } from "./src/store/user/user.interfaces";
+import { Actions as treasureHuntActions } from "./src/store/treasureHunt/treasureHunt.action";
 import ResumeOldGameModal from "./src/components/ResumeOldGameModal";
+import ResumeOldGameModalTreasureQuest from "./src/components/TreasureQuestResumeGame";
 import { addMissedSocketActions } from "./src/lib/missedSocketActions";
 import { ILoseMatchForLeaving } from "./src/interfaces/game.interfaces";
 import { MAIN_WEBSITE } from "./src/config";
+import { moveList } from "./src/store/treasureHunt/treasureHunt.interface";
 
 interface ISelectXProps {
   playMode: ISetPlayModePayload;
   loseMatchForLeaving: ILoseMatchForLeaving;
   serverStatus: IServerStatus;
+  isResume: boolean;
+  gameInProgress: boolean;
 }
 
 interface IActionProps {
   setLoseMatchForLeaving: typeof gameplayActions.setLoseMatchForLeaving;
+  setIsResume: typeof treasureHuntActions.setIsResume;
 }
 
 // console.log = () => {};
@@ -75,6 +81,27 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
 
         store.dispatch(gameplayActions.resumeGame(runningMatch));
         navigate("/game");
+
+        // SocketService.sendData("resume-my-game", null, (...args: any) => {
+        //   console.log("resume-my-game In running match - set-guest-token:", args);
+        // });
+      },
+    });
+    SocketService.subscribeTo({
+      eventName: "running-match-treasure-hunt",
+      callback: (runningMatch: { attempts: moveList }) => {
+        console.log("runningMatch: ", runningMatch);
+        let loot: number = runningMatch.attempts.reduce((ac, cu) => {
+          if (cu.level)
+            return ac + p.serverStatus[`Level${cu.level}TreasureValue`];
+          else return ac + 0;
+        }, 0);
+        store.dispatch(
+          treasureHuntActions.resumeGame({
+            moveList: runningMatch.attempts,
+            loot,
+          })
+        );
 
         // SocketService.sendData("resume-my-game", null, (...args: any) => {
         //   console.log("resume-my-game In running match - set-guest-token:", args);
@@ -163,6 +190,18 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           leavingTime={30000} // todo: From backend value when user left game
         />
       )}
+      {p.gameInProgress && !p.isResume && (
+        <ResumeOldGameModalTreasureQuest
+          onResume={() => {
+            p.setIsResume(true);
+            navigate("/treasurequest");
+          }}
+          onLeave={() => {
+            p.setIsResume(false);
+          }}
+          leavingTime={30000} // todo: From backend value when user left game
+        />
+      )}
       {p.children}
     </>
   );
@@ -172,10 +211,13 @@ const mapStateToProps = (state: IAppState) => ({
   playMode: state.gameplay.playMode,
   serverStatus: state.user.serverStatus,
   loseMatchForLeaving: state.gameplay.loseMatchForLeaving,
+  gameInProgress: state.treasureHunt.gameInProgress,
+  isResume: state.treasureHunt.isResume,
 });
 
 const ConnectedX = connect<ISelectXProps>(mapStateToProps as any, {
   setLoseMatchForLeaving: gameplayActions.setLoseMatchForLeaving,
+  setIsResume: treasureHuntActions.setIsResume,
 })(X);
 
 // eslint-disable-next-line react/display-name,react/prop-types

@@ -46,7 +46,7 @@ const index = () => {
     (state: IAppState) => state.user
   );
   const wrapperRef: RefObject<HTMLDivElement> = React.useRef();
-  const { moveList, gameOver } = useSelector(
+  const { moveList, gameOver, isResume } = useSelector(
     (state: IAppState) => state.treasureHunt
   );
   const [squareStyles, setSquareStyles] = useState<squareStyles>({});
@@ -71,42 +71,43 @@ const index = () => {
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
   useEffect(() => {
-    SocketService.sendData(
-      "start-treasure-hunt",
-      null,
-      (response: boolean | todayAttempts) => {
-        console.log(response);
-        const message =
-          response === null
-            ? `Game Could Not Be Created.`
-            : typeof response === "object"
-            ? `You have exceeded the number of attempts for today. You have already played ${response.todayAttempts} times`
-            : "";
-        if (response !== true) {
-          toast.error(message, {
-            position: toast.POSITION.BOTTOM_RIGHT,
-            autoClose: 10000,
-            closeOnClick: true,
-          });
-          dispatch(UserActions.setChoseMode(MODES.CHOSE_MODE));
-          navigate("/choose-mode");
+    if (!isResume) {
+      SocketService.sendData(
+        "start-treasure-hunt",
+        null,
+        (response: boolean | todayAttempts) => {
+          console.log(
+            "Value of response called from useEffect on component mount by sending start-treasure-hunt event: " +
+              response
+          );
+          const message =
+            response === null
+              ? `Game Could Not Be Created.`
+              : typeof response === "object"
+              ? `You have exceeded the number of attempts for today. You have already played ${response.todayAttempts} times`
+              : "";
+          if (response !== true) {
+            toast.error(message, {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 10000,
+              closeOnClick: true,
+            });
+            dispatch(UserActions.setChoseMode(MODES.CHOSE_MODE));
+            navigate("/choose-mode");
+          }
         }
-      }
-    );
-  }, []);
-  // if user navigates back to page set color of selected pieces
-  useEffect(() => {
-    // console.log("gere");
-    let tempObj: squareStyles = {};
-    moveList.forEach(
-      (move: move) =>
-        (tempObj = { ...tempObj, ...squareStyling(Object.keys(move)[0]) })
-    );
-    // console.log(tempObj);
-    setSquareStyles((squareStyles: squareStyles) => ({
-      ...squareStyles,
-      ...tempObj,
-    }));
+      );
+    }
+    if (isResume) {
+      let tempObj: squareStyles = {};
+      moveList.forEach(
+        (move: move) => (tempObj = { ...tempObj, ...squareStyling(move.place) })
+      );
+      setSquareStyles((squareStyles: squareStyles) => ({
+        ...squareStyles,
+        ...tempObj,
+      }));
+    }
   }, []);
   //square click handler
   const handleSquareClick = (squareId: string): void => {
@@ -125,22 +126,24 @@ const index = () => {
           response.status === PlayEnum.OK ||
           response.status === PlayEnum.OKGameFinished
         ) {
-          let treasureValue: number = 0;
           if (!response.level) {
             playWrong();
-            treasureValue = 0;
           } else {
             playTreasure();
-            treasureValue = serverStatus[`Level${response.level}TreasureValue`];
-            console.log(treasureValue, response);
           }
-          dispatch(Actions.onMove({ [squareId]: treasureValue }));
+          dispatch(
+            Actions.onMove({
+              place: squareId.toString(),
+              level: response.level,
+            })
+          );
           if (response.status === PlayEnum.OKGameFinished)
             dispatch(Actions.setGameEndDate(new Date().getTime()));
           document
             .querySelector(`div[data-squareid="${squareId}"]`)
             .classList.add(
-              `animating-${(treasureValue && "treasure") || "digging"}`
+              "animating",
+              `animating-${(response.level && "treasure") || "digging"}`
             );
         } else if (response.status === PlayEnum.AttemptsExceeded) {
           toast.error("You Have Already exceeded number of attempts", {

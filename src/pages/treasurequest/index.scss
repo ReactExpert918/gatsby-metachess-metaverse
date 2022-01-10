@@ -18,11 +18,11 @@
     & div[data-squareId] div {
         transition: all 0.5s ease;
     }
-    & .animating-digging {
+    & .animating.animating-digging {
         animation: noTreasure 0.5s ease;
         animation-fill-mode: forwards;
     }
-    & .animating-treasure {
+    & .animating.animating-treasure {
         animation: treasureFound 0.5s ease;
         animation-fill-mode: forwards;
     }
