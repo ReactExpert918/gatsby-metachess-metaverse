@@ -1,4 +1,5 @@
 import React from "react";
+import Draggable from "react-draggable";
 import Modal from "../Modal/index";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
 import { Actions as UserActions } from "../../store/user/user.action";
@@ -6,7 +7,10 @@ import { connect } from "react-redux";
 import { navigate } from "gatsby";
 import { MODES } from "../../constants/playModes";
 import { PawnSvg } from "../Images";
-import { IGameplayElos, ISetPlayModePayload } from "../../store/gameplay/gameplay.interfaces";
+import {
+  IGameplayElos,
+  ISetPlayModePayload,
+} from "../../store/gameplay/gameplay.interfaces";
 import Counter from "../Counter";
 import { getGameTypeElo, getGameTypeName } from "../../helpers/gameTypeHelper";
 import { GameRules, GameMode } from "../../interfaces/game.interfaces";
@@ -32,15 +36,24 @@ interface IProps extends IActionProps {
 }
 
 const WinModal = (props: IProps) => {
-
-  const {winner, elo, gameElos, playerColor, gameRules, opponent, isReplay, onClose, playMode, onReplay} = props;
+  const {
+    winner,
+    elo,
+    gameElos,
+    playerColor,
+    gameRules,
+    opponent,
+    isReplay,
+    onClose,
+    playMode,
+    onReplay,
+  } = props;
 
   const isDraw = winner === "draw";
   const isVictory = winner === playerColor;
   const isDefeat = winner !== "draw" && winner !== playerColor;
 
   const close = () => {
-
     if (onClose) onClose();
 
     if (isReplay && playMode.isHumanVsHuman) {
@@ -56,59 +69,111 @@ const WinModal = (props: IProps) => {
     // props.clear();
     navigate("/");
   };
-  
+
   return (
-    <Modal onClose={close}>
+    <Modal onClose={close} draggable={true}>
       <div className={"win-modal"}>
         <div className="bg">
-          <PawnSvg style={{left: 40, top: 20, transform: "rotate(25deg)"}} />
-          <PawnSvg style={{left: 30, top: 80, transform: "rotate(-18deg)"}} />
-          <PawnSvg style={{left: 80, top: 53, transform: "rotate(-115deg)"}} />
-          <PawnSvg style={{left: 120, top: 90, transform: "rotate(25deg)"}} />
-          <PawnSvg style={{left: 140, top: 17, transform: "rotate(115deg)"}} />
-          <PawnSvg style={{left: 180, top: 70, transform: "rotate(-15deg)"}} />
-          <PawnSvg style={{left: 230, top: 20, transform: "rotate(15deg)"}} />
-          <PawnSvg style={{left: 250, top: 90, transform: "rotate(-85deg)"}} />
-          <PawnSvg style={{left: 300, top: 50, transform: "rotate(135deg)"}} />
-          <PawnSvg style={{left: 340, top: 90, transform: "rotate(-135deg)"}} />
-          <PawnSvg style={{left: 380, top: 20, transform: "rotate(-15deg)"}} />
-          <PawnSvg style={{left: 420, top: 70, transform: "rotate(25deg)"}} />
-          <PawnSvg style={{left: 470, top: 30, transform: "rotate(95deg)"}} />
-          <PawnSvg style={{left: 495, top: 97, transform: "rotate(-65deg)"}} />
-          <PawnSvg style={{left: 545, top: 57, transform: "rotate(-25deg)"}} />
+          <PawnSvg style={{ left: 40, top: 20, transform: "rotate(25deg)" }} />
+          <PawnSvg style={{ left: 30, top: 80, transform: "rotate(-18deg)" }} />
+          <PawnSvg
+            style={{ left: 80, top: 53, transform: "rotate(-115deg)" }}
+          />
+          <PawnSvg style={{ left: 120, top: 90, transform: "rotate(25deg)" }} />
+          <PawnSvg
+            style={{ left: 140, top: 17, transform: "rotate(115deg)" }}
+          />
+          <PawnSvg
+            style={{ left: 180, top: 70, transform: "rotate(-15deg)" }}
+          />
+          <PawnSvg style={{ left: 230, top: 20, transform: "rotate(15deg)" }} />
+          <PawnSvg
+            style={{ left: 250, top: 90, transform: "rotate(-85deg)" }}
+          />
+          <PawnSvg
+            style={{ left: 300, top: 50, transform: "rotate(135deg)" }}
+          />
+          <PawnSvg
+            style={{ left: 340, top: 90, transform: "rotate(-135deg)" }}
+          />
+          <PawnSvg
+            style={{ left: 380, top: 20, transform: "rotate(-15deg)" }}
+          />
+          <PawnSvg style={{ left: 420, top: 70, transform: "rotate(25deg)" }} />
+          <PawnSvg style={{ left: 470, top: 30, transform: "rotate(95deg)" }} />
+          <PawnSvg
+            style={{ left: 495, top: 97, transform: "rotate(-65deg)" }}
+          />
+          <PawnSvg
+            style={{ left: 545, top: 57, transform: "rotate(-25deg)" }}
+          />
         </div>
-        
+
         {/* {props.winner && <p>{winMessage}</p>}
         {!props.winner && <p>{`Stalemate`}</p>} */}
 
-        <div className={`result ${isDraw ? "draw" : isVictory ? "win" : "lose"}`}>
-          {isDraw ? "Draw!" : 
-           isVictory ? "Victory!" : "Defeat!"}
+        <div
+          className={`result ${isDraw ? "draw" : isVictory ? "win" : "lose"}`}
+        >
+          {isDraw ? "Draw!" : isVictory ? "Victory!" : "Defeat!"}
         </div>
         <div className="elo-container">
           {isReplay || !playMode.isHumanVsHuman ? (
-          <div className="text">
-            {isVictory ? "Congratulations! You won the match!" :
-             isDefeat ? `Oh no, ${getOpponentName(!playMode.isHumanVsHuman, playMode.aiMode, opponent)} won the match.` :
-             "Match ended up as a draw."
-            }
-          </div>) :
+            <div className="text">
+              {isVictory
+                ? "Congratulations! You won the match!"
+                : isDefeat
+                ? `Oh no, ${getOpponentName(
+                    !playMode.isHumanVsHuman,
+                    playMode.aiMode,
+                    opponent
+                  )} won the match.`
+                : "Match ended up as a draw."}
+            </div>
+          ) : (
             <>
-              <div className={`elo ${gameRules.mode === GameMode.Casual ? "" : isVictory ? "win" : isDefeat ? "lose" : ""}`}>
-                {gameRules.mode === GameMode.Casual ? elo :
-                <Counter initialValue={elo} increment={isVictory ? Math.round(gameElos.eloWin) : isDefeat ? Math.round(gameElos.eloLose) : Math.round(gameElos.eloDraw)} msDelayStart={1550} msStep={100} />
-                }
+              <div
+                className={`elo ${
+                  gameRules.mode === GameMode.Casual
+                    ? ""
+                    : isVictory
+                    ? "win"
+                    : isDefeat
+                    ? "lose"
+                    : ""
+                }`}
+              >
+                {gameRules.mode === GameMode.Casual ? (
+                  elo
+                ) : (
+                  <Counter
+                    initialValue={elo}
+                    increment={
+                      isVictory
+                        ? Math.round(gameElos.eloWin)
+                        : isDefeat
+                        ? Math.round(gameElos.eloLose)
+                        : Math.round(gameElos.eloDraw)
+                    }
+                    msDelayStart={1550}
+                    msStep={100}
+                  />
+                )}
               </div>
               <div className="elo-title">
                 {getGameTypeName(gameRules.time.base)}
               </div>
             </>
-          }
+          )}
         </div>
 
         <div className={"btn-container"}>
           <button onClick={close} className={"btn"}>
-            {isReplay ? (playMode.isAI ? "Back to choose mode" : "Back to profile") : "Back to the lobby"}
+            {isReplay
+              ? playMode.isAI
+                ? "Back to choose mode"
+                : "Back to profile"
+              : "Back to the lobby"}
           </button>
           <button onClick={onReplay} className={"btn link"}>
             {isReplay ? "Watch again" : "Watch replay"}
