@@ -10,7 +10,8 @@ export enum ACTION_TYPE {
   "SET_GAME_START_DATE" = "SET_GAME_START_DATE",
   "SET_GAME_END_DATE" = "SET_GAME_END_DATE",
   "SET_GAME_RESUMED" = "SET_GAME_RESUMED",
-  "SET_IS_RESUME" = "SET_IS_RESUME",
+  "SET_GAME_IN_PROGRESS" = "SET_GAME_IN_PROGRESS",
+  "SET_GAME_IN_PROGRESS_USER_NAVIGATING" = "SET_GAME_IN_PROGRESS_USER_NAVIGATING",
 }
 
 export const Actions = {
@@ -25,5 +26,8 @@ export const Actions = {
   resumeGame: createAction<{ moveList: moveList; loot: number }>(
     ACTION_TYPE.SET_GAME_RESUMED
   ),
-  setIsResume: createAction<boolean>(ACTION_TYPE.SET_IS_RESUME),
+  setGameInProgressAndUserNavigating: createAction<boolean>(
+    ACTION_TYPE.SET_GAME_IN_PROGRESS_USER_NAVIGATING
+  ),
+  setGameInProgress: createAction<boolean>(ACTION_TYPE.SET_GAME_IN_PROGRESS),
 };

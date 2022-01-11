@@ -46,7 +46,7 @@ const index = () => {
     (state: IAppState) => state.user
   );
   const wrapperRef: RefObject<HTMLDivElement> = React.useRef();
-  const { moveList, gameOver, isResume } = useSelector(
+  const { moveList, gameOver, gameInProgress } = useSelector(
     (state: IAppState) => state.treasureHunt
   );
   const [squareStyles, setSquareStyles] = useState<squareStyles>({});
@@ -71,22 +71,19 @@ const index = () => {
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
   useEffect(() => {
-    if (!isResume) {
+    if (!gameInProgress) {
       SocketService.sendData(
         "start-treasure-hunt",
         null,
         (response: boolean | todayAttempts) => {
-          console.log(
-            "Value of response called from useEffect on component mount by sending start-treasure-hunt event: " +
-              response
-          );
+          console.log(response);
           const message =
             response === null
               ? `Game Could Not Be Created.`
               : typeof response === "object"
               ? `You have exceeded the number of attempts for today. You have already played ${response.todayAttempts} times`
               : "";
-          if (response !== true) {
+          if (!response || response !== true) {
             toast.error(message, {
               position: toast.POSITION.BOTTOM_RIGHT,
               autoClose: 10000,
@@ -95,10 +92,11 @@ const index = () => {
             dispatch(UserActions.setChoseMode(MODES.CHOSE_MODE));
             navigate("/choose-mode");
           }
+          dispatch(Actions.setGameInProgress(true));
+          dispatch(Actions.setGameInProgressAndUserNavigating(false));
         }
       );
-    }
-    if (isResume) {
+    } else {
       let tempObj: squareStyles = {};
       moveList.forEach(
         (move: move) => (tempObj = { ...tempObj, ...squareStyling(move.place) })
@@ -107,7 +105,15 @@ const index = () => {
         ...squareStyles,
         ...tempObj,
       }));
+      SocketService.sendData("resume-my-game-treasure-hunt", null, null);
+      dispatch(Actions.setGameInProgressAndUserNavigating(false));
     }
+    return () => {
+      if (!gameOver) {
+        SocketService.sendData("leave-game-treasure-hunt", null, null);
+        dispatch(Actions.setGameInProgressAndUserNavigating(true));
+      }
+    };
   }, []);
   //square click handler
   const handleSquareClick = (squareId: string): void => {
@@ -116,6 +122,7 @@ const index = () => {
       "treasure-hunt-place",
       squareId,
       (response: placeSquareResponse | null) => {
+        console.log(response);
         if (response === null) {
           toast.error("Server Error! Could not capture click. Try Again!", {
             position: toast.POSITION.BOTTOM_RIGHT,
