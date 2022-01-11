@@ -3,6 +3,7 @@ import NewGameModal from "../NewGameModal";
 import UsersListTable from "../UsersListTable";
 import SocketService from "../../services/socket.service";
 import QuickPairingModal from "../QuickPairingModal";
+import { navigate } from "gatsby";
 
 interface IProps {
   goBack: () => void;
@@ -37,7 +38,12 @@ const PlayWithHumanSection = (props: IProps) => {
         </div>
         <div className="menubuttons">
           <button className="colored">lobby</button>
-          <button className="outlined">global ranking</button>
+          <button
+            className="outlined"
+            onClick={() => navigate("/global-rankings")}
+          >
+            global ranking
+          </button>
         </div>
         <UsersListTable />
       </div>
