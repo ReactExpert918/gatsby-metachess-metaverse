@@ -35,11 +35,12 @@ interface ISelectXProps {
   serverStatus: IServerStatus;
   isResume: boolean;
   gameInProgress: boolean;
+  gameInProgressUserNavigating: boolean;
 }
 
 interface IActionProps {
   setLoseMatchForLeaving: typeof gameplayActions.setLoseMatchForLeaving;
-  setIsResume: typeof treasureHuntActions.setIsResume;
+  setGameInProgressAndUserNavigating: typeof treasureHuntActions.setGameInProgressAndUserNavigating;
 }
 
 // console.log = () => {};
@@ -102,6 +103,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             loot,
           })
         );
+        navigate("/treasurequest");
 
         // SocketService.sendData("resume-my-game", null, (...args: any) => {
         //   console.log("resume-my-game In running match - set-guest-token:", args);
@@ -118,6 +120,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         `set-guest-token`,
         guestToken,
         (params: { user: IUser; token: string } | string) => {
+          console.log(params);
           if (params === "already authenticated")
             navigate("/already-authenticated");
           const tokenToSet = params.token ? params.token : guestToken;
@@ -190,14 +193,13 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           leavingTime={30000} // todo: From backend value when user left game
         />
       )}
-      {p.gameInProgress && !p.isResume && (
+      {p.gameInProgress && p.gameInProgressUserNavigating && (
         <ResumeOldGameModalTreasureQuest
           onResume={() => {
-            p.setIsResume(true);
             navigate("/treasurequest");
           }}
           onLeave={() => {
-            p.setIsResume(false);
+            p.setGameInProgressAndUserNavigating(false);
           }}
           leavingTime={30000} // todo: From backend value when user left game
         />
@@ -212,12 +214,13 @@ const mapStateToProps = (state: IAppState) => ({
   serverStatus: state.user.serverStatus,
   loseMatchForLeaving: state.gameplay.loseMatchForLeaving,
   gameInProgress: state.treasureHunt.gameInProgress,
-  isResume: state.treasureHunt.isResume,
+  gameInProgressUserNavigating: state.treasureHunt.gameInProgressUserNavigating,
 });
 
 const ConnectedX = connect<ISelectXProps>(mapStateToProps as any, {
   setLoseMatchForLeaving: gameplayActions.setLoseMatchForLeaving,
-  setIsResume: treasureHuntActions.setIsResume,
+  setGameInProgressAndUserNavigating:
+    treasureHuntActions.setGameInProgressAndUserNavigating,
 })(X);
 
 // eslint-disable-next-line react/display-name,react/prop-types

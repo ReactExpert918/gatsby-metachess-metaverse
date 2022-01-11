@@ -10,7 +10,7 @@ const INITIAL_STATE: ITreasureHuntReducer = {
   playMode: null,
   startGameDate: null,
   endGameDate: null,
-  isResume: false,
+  gameInProgressUserNavigating: false,
   gameInProgress: false,
 };
 
@@ -25,7 +25,6 @@ export default (
       [ACTION_TYPE.SET_ON_MOVE]: {
         moveList: [...state.moveList, action.payload],
         chancesRemaining: state.chancesRemaining - 1,
-        isResume: true,
       },
       [ACTION_TYPE.CLAIM_SHAH]: {
         lootAcquired: 0,
@@ -33,6 +32,10 @@ export default (
       [ACTION_TYPE.SET_GAME_END_DATE]: {
         endGameDate: action.payload,
         gameOver: true,
+        gameInProgress: false,
+      },
+      [ACTION_TYPE.SET_GAME_START_DATE]: {
+        startGameTime: action.payload,
       },
       [ACTION_TYPE.SET_GAME_RESUMED]: {
         moveList: action.payload?.moveList,
@@ -40,17 +43,16 @@ export default (
         lootAcquired: action.payload?.loot,
         gameInProgress: true,
       },
-      [ACTION_TYPE.SET_IS_RESUME]: {
-        isResume: action.payload,
-        gameInProgress: action.payload,
-      },
       [ACTION_TYPE.RESET_GAME]: {
         moveList: [],
         chancesRemaining: 6,
         lootAcquired: 0,
         gameOver: false,
         startGameDate: new Date().getTime(),
-        isResume: true,
+        gameInProgress: true,
+      },
+      [ACTION_TYPE.SET_GAME_IN_PROGRESS_USER_NAVIGATING]: {
+        gameInProgressUserNavigating: action.payload,
       },
     }[action.type],
   };
