@@ -17,6 +17,6 @@ export interface ITreasureHuntReducer {
   startGameDate: number;
   endGameDate: number;
   playMode: ISetPlayModePayload;
-  isResume: boolean;
+  gameInProgressUserNavigating: boolean;
   gameInProgress: boolean;
 }
