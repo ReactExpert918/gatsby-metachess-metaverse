@@ -1,93 +1,104 @@
 .usersRankingTable {
-  margin-top: 30px;
-  overflow-x: auto;
-  width: 100%;
-  table {
-    border-spacing: 20px 20px;
+    margin-top: 30px;
+    overflow-x: auto;
     width: 100%;
-  }
-  .usersRankingTableHeaderWrapper {
-    width: 100%;
-    box-sizing: border-box;
-    th {
-      border: 2px solid #cca66a;
-      box-sizing: border-box;
-      border-radius: 10px;
-      padding: 18px 0;
-      font-family: Solway;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 120%;
-      text-transform: uppercase;
-      color: #ffffff;
-      text-align: center;
+    table {
+        border-spacing: 20px 20px;
+        width: 100%;
     }
-  }
-  .usersRankingTableItemWrapper {
-    .badge {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: 25px;
-      background: #0f1f38 0% 0% no-repeat padding-box;
-      border-radius: 14px;
-      font-family: var(--bs-font-sans-serif);
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.78px;
-      color: #ffffff;
-      max-height: 25px;
-      padding: 2px 25px 3px;
+    .usersRankingTableHeaderWrapper {
+        width: 100%;
+        box-sizing: border-box;
+        th {
+            border: 2px solid #cca66a;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding: 18px 0;
+            font-family: Solway;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 120%;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-align: center;
+        }
     }
-  }
-  .tableRankItemTextWrapper {
-    text-align: center;
-    padding: 20px 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: #fff;
-  }
-  .usersRankingTableItemWrapper > td {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    text-align: center;
-    width: 216px;
-    p {
-      font-family: Solway;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 140%;
-      text-transform: capitalize;
-      color: #ffffff;
+    .usersRankingTableItemWrapper {
+        .badge {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 25px;
+            background: #0f1f38 0% 0% no-repeat padding-box;
+            border-radius: 14px;
+            font-family: var(--bs-font-sans-serif);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.78px;
+            color: #ffffff;
+            max-height: 25px;
+            padding: 2px 25px 3px;
+        }
     }
-  }
-  .usersRankingTableItemWrapper {
-    cursor: pointer;
-    transition: 0.3s;
-  }
+    .tableRankItemTextWrapper {
+        text-align: center;
+        padding: 20px 0;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: #fff;
+    }
+    .usersRankingTableItemWrapper>td {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        text-align: center;
+        width: 216px;
+        p {
+            font-family: Solway;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 140%;
+            text-transform: capitalize;
+            color: #ffffff;
+        }
+    }
+    .usersRankingTableItemWrapper {
+        cursor: pointer;
+        transition: 0.3s;
+    }
+}
+
+.claimText {
+    font-family: Solway;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 140%;
+    text-transform: uppercase;
+    color: #cca66a;
+    margin-left: 2vmax;
 }
 
 .usersRankingTable p {
-  font-size: 1.2rem;
-  letter-spacing: 1.26px;
-  color: #0f1f38;
+    font-size: 1.2rem;
+    letter-spacing: 1.26px;
+    color: #0f1f38;
 }
 
 @media screen and (max-width: 768px) {
-  tr.usersRankingTableHeaderWrapper th {
-    min-width: 100px;
-  }
-  tr.usersRankingTableHeaderWrapper th:nth-child(2) {
-    min-width: 300px;
-  }
-  tr.usersRankingTableHeaderWrapper th:nth-child(5) {
-    min-width: 200px;
-  }
-  tr.usersRankingTableHeaderWrapper th:nth-child(6) {
-    min-width: 200px;
-  }
+    tr.usersRankingTableHeaderWrapper th {
+        min-width: 100px;
+    }
+    tr.usersRankingTableHeaderWrapper th:nth-child(2) {
+        min-width: 300px;
+    }
+    tr.usersRankingTableHeaderWrapper th:nth-child(5) {
+        min-width: 200px;
+    }
+    tr.usersRankingTableHeaderWrapper th:nth-child(6) {
+        min-width: 200px;
+    }
 }
