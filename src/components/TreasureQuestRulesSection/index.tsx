@@ -20,7 +20,7 @@ const index = (props: IProps) => {
       </div>
       <div className="sub-headingRules">Game Rules</div>
       <p className="rulesText">
-        "In this game mode, your simple quest is to get as much treasures as you
+        In this game mode, your simple quest is to get as much treasures as you
         can. There are hidden treasures in 8 out of the 64 squares on a chess
         board. All you just need to do is to click on any of the squares you
         feel would hold treasures. If you click on a square that has no
@@ -39,7 +39,7 @@ const index = (props: IProps) => {
         Mode.
         <br />
         <br />
-        <span style={{ fontWeight: 400, fontSize: "1.5rem" }}>
+        <span style={{ fontWeight: 400, fontSize: "1.5rem" }} id="summary">
           {" "}
           SUMMARY{" "}
         </span>{" "}
@@ -64,7 +64,7 @@ const index = (props: IProps) => {
             </p>
           </li>
         </ol>{" "}
-        Goodluck on your Quest!"
+        Goodluck on your Quest!
       </p>
       <section
         style={{
