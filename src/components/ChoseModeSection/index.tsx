@@ -16,23 +16,21 @@ interface ISelectChooseModeSectionProps extends IProps {
   serverStatus: IServerStatus;
 }
 const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
-  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const isServerOnline =
+    props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
-        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
-          <MaintenanceModal
-            setUserSeen={() => {
-              setUserSeenMaintenance(true);
-            }}
-          />
-        )}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
-          onClick={() => props.setMode(MODES.PLAY_AI)}
+          className={!isServerOnline ? "no-cursor" : ""}
+          onClick={() => {
+            if (props.serverStatus && isServerOnline) {
+              return props.setMode(MODES.PLAY_AI);
+            }
+          }}
           title="PLAY WITH AI"
         >
           <div className={"bottomAlign mb-25"}>
@@ -40,12 +38,9 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
+          className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            setUserSeenMaintenance(false);
-            if (
-              props.serverStatus &&
-              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
-            ) {
+            if (props.serverStatus && isServerOnline) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
           }}
