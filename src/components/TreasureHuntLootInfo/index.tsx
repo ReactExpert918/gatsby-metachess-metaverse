@@ -17,7 +17,7 @@ const TreasureLoot = () => {
       <p className="title" style={{ textAlign: "center" }}>
         Loot Acquired
         <br />
-        <span style={{ fontWeight: 900 }}>{lootAcquired}</span>
+        <span style={{ fontWeight: 900 }}>{lootAcquired} SHAH</span>
       </p>
       <section style={{ padding: "0 2vmax" }}>
         <button

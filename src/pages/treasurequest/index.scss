@@ -14,6 +14,18 @@
     width: 100%;
 }
 
+@media screen and (max-width: 768px) {
+    .claimButton {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 374px) {
+    .claimButton {
+        font-size: 10px;
+    }
+}
+
 .treasureHunt {
     & div[data-squareId] div {
         transition: all 0.5s ease;
