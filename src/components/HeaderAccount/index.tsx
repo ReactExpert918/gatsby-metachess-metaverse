@@ -11,6 +11,7 @@ import FriendsIcon from "../../lib/svgIcons/FriendsIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import { MAIN_WEBSITE } from "../../config";
+import MaintenancePage from "../../pages/maintenance";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -26,6 +27,7 @@ const HeaderAccount = (props: ISelectProps) => {
     <div className="headerNavigatorContainer flex-end">
       {props.currentUser && props.currentUser.Username ? (
         <>
+          <MaintenanceInfo />
           <SearchIcon className="nav-icon" />
           <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
           <BellIcon className="nav-icon" />
@@ -44,12 +46,32 @@ const HeaderAccount = (props: ISelectProps) => {
       ) : (
         <>
           <div className="headerNavigatorContainer flex-end">
+            <MaintenanceInfo />
             <SearchIcon className="nav-icon mr-50" />
-            <HeaderNavigatorItem className="pr-50" url={`${MAIN_WEBSITE}login?r=game`} title="LOGIN" />
-            <HeaderNavigatorItem url={`${MAIN_WEBSITE}signup?r=game`} title="SIGNUP" />
+            <HeaderNavigatorItem
+              className="pr-50"
+              url={`${MAIN_WEBSITE}login?r=game`}
+              title="LOGIN"
+            />
+            <HeaderNavigatorItem
+              url={`${MAIN_WEBSITE}signup?r=game`}
+              title="SIGNUP"
+            />
           </div>
         </>
       )}
+    </div>
+  );
+};
+
+const MaintenanceInfo = () => {
+  return (
+    <div className="maintenance-info">
+      <BellIcon className="nav-icon tooltip-info-icon" />
+      <div className="tooltip">
+        <span className="tooltip-header"></span>
+        <MaintenancePage />
+      </div>
     </div>
   );
 };
