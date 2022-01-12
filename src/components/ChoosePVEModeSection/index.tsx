@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState, MouseEvent } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
-import { Actions as UserActions } from "../../store/user/user.action";
 import { connect } from "react-redux";
 import MaintenanceModal from "../MaintenanceModal";
+import { Actions as UserActions } from "../../store/user/user.action";
 import {
   IServerStatus,
+  IUser,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
 interface IProps {
@@ -15,54 +16,69 @@ interface IProps {
 
 interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
+  user: IUser;
 }
-const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
-  const isServerOnline =
-    props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
+const ChoosePVEModeSection = (
+  props: ISelectChooseModeSectionProps & IProps
+) => {
+  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const tooltipRef = useRef<HTMLSpanElement>(null);
   return (
     <div className={"choseModeSectionContainer"}>
+      {!userSeenMaintenance &&
+        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
+          <MaintenanceModal
+            setUserSeen={() => {
+              setUserSeenMaintenance(true);
+            }}
+          />
+        )}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
-          className={!isServerOnline ? "no-cursor" : ""}
-          onClick={() => {
-            if (props.serverStatus && isServerOnline) {
-              return props.setMode(MODES.PVE_MODE);
-            }
-          }}
-          title="PLAYER VS ENVIRONMENT"
-        >
-          <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVE</p>
-          </div>
-        </SquaredButton>
-        <SquaredButton
-          className={!isServerOnline ? "no-cursor" : ""}
-          onClick={() => {
-            if (props.serverStatus && isServerOnline) {
-              return props.setMode(MODES.PVP_MODE);
-            }
-          }}
-          title="PLAYER VS PLAYER"
-        >
-          <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVP</p>
-          </div>
-        </SquaredButton>
-        {/* <SquaredButton
           onClick={() => props.setMode(MODES.PLAY_AI)}
-          title="PLAY WITH AI"
+          title="Play With AI"
         >
           <div className={"bottomAlign mb-25"}>
             <span className="d-flex pawn"></span>
+            <span className="squaredButtonTitle mb-35">VS</span>
+            <span className="d-flex user"></span>
           </div>
         </SquaredButton>
         <SquaredButton
-          className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            if (props.serverStatus && isServerOnline) {
+            if (props.user.Username) props.setMode(MODES.PLAY_TREASURE_QUEST);
+          }}
+          title="Treasure Quest"
+          className="tooltip"
+          onMouseEnter={() =>
+            (!props.user || !props.user.Username) &&
+            tooltipRef.current.classList.add("visible")
+          }
+          onMouseLeave={() =>
+            (!props.user || !props.user.Username) &&
+            tooltipRef.current.classList.remove("visible")
+          }
+        >
+          <div className={"bottomAlign mb-25"}>
+            <span className="d-flex chest"></span>
+            {/* <span className="squaredButtonTitle mb-35">VS</span> */}
+            <span className="d-flex user"></span>
+
+            <span className="tooltiptext" ref={tooltipRef}>
+              Guests are not allowed to play this mode
+            </span>
+          </div>
+        </SquaredButton>
+        {/* <SquaredButton
+          onClick={() => {
+            setUserSeenMaintenance(false);
+            if (
+              props.serverStatus &&
+              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
+            ) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
           }}
@@ -89,10 +105,11 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
 
 const mapStateToProps = (state: IAppState) => ({
   serverStatus: state.user.serverStatus,
+  user: state.user.currentUser,
 });
 
 const connected = connect<ISelectChooseModeSectionProps>(
   mapStateToProps as any
-)(ChoseModeSection);
+)(ChoosePVEModeSection);
 
 export default connected;

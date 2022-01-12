@@ -19,6 +19,7 @@ interface ISelectProps {
 
 const HeaderAccount = (props: ISelectProps) => {
   const dispatch = useDispatch();
+  console.log(props.currentUser);
   const openSideChatPanel = () => {
     dispatch(chatActions.toggleSideChat());
   };
