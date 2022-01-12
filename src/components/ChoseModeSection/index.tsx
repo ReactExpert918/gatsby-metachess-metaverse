@@ -34,7 +34,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
       <div className={"squaredWrapper"}>
         <SquaredButton
           onClick={() => props.setMode(MODES.PVE_MODE)}
-          title="Player vs Environment"
+          title="PLAYER VS ENVIRONMENT"
         >
           <div className={"bottomAlign multiple mb-25"}>
             <p className="header-heading">PVE</p>
@@ -42,7 +42,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
         </SquaredButton>
         <SquaredButton
           onClick={() => props.setMode(MODES.PVP_MODE)}
-          title="Player vs Player"
+          title="PLAYER VS PLAYER"
         >
           <div className={"bottomAlign multiple mb-25"}>
             <p className="header-heading">PVP</p>
