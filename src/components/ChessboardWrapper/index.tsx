@@ -241,11 +241,14 @@ class ChessboardWrapper extends Component<IProps, IState> {
     this.props.playerColor === obj.piece[0];
 
   onSquareClick = (square: Square) => {
+    // console.log(square);
+    console.log(this.state.pieceSquare);
     if (!this.playerCanPlay()) {
       return;
     }
     const { pieceSquare } = this.state;
     const squareInfo = this.game.get(square);
+    console.log(squareInfo);
     if (
       pieceSquare === null ||
       (this.props.playerColor === squareInfo?.color &&

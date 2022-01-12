@@ -1,18 +1,20 @@
 @import "./helpers.scss";
-
 @import "./pages/Index.scss";
+@import "./pages/treasurequest/index.scss";
+@import "./pages/already-authenticated/index.scss";
+@import "./pages/global-rankings/index.scss";
 // @import "./pages/test/index.scss";
+@import "./components/TreasureQuestRulesSection/index.scss";
+@import "./components/ChoosePVEModeSection/index.scss";
 @import "./components/Modal/index.scss";
 @import "./components/WinModal/index.scss";
+@import "./components/UserRankingTable/index.scss";
 @import "./components/MaintenanceModal/index.scss";
 @import "./components/ResumeOldGameModal/index.scss";
-
 @import "./pages/game/index.scss";
 @import "./components/IntroScreen/index.scss";
-
 @import "./components/ChatWrapper/index.scss";
 @import "./components/ChessChat/index.scss";
-
 @import "./components/Timer/index.scss";
 @import "./components/Header/index.scss";
 @import "./components/Footer/index.scss";
@@ -20,7 +22,6 @@
 @import "./components/Home/index.scss";
 @import "./components/Button/index.scss";
 @import "./components/SquaredButton/index.scss";
-
 @import "./components/ChessboardWrapper/index.scss";
 @import "./components/MovesHistory/index.scss";
 @import "./components/ChoseModeSection/index.scss";
@@ -28,7 +29,6 @@
 @import "./components/NewGameModal/index.scss";
 @import "./components/PageBackground/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
-
 @import url("https://fonts.googleapis.com/css2?family=Solway:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import "./components/CirclePercentage/index.scss";
 @import "./components/PlayWithHumanSection/index.scss";
@@ -43,7 +43,6 @@
 @import "./components/ActionButtons/index.scss";
 @import "./components/RequestDrawModal/index.scss";
 @import "./components/BorderedGameButton/index.scss";
-
 //  profile
 @import "./pages/profile/index.scss";
 @import "./components/AnotherThing/index.scss";
@@ -51,9 +50,7 @@
 @import "./components/ProfileDateRange/index.scss";
 @import "./components/ProfileSidebar/index.scss";
 @import "./components/ProfileSummary/index.scss";
-
 // @import "./bootstrap.min.css";
-
 :root {
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
@@ -66,8 +63,9 @@
   margin: 0;
   padding: 0;
   text-decoration: none;
-  font-family: Solway;//var(--bs-font-sans-serif);
+  font-family: Solway; //var(--bs-font-sans-serif);
 }
+
 html,
 body,
 #___gatsby {
@@ -90,7 +88,6 @@ div[role="group"][tabindex] {
 //   font-family: "Segoe UI";
 //   src: url("../static/fonts/Segoe\ UI.woff") format("truetype");
 // }
-
 // @font-face {
 //   font-family: "Segoe UI";
 //   font-weight: 700;

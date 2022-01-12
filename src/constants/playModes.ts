@@ -1,7 +1,10 @@
 export enum MODES {
   CHOSE_MODE,
+  PVP_MODE,
+  PVE_MODE,
   PLAY_AI,
-  PLAY_WITH_HUMAN
+  PLAY_WITH_HUMAN,
+  PLAY_TREASURE_QUEST,
 }
 
 export enum AI_PLAY_MODE {
@@ -10,4 +13,9 @@ export enum AI_PLAY_MODE {
   INTERMEDIATE,
   PROFESSIONAL,
   WORLD_CLASS,
+}
+
+export enum TREASURE_QUEST_MODES {
+  REV_SHARE,
+  SOLO_QUEST,
 }
