@@ -6,6 +6,7 @@ import ToastProvider from "./src/components/ToastProvider";
 import FriendsSidebar from "./src/components/FriendsSidebar";
 import "react-toastify/dist/ReactToastify.css";
 import PageBackground from "./src/components/PageBackground";
+import MaintenanceModal from "./src/components/MaintenanceModal";
 
 export default ({ element, props }: { element: JSX.Element; props: any }) => {
   return (
@@ -32,8 +33,9 @@ export default ({ element, props }: { element: JSX.Element; props: any }) => {
           rtl={false}
           draggable
           pauseOnHover
-          theme='colored'
+          theme="colored"
         />
+        <MaintenanceModal />
       </>
     </div>
   );

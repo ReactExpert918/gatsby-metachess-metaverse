@@ -66,7 +66,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   &.active {
-    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+    background-image: repeating-linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    );
   }
 }
 
@@ -101,7 +106,12 @@
     width: 43px;
     border-radius: 50%;
     padding: 1px;
-    background-image: repeating-linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+    background-image: repeating-linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    );
     img {
       width: 100%;
       height: 100%;
@@ -126,7 +136,7 @@
   display: flex !important;
   flex-direction: column !important;
 }
-.toggleBtn{
+.toggleBtn {
   display: none;
 }
 @media screen and (max-width: 769px) {
@@ -134,23 +144,22 @@
     padding: 20px 0 !important;
     flex-direction: column;
   }
-  .headerNavigatorMobile{
+  .headerNavigatorMobile {
     width: 95%;
     display: flex;
     flex-direction: row !important;
-    
   }
   .flex-end {
     justify-content: center !important;
     flex-direction: row !important;
     width: 95%;
   }
-  .toggleBtn{
+  .toggleBtn {
     display: block;
     margin-left: auto;
     color: white;
   }
-  .toggleBtn img{
+  .toggleBtn img {
     width: 32px;
     margin-right: 5px;
   }
@@ -158,31 +167,64 @@
     flex-direction: column;
     margin: 5px 20px;
   }
-  .headerNavigatorContainerMobile{
+  .headerNavigatorContainerMobile {
     width: 95%;
   }
   .headerNavigatorItem {
     margin-top: 30px;
   }
-  .nav-icon{
+  .nav-icon {
     margin-top: 30px;
   }
 }
-.mobile-display-show{
+.mobile-display-show {
   display: flex !important;
 }
-.mobile-display-hide{
+.mobile-display-hide {
   display: none !important;
 }
-@media screen and (max-width: 1055px){
+@media screen and (max-width: 1055px) {
   .headerContainer {
     padding: 20px 0 !important;
     align-items: unset;
   }
 }
-@media screen and (max-width: 425px){
+@media screen and (max-width: 425px) {
   .toggleBtn img {
     margin-right: 20px !important;
   }
 }
-
+.maintenance-info {
+  position: relative;
+  .tooltip-info-icon:hover + .tooltip {
+    display: block;
+  }
+  .tooltip {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: -158px;
+    background: #0c1221;
+    border: 2px solid #cca66a;
+    padding: 15px;
+    border-radius: 10px;
+    p {
+      color: #fff;
+    }
+     &:after {
+      bottom: 100%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+     }
+     &:after {
+      border-bottom-color: #cca66a;
+      border-width: 15px;
+      left: 50%;
+      margin-left: -15px;
+     }
+  }
+}
