@@ -32,14 +32,16 @@ class Modal extends Component<IProps> {
     }
     this.props.onClose();
   };
-  modal = (
-    <div ref={this.modalRef} className="modal-wrapper">
-      <div className="close-icon" onClick={this.props.onClose}>
-        <img src={CloseIcon} />
+  modal() {
+    return (
+      <div ref={this.modalRef} className="modal-wrapper">
+        <div className="close-icon" onClick={this.props.onClose}>
+          <img src={CloseIcon} />
+        </div>
+        {this.props.children}
       </div>
-      {this.props.children}
-    </div>
-  );
+    );
+  }
   render() {
     return (
       <div
@@ -48,9 +50,9 @@ class Modal extends Component<IProps> {
         } ${this.props.withBorder && `border3`}`}
       >
         {this.props.draggable ? (
-          <Draggable>{this.modal}</Draggable>
+          <Draggable>{this.modal()}</Draggable>
         ) : (
-          this.modal
+          this.modal()
         )}
       </div>
     );
