@@ -12,12 +12,16 @@ import useAudio from "../../helpers/hooks/useAudio";
 import { isSSR } from "../../lib/utils";
 import MoveHistory from "../../components/MovesHistoryTreasureHunt";
 import GameInfo from "../../components/GameInfoTreasureHunt";
-import { move } from "../../store/treasureHunt/treasureHunt.interface";
+import {
+  move,
+  moveList,
+} from "../../store/treasureHunt/treasureHunt.interface";
 import TreasureLoot from "../../components/TreasureHuntLootInfo";
 import SocketService from "../../services/socket.service";
 import { toast } from "react-toastify";
 import { MODES } from "../../constants/playModes";
 import { IServerStatus } from "../../store/user/user.interfaces";
+import CelebrationOverlay from "../../components/CelebrationOverlay";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
 const WINDOW_WIDTH_LIMIT = 768;
@@ -42,14 +46,20 @@ const index = () => {
   const dispatch = useDispatch();
   const [playingTreasure, playTreasure] = useAudio(treasureAudio);
   const [playingWrong, playWrong] = useAudio(wrongAudio);
+  const [squareStyles, setSquareStyles] = useState<squareStyles>({});
+  const [showAnimation, setShowAnimation] = useState<boolean>(false);
   const { serverStatus }: { serverStatus: IServerStatus } = useSelector(
     (state: IAppState) => state.user
   );
+  const {
+    moveList,
+    gameOver,
+    gameInProgress,
+  }: { moveList: moveList; gameOver: boolean; gameInProgress: boolean } =
+    useSelector((state: IAppState) => state.treasureHunt);
   const wrapperRef: RefObject<HTMLDivElement> = React.useRef();
-  const { moveList, gameOver, gameInProgress } = useSelector(
-    (state: IAppState) => state.treasureHunt
-  );
-  const [squareStyles, setSquareStyles] = useState<squareStyles>({});
+  const gameOverRef: RefObject<boolean> = React.useRef(gameOver);
+  const timeOutId = React.useRef<NodeJS.Timer>(null);
   const squareStyling = (pieceSquare: string) => {
     console.log(pieceSquare);
     return {
@@ -109,12 +119,20 @@ const index = () => {
       dispatch(Actions.setGameInProgressAndUserNavigating(false));
     }
     return () => {
-      if (!gameOver) {
-        SocketService.sendData("leave-game-treasure-hunt", null, null);
+      console.log(gameOverRef.current);
+      SocketService.sendData("leave-game-treasure-hunt", null, null);
+      if (!gameOverRef.current) {
         dispatch(Actions.setGameInProgressAndUserNavigating(true));
+      } else {
+        dispatch(Actions.resetGame());
       }
+      if (timeOutId.current) clearTimeout(timeOutId.current);
     };
   }, []);
+  useEffect(() => {
+    gameOverRef.current = gameOver;
+  }, [gameOver]);
+
   //square click handler
   const handleSquareClick = (squareId: string): void => {
     if (Object.keys(moveList).includes(squareId) || gameOver) return;
@@ -140,8 +158,11 @@ const index = () => {
           }
           dispatch(
             Actions.onMove({
-              place: squareId.toString(),
-              level: response.level,
+              move: {
+                place: squareId.toString(),
+                level: response.level,
+              },
+              loot: serverStatus[`Level${response.level}TreasureValue`] || 0,
             })
           );
           if (response.status === PlayEnum.OKGameFinished)
@@ -152,6 +173,10 @@ const index = () => {
               "animating",
               `animating-${(response.level && "treasure") || "digging"}`
             );
+          if (response.level) {
+            setShowAnimation(true);
+            timeOutId.current = setTimeout(() => setShowAnimation(false), 5000);
+          }
         } else if (response.status === PlayEnum.AttemptsExceeded) {
           toast.error("You Have Already exceeded number of attempts", {
             position: toast.POSITION.BOTTOM_RIGHT,
@@ -209,6 +234,7 @@ const index = () => {
                 </React.Suspense>
               )}
             </div>
+            {showAnimation ? <CelebrationOverlay /> : null}
           </div>
         </div>
         <GameInfo setSquareStyles={setSquareStyles} />
