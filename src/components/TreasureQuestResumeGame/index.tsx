@@ -43,13 +43,12 @@ const ResumeOldGameModal = (props: IProps) => {
       <div className={"resume-old-game-modal"}>
         <p>You are currently in a treasure quest game</p>
         <div className={"timeleft"}>
-          <p>{(timeLeft / 1000).toString().split(".")[0]}</p>
+          <p>{timeLeft / 1000}</p>
         </div>
         <div className={"btn-container"}>
           <button onClick={props.onResume} className={"btn"}>
             Return to the game
           </button>
-
           {/* <button onClick={props.onLeave} className={"btn"}>
             Leave
           </button> */}

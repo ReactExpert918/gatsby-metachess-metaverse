@@ -23,7 +23,8 @@ export default (
     ...{
       [action.type]: {},
       [ACTION_TYPE.SET_ON_MOVE]: {
-        moveList: [...state.moveList, action.payload],
+        moveList: [...state.moveList, action.payload?.move],
+        lootAcquired: state.lootAcquired + action.payload?.loot,
         chancesRemaining: state.chancesRemaining - 1,
       },
       [ACTION_TYPE.CLAIM_SHAH]: {
@@ -48,8 +49,10 @@ export default (
         chancesRemaining: 6,
         lootAcquired: 0,
         gameOver: false,
-        startGameDate: new Date().getTime(),
         gameInProgress: true,
+      },
+      [ACTION_TYPE.SET_GAME_IN_PROGRESS]: {
+        gameInProgress: action.payload,
       },
       [ACTION_TYPE.SET_GAME_IN_PROGRESS_USER_NAVIGATING]: {
         gameInProgressUserNavigating: action.payload,
