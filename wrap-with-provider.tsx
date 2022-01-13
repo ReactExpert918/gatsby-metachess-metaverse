@@ -199,6 +199,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             navigate("/treasurequest");
           }}
           onLeave={() => {
+            console.log("here");
             p.setGameInProgressAndUserNavigating(false);
           }}
           leavingTime={30000} // todo: From backend value when user left game
