@@ -49,7 +49,7 @@ export default (
         chancesRemaining: 6,
         lootAcquired: 0,
         gameOver: false,
-        gameInProgress: true,
+        gameInProgress: action.payload,
       },
       [ACTION_TYPE.SET_GAME_IN_PROGRESS]: {
         gameInProgress: action.payload,

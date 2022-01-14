@@ -16,7 +16,7 @@ export enum ACTION_TYPE {
 
 export const Actions = {
   onMove: createAction<{ move: move; loot: number }>(ACTION_TYPE.SET_ON_MOVE),
-  resetGame: createAction<null>(ACTION_TYPE.RESET_GAME),
+  resetGame: createAction<boolean>(ACTION_TYPE.RESET_GAME),
   claimShah: createAction<null>(ACTION_TYPE.CLAIM_SHAH),
   setTreasureQuestMode: createAction<ISetPlayModePayload>(
     ACTION_TYPE.SET_TREASURE_MODE

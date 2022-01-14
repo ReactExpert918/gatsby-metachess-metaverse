@@ -38,6 +38,7 @@
         "react-draggable": "^4.4.4",
         "react-helmet": "^6.1.0",
         "react-redux": "^7.2.1",
+        "react-select": "^5.2.1",
         "react-switch": "^5.0.1",
         "react-toastify": "^8.0.3",
         "recompose": "^0.30.0",
