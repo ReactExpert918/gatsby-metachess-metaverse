@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { Actions } from "../../store/user/user.action";
 
-enum UserTypes {
+export enum UserTypes {
   "player" = 1,
   "arbiter",
   "Event Organizer",
@@ -54,20 +54,16 @@ const UserEditInfo = (props: IProps) => {
   ].map((e: string) => ({ label: e, value: UserTypes[e] }));
   const handleSubmit = async (e): void => {
     e.preventDefault();
-    try {
-      const res = await API.execute("POST", ENDPOINTS.USER_UPDATE, {
+    props.setEditing(false);
+    dispatch(
+      Actions.updateUser({
         Fullname: name,
         Type: userType.value,
         CountryId: country.value,
         WalletAddress: walletAddress,
         Avatar: avatar,
-      });
-      console.log(res);
-      props.setEditing(false);
-      dispatch(Actions.updateUser(avatar));
-    } catch (e) {
-      toast.error(e);
-    }
+      })
+    );
   };
   const handleSelectInputChange = (name: string, selectedOption: any) => {
     // console.log(selectedOption);
