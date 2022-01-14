@@ -8,6 +8,7 @@ import { IUser } from "../../store/user/user.interfaces";
 import { connect } from "react-redux";
 import CloseIcon from "../../assets/images/close-icon.png";
 import { navigate } from "gatsby";
+import UserEditInfo from "../../components/UserEditInfo";
 interface Props {
   currentUser: IUser;
 }
@@ -16,28 +17,33 @@ interface IActionProps {
   fetchCurrentUser: typeof userActions.fetchCurrentUser;
 }
 
-
-const Profile = ({currentUser, fetchCurrentUser}: Props & IActionProps) => {
-
+const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   useEffect(() => {
     if (currentUser?.Id && fetchCurrentUser) fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  console.log(fetchCurrentUser);
-
+  // console.log(fetchCurrentUser);
+  // return <UserEditInfo />;
 
   return (
     <div className={"profileWrapper"}>
       <ProfileSidebar currentUser={currentUser} />
       <div className="profileOverall">
-      <img src={CloseIcon} className="close-icon" onClick={()=>navigate('/')} />
-        {!currentUser ? 
-        <div></div> : currentUser.GuestId ?
-        <div className="logged-in-feature">This area is not available for guests.</div> :
-        (       
+        <img
+          src={CloseIcon}
+          className="close-icon"
+          onClick={() => navigate("/")}
+        />
+        {!currentUser ? (
+          <div></div>
+        ) : currentUser.GuestId ? (
+          <div className="logged-in-feature">
+            This area is not available for guests.
+          </div>
+        ) : (
           <Matches />
-          )}
-          {/* <ProfileDateRange
+        )}
+        {/* <ProfileDateRange
             title={"01-15 Aug 2020"}
             onClickNext={() => {}}
             onClickPrev={() => {}}
@@ -51,10 +57,10 @@ const Profile = ({currentUser, fetchCurrentUser}: Props & IActionProps) => {
   );
 };
 
-const mapStateToProps = ({
-  user: { currentUser },
-}: IAppState): Props => ({ currentUser });
+const mapStateToProps = ({ user: { currentUser } }: IAppState): Props => ({
+  currentUser,
+});
 
 export default connect(mapStateToProps, {
-  fetchCurrentUser: userActions.fetchCurrentUser
+  fetchCurrentUser: userActions.fetchCurrentUser,
 })(Profile);
