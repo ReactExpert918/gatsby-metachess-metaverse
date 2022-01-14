@@ -23,7 +23,9 @@ const ProfileSidebar = ({ currentUser }: Props) => {
         <img src={ProfilePlaceholder} />
         <p>{currentUser ? getOpponentName(false, null, currentUser) : ""}</p>
       </div>
-      <TabHeader onSelect={setSelectedTab} selected={selectedTab} />
+      {!currentUser?.GuestId ? (
+        <TabHeader onSelect={setSelectedTab} selected={selectedTab} />
+      ) : null}
       {selectedTab === "star" && <StarTabContent currentUser={currentUser} />}
       {/* {selectedTab === "achivement" && <AchivementInfoTabContent />} */}
       {selectedTab === "profile" && <UserEditInfo currentUser={currentUser} />}
