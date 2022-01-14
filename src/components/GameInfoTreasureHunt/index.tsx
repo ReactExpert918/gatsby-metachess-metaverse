@@ -30,7 +30,7 @@ const GameInfo = (props: IProps) => {
           <button
             className="claimButton"
             onClick={() => {
-              dispatch(Actions.resetGame());
+              dispatch(Actions.resetGame(true));
               document
                 .querySelectorAll(`div[data-squareid]`)
                 .forEach((el) =>

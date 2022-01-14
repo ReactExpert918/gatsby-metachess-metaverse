@@ -120,11 +120,11 @@ const index = () => {
     }
     return () => {
       console.log(gameOverRef.current);
-      SocketService.sendData("leave-game-treasure-hunt", null, null);
       if (!gameOverRef.current) {
+        SocketService.sendData("leave-game-treasure-hunt", null, null);
         dispatch(Actions.setGameInProgressAndUserNavigating(true));
       } else {
-        dispatch(Actions.resetGame());
+        dispatch(Actions.resetGame(false));
       }
       if (timeOutId.current) clearTimeout(timeOutId.current);
     };
@@ -173,7 +173,7 @@ const index = () => {
               "animating",
               `animating-${(response.level && "treasure") || "digging"}`
             );
-          if (response.level) {
+          if (response.level === 3) {
             setShowAnimation(true);
             timeOutId.current = setTimeout(() => setShowAnimation(false), 5000);
           }
