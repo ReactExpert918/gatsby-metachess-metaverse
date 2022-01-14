@@ -3,12 +3,10 @@ import { ACTION_TYPE } from "./user.action";
 import { Actions as userActions } from "./user.action";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-import {
-  IServerStatus,
-  IUser,
-  MAINTENANCE_MODE,
-} from "./user.interfaces";
+import { IServerStatus, IUser, MAINTENANCE_MODE } from "./user.interfaces";
 import { MAIN_WEBSITE } from "../../config";
+import { UserTypes } from "../../components/UserEditInfo";
+import { IAppState } from "../reducers";
 
 function* onFetchCurrentUser() {
   try {
@@ -19,6 +17,30 @@ function* onFetchCurrentUser() {
     if (res.data === "not verified" && res.status === 401) {
       window.location.href = MAIN_WEBSITE;
     }
+    console.log("err", res);
+  }
+}
+
+function* onUpdateCurrentUser({
+  payload,
+}: {
+  payload: {
+    Fullname: string;
+    Type: UserTypes;
+    CountryId: number;
+    WalletAddress: string;
+    Avatar: string;
+  };
+}) {
+  try {
+    yield call(() =>
+      API.execute("POST", ENDPOINTS.USER_UPDATE, payload)
+    );
+    const getUser = (state: IAppState): IUser => state.user.currentUser;
+    const user:IUser = yield select(getUser);
+    console.log(user);
+    yield put(userActions.setCurrentUser({...user,Avatar:payload.Avatar}));
+  } catch (res) {
     console.log("err", res);
   }
 }
@@ -75,6 +97,10 @@ function* watchFetchCurrentUser() {
   yield takeLatest(ACTION_TYPE.FETCH_CURRENT_USER as any, onFetchCurrentUser);
 }
 
+function* watchUpdateCurrentUser() {
+  yield takeLatest(ACTION_TYPE.UPDATE_CURRENT_USER as any, onUpdateCurrentUser);
+}
+
 function* watchFetchMatchesHistory() {
   yield takeLatest(
     ACTION_TYPE.FETCH_MATCHES_HISTORY as any,
@@ -91,4 +117,5 @@ export default [
   watchFetchMatchesHistory,
   watchFetchServerStatus,
   watchFetchSearchedUserList,
+  watchUpdateCurrentUser,
 ];

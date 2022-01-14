@@ -1,3 +1,4 @@
+import { UserTypes } from "../../components/UserEditInfo";
 import { MODES } from "../../constants/playModes";
 import { createAction } from "../generators";
 import { IMatchHistory, IServerStatus, IUser } from "./user.interfaces";
@@ -17,7 +18,13 @@ export enum ACTION_TYPE {
 
 export const Actions = {
   fetchCurrentUser: createAction<any>(ACTION_TYPE.FETCH_CURRENT_USER),
-  updateUser: createAction<string>(ACTION_TYPE.UPDATE_CURRENT_USER),
+  updateUser: createAction<{
+    Fullname: string;
+    Type: UserTypes;
+    CountryId: number;
+    WalletAddress: string;
+    Avatar: string;
+  }>(ACTION_TYPE.UPDATE_CURRENT_USER),
   setCurrentUser: createAction<Partial<IUser>>(ACTION_TYPE.SET_CURRENT_USER),
   fetchMatchesHistory: createAction<any>(ACTION_TYPE.FETCH_MATCHES_HISTORY),
   setMatchesHistory: createAction<IMatchHistory[]>(
