@@ -17,6 +17,7 @@ interface IProps {
 interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
   user: IUser;
+  todayAttempts: number;
 }
 const ChoosePVEModeSection = (
   props: ISelectChooseModeSectionProps & IProps
@@ -54,11 +55,11 @@ const ChoosePVEModeSection = (
           title="Treasure Quest"
           className="tooltip"
           onMouseEnter={() =>
-            (!props.user || !props.user.Username) &&
+            (!props.user || !props.user.Username || !props.todayAttempts) &&
             tooltipRef.current.classList.add("visible")
           }
           onMouseLeave={() =>
-            (!props.user || !props.user.Username) &&
+            (!props.user || !props.user.Username || !props.todayAttempts) &&
             tooltipRef.current.classList.remove("visible")
           }
         >
@@ -68,7 +69,9 @@ const ChoosePVEModeSection = (
             <span className="d-flex user"></span>
 
             <span className="tooltiptext" ref={tooltipRef}>
-              Guests are not allowed to play this mode
+              {props.user.GuestId
+                ? "Guests are not allowed to play this mode"
+                : "You have already exceeded maximum attempts for a day"}
             </span>
           </div>
         </SquaredButton>
@@ -106,6 +109,7 @@ const ChoosePVEModeSection = (
 const mapStateToProps = (state: IAppState) => ({
   serverStatus: state.user.serverStatus,
   user: state.user.currentUser,
+  todayAttempts: state.treasureHunt.playAttemptsRemaining,
 });
 
 const connected = connect<ISelectChooseModeSectionProps>(

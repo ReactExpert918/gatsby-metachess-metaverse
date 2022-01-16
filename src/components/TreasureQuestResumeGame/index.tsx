@@ -18,10 +18,10 @@ const ResumeOldGameModal = (props: IProps) => {
     let timeout: NodeJS.Timeout = null;
     if (timeLeft >= 0) {
       timeout = setTimeout(() => {
-        if (timeLeft < 1000) {
+        if (timeLeft < 1) {
           props.onLeave();
         } else {
-          setTimeLeft(timeLeft - 1000);
+          setTimeLeft(timeLeft - 1);
         }
       }, 1000);
     }
@@ -32,7 +32,8 @@ const ResumeOldGameModal = (props: IProps) => {
       }
     };
   }, [timeLeft]);
-
+  const minutes: number = Math.floor(timeLeft / 60);
+  const seconds: number = minutes !== 10 ? timeLeft - minutes * 60 : 0;
   return (
     <Modal
       onClose={onClose}
@@ -43,7 +44,10 @@ const ResumeOldGameModal = (props: IProps) => {
       <div className={"resume-old-game-modal"}>
         <p>You are currently in a treasure quest game</p>
         <div className={"timeleft"}>
-          <p>{timeLeft / 1000}</p>
+          <p>
+            {minutes.toString().padStart(2, "0")}:
+            {seconds.toString().padStart(2, "0")}
+          </p>
         </div>
         <div className={"btn-container"}>
           <button onClick={props.onResume} className={"btn"}>

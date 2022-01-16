@@ -10,6 +10,7 @@ export enum ACTION_TYPE {
   "SET_GAME_START_DATE" = "SET_GAME_START_DATE",
   "SET_GAME_END_DATE" = "SET_GAME_END_DATE",
   "SET_GAME_RESUMED" = "SET_GAME_RESUMED",
+  "SET_GAME_INFORMATION" = "SET_GAME_INFORMATION",
   "SET_GAME_IN_PROGRESS" = "SET_GAME_IN_PROGRESS",
   "SET_GAME_IN_PROGRESS_USER_NAVIGATING" = "SET_GAME_IN_PROGRESS_USER_NAVIGATING",
 }
@@ -23,11 +24,16 @@ export const Actions = {
   ),
   setGameStartDate: createAction<number>(ACTION_TYPE.SET_GAME_START_DATE),
   setGameEndDate: createAction<number>(ACTION_TYPE.SET_GAME_END_DATE),
-  resumeGame: createAction<{ moveList: moveList; loot: number }>(
-    ACTION_TYPE.SET_GAME_RESUMED
-  ),
+  resumeGame: createAction<{
+    moveList: moveList;
+    loot: number;
+    timeLeft: number;
+  }>(ACTION_TYPE.SET_GAME_RESUMED),
   setGameInProgressAndUserNavigating: createAction<boolean>(
     ACTION_TYPE.SET_GAME_IN_PROGRESS_USER_NAVIGATING
+  ),
+  setGameInformation: createAction<{ attempts: number; chances: number }>(
+    ACTION_TYPE.SET_GAME_INFORMATION
   ),
   setGameInProgress: createAction<boolean>(ACTION_TYPE.SET_GAME_IN_PROGRESS),
 };

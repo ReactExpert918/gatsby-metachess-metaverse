@@ -36,6 +36,7 @@ interface ISelectXProps {
   isResume: boolean;
   gameInProgress: boolean;
   gameInProgressUserNavigating: boolean;
+  timeLeft: number;
 }
 
 interface IActionProps {
@@ -90,8 +91,12 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     });
     SocketService.subscribeTo({
       eventName: "running-match-treasure-hunt",
-      callback: (runningMatch: { attempts: moveList }) => {
+      callback: (runningMatch: {
+        attempts: moveList;
+        leaveTimeStamp: number;
+      }) => {
         console.log("runningMatch: ", runningMatch);
+        const timeLeft = new Date().getTime() - runningMatch.leaveTimeStamp;
         let loot: number = runningMatch.attempts.reduce((ac, cu) => {
           if (cu.level)
             return ac + p.serverStatus[`Level${cu.level}TreasureValue`];
@@ -101,9 +106,9 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           treasureHuntActions.resumeGame({
             moveList: runningMatch.attempts,
             loot,
+            timeLeft,
           })
         );
-        navigate("/treasurequest");
 
         // SocketService.sendData("resume-my-game", null, (...args: any) => {
         //   console.log("resume-my-game In running match - set-guest-token:", args);
@@ -202,7 +207,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             console.log("here");
             p.setGameInProgressAndUserNavigating(false);
           }}
-          leavingTime={30000} // todo: From backend value when user left game
+          leavingTime={p.timeLeft || 600} // todo: From backend value when user left game
         />
       )}
       {p.children}
@@ -215,6 +220,7 @@ const mapStateToProps = (state: IAppState) => ({
   serverStatus: state.user.serverStatus,
   loseMatchForLeaving: state.gameplay.loseMatchForLeaving,
   gameInProgress: state.treasureHunt.gameInProgress,
+  timeLeft: state.treasureHunt.timeLeft,
   gameInProgressUserNavigating: state.treasureHunt.gameInProgressUserNavigating,
 });
 

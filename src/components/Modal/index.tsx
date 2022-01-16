@@ -18,20 +18,21 @@ class Modal extends Component<IProps> {
   }
   modalRef = createRef<HTMLDivElement>();
 
-  componentDidMount() {
-    document.addEventListener("click", this.handleDivClick as any);
-  }
+  // componentDidMount() {
+  //   document.addEventListener("click", this.handleDivClick as any);
+  // }
 
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleDivClick as any);
-  }
+  // componentWillUnmount() {
+  //   document.removeEventListener("click", this.handleDivClick as any);
+  // }
 
-  handleDivClick = (e: any) => {
-    if (this.modalRef.current.contains(e.target)) {
-      return;
-    }
-    this.props.onClose();
-  };
+  // handleDivClick = (e: any) => {
+  //   if (this.modalRef.current.contains(e.target)) {
+  //     return;
+  //   }
+  //   console.log(e);
+  //   this.props.onClose();
+  // };
   modal() {
     return (
       <div ref={this.modalRef} className="modal-wrapper">

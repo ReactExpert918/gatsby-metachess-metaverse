@@ -86,7 +86,7 @@ const index = (props: IProps) => {
           style={{ width: "initial", padding: "2vmin 2vmax" }}
           onClick={() => props.setTreasureMode(TREASURE_QUEST_MODES.SOLO_QUEST)}
         >
-          SOLO QUEST MORE
+          SOLO QUEST MODE
         </button>
       </section>
     </div>
