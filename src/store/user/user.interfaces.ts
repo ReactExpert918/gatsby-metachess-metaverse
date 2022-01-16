@@ -43,10 +43,13 @@ export interface IUser {
   RapidElo: number;
   GuestId?: number;
   WonGames: number;
+  TreasureGamesPlayedToday: number;
 }
 export interface IServerStatus {
   Status: MAINTENANCE_MODE;
   Level1TreasureValue: number;
   Level2TreasureValue: number;
   Level3TreasureValue: number;
+  TreasureQuestAttempts: number;
+  TreasureQuestGamesPerDay: number;
 }
