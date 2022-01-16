@@ -53,14 +53,14 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     store.dispatch(userActions.fetchServerStatus());
     return null;
   }
-  if (p.serverStatus && p.serverStatus.Status === MAINTENANCE_MODE.OFFLINE) {
+  if (p.serverStatus && p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
     navigate("/maintenance");
   }
   SocketService.subscribeTo({
-    eventName: "maintenance-mode",
-    callback: (params: { serverStatus: IServerStatus }) => {
-      if (params.serverStatus) {
-        store.dispatch(userActions.setServerStatus(params.serverStatus));
+    eventName: "app-settings-change",
+    callback: (serverStatus: IServerStatus) => {
+      if (serverStatus) {
+        store.dispatch(userActions.setServerStatus(serverStatus));
       }
     },
   });
