@@ -12,6 +12,8 @@ const INITIAL_STATE: ITreasureHuntReducer = {
   endGameDate: null,
   gameInProgressUserNavigating: false,
   gameInProgress: false,
+  timeLeft: 0,
+  playAttemptsRemaining: 5,
 };
 
 export default (
@@ -34,15 +36,23 @@ export default (
         endGameDate: action.payload,
         gameOver: true,
         gameInProgress: false,
+        playAttemptsRemaining: state.playAttemptsRemaining - 1,
       },
       [ACTION_TYPE.SET_GAME_START_DATE]: {
         startGameTime: action.payload,
       },
       [ACTION_TYPE.SET_GAME_RESUMED]: {
         moveList: action.payload?.moveList,
-        chancesRemaining: 6 - action.payload?.moveList?.length,
+        chancesRemaining:
+          state.chancesRemaining - action.payload?.moveList?.length,
         lootAcquired: action.payload?.loot,
+        timeLeft: action.payload?.timeLeft,
         gameInProgress: true,
+        gameInProgressUserNavigating: true,
+      },
+      [ACTION_TYPE.SET_GAME_INFORMATION]: {
+        chancesRemaining: action.payload?.chances,
+        playAttemptsRemaining: action.payload?.attempts,
       },
       [ACTION_TYPE.RESET_GAME]: {
         moveList: [],

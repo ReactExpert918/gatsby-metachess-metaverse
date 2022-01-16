@@ -1,17 +1,34 @@
 import { takeLatest, select, put, call } from "redux-saga/effects";
 import { ACTION_TYPE } from "./user.action";
 import { Actions as userActions } from "./user.action";
+import { Actions as treasureHuntActions } from "../treasureHunt/treasureHunt.action";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
 import { IServerStatus, IUser, MAINTENANCE_MODE } from "./user.interfaces";
 import { MAIN_WEBSITE } from "../../config";
 import { UserTypes } from "../../components/UserEditInfo";
 import { IAppState } from "../reducers";
+import { ITreasureHuntReducer } from "../treasureHunt/treasureHunt.interface";
 
 function* onFetchCurrentUser() {
   try {
-    const user = yield call(() => API.execute("GET", ENDPOINTS.USER_SUMMARY));
+    const user: IUser = yield call(() =>
+      API.execute("GET", ENDPOINTS.USER_SUMMARY)
+    );
     console.log(user);
+    const attemptsSelector = (state: IAppState) =>
+      state.treasureHunt.playAttemptsRemaining;
+    const chancesSelector = (state: IAppState) =>
+      state.treasureHunt.chancesRemaining;
+    const chances: number = yield select(chancesSelector);
+    const attempts: number = yield select(attemptsSelector);
+    // console.log(treasureHunt);
+    yield put(
+      treasureHuntActions.setGameInformation({
+        attempts: attempts - user.TreasureGamesPlayedToday,
+        chances,
+      })
+    );
     yield put(userActions.setCurrentUser(user));
   } catch (res) {
     if (res.data === "not verified" && res.status === 401) {
@@ -33,13 +50,11 @@ function* onUpdateCurrentUser({
   };
 }) {
   try {
-    yield call(() =>
-      API.execute("POST", ENDPOINTS.USER_UPDATE, payload)
-    );
+    yield call(() => API.execute("POST", ENDPOINTS.USER_UPDATE, payload));
     const getUser = (state: IAppState): IUser => state.user.currentUser;
-    const user:IUser = yield select(getUser);
+    const user: IUser = yield select(getUser);
     console.log(user);
-    yield put(userActions.setCurrentUser({...user,Avatar:payload.Avatar}));
+    yield put(userActions.setCurrentUser({ ...user, Avatar: payload.Avatar }));
   } catch (res) {
     console.log("err", res);
   }
@@ -62,6 +77,12 @@ function* onFetchServerStatus() {
       API.execute("GET", ENDPOINTS.SERVER_STATUS)
     );
     yield put(userActions.setServerStatus(serverStatus));
+    yield put(
+      treasureHuntActions.setGameInformation({
+        chances: serverStatus.TreasureQuestAttempts,
+        attempts: serverStatus.TreasureQuestGamesPerDay,
+      })
+    );
   } catch (e) {
     yield put(userActions.setServerStatus({ Status: MAINTENANCE_MODE.ONLINE }));
     console.log("err", e);
