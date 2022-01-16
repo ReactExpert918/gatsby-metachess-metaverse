@@ -43,6 +43,7 @@ export interface IUser {
   RapidElo: number;
   GuestId?: number;
   WonGames: number;
+  TreasureGamesPlayedToday: number;
 }
 export interface IServerStatus {
   BoardEvenSquaresColor: string;

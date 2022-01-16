@@ -34,7 +34,7 @@ const MoveHistory = () => {
                   {(move.level &&
                     serverStatus[`Level${move.level}TreasureValue`]) ||
                     0}{" "}
-                  Shah
+                  SHAH
                 </p>
               </div>
             ))

@@ -19,4 +19,6 @@ export interface ITreasureHuntReducer {
   playMode: ISetPlayModePayload;
   gameInProgressUserNavigating: boolean;
   gameInProgress: boolean;
+  timeLeft: number;
+  playAttemptsRemaining: number;
 }
