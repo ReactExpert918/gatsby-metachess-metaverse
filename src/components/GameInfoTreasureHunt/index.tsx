@@ -32,14 +32,8 @@ const GameInfo = (props: IProps) => {
             onClick={() => {
               dispatch(Actions.resetGame(true));
               document
-                .querySelectorAll(`div[data-squareid]`)
-                .forEach((el) =>
-                  el.classList.remove(
-                    "animating",
-                    "animating-digging",
-                    "animating-treasure"
-                  )
-                );
+                .querySelectorAll(`animating`)
+                .forEach((el) => el.classList.remove("animating"));
               props.setSquareStyles({});
               SocketService.sendData(
                 "start-treasure-hunt",
