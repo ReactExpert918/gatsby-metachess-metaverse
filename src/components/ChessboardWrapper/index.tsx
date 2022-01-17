@@ -145,7 +145,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
   }
 
   onPieceClick = (testId: string) => {
-    console.log("onPieceClick", testId);
+    // console.log("onPieceClick", testId);
     const pieceSquareId = testId;
     if (
       pieceSquareId.length === 2 &&
@@ -163,6 +163,11 @@ class ChessboardWrapper extends Component<IProps, IState> {
     square = this.state.pieceSquare,
     callback?: () => void
   ) => {
+    document.querySelectorAll(".eatable").forEach((el) => {
+      console.log(el);
+      el.classList.remove("eatable");
+    });
+    console.log(square);
     this.setState(
       {
         squareStyles: squareStyling({ square }),
@@ -179,6 +184,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
         const canBeEaten =
           this.game.get(c) &&
           this.game.get(c).color === (this.game.turn() === "b" ? "w" : "b");
+        // console.log(c);
+        document
+          .querySelector(`div[data-squareid="${c}"]`)
+          .classList.add(canBeEaten ? "eatable" : undefined);
         return {
           ...a,
           ...{
@@ -186,7 +195,6 @@ class ChessboardWrapper extends Component<IProps, IState> {
               background: canBeEaten
                 ? "radial-gradient(circle, #ff0c00 36%, transparent 0)"
                 : "radial-gradient(circle, #fffc00 36%, transparent 0)",
-              cursor: "pointer",
               borderRadius: "50%",
             },
           },
@@ -248,7 +256,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     const { pieceSquare } = this.state;
     const squareInfo = this.game.get(square);
-    console.log(squareInfo);
+    // console.log(squareInfo);
     if (
       pieceSquare === null ||
       (this.props.playerColor === squareInfo?.color &&
@@ -266,7 +274,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
   onSquareRightClick = (square: any) =>
     this.setState({
-      squareStyles: { [square]: { backgroundColor: "deepPink" } },
+      squareStyles: { [square]: { background: "deepPink" } },
     });
 
   resetSelectedPiece = (square: Square = null) => {
@@ -401,7 +409,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
         squareStylesExceptions: {
           checkOrCheckmate: {
             [getPiecePositions(this.game, `${color}K` as Piece)[0]]: {
-              backgroundColor: "rgba(255, 0, 0, 0.4)",
+              background: "rgba(255, 0, 0, 0.4)",
             },
           },
         },
@@ -416,13 +424,13 @@ class ChessboardWrapper extends Component<IProps, IState> {
               ...(squareStyles && squareStyles[sourceSquare]
                 ? squareStyles[sourceSquare]
                 : {}),
-              backgroundColor: "rgba(255, 255, 0, 0.4)",
+              background: "rgba(255, 255, 0, 0.4)",
             },
             [targetSquare]: {
               ...(squareStyles && squareStyles[targetSquare]
                 ? squareStyles[targetSquare]
                 : {}),
-              backgroundColor: "rgba(255, 255, 0, 0.4)",
+              background: "rgba(255, 255, 0, 0.4)",
             },
           },
         },
@@ -635,7 +643,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
 const squareStyling = ({ pieceSquare }: any) => {
   return {
-    [pieceSquare]: { backgroundColor: "rgba(255, 255, 0, 0.4)" },
+    [pieceSquare]: { background: "rgba(255, 255, 0, 0.4)" },
   };
 };
 
