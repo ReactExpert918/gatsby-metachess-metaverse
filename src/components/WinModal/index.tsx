@@ -66,12 +66,10 @@ const WinModal = (props: IProps) => {
     } else {
       props.setChoseMode(MODES.CHOSE_MODE);
     }
-    // props.clear();
-    navigate("/");
   };
 
   return (
-    <Modal onClose={close} draggable={true}>
+    <Modal onClose={onClose} draggable={true}>
       <div className={"win-modal"}>
         <div className="bg">
           <PawnSvg style={{ left: 40, top: 20, transform: "rotate(25deg)" }} />
