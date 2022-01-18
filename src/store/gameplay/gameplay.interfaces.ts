@@ -53,6 +53,7 @@ export interface ITimer {
 export interface IMoveWithTimestamp {
   move: string;
   timestamp: number;
+  fen?: string;
 }
 
 export enum ResultCondition {

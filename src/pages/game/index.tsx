@@ -10,6 +10,7 @@ import {
   ISetPlayModePayload,
   IGameplayElos,
   ITimer,
+  IMoveWithTimestamp,
 } from "../../store/gameplay/gameplay.interfaces";
 import { IAppState } from "../../store/reducers";
 import {
@@ -84,6 +85,7 @@ interface ISelectProps {
   winner: "b" | "w";
   gameElos: IGameplayElos;
   moveHistoryData: string[];
+  moveHistoryTimestamp: IMoveWithTimestamp[];
 }
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
@@ -91,7 +93,11 @@ export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -
 class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   fen: string = INITIAL_FEN;
   oldFen: string = INITIAL_FEN;
+  previousFen: string = INITIAL_FEN;
+  replayTimeout: NodeJS.Timer = null;
   chessboardWrapperRef = React.createRef<ChessboardWrapper>();
+  // currentReplayIndex: number = React.createRef<number>().current;
+  currentReplayIndex: number = 0;
   initialized: boolean = false;
 
   unmounted = false;
@@ -118,6 +124,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   constructor(props: any) {
     super(props);
     this.onResign = this.onResign.bind(this);
+    // this.currentReplayIndex = 0;
   }
 
   componentDidMount() {
@@ -354,6 +361,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       this.props.addToHistoryWithTimestamp({
         move: move,
         timestamp: new Date().getTime(),
+        fen,
       });
     }
     this.props.setOnMove(playerOnMove);
@@ -375,16 +383,38 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     }
   };
 
-  doReplay = async () => {
-    this.fen = INITIAL_FEN;
-    this.oldFen = INITIAL_FEN;
+  doReplay = async (
+    fen?: string,
+    last?: number,
+    moveHistory?: string[],
+    onMove?: string
+  ) => {
+    this.fen = fen || INITIAL_FEN;
+    this.oldFen = fen || INITIAL_FEN;
 
     this.props.setReplay(true);
-    this.props.setOnMove("w");
-    this.props.setLastTimestamp(0);
-    this.props.setMoveHistory([]);
+    this.props.setOnMove(onMove || "w");
+    this.props.setLastTimestamp(last || 0);
+    this.props.setMoveHistory(moveHistory || []);
 
     this.forceUpdate(this.realReplay);
+  };
+
+  recursiveReplayFunction = (index: number) => {
+    if (this.unmounted || this.state.showEndModal) return;
+    const {
+      gameplay: { historyWithTimestamp },
+    } = store.getState() as IAppState;
+    if (index === historyWithTimestamp.length) return;
+    const m = historyWithTimestamp[index];
+    console.log(this.currentReplayIndex, index);
+    this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
+    this.props.setLastTimestamp(m.timestamp);
+    this.currentReplayIndex = index + 1;
+    this.replayTimeout = setTimeout(
+      () => this.recursiveReplayFunction(index + 1),
+      2000
+    );
   };
 
   realReplay = async () => {
@@ -398,30 +428,35 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       },
     } = store.getState() as IAppState;
     this.props.startGame();
-    let lastDate = startGameDate;
+    let lastDate =
+      historyWithTimestamp[historyWithTimestamp.length - 1].timestamp;
 
-    const doTheMovePromise = (promiseTime: number, cb: any) =>
-      new Promise((res) => {
-        setTimeout(() => {
-          if (this.unmounted) {
-            res();
-            return;
-          }
-          cb();
-          res();
-        }, promiseTime);
-      });
+    // const doTheMovePromise = (promiseTime: number, cb: any) =>
+    //   new Promise((res) => {
+    //     setTimeout(() => {
+    //       if (this.unmounted) {
+    //         res();
+    //         return;
+    //       }
+    //       cb();
+    //       res();
+    //     }, promiseTime);
+    //   });
 
-    for await (const m of historyWithTimestamp) {
-      if (this.unmounted) return;
-
-      await doTheMovePromise(m.timestamp - lastDate, () => {
-        if (this.unmounted) return;
-        this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
-        this.props.setLastTimestamp(m.timestamp);
-      });
-      lastDate = m.timestamp;
-    }
+    // for await (const m of historyWithTimestamp) {
+    // while (this.currentReplayIndex < historyWithTimestamp.length) {
+    //   if (this.unmounted) return;
+    //   const m = historyWithTimestamp[this.currentReplayIndex];
+    //   await doTheMovePromise(2000, () => {
+    //     if (this.unmounted) return;
+    //     this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
+    //     this.props.setLastTimestamp(m.timestamp);
+    //     this.currentReplayIndex++;
+    //     console.log(this.currentReplayIndex);
+    //   });
+    //   lastDate = m.timestamp;
+    // }
+    this.recursiveReplayFunction(0);
 
     const endAt = playMode
       ? new Date().getTime() + 2000
@@ -609,6 +644,41 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
           <GameInfo
             resing={this.onResign}
             onDraw={this.onDrawRequest}
+            onReplayPrevious={() => {
+              clearTimeout(this.replayTimeout);
+              const temp =
+                this.currentReplayIndex - 2 >= 0
+                  ? this.currentReplayIndex - 2
+                  : 0;
+              this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
+              this.props.setMoveHistory(moveHistoryData.slice(0, temp));
+              this.fen = this.props.moveHistoryTimestamp[temp].fen;
+              this.props.setLastTimestamp(
+                this.props.moveHistoryTimestamp[temp].timestamp
+              );
+              this.recursiveReplayFunction(temp);
+            }}
+            onReplayNext={() => {
+              if (
+                this.currentReplayIndex ===
+                this.props.moveHistoryTimestamp.length
+              )
+                return;
+              clearTimeout(this.replayTimeout);
+              this.props.setOnMove(
+                this.currentReplayIndex % 2 === 0 ? "w" : "b"
+              );
+              this.props.setMoveHistory(
+                moveHistoryData.slice(0, this.currentReplayIndex)
+              );
+              this.fen =
+                this.props.moveHistoryTimestamp[this.currentReplayIndex].fen;
+              this.props.setLastTimestamp(
+                this.props.moveHistoryTimestamp[this.currentReplayIndex]
+                  .timestamp
+              );
+              this.recursiveReplayFunction(this.currentReplayIndex);
+            }}
             drawEnabled={drawTimes < 5}
             showFirstMoveTime={showFirstMoveTime}
           />
@@ -648,6 +718,7 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   winner: state.gameplay.winner,
   currentUser: state.user.currentUser,
   moveHistoryData: state.gameplay.moveHistory,
+  moveHistoryTimestamp: state.gameplay.historyWithTimestamp,
 });
 
 const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
