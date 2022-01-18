@@ -651,7 +651,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
                   ? this.currentReplayIndex - 2
                   : 0;
               this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
-              this.props.setMoveHistory(moveHistoryData.slice(0, temp));
+              this.props.setMoveHistory(moveHistoryData.slice(0, temp + 1));
               this.fen = this.props.moveHistoryTimestamp[temp].fen;
               this.props.setLastTimestamp(
                 this.props.moveHistoryTimestamp[temp].timestamp

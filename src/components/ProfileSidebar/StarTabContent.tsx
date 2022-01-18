@@ -6,9 +6,8 @@ interface Props {
   currentUser: IUser;
 }
 
-const StarTabContent = ({currentUser}: Props) => {
-
-  if (!currentUser) return <div>Loading...</div>
+const StarTabContent = ({ currentUser }: Props) => {
+  if (!currentUser) return <div>Loading...</div>;
 
   return (
     <div className="tabContent">
@@ -32,7 +31,7 @@ const StarTabContent = ({currentUser}: Props) => {
             <p className="subtitle">Classical</p>
           </div>
         </div>
-        {!currentUser.GuestId &&
+        {!currentUser.GuestId && (
           <>
             <p className="tabTitle">{"OVERALL"}</p>
             <div className="info-image">
@@ -43,7 +42,7 @@ const StarTabContent = ({currentUser}: Props) => {
               </div>
             </div>
           </>
-        }
+        )}
       </div>
     </div>
   );

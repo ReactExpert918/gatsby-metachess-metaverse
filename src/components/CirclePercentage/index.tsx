@@ -25,12 +25,13 @@ const CircleProgressBarBase = ({
 }: Props) => {
   return (
     <figure className={`circlePercentageWrapper ${className}`}>
-      <svg viewBox={circleConfig.viewBox}>
+      <svg viewBox={circleConfig.viewBox} style={{ width: "170px" }}>
         <circle
           className="ring"
           cx={circleConfig.x}
           cy={circleConfig.y}
           r={circleConfig.radio}
+          strokeWidth="4"
           fill="transparent"
           stroke={trailStrokeColor}
         />
@@ -44,6 +45,7 @@ const CircleProgressBarBase = ({
           stroke={strokeColor}
           strokeDasharray={`${percentage} ${100 - percentage}`}
           strokeDashoffset={INITIAL_OFFSET}
+          strokeWidth="4"
         />
       </svg>
     </figure>
