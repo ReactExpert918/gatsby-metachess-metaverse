@@ -12,12 +12,12 @@ const WinRatio = ({ wins, loses }: Props) => {
     {
       title: "Wins",
       count: wins,
-      color: "#E84343",
+      color: "#CCA66A",
     },
     {
       title: "Loses",
       count: loses,
-      color: "#297BFB",
+      color: "rgba(255, 255, 255, 0.27)",
     },
   ];
   return (
@@ -26,8 +26,8 @@ const WinRatio = ({ wins, loses }: Props) => {
         <CircleProgressBarBase
           className={"summaryCircleProgress"}
           percentage={ratio * 100}
-          trailStrokeColor={"#E84343"}
-          strokeColor={"#297BFB"}
+          trailStrokeColor={"rgba(255, 255, 255, 0.27)"}
+          strokeColor={"#CCA66A"}
         />
         <div className="circleContent">
           <p className="circleTitle">{ratio * 100}%</p>
@@ -38,15 +38,14 @@ const WinRatio = ({ wins, loses }: Props) => {
         {symbols.map((symbol) => (
           <div className="symbolWrapper">
             <div className="titleWrapper">
-              <div
-                className="indicator"
-                style={{ backgroundColor: symbol.color }}
-              />
-              <p className="title">{symbol.title}</p>
+              <p className="title" style={{ color: symbol.color }}>
+                {symbol.title}
+              </p>
             </div>
             <div className="titleWrapper">
-              <div className="indicator" />
-              <p className="count">{symbol.count}</p>
+              <p className="count" style={{ color: symbol.color }}>
+                {symbol.count}
+              </p>
             </div>
           </div>
         ))}

@@ -34,7 +34,7 @@ const HeaderAccount = (props: ISelectProps) => {
           <BellIcon className="nav-icon" />
           <Link to={"/profile"} className="headerAccountContainer">
             <span>
-              <img src={SmallPieceIcon} />
+              <img src={props.currentUser?.Avatar || SmallPieceIcon} />
             </span>
 
             <p className="headerNavigatorAccountTitle">

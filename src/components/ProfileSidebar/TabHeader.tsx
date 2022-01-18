@@ -1,10 +1,11 @@
 import React from "react";
-import AchivementTab from "../../assets/images/achivement-tab.png";
-import ProfileTab from "../../assets/images/profile-tab.png";
-import StarTab from "../../assets/images/star-tab.png";
+import AchivementTab from "../../assets/images/achievments.png";
+import ProfileTab from "../../assets/images/profile.png";
+import StarTab from "../../assets/images/star.png";
+import SettingsTab from "../../assets/images/settings.png";
 export type ProfileTab = "star" | "achivement" | "profile";
 
-const tabs: ProfileTab[] = ["star", "achivement", "profile"];
+const tabs: ProfileTab[] = ["star", "achivement", "settings", "profile"];
 
 interface Props {
   onSelect: (tab: ProfileTab) => void;
@@ -20,7 +21,8 @@ const TabHeader = ({ onSelect, selected }: Props) => {
             src={
               (tab === "star" && StarTab) ||
               (tab === "achivement" && AchivementTab) ||
-              (tab === "profile" && ProfileTab)
+              (tab === "profile" && ProfileTab) ||
+              (tab === "settings" && SettingsTab)
             }
           />
           {selected === tab && <div className="activeTabIndicator" />}

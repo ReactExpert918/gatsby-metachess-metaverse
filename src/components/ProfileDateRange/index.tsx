@@ -11,9 +11,9 @@ interface Props {
 const ProfileDateRange = ({ onClickNext, onClickPrev, title }: Props) => {
   return (
     <div className="dateRangeWrapper">
-      <img src={SmallArrowLeft} />
+      <p className="leftIcon"> {"<"}</p>
       <p className="title">{title}</p>
-      <img src={SmallArrowRight} />
+      <p className="leftIcon"> {">"}</p>
       <div
         className="invisibleButton left"
         onClick={() => onClickPrev(new Date())}

@@ -20,7 +20,7 @@ const ProfileSidebar = ({ currentUser }: Props) => {
   return (
     <div className="profileSidebarContainer">
       <div className="header">
-        <img src={ProfilePlaceholder} />
+        <img src={currentUser?.Avatar || ProfilePlaceholder} />
         <p>{currentUser ? getOpponentName(false, null, currentUser) : ""}</p>
       </div>
       {!currentUser?.GuestId ? (

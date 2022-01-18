@@ -44,6 +44,7 @@ export interface IUser {
   GuestId?: number;
   WonGames: number;
   TreasureGamesPlayedToday: number;
+  Avatar: string;
 }
 export interface IServerStatus {
   BoardEvenSquaresColor: string;

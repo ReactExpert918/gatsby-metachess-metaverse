@@ -9,6 +9,9 @@ import { connect } from "react-redux";
 import CloseIcon from "../../assets/images/close-icon.png";
 import { navigate } from "gatsby";
 import UserEditInfo from "../../components/UserEditInfo";
+import ProfileSummary from "../../components/ProfileSummary";
+import AnotherThing from "../../components/AnotherThing";
+import ProfileDateRange from "../../components/ProfileDateRange";
 interface Props {
   currentUser: IUser;
 }
@@ -26,32 +29,61 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   // return <UserEditInfo />;
 
   return (
-    <div className={"profileWrapper"}>
-      <ProfileSidebar currentUser={currentUser} />
-      <div className="profileOverall">
-        <img
-          src={CloseIcon}
-          className="close-icon"
-          onClick={() => navigate("/")}
-        />
-        {!currentUser ? (
-          <div></div>
-        ) : currentUser.GuestId ? (
-          <div className="logged-in-feature">
-            This area is not available for guests.
-          </div>
-        ) : (
-          <Matches />
-        )}
-        {/* <ProfileDateRange
-            title={"01-15 Aug 2020"}
-            onClickNext={() => {}}
-            onClickPrev={() => {}}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "2vmin",
+        alignItems: "center",
+        flex: "1",
+        marginBottom: "4vmin",
+      }}
+    >
+      <ProfileDateRange
+        title={"01-15 Aug 2020"}
+        onClickNext={() => {}}
+        onClickPrev={() => {}}
+      />
+      <div className={"profileWrapper"}>
+        <ProfileSidebar currentUser={currentUser} />
+        <div className="profileOverall">
+          <img
+            src={CloseIcon}
+            className="close-icon"
+            onClick={() => navigate("/")}
           />
-          <div className={"profileSummaryWrapper"}>
-            <ProfileSummary />
-            <AnotherThing />
-          </div> */}
+          {!currentUser ? (
+            <div></div>
+          ) : currentUser.GuestId ? (
+            <div className="logged-in-feature">
+              This area is not available for guests.
+            </div>
+          ) : (
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "2vmax",
+                  alignItems: "center",
+                }}
+              >
+                <ProfileSummary />
+                <AnotherThing />
+              </div>
+              <Matches />
+            </>
+          )}
+          {/* <ProfileDateRange
+        title={"01-15 Aug 2020"}
+        onClickNext={() => {}}
+        onClickPrev={() => {}}
+      />
+      <div className={"profileSummaryWrapper"}>
+        <ProfileSummary />
+      </div> */}
+        </div>
       </div>
     </div>
   );
