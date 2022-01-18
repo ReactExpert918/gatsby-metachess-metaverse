@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Rook from "../../assets/images/Rook.png";
 import EditIcon from "../../assets/images/EditIcon.png";
-import SaveIcon from "../../assets/images/SaveIcon.jpeg";
 import UserEdit from "../UserEditInfo";
 import { IUser } from "../../store/user/user.interfaces";
 
@@ -14,26 +12,14 @@ const UserEditInfo = ({ currentUser }: Props) => {
   const userInfo: JSX.Element = (
     <>
       <div className="info">
-        <img
-          src={currentUser.Avatar || Rook}
-          alt="avatar"
-          style={{
-            borderRadius: "50%",
-            // width: "8vmin",
-            // height: "8vmin",
-          }}
-        />
-        <p className="subtitle">Avatar</p>
-      </div>
-      <div className="info">
-        <p className="title">{currentUser.Username}</p>
         <p className="subtitle">Username</p>
+        <p className="title">{currentUser.Username}</p>
       </div>
       <div className="info">
+        <p className="subtitle">Email</p>
         <p className="title" style={{ fontSize: "14px" }}>
           {currentUser.Email}
         </p>
-        <p className="subtitle">Email</p>
       </div>
     </>
   );
@@ -51,6 +37,9 @@ const UserEditInfo = ({ currentUser }: Props) => {
               height: "4vmin",
               position: "absolute",
               right: 0,
+              background: "#fff",
+              borderRadius: "10px",
+              cursor: "pointer",
               top: 0,
             }}
             onClick={() => setEditing(true)}
