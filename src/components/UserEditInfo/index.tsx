@@ -52,7 +52,7 @@ const UserEditInfo = (props: IProps) => {
     "Instructor",
     "Others",
   ].map((e: string) => ({ label: e, value: UserTypes[e] }));
-  const handleSubmit = async (e): void => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     props.setEditing(false);
     dispatch(

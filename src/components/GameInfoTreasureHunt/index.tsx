@@ -32,7 +32,7 @@ const GameInfo = (props: IProps) => {
             onClick={() => {
               dispatch(Actions.resetGame(true));
               document
-                .querySelectorAll(`animating`)
+                .querySelectorAll(`.animating`)
                 .forEach((el) => el.classList.remove("animating"));
               props.setSquareStyles({});
               SocketService.sendData(

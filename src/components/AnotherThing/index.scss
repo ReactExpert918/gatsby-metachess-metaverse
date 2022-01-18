@@ -1,9 +1,12 @@
 .anotherThingContainer {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 20px;
-  width: calc(100vw * (664 / 1920));
-  margin-left: calc(100vw * (32 / 1920));
-
-  min-height: 293px;
+    background: #0c1221;
+    /* 1 */
+    box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7), 0px 4px 30px rgba(32, 49, 79, 0.7);
+    border-radius: 20px;
+    width: calc(100vw * (664 / 1920));
+    margin-left: calc(100vw * (32 / 1920));
+    min-height: 293px;
+    .sectionTitle {
+        color: #fff;
+    }
 }
