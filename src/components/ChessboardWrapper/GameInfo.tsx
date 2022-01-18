@@ -30,6 +30,8 @@ interface IGameInfoProps {
   drawEnabled: boolean;
   onDraw: () => void;
   showFirstMoveTime: boolean;
+  onReplayPrevious: () => void;
+  onReplayNext: () => void;
 }
 
 const getOpponentColor = (playerColor: "b" | "w") => {
@@ -49,6 +51,8 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
     onDraw,
     drawEnabled,
     showFirstMoveTime,
+    onReplayPrevious,
+    onReplayNext,
   } = props;
 
   const onResign = () => {
@@ -171,6 +175,44 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               )}
             </>
           )}
+          {props.isReplay && (
+            <div
+              style={{
+                width: "100%",
+                height: "10vh",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bolder",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  console.log("hello");
+                  onReplayPrevious();
+                }}
+              >
+                ↼ Previous
+              </p>
+
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bolder",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={onReplayNext}
+              >
+                Next ⇀
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -205,14 +247,7 @@ const Connected = connect<ISelectProps, any>(
 )(GameInfo);
 
 const T = (p: any) => {
-  return (
-    <Connected
-      resign={Object.values(p)[0]}
-      onDraw={Object.values(p)[1]}
-      drawEnabled={Object.values(p)[2]}
-      showFirstMoveTime={Object.values(p)[3]}
-    />
-  );
+  return <Connected {...p} />;
 };
 
 export default T;
