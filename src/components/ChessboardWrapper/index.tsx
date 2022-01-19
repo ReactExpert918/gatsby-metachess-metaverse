@@ -13,7 +13,7 @@ import { AI_PLAY_MODE } from "../../constants/playModes";
 import { INITIAL_FEN } from "../../pages/game";
 import { connect } from "react-redux";
 import { IAppState } from "../../store/reducers";
-import { IUser } from "../../store/user/user.interfaces";
+import { IServerStatus, IUser } from "../../store/user/user.interfaces";
 import {
   ISetPlayModePayload,
   ITimer,
@@ -65,6 +65,7 @@ interface IProps {
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
   moveHistoryData: string[];
+  serverStatus: IServerStatus;
 }
 
 class ChessboardWrapper extends Component<IProps, IState> {
@@ -193,8 +194,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
           ...{
             [c]: {
               background: canBeEaten
-                ? "radial-gradient(circle, #ff0c00 36%, transparent 0)"
-                : "radial-gradient(circle, #fffc00 36%, transparent 0)",
+                ? `radial-gradient(circle, ${this.props.serverStatus.BoardPossibleCapturesColor} 36%, transparent 0)`
+                : `radial-gradient(circle, ${this.props.serverStatus.BoardPossibleMovesColor} 36%, transparent 0)`,
               borderRadius: "50%",
             },
           },
@@ -402,6 +403,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
     sourceSquare?: Square;
     targetSquare?: Square;
   }) {
+    console.log("hello");
     const { squareStyles } = this.state;
     if (color) {
       this.setState({
@@ -409,7 +411,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
         squareStylesExceptions: {
           checkOrCheckmate: {
             [getPiecePositions(this.game, `${color}K` as Piece)[0]]: {
-              background: "rgba(255, 0, 0, 0.4)",
+              // background: "rgba(255, 0, 0, 0.4)",
+              background: this.props.serverStatus.BoardCheckSquaresColor,
             },
           },
         },
@@ -424,13 +427,13 @@ class ChessboardWrapper extends Component<IProps, IState> {
               ...(squareStyles && squareStyles[sourceSquare]
                 ? squareStyles[sourceSquare]
                 : {}),
-              background: "rgba(255, 255, 0, 0.4)",
+              background: this.props.serverStatus.BoardLastPlaySquaresColor,
             },
             [targetSquare]: {
               ...(squareStyles && squareStyles[targetSquare]
                 ? squareStyles[targetSquare]
                 : {}),
-              background: "rgba(255, 255, 0, 0.4)",
+              background: this.props.serverStatus.BoardLastPlaySquaresColor,
             },
           },
         },
@@ -565,10 +568,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
                     onSquareClick={this.onPieceClick}
                     //onPieceClick={this.onPieceClick}
                     darkSquareStyle={{
-                      background: "#674428 0% 0% no-repeat padding-box",
+                      background: `${this.props.serverStatus.BoardEvenSquaresColor} 0% 0% no-repeat padding-box`,
                     }}
                     lightSquareStyle={{
-                      background: "#CCA66A 0% 0% no-repeat padding-box",
+                      background: `${this.props.serverStatus.BoardOddSquaresColor} 0% 0% no-repeat padding-box`,
                     }}
                     pieces={{
                       wP: (pieceProps) => (

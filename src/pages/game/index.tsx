@@ -19,7 +19,7 @@ import {
   MovePieceEnum,
 } from "../../interfaces/game.interfaces";
 import MovesHistory from "../../components/MovesHistory";
-import { IUser } from "../../store/user/user.interfaces";
+import { IServerStatus, IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { navigate } from "gatsby";
 import { isSSR } from "../../lib/utils";
@@ -86,6 +86,7 @@ interface ISelectProps {
   gameElos: IGameplayElos;
   moveHistoryData: string[];
   moveHistoryTimestamp: IMoveWithTimestamp[];
+  serverStatus: IServerStatus;
 }
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
@@ -633,6 +634,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             isReplay={this.props.isReplay}
             playMode={playMode}
             moveHistoryData={moveHistoryData}
+            serverStatus={this.props.serverStatus}
           />
           {!playMode.isAI && !this.props.isReplay && (
             <ActionButtons
@@ -719,6 +721,7 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   currentUser: state.user.currentUser,
   moveHistoryData: state.gameplay.moveHistory,
   moveHistoryTimestamp: state.gameplay.historyWithTimestamp,
+  serverStatus: state.user.serverStatus,
 });
 
 const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
