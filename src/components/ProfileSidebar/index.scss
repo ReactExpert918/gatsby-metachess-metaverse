@@ -108,8 +108,14 @@
             }
             .subtitle {
                 font-size: 1rem;
+                text-transform: capitalize;
                 letter-spacing: 0.23px;
                 color: rgba(255, 255, 255, 0.6);
+            }
+            .display-color {
+                height: 40px;
+                width: 40px;
+                border-radius: 10px;
             }
         }
     }
