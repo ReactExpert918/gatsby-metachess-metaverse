@@ -45,6 +45,7 @@ export interface IUser {
   WonGames: number;
   TreasureGamesPlayedToday: number;
   Avatar: string;
+  Settings: string;
 }
 export interface IServerStatus {
   BoardEvenSquaresColor: string;
@@ -58,4 +59,10 @@ export interface IServerStatus {
   Status: MAINTENANCE_MODE;
   TreasureQuestAttempts: number;
   TreasureQuestGamesPerDay: number;
+  BoardOddSquaresColor: string;
+  BoardEvenSquaresColor: string;
+  BoardLastPlaySquaresColor: string;
+  BoardPossibleMovesColor: string;
+  BoardPossibleCapturesColor: string;
+  BoardCheckSquaresColor: string;
 }

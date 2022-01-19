@@ -11,7 +11,6 @@
             flex-direction: column;
         }
         .Lables {
-            color: #000;
             font-size: 16px;
             font-weight: bolder;
         }
@@ -22,8 +21,7 @@
     width: 100%;
     padding: 2vmin 2vmax;
     border-radius: 5px;
-    border: 2px solid #000;
-    color: #000;
+    border: 2px solid #fff;
     font-size: 16px;
     box-sizing: border-box;
 }
@@ -66,7 +64,7 @@
         }
         .form-check-label {
             font-size: 14px;
-            color: #000;
+            color: #fff;
         }
     }
 }

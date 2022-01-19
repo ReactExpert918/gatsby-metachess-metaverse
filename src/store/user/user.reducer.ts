@@ -22,8 +22,8 @@ export default (
       [ACTION_TYPE.SET_CURRENT_USER]: {
         currentUser: action.payload,
       },
-      [ACTION_TYPE.UPDATE_CURRENT_USER]: {
-        currentUser: { ...state.currentUser, Avatar: action.payload },
+      [ACTION_TYPE.UPDATE_SETTINGS]: {
+        serverStatus: { ...state.serverStatus, ...action.payload },
       },
       [ACTION_TYPE.SET_MATCHES_HISTORY]: {
         matchesHistory: action.payload,
