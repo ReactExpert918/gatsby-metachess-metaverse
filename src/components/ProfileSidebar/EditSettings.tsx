@@ -1,10 +1,12 @@
-import Chessboard from "chessboardjsx";
+// import Chessboard from "chessboardjsx";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { isSSR } from "../../lib/utils";
 import { Actions } from "../../store/user/user.action";
 import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
+
+const Chessboard = React.lazy(() => import("chessboardjsx"));
 
 export interface ISettings {
   BoardOddSquaresColor?: string;
