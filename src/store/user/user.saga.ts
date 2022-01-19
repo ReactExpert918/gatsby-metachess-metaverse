@@ -9,6 +9,7 @@ import { MAIN_WEBSITE } from "../../config";
 import { UserTypes } from "../../components/UserEditInfo";
 import { IAppState } from "../reducers";
 import { ITreasureHuntReducer } from "../treasureHunt/treasureHunt.interface";
+import { ISettings } from "../../components/ProfileSidebar/EditSettings";
 
 function* onFetchCurrentUser() {
   try {
@@ -29,6 +30,7 @@ function* onFetchCurrentUser() {
         chances,
       })
     );
+    yield put(userActions.setUserSettings(JSON.parse(user.Settings)));
     yield put(userActions.setCurrentUser(user));
   } catch (res) {
     if (res.data === "not verified" && res.status === 401) {
@@ -55,6 +57,19 @@ function* onUpdateCurrentUser({
     const user: IUser = yield select(getUser);
     console.log(user);
     yield put(userActions.setCurrentUser({ ...user, Avatar: payload.Avatar }));
+  } catch (res) {
+    console.log("err", res);
+  }
+}
+
+function* onUpdateSettings({ payload }: { payload: ISettings }) {
+  try {
+    yield call(() =>
+      API.execute("POST", ENDPOINTS.USER_UPDATE, {
+        Settings: JSON.stringify(payload),
+      })
+    );
+    yield put(userActions.setUserSettings(payload));
   } catch (res) {
     console.log("err", res);
   }
@@ -133,10 +148,18 @@ function* watchFetchServerStatus() {
   yield takeLatest(ACTION_TYPE.FETCH_SERVER_STATUS as any, onFetchServerStatus);
 }
 
+function* watchSettingsChange() {
+  yield takeLatest(
+    ACTION_TYPE.DISPATCH_UPDATE_SETTINGS as any,
+    onUpdateSettings
+  );
+}
+
 export default [
   watchFetchCurrentUser,
   watchFetchMatchesHistory,
   watchFetchServerStatus,
   watchFetchSearchedUserList,
   watchUpdateCurrentUser,
+  watchSettingsChange,
 ];

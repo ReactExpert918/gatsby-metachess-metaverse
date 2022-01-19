@@ -230,6 +230,12 @@ const index = () => {
                     width={chessWidth}
                     onSquareClick={handleSquareClick}
                     squareStyles={squareStyles}
+                    darkSquareStyle={{
+                      background: `${serverStatus.BoardEvenSquaresColor} 0% 0% no-repeat padding-box`,
+                    }}
+                    lightSquareStyle={{
+                      background: `${serverStatus.BoardOddSquaresColor} 0% 0% no-repeat padding-box`,
+                    }}
                   />
                 </React.Suspense>
               )}

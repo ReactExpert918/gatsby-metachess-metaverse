@@ -3,7 +3,7 @@ import AchivementTab from "../../assets/images/achievments.png";
 import ProfileTab from "../../assets/images/profile.png";
 import StarTab from "../../assets/images/star.png";
 import SettingsTab from "../../assets/images/settings.png";
-export type ProfileTab = "star" | "achivement" | "profile";
+export type ProfileTab = "star" | "achivement" | "profile" | "settings";
 
 const tabs: ProfileTab[] = ["star", "achivement", "settings", "profile"];
 

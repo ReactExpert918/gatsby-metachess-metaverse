@@ -117,7 +117,9 @@ const UserEditInfo = (props: IProps) => {
           autoComplete="off"
           onSubmit={handleSubmit}
         >
-          <label className="Lables">Name</label>
+          <label className="Lables" style={{ color: "#fff" }}>
+            Name
+          </label>
           <TextField
             type="text"
             label="John.snow"
@@ -129,7 +131,9 @@ const UserEditInfo = (props: IProps) => {
             }}
             required={true}
           />
-          <label className="Lables">User Type</label>
+          <label className="Lables" style={{ color: "#fff" }}>
+            User Type
+          </label>
           <Select
             placeholder="select usertype"
             label="user type"
@@ -140,7 +144,9 @@ const UserEditInfo = (props: IProps) => {
               handleSelectInputChange("userType", selectedOption);
             }}
           />
-          <label className="Lables">Country</label>
+          <label className="Lables" style={{ color: "#fff" }}>
+            Country
+          </label>
           <Select
             placeholder="select country"
             label="country"
@@ -151,7 +157,9 @@ const UserEditInfo = (props: IProps) => {
               handleSelectInputChange("country", selectedOption);
             }}
           />
-          <label className="Lables">Wallet Address</label>
+          <label className="Lables" style={{ color: "#fff" }}>
+            Wallet Address
+          </label>
           <TextField
             type="text"
             label="5J3mBbAH58CpQ3Y5RNJpUKPE62SQ5tfcvU2JpbnkeyhfsYB1Jcn"
@@ -163,8 +171,14 @@ const UserEditInfo = (props: IProps) => {
             }}
             required={true}
           />
-          <label className="Lables">Avatar</label>
-          <label htmlFor="avatarInput" className="avatarLabel">
+          <label className="Lables" style={{ color: "#fff" }}>
+            Avatar
+          </label>
+          <label
+            htmlFor="avatarInput"
+            className="avatarLabel"
+            style={{ color: "#fff" }}
+          >
             {(avatarName && avatarName + " Selected! Click to change") ||
               "No Image Selected! Click to select"}
           </label>

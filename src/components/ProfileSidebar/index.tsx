@@ -9,6 +9,7 @@ import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { connect } from "react-redux";
 import UserEditInfo from "./UserEditInfo";
+import SettingsTab from "./SettingsTab";
 
 interface Props {
   currentUser: IUser;
@@ -27,6 +28,7 @@ const ProfileSidebar = ({ currentUser }: Props) => {
         <TabHeader onSelect={setSelectedTab} selected={selectedTab} />
       ) : null}
       {selectedTab === "star" && <StarTabContent currentUser={currentUser} />}
+      {selectedTab === "settings" && <SettingsTab />}
       {/* {selectedTab === "achivement" && <AchivementInfoTabContent />} */}
       {selectedTab === "profile" && <UserEditInfo currentUser={currentUser} />}
     </div>

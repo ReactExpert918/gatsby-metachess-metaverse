@@ -1,3 +1,4 @@
+import { ISettings } from "../../components/ProfileSidebar/EditSettings";
 import { UserTypes } from "../../components/UserEditInfo";
 import { MODES } from "../../constants/playModes";
 import { createAction } from "../generators";
@@ -12,12 +13,15 @@ export enum ACTION_TYPE {
   "SET_SERVER_STATUS" = "user_SET_SERVER_STATUS",
   "FETCH_SERVER_STATUS" = "user_FETCH_SERVER_STATUS",
   "SET_CHOSE_MODE" = "user_SET_CHOSE_MODE",
+  "DISPATCH_UPDATE_SETTINGS" = "user_DISPATCH_UPDATE_SETTINGS",
+  "UPDATE_SETTINGS" = "user_UPDATE_SETTINGS",
   "FETCH_SEARCHED_USER_LIST" = "user_FETCH_SEARCHED_USER_LIST",
   "SET_SEARCHED_USER_LIST" = "user_SET_SEARCHED_USER_LIST",
 }
 
 export const Actions = {
   fetchCurrentUser: createAction<any>(ACTION_TYPE.FETCH_CURRENT_USER),
+  setUserSettings: createAction<ISettings>(ACTION_TYPE.UPDATE_SETTINGS),
   updateUser: createAction<{
     Fullname: string;
     Type: UserTypes;
@@ -25,6 +29,7 @@ export const Actions = {
     WalletAddress: string;
     Avatar: string;
   }>(ACTION_TYPE.UPDATE_CURRENT_USER),
+  updateSettings: createAction<ISettings>(ACTION_TYPE.DISPATCH_UPDATE_SETTINGS),
   setCurrentUser: createAction<Partial<IUser>>(ACTION_TYPE.SET_CURRENT_USER),
   fetchMatchesHistory: createAction<any>(ACTION_TYPE.FETCH_MATCHES_HISTORY),
   setMatchesHistory: createAction<IMatchHistory[]>(
