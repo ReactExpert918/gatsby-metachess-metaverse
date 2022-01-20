@@ -166,14 +166,14 @@ const WinModal = (props: IProps) => {
         </div>
 
         <div className={"btn-container"}>
-          <button onClick={close} className={"btn"}>
+          <button onClick={close} className={"btn btn-clickable"}>
             {isReplay
               ? playMode.isAI
                 ? "Back to choose mode"
                 : "Back to profile"
               : "Back to the lobby"}
           </button>
-          <button onClick={onReplay} className={"btn link"}>
+          <button onClick={onReplay} className={"btn link btn-clickable"}>
             {isReplay ? "Watch again" : "Watch replay"}
           </button>
         </div>

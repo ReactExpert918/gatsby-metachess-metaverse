@@ -29,13 +29,22 @@ const PlayWithAISection = (props: IProps) => {
             <span className="d-flex pawn"></span>
           </div>
         </SquaredButton>
+        <SquaredButton
+          className={"noMargin"}
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.ROOKIE)}
+          title="ROOKIE"
+        >
+          <div className="bottomAlign">
+            <span className="d-flex horse"></span>
+          </div>
+        </SquaredButton>
 
         <SquaredButton
           onClick={() => props.setPlayMode(AI_PLAY_MODE.AMATEUR)}
           title="AMATEUR"
         >
           <div className="bottomAlign">
-            <span className="d-flex horse"></span>
+            <span className="d-flex bishop"></span>
           </div>
         </SquaredButton>
 
@@ -45,7 +54,7 @@ const PlayWithAISection = (props: IProps) => {
           title="INTERMEDIATE"
         >
           <div className="bottomAlign">
-            <span className="d-flex bishop"></span>
+            <span className="d-flex rook"></span>
           </div>
         </SquaredButton>
       </div>
@@ -56,7 +65,7 @@ const PlayWithAISection = (props: IProps) => {
           title="PROFESSIONAL"
         >
           <div className="bottomAlign">
-            <span className="d-flex rook"></span>
+            <span className="d-flex king"></span>
           </div>
         </SquaredButton>
 
@@ -66,7 +75,56 @@ const PlayWithAISection = (props: IProps) => {
           title="WORLD CLASS"
         >
           <div className="bottomAlign">
+            <span className="d-flex queen"></span>
+          </div>
+        </SquaredButton>
+        <SquaredButton
+          className={"noMargin"}
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.MASTER)}
+          title="MASTER"
+        >
+          <div className="bottomAlign">
             <span className="d-flex king"></span>
+            <span className="d-flex queen"></span>
+          </div>
+        </SquaredButton>
+        <SquaredButton
+          className={"noMargin"}
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.GRAND_MASTER)}
+          title="GRAND MASTER"
+        >
+          <div className="bottomAlign">
+            <span className="d-flex king"></span>
+            <span className="d-flex queen"></span>
+            <span className="d-flex rook"></span>
+          </div>
+        </SquaredButton>
+      </div>
+      <div className={"squaredWrapper"}>
+        <SquaredButton
+          className={"noMargin"}
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.LEGEND)}
+          title="LEGEND"
+        >
+          <div className="bottomAlign">
+            <span className="d-flex king"></span>
+            <span className="d-flex queen"></span>
+            <span className="d-flex rook"></span>
+            <span className="d-flex bishop"></span>
+          </div>
+        </SquaredButton>
+        <SquaredButton
+          className={"noMargin"}
+          onClick={() => props.setPlayMode(AI_PLAY_MODE.IMMORTAL)}
+          title="IMMORTAL"
+        >
+          <div className="bottomAlign">
+            <span className="d-flex king"></span>
+            <span className="d-flex queen"></span>
+            <span className="d-flex rook"></span>
+            <span className="d-flex bishop"></span>
+            <span className="d-flex horse"></span>
+            <span className="d-flex pawn"></span>
           </div>
         </SquaredButton>
       </div>

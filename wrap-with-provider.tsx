@@ -115,6 +115,16 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         // });
       },
     });
+    SocketService.subscribeTo({
+      eventName: "app-settings-change",
+      callback: (settings: string) => {
+        if (typeof settings === "string") {
+          store.dispatch(userActions.setUserSettings(JSON.parse(settings)));
+        } else if (typeof settings === "object") {
+          store.dispatch(userActions.setUserSettings(settings));
+        }
+      },
+    });
     addMissedSocketActions();
 
     if (!token) {
