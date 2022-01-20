@@ -54,6 +54,11 @@ export interface IMoveWithTimestamp {
   move: string;
   timestamp: number;
   fen?: string;
+  isCheck?: boolean;
+  isCheckmate?: boolean;
+  isDraw?: boolean;
+  isRepetition?: boolean;
+  isStalemate?: boolean;
 }
 
 export enum ResultCondition {

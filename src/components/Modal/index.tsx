@@ -51,7 +51,7 @@ class Modal extends Component<IProps> {
         } ${this.props.withBorder && `border3`}`}
       >
         {this.props.draggable ? (
-          <Draggable>{this.modal()}</Draggable>
+          <Draggable cancel=".btn-clickable">{this.modal()}</Draggable>
         ) : (
           this.modal()
         )}
