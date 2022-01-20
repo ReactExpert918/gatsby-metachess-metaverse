@@ -33,7 +33,7 @@ const GameInfo = (props: IProps) => {
               dispatch(Actions.resetGame(true));
               document
                 .querySelectorAll(`.animating`)
-                .forEach((el) => el.classList.remove("animating"));
+                .forEach((el) => el.classList.remove("animating","animating-digging","animating-treasure"));
               props.setSquareStyles({});
               SocketService.sendData(
                 "start-treasure-hunt",
