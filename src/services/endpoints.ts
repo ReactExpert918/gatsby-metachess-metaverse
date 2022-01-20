@@ -20,6 +20,7 @@ export const ENDPOINTS = {
   REMOVE_FRIEND: "REMOVE_FRIEND",
   SEND_FRIEND_REQUEST: "SEND_FRIEND_REQUEST",
   GET_COUNTRIES: "GET_COUNTRIES",
+  POST_AI_GAME_DATA: "POST_AI_GAME_DATA",
 };
 
 const convertQuery = (queries: IQuery[]): string => {
@@ -61,6 +62,9 @@ export const constructUrl = (
       return `${API_BASE_URL}/account/find${
         queries ? convertQuery(queries) : ""
       }`;
+    // AI game data
+    case ENDPOINTS.POST_AI_GAME_DATA:
+      return `${API_BASE_URL}/aiGame`;
 
     // Friend's API
     case ENDPOINTS.GET_FRIENDS:

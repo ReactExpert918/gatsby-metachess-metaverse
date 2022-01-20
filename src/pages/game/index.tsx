@@ -29,6 +29,8 @@ import AbortGameModal from "../../components/AbortGameModal";
 import OpponentLeftModal from "../../components/OpponentLeftModal";
 import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 import ActionButtons from "../../components/ActionButtons";
+import API from "../../services/api.service";
+import { ENDPOINTS } from "../../services/endpoints";
 
 interface IState {
   drawTimes: number;
@@ -96,6 +98,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   oldFen: string = INITIAL_FEN;
   previousFen: string = INITIAL_FEN;
   replayTimeout: NodeJS.Timer = null;
+  token: string = "";
   chessboardWrapperRef = React.createRef<ChessboardWrapper>();
   // currentReplayIndex: number = React.createRef<number>().current;
   currentReplayIndex: number = 0;
@@ -132,7 +135,15 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     if (!this.props.playMode) {
       return;
     }
-
+    if (this.props.playMode.isAI) {
+      SocketService.sendData(
+        "start-ai-game",
+        this.props.playMode.aiMode,
+        (token: string) => {
+          this.token = token;
+        }
+      );
+    }
     if (this.props.isReplay) this.doReplay();
     else if (this.props.playMode.isHumanVsHuman) {
       if (this.props.isResume) {
@@ -168,6 +179,19 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         opponentName: getOpponentName(false, null, this.props.opponent),
         eloLost: this.props.gameElos.eloLose,
         eloDraw: this.props.gameElos.eloDraw,
+      });
+    }
+    if (this.props.playMode.isAI) {
+      API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
+        key: this.token,
+        result:
+          this.state.winner === this.props.playerColor
+            ? 1
+            : this.state.winner === null
+            ? 3
+            : 2,
+        PieceSide: this.props.playerColor === "w" ? 1 : 2,
+        BoardMoves: this.props.moveHistoryTimestamp,
       });
     }
     this.props.setGameElos(null);
@@ -326,7 +350,12 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     fen: string,
     playerOnMove: string,
     move?: string,
-    shouldRerender?: boolean
+    shouldRerender?: boolean,
+    isCheck?: boolean,
+    isCheckmate?: boolean,
+    isDraw?: boolean,
+    isRepetition?: boolean,
+    isStalemate?: boolean
   ): void => {
     if (this.unmounted) {
       return;
@@ -363,6 +392,11 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         move: move,
         timestamp: new Date().getTime(),
         fen,
+        isCheck,
+        isCheckmate,
+        isDraw,
+        isRepetition,
+        isStalemate,
       });
     }
     this.props.setOnMove(playerOnMove);
