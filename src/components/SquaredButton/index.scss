@@ -89,6 +89,9 @@
     .chest {
         background-image: url("assets/images/TreasureChest.png");
         width: 115px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-y: 80%;
     }
 }
 

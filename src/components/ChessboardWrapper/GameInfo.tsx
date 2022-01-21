@@ -13,6 +13,7 @@ import { IUser } from "../../store/user/user.interfaces";
 import ActionButtons from "../ActionButtons";
 import { getGameTypeName } from "../../helpers/gameTypeHelper";
 import { TrophySvg } from "../Images";
+import { isSSR } from "../../lib/utils";
 
 interface ISelectProps {
   gameRules: GameRules;
@@ -59,6 +60,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
     resign();
   };
 
+  const windowWidth = isSSR ? 1024 : window.innerWidth;
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
@@ -175,7 +177,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               )}
             </>
           )}
-          {props.isReplay && (
+          {props.isReplay && windowWidth >= 768 && (
             <div
               style={{
                 width: "100%",

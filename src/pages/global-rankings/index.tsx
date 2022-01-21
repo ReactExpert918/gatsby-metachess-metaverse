@@ -87,11 +87,11 @@ const index = (props: IProps) => {
       <div className="menubuttons">
         <button className="colored">
           QUICK PAIRING STATS <br />
-          <span className="timingRanking">(weekly rankimy)</span>
+          <span className="timingRanking">(weekly ranking)</span>
         </button>
         <button className="outlined">
           QUICK PAIRING STATS <br />
-          <span className="timingRanking">(monthly rankimy)</span>
+          <span className="timingRanking">(monthly ranking)</span>
         </button>
         <button className="outlined">
           QUICK PAIRING STATS <br />
