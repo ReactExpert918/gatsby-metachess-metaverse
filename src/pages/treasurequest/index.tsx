@@ -68,6 +68,9 @@ const index = () => {
       },
     };
   };
+  let windowHeight = WINDOW_WIDTH_LIMIT;
+  // const limitedHeight =
+  if (!isSSR) windowHeight = window.innerHeight;
   let windowWidth = 1280;
   if (!isSSR) windowWidth = window.innerWidth;
   let chessWidth =
@@ -132,7 +135,7 @@ const index = () => {
   useEffect(() => {
     gameOverRef.current = gameOver;
   }, [gameOver]);
-
+  // alert(chessWidth);
   //square click handler
   const handleSquareClick = (squareId: string): void => {
     if (Object.keys(moveList).includes(squareId) || gameOver) return;

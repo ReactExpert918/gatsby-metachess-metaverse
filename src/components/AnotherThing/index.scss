@@ -10,3 +10,9 @@
         color: #fff;
     }
 }
+
+@media screen and (max-width: 950px) {
+    .anotherThingContainer {
+        width: 100%;
+    }
+}
