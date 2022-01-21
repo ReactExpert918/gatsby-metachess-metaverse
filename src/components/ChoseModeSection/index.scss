@@ -75,7 +75,10 @@
 }
 
 @media screen and (max-width: 375px) {
-    .header-heading {
-        font-size: 30px !important;
-    }
+  .header-heading{
+    font-size: 26px !important ;
+  }
+}
+.no-cursor {
+  cursor: not-allowed;
 }

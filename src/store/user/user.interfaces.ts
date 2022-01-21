@@ -7,8 +7,8 @@ import {
 
 export enum MAINTENANCE_MODE {
   ONLINE,
-  GAMEPLAY_DISABLED,
-  OFFLINE,
+  NEW_GAMES_DISABLED,
+  UNDER_MAINTENANCE,
 }
 export interface IUserReducer {
   currentUser: IUser;
@@ -48,10 +48,15 @@ export interface IUser {
   Settings: string;
 }
 export interface IServerStatus {
-  Status: MAINTENANCE_MODE;
+  BoardEvenSquaresColor: string;
+  BoardOddSquaresColor: string;
   Level1TreasureValue: number;
   Level2TreasureValue: number;
-  Level3TreasureValue: number;
+  Level3TreasureValue: number
+  MaintenanceDuration: number;
+  MaintenanceMode: MAINTENANCE_MODE;
+  MaintenanceTime: number;
+  Status: MAINTENANCE_MODE;
   TreasureQuestAttempts: number;
   TreasureQuestGamesPerDay: number;
   BoardOddSquaresColor: string;

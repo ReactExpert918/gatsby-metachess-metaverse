@@ -17,23 +17,21 @@ interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
 }
 const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
-  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const isServerOnline =
+    props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
-        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
-          <MaintenanceModal
-            setUserSeen={() => {
-              setUserSeenMaintenance(true);
-            }}
-          />
-        )}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
-          onClick={() => props.setMode(MODES.PVE_MODE)}
+          className={!isServerOnline ? "no-cursor" : ""}
+          onClick={() => {
+            if (props.serverStatus && isServerOnline) {
+              return props.setMode(MODES.PVE_MODE);
+            }
+          }}
           title="PLAYER VS ENVIRONMENT"
         >
           <div className={"bottomAlign multiple mb-25"}>
@@ -41,7 +39,12 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
-          onClick={() => props.setMode(MODES.PVP_MODE)}
+          className={!isServerOnline ? "no-cursor" : ""}
+          onClick={() => {
+            if (props.serverStatus && isServerOnline) {
+              return props.setMode(MODES.PVP_MODE);
+            }
+          }}
           title="PLAYER VS PLAYER"
         >
           <div className={"bottomAlign multiple mb-25"}>
@@ -57,12 +60,9 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
+          className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            setUserSeenMaintenance(false);
-            if (
-              props.serverStatus &&
-              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
-            ) {
+            if (props.serverStatus && isServerOnline) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
           }}
