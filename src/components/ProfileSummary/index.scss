@@ -82,3 +82,10 @@
         color: rgba(255, 255, 255, 0.6);
     }
 }
+
+@media screen and (max-width: 950px) {
+    .profileSummaryContainer {
+        width: fit-content;
+        min-width: 100%;
+    }
+}

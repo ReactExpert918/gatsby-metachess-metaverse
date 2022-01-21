@@ -551,6 +551,32 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     });
   };
 
+  onReplayNext = () => {
+    if (this.currentReplayIndex === this.props.moveHistoryTimestamp.length)
+      return;
+    clearTimeout(this.replayTimeout);
+    this.props.setOnMove(this.currentReplayIndex % 2 === 0 ? "w" : "b");
+    this.props.setMoveHistory(
+      this.props.moveHistoryData.slice(0, this.currentReplayIndex)
+    );
+    this.fen = this.props.moveHistoryTimestamp[this.currentReplayIndex].fen;
+    this.props.setLastTimestamp(
+      this.props.moveHistoryTimestamp[this.currentReplayIndex].timestamp
+    );
+    this.recursiveReplayFunction(this.currentReplayIndex);
+  };
+  onReplayPrevious = () => {
+    clearTimeout(this.replayTimeout);
+    const temp =
+      this.currentReplayIndex - 2 >= 0 ? this.currentReplayIndex - 2 : 0;
+    this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
+    this.props.setMoveHistory(this.props.moveHistoryData.slice(0, temp + 1));
+    this.fen = this.props.moveHistoryTimestamp[temp].fen;
+    this.props.setLastTimestamp(
+      this.props.moveHistoryTimestamp[temp].timestamp
+    );
+    this.recursiveReplayFunction(temp);
+  };
   render() {
     const {
       skillLevel,
@@ -585,7 +611,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       this.initialize();
       this.initialized = true;
     }
-
     // if (
     //   !this.props.isReplay &&
     //   this.props.playMode &&
@@ -669,6 +694,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             playMode={playMode}
             moveHistoryData={moveHistoryData}
             serverStatus={this.props.serverStatus}
+            onReplayPrevious={this.onReplayPrevious}
+            onReplayNext={this.onReplayNext}
           />
           {!playMode.isAI && !this.props.isReplay && (
             <ActionButtons
@@ -680,41 +707,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
           <GameInfo
             resing={this.onResign}
             onDraw={this.onDrawRequest}
-            onReplayPrevious={() => {
-              clearTimeout(this.replayTimeout);
-              const temp =
-                this.currentReplayIndex - 2 >= 0
-                  ? this.currentReplayIndex - 2
-                  : 0;
-              this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
-              this.props.setMoveHistory(moveHistoryData.slice(0, temp + 1));
-              this.fen = this.props.moveHistoryTimestamp[temp].fen;
-              this.props.setLastTimestamp(
-                this.props.moveHistoryTimestamp[temp].timestamp
-              );
-              this.recursiveReplayFunction(temp);
-            }}
-            onReplayNext={() => {
-              if (
-                this.currentReplayIndex ===
-                this.props.moveHistoryTimestamp.length
-              )
-                return;
-              clearTimeout(this.replayTimeout);
-              this.props.setOnMove(
-                this.currentReplayIndex % 2 === 0 ? "w" : "b"
-              );
-              this.props.setMoveHistory(
-                moveHistoryData.slice(0, this.currentReplayIndex)
-              );
-              this.fen =
-                this.props.moveHistoryTimestamp[this.currentReplayIndex].fen;
-              this.props.setLastTimestamp(
-                this.props.moveHistoryTimestamp[this.currentReplayIndex]
-                  .timestamp
-              );
-              this.recursiveReplayFunction(this.currentReplayIndex);
-            }}
+            onReplayPrevious={this.onReplayPrevious}
+            onReplayNext={this.onReplayNext}
             drawEnabled={drawTimes < 5}
             showFirstMoveTime={showFirstMoveTime}
           />

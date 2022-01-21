@@ -11,11 +11,7 @@ import { connect } from "react-redux";
 import UserEditInfo from "./UserEditInfo";
 import SettingsTab from "./SettingsTab";
 
-interface Props {
-  currentUser: IUser;
-}
-
-const ProfileSidebar = ({ currentUser }: Props) => {
+const ProfileSidebar = ({ currentUser }: { currentUser: IUser }) => {
   const [selectedTab, setSelectedTab] = useState<ProfileTab>("star");
 
   return (

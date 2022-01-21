@@ -8,7 +8,7 @@ const UsersListTableHeader = () => (
     <th style={{ width: "10%" }}>Player Rating</th>
     <th style={{ width: "20%" }}>
       Eligible Rewards <br />
-      (in $ shah)
+      (in $ SHAH)
     </th>
     <th style={{ width: "20%" }}>Wallet Address</th>
     {/* <p>Chess Coins</p> */}

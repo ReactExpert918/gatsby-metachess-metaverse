@@ -66,6 +66,8 @@ interface IProps {
   gameRules: GameRules;
   moveHistoryData: string[];
   serverStatus: IServerStatus;
+  onReplayPrevious: () => void;
+  onReplayNext: () => void;
 }
 
 class ChessboardWrapper extends Component<IProps, IState> {
@@ -528,6 +530,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
       ...squareStylesExceptions.lastMove,
       ...squareStylesExceptions.checkOrCheckmate,
     };
+    console.log(chessWidth, WINDOW_WIDTH_LIMIT, chessHeight);
 
     return (
       <div
@@ -625,6 +628,41 @@ class ChessboardWrapper extends Component<IProps, IState> {
                 )}
               </React.Suspense>
             )}
+            {this.props.isReplay && windowWidth < 768 && (
+              <div
+                style={{
+                  width: "100%",
+                  height: "10vh",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "bolder",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                  onClick={this.props.onReplayPrevious}
+                >
+                  ↼ Previous
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "bolder",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                  onClick={this.props.onReplayNext}
+                >
+                  Next ⇀
+                </p>
+              </div>
+            )}
           </div>
         </div>
         <PlayerStatus
@@ -634,7 +672,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
           isReplay={this.props.isReplay}
           player={currentUser}
           playMode={playMode}
-          name={this.props.isReplay ? undefined : "YOU"}
+          name={"YOU"}
           reverse={true}
         />
         {!playMode.isAI && (

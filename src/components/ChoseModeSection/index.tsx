@@ -37,7 +37,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
           title="PLAYER VS ENVIRONMENT"
         >
           <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVE</p>
+            <p className="header-heading-title">PVE</p>
           </div>
         </SquaredButton>
         <SquaredButton
@@ -45,7 +45,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
           title="PLAYER VS PLAYER"
         >
           <div className={"bottomAlign multiple mb-25"}>
-            <p className="header-heading">PVP</p>
+            <p className="header-heading-title">PVP</p>
           </div>
         </SquaredButton>
         {/* <SquaredButton
