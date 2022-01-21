@@ -37,6 +37,7 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
         alignItems: "center",
         flex: "1",
         marginBottom: "4vmin",
+        maxWidth: "100%",
       }}
     >
       <ProfileDateRange
@@ -60,15 +61,7 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
             </div>
           ) : (
             <>
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "2vmax",
-                  alignItems: "center",
-                }}
-              >
+              <div className="summaryContainer">
                 <ProfileSummary />
                 <AnotherThing />
               </div>
