@@ -44,8 +44,8 @@ interface placeSquareResponse {
 
 const index = () => {
   const dispatch = useDispatch();
-  const [playingTreasure, playTreasure] = useAudio(treasureAudio);
-  const [playingWrong, playWrong] = useAudio(wrongAudio);
+  const [playingTreasure, playTreasure] = useAudio(treasureAudio, false);
+  const [playingWrong, playWrong] = useAudio(wrongAudio, true);
   const [squareStyles, setSquareStyles] = useState<squareStyles>({});
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
   const { serverStatus }: { serverStatus: IServerStatus } = useSelector(
@@ -73,6 +73,7 @@ const index = () => {
   if (!isSSR) windowHeight = window.innerHeight;
   let windowWidth = 1280;
   if (!isSSR) windowWidth = window.innerWidth;
+  console.log(windowWidth);
   let chessWidth =
     windowWidth <= WINDOW_WIDTH_LIMIT
       ? windowWidth
@@ -198,25 +199,36 @@ const index = () => {
   };
   return (
     <section className="gameContainer">
-      <section className="gameWrapper">
-        <section
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            flexDirection: "column",
-          }}
-        >
+      <section className="gameWrapper" style={{ alignItems: "baseline" }}>
+        {/* {windowWidth > 768 && (
+          <section
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              flexDirection: "column",
+            }}
+          >
+            <TreasureLoot />
+            <MoveHistory />
+          </section>
+        )} */}
+        <section className="moveHistoryContainer">
           <TreasureLoot />
+          <hr />
           <MoveHistory />
         </section>
         <div
           className="chessboardContainer"
-          style={{ maxWidth: chessWidth, marginBottom: "4vmax" }}
+          style={{
+            maxWidth: chessWidth,
+            minHeight: "initial",
+            maxHeight: "initial",
+          }}
         >
           <div
             className={"chessboardWrapper treasureHunt"}
-            style={{ minWidth: chessWidth, minHeight: "70%", flex: "initial" }}
+            style={{ minWidth: chessWidth, flex: "initial" }}
             ref={wrapperRef}
           >
             <div
@@ -246,6 +258,9 @@ const index = () => {
             {showAnimation ? <CelebrationOverlay /> : null}
           </div>
         </div>
+
+        {/* {windowWidth <= 768 && ( */}
+        {/* )} */}
         <GameInfo setSquareStyles={setSquareStyles} />
       </section>
     </section>

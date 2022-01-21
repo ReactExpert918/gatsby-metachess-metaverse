@@ -15,7 +15,7 @@ const MoveHistory = () => {
     (state: IAppState) => state.user
   );
   return (
-    <div className="moveHistoryContainer" style={{ marginTop: "0" }}>
+    <div>
       <p className="title">Plundered Tiles</p>
       <div className="moveHistoryWrapper">
         <div className="cellWrapper">
