@@ -10,10 +10,7 @@ const TreasureLoot = () => {
   );
   const dispatch = useDispatch();
   return (
-    <div
-      className="moveHistoryContainer"
-      style={{ marginBottom: "2vmin", marginTop: "0" }}
-    >
+    <div>
       <p className="title" style={{ textAlign: "center" }}>
         Loot Acquired
         <br />
