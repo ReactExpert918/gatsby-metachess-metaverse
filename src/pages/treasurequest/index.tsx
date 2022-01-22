@@ -213,7 +213,7 @@ const index = () => {
             <MoveHistory />
           </section>
         )} */}
-        <section className="moveHistoryContainer">
+        <section className="moveHistoryContainer treasureQuestMoves">
           <TreasureLoot />
           <hr />
           <MoveHistory />
