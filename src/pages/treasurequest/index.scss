@@ -67,3 +67,9 @@
         background: url("assets/images/crackedImage.jpg");
     }
 }
+
+@media only screen and (max-width: 430px) {
+    .treasureQuestMoves {
+        order: 6 !important;
+    }
+}
