@@ -7,7 +7,7 @@
         line-height: 50px;
         text-align: center;
         letter-spacing: 0.01em;
-        margin-bottom: 4vmin;
+        margin-bottom: 2vmin;
         color: #cca66b;
         @media screen and (max-width: 700px) {
             font-size: 30px;
@@ -22,7 +22,6 @@
         justify-content: space-evenly;
         align-items: center;
         gap: 4vmax;
-        margin-bottom: 4vmin;
         & .dropdown-menu {
             display: flex;
             cursor: pointer;
@@ -95,10 +94,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 50px;
+        margin-top: 4vmin;
         button {
             cursor: pointer;
-            margin: 0 10px;
+            margin: 0 0.6vmax;
             flex: 1;
             border: 2px solid #cca66a;
             box-sizing: border-box;
@@ -106,15 +105,21 @@
             font-family: Solway;
             font-style: normal;
             font-weight: 500;
-            font-size: 24px;
+            font-size: 20px;
             line-height: 120%;
+            @media screen and (max-width: 768px) {
+                font-size: 15px;
+            }
+            @media screen and (max-width: 450px) {
+                font-size: 10px;
+            }
             text-transform: capitalize;
             color: #ffffff;
             & .timingRanking {
                 font-size: 12px;
                 text-transform: capitalize;
             }
-            padding: 2vh 3vw;
+            padding: 2vmin 2vmax 1vmin;
         }
         .colored {
             background: #cca66a;
@@ -130,6 +135,6 @@
         flex-direction: column;
     }
     .globalRankingsSection .outlined {
-        margin-bottom: 10px !important;
+        margin-bottom: 1vmin !important;
     }
 }
