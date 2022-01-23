@@ -37,6 +37,7 @@ interface ISelectXProps {
   gameInProgress: boolean;
   gameInProgressUserNavigating: boolean;
   timeLeft: number;
+  alreadyAutheticated: boolean;
 }
 
 interface IActionProps {
@@ -48,7 +49,6 @@ interface IActionProps {
 const X = (p: ISelectXProps & IActionProps & { children: any }) => {
   const [isLoading, setIsLoading] = useState(true);
   const initialized = useRef<boolean>(false);
-
   if (!p.serverStatus) {
     store.dispatch(userActions.fetchServerStatus());
     return null;
@@ -136,8 +136,11 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         guestToken,
         (params: { user: IUser; token: string } | string) => {
           console.log(params);
-          if (params === "already authenticated")
-            navigate("/already-authenticated");
+          if (params === "already authenticated") {
+            console.log(params);
+            store.dispatch(userActions.setAlreadyAuthenticated(true));
+            // navigate("/already-authenticated");
+          }
           const tokenToSet = params.token ? params.token : guestToken;
           TOKEN.guest = tokenToSet;
           API.initialize();
@@ -153,10 +156,12 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       SocketService.sendData(
         `set-user-token`,
         token,
-        (isTokenValid: boolean | string) => {
+        async (isTokenValid: boolean | string) => {
           console.log("Validated", token, isTokenValid);
-          if (isTokenValid === "already authenticated")
-            navigate("/already-authenticated");
+          if (isTokenValid === "already authenticated") {
+            store.dispatch(userActions.setAlreadyAuthenticated(true));
+            // navigate("/already-authenticated");
+          }
           if (!isTokenValid) {
             TOKEN.remove();
             window.location.href = MAIN_WEBSITE;
@@ -232,6 +237,7 @@ const mapStateToProps = (state: IAppState) => ({
   gameInProgress: state.treasureHunt.gameInProgress,
   timeLeft: state.treasureHunt.timeLeft,
   gameInProgressUserNavigating: state.treasureHunt.gameInProgressUserNavigating,
+  alreadyAutheticated: state.user.alreadyAuthenticated,
 });
 
 const ConnectedX = connect<ISelectXProps>(mapStateToProps as any, {

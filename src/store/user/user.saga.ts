@@ -10,6 +10,7 @@ import { UserTypes } from "../../components/UserEditInfo";
 import { IAppState } from "../reducers";
 import { ITreasureHuntReducer } from "../treasureHunt/treasureHunt.interface";
 import { ISettings } from "../../components/ProfileSidebar/EditSettings";
+import { navigate } from "gatsby";
 
 function* onFetchCurrentUser() {
   try {
@@ -38,6 +39,11 @@ function* onFetchCurrentUser() {
     }
     console.log("err", res);
   }
+}
+
+function* onSetAlreadyAuthenticated({ payload }: { payload: boolean }) {
+  if (payload) navigate("/already-authenticated");
+  console.log(payload);
 }
 
 function* onUpdateCurrentUser({
@@ -133,6 +139,10 @@ function* watchFetchCurrentUser() {
   yield takeLatest(ACTION_TYPE.FETCH_CURRENT_USER as any, onFetchCurrentUser);
 }
 
+function* watchSetAuthenticated() {
+  yield takeLatest(ACTION_TYPE.SET_2_DEVICES as any, onSetAlreadyAuthenticated);
+}
+
 function* watchUpdateCurrentUser() {
   yield takeLatest(ACTION_TYPE.UPDATE_CURRENT_USER as any, onUpdateCurrentUser);
 }
@@ -162,4 +172,5 @@ export default [
   watchFetchSearchedUserList,
   watchUpdateCurrentUser,
   watchSettingsChange,
+  watchSetAuthenticated,
 ];
