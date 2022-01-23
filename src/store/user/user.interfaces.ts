@@ -16,6 +16,7 @@ export interface IUserReducer {
   serverStatus: IServerStatus;
   choseMode: MODES;
   searchedUsersList: IUser[];
+  alreadyAuthenticated: boolean;
 }
 
 export interface IMatchHistory {

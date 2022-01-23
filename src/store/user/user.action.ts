@@ -17,11 +17,13 @@ export enum ACTION_TYPE {
   "UPDATE_SETTINGS" = "user_UPDATE_SETTINGS",
   "FETCH_SEARCHED_USER_LIST" = "user_FETCH_SEARCHED_USER_LIST",
   "SET_SEARCHED_USER_LIST" = "user_SET_SEARCHED_USER_LIST",
+  "SET_2_DEVICES" = "user_SET_2_DEVICES",
 }
 
 export const Actions = {
   fetchCurrentUser: createAction<any>(ACTION_TYPE.FETCH_CURRENT_USER),
   setUserSettings: createAction<ISettings>(ACTION_TYPE.UPDATE_SETTINGS),
+  setAlreadyAuthenticated: createAction<boolean>(ACTION_TYPE.SET_2_DEVICES),
   updateUser: createAction<{
     Fullname: string;
     Type: UserTypes;
