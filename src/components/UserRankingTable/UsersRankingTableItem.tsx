@@ -65,6 +65,7 @@ const UserListTableItem = ({
             justifyContent: "center",
             alignItems: "center",
             gap: "2vmax",
+            height: "10vmin",
           }}
         >
           <img src={dummyUser} alt="userDP" />
@@ -72,8 +73,6 @@ const UserListTableItem = ({
             className="tableRankItemTextWrapper"
             style={{
               width: " 100%",
-              height: " 100%",
-              boxSizing: " border-box",
               height: " 100%",
               display: " flex",
               alignItems: " center",
