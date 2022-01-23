@@ -12,6 +12,7 @@ const index = (props: IProps) => {
   const [playerByRating, setPlayerByRating] = useState<string>("");
   const [mostActiveUser, setMostActiveUsers] = useState<string>("");
   const [option, setOption] = useState<string>("");
+  const [activeQuickPlay, setActiveQuickPlay] = useState<number>(0);
   const [openRating, setOpenRating] = useState<boolean>(false);
   const [openActive, setOpenActive] = useState<boolean>(false);
   const handleDropDownClick = (e: any, type: number): void => {
@@ -166,7 +167,7 @@ const index = (props: IProps) => {
       )}
       {option && (
         <>
-          <div className={"backToSelection"}>
+          <div className={"backToSelection"} style={{ margin: 0 }}>
             <p
               className={"normal"}
               onClick={() => {
@@ -278,15 +279,30 @@ const index = (props: IProps) => {
       {mostActiveUser === "Q" && option[0] === "M" && (
         <>
           <div className="menubuttons">
-            <button className="colored">
+            <button
+              onClick={() => setActiveQuickPlay(0)}
+              className={`${
+                (activeQuickPlay === 0 && "colored") || "outlined"
+              }`}
+            >
               QUICK PAIRING STATS <br />
               <span className="timingRanking">(weekly ranking)</span>
             </button>
-            <button className="outlined">
+            <button
+              onClick={() => setActiveQuickPlay(1)}
+              className={`${
+                (activeQuickPlay === 1 && "colored") || "outlined"
+              }`}
+            >
               QUICK PAIRING STATS <br />
               <span className="timingRanking">(monthly ranking)</span>
             </button>
-            <button className="outlined">
+            <button
+              onClick={() => setActiveQuickPlay(2)}
+              className={`${
+                (activeQuickPlay === 2 && "colored") || "outlined"
+              }`}
+            >
               QUICK PAIRING STATS <br />
               <span className="timingRanking">(all time)</span>
             </button>
