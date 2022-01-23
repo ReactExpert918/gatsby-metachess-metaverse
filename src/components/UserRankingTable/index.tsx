@@ -20,12 +20,12 @@ import { IUser } from "../../store/user/user.interfaces";
 import isEmpty from "lodash/isEmpty";
 import subscribeToGameStart from "../../lib/gameStart";
 
-const UsersListTable = () => {
+const UsersListTable = ({ option, type }: { option: string; type: string }) => {
   return (
     <div className="usersRankingTable">
       <table>
         <thead>
-          <UsersListTableHeader />
+          <UsersListTableHeader option={option} type={type} />
         </thead>
         <tbody>
           {/* {(gameItems || []).map((item, index) => (
@@ -36,7 +36,7 @@ const UsersListTable = () => {
               onPress={onItemPress}
             />
           ))} */}
-          <UserListTableItem />
+          <UserListTableItem option={option} type={type} />
         </tbody>
       </table>
 
