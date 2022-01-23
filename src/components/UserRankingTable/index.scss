@@ -1,5 +1,5 @@
 .usersRankingTable {
-    margin-top: 30px;
+    margin-top: 0;
     overflow-x: auto;
     width: 100%;
     table {
@@ -13,12 +13,18 @@
             border: 2px solid #cca66a;
             box-sizing: border-box;
             border-radius: 10px;
-            padding: 18px 0;
+            padding: 2vmin 0;
             font-family: Solway;
             font-style: normal;
             font-weight: 500;
             font-size: 14px;
             line-height: 120%;
+            @media screen and (max-width: 768px) {
+                font-size: 11px;
+            }
+            @media screen and (max-width: 450px) {
+                font-size: 8px;
+            }
             text-transform: uppercase;
             color: #ffffff;
             text-align: center;
@@ -43,27 +49,20 @@
     }
     .tableRankItemTextWrapper {
         text-align: center;
-        padding: 20px 0;
+        padding: 1vmin 0;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 8px;
         color: #fff;
-    }
-    .usersRankingTableItemWrapper>td {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        text-align: center;
-        width: 216px;
-        p {
-            font-family: Solway;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 140%;
-            text-transform: capitalize;
-            color: #ffffff;
+        @media screen and (max-width: 768px) {
+            font-size: 15px;
         }
+        @media screen and (max-width: 450px) {
+            font-size: 12px;
+        }
+    }
+    td img {
+        height: 10vmin;
+        width: 10vmin;
     }
     .usersRankingTableItemWrapper {
         cursor: pointer;
@@ -81,6 +80,12 @@
     color: #cca66a;
     margin-left: 2vmax;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+    }
+    @media screen and (max-width: 450px) {
+        font-size: 10px;
+    }
 }
 
 .usersRankingTable p {

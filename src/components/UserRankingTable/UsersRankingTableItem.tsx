@@ -68,7 +68,18 @@ const UserListTableItem = ({
           }}
         >
           <img src={dummyUser} alt="userDP" />
-          <p className="tableRankItemTextWrapper" style={{ width: "100%" }}>
+          <p
+            className="tableRankItemTextWrapper"
+            style={{
+              width: " 100%",
+              height: " 100%",
+              boxSizing: " border-box",
+              height: " 100%",
+              display: " flex",
+              alignItems: " center",
+              justifyContent: " center",
+            }}
+          >
             Akumasy
           </p>
         </td>
@@ -78,36 +89,5 @@ const UserListTableItem = ({
       </tr>
     );
   }
-  return (
-    <tr>
-      <td className="tableRankItemTextWrapper">1</td>
-      <td
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "2vmax",
-        }}
-      >
-        <img src={dummyUser} alt="userDP" />
-        <p className="tableRankItemTextWrapper" style={{ width: "100%" }}>
-          Akumasy
-        </p>
-      </td>
-      <td className="tableRankItemTextWrapper">88</td>
-      <td className="tableRankItemTextWrapper">1670</td>
-      {option === "games with ai".toUpperCase() && (
-        <td className="tableRankItemTextWrapper">50%</td>
-      )}
-      {option !== "games with ai".toUpperCase() && (
-        <>
-          <td className="tableRankItemTextWrapper">
-            6000 <span className="claimText">Claim</span>
-          </td>
-          <td className="tableRankItemTextWrapper">0x689 --- 36789</td>
-        </>
-      )}
-    </tr>
-  );
 };
 export default UserListTableItem;
