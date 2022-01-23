@@ -1,12 +1,31 @@
 .globalRankingsSection {
+    & .title {
+        font-family: Solway;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 50px;
+        text-align: center;
+        letter-spacing: 0.01em;
+        margin-bottom: 4vmin;
+        color: #cca66b;
+        @media screen and (max-width: 700px) {
+            font-size: 30px;
+        }
+        @media screen and (max-width: 400px) {
+            font-size: 20px;
+        }
+    }
     .filterWrapper {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
         gap: 4vmax;
+        margin-bottom: 4vmin;
         & .dropdown-menu {
             display: flex;
+            cursor: pointer;
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
@@ -20,6 +39,18 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 8px;
             position: relative;
+            &.option {
+                padding: 0;
+                .filterText {
+                    padding: 2vmin 2vmax;
+                }
+                &--active {
+                    background: rgba(255, 255, 255, 0.9);
+                    .filterText {
+                        color: #0c1221 !important;
+                    }
+                }
+            }
             & .dropDownOptions {
                 position: absolute;
                 top: 100%;
@@ -34,6 +65,7 @@
                 align-items: flex-start;
                 flex-direction: column;
                 background: #0c1221;
+                box-shadow: 3px 2px 6px #000;
                 border-radius: 0px 0px 8px 8px;
                 & span.bullet {
                     height: 5px;
@@ -57,7 +89,6 @@
             color: #ffffff;
             display: flex;
             align-items: center;
-            cursor: pointer;
         }
     }
     & .menubuttons {

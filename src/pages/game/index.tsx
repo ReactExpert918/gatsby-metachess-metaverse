@@ -183,8 +183,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     }
     if (this.props.playMode.isAI) {
       API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
-        key: this.token,
-        result:
+        Key: this.token,
+        Result:
           this.state.winner === this.props.playerColor
             ? 1
             : this.state.winner === null
