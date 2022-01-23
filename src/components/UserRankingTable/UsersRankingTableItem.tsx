@@ -18,7 +18,66 @@ import {
 } from "../../helpers/gameTypeHelper";
 import { SVG_ASSETS } from "../../constants/svgAssets";
 
-const UserListTableItem = () => {
+const UserListTableItem = ({
+  option,
+  type,
+}: {
+  option: string;
+  type: string;
+}) => {
+  if (type[0] === "M") {
+    return (
+      <tr>
+        <td className="tableRankItemTextWrapper">1</td>
+        <td
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "2vmax",
+          }}
+        >
+          <img src={dummyUser} alt="userDP" />
+          <p className="tableRankItemTextWrapper" style={{ width: "100%" }}>
+            Akumasy
+          </p>
+        </td>
+        <td className="tableRankItemTextWrapper">88</td>
+        <td className="tableRankItemTextWrapper">1670</td>
+        {option === "G" && <td className="tableRankItemTextWrapper">50%</td>}
+        {option !== "G" && (
+          <>
+            <td className="tableRankItemTextWrapper">
+              6000 <span className="claimText">Claim</span>
+            </td>
+            <td className="tableRankItemTextWrapper">0x689 --- 36789</td>
+          </>
+        )}
+      </tr>
+    );
+  } else {
+    return (
+      <tr>
+        <td className="tableRankItemTextWrapper">1</td>
+        <td
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "2vmax",
+          }}
+        >
+          <img src={dummyUser} alt="userDP" />
+          <p className="tableRankItemTextWrapper" style={{ width: "100%" }}>
+            Akumasy
+          </p>
+        </td>
+        <td className="tableRankItemTextWrapper">88</td>
+        <td className="tableRankItemTextWrapper">1670</td>
+        <td className="tableRankItemTextWrapper">50%</td>
+      </tr>
+    );
+  }
   return (
     <tr>
       <td className="tableRankItemTextWrapper">1</td>
@@ -37,10 +96,17 @@ const UserListTableItem = () => {
       </td>
       <td className="tableRankItemTextWrapper">88</td>
       <td className="tableRankItemTextWrapper">1670</td>
-      <td className="tableRankItemTextWrapper">
-        6000 <span className="claimText">Claim</span>
-      </td>
-      <td className="tableRankItemTextWrapper">0x689 --- 36789</td>
+      {option === "games with ai".toUpperCase() && (
+        <td className="tableRankItemTextWrapper">50%</td>
+      )}
+      {option !== "games with ai".toUpperCase() && (
+        <>
+          <td className="tableRankItemTextWrapper">
+            6000 <span className="claimText">Claim</span>
+          </td>
+          <td className="tableRankItemTextWrapper">0x689 --- 36789</td>
+        </>
+      )}
     </tr>
   );
 };
