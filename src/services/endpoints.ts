@@ -21,6 +21,9 @@ export const ENDPOINTS = {
   SEND_FRIEND_REQUEST: "SEND_FRIEND_REQUEST",
   GET_COUNTRIES: "GET_COUNTRIES",
   POST_AI_GAME_DATA: "POST_AI_GAME_DATA",
+  GET_QUICKPLAY_LEADERBOARD: "GET_QUICKPLAY_LEADERBOARD",
+  GET_AI_GAMES_LEADERBOARD: "GET_AI_GAMES_LEADERBOARD",
+  GET_RATING_LEADERBOARD: "GET_RATING_LEADERBOARD",
 };
 
 const convertQuery = (queries: IQuery[]): string => {
@@ -65,7 +68,19 @@ export const constructUrl = (
     // AI game data
     case ENDPOINTS.POST_AI_GAME_DATA:
       return `${API_BASE_URL}/aiGame`;
-
+    //Leaderbord data
+    case ENDPOINTS.GET_QUICKPLAY_LEADERBOARD:
+      return `${API_BASE_URL}/leaderboard/mostactive${
+        queries ? convertQuery(queries) : ""
+      }`;
+    case ENDPOINTS.GET_AI_GAMES_LEADERBOARD:
+      return `${API_BASE_URL}/leaderboard/aiGames${
+        queries ? convertQuery(queries) : ""
+      }`;
+    case ENDPOINTS.GET_RATING_LEADERBOARD:
+      return `${API_BASE_URL}/leaderboard/rankingByRating${
+        queries ? convertQuery(queries) : ""
+      }`;
     // Friend's API
     case ENDPOINTS.GET_FRIENDS:
       return `${API_BASE_URL}/friend/list`;
