@@ -436,7 +436,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   };
 
   recursiveReplayFunction = (index: number) => {
-    if (this.unmounted || this.state.showEndModal) return;
     const {
       gameplay: { historyWithTimestamp },
     } = store.getState() as IAppState;

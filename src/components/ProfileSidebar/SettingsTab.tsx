@@ -4,6 +4,8 @@ import EditIcon from "../../assets/images/EditIcon.png";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
 import EditSettings from "./EditSettings";
+import sound from "../../assets/images/sound.png";
+import noSound from "../../assets/images/noSound.png";
 
 const SettingsTab = () => {
   const [editing, setEditing] = useState<boolean>(false);
@@ -17,6 +19,7 @@ const SettingsTab = () => {
     BoardPossibleMovesColor: serverStatus.BoardPossibleMovesColor,
     BoardPossibleCapturesColor: serverStatus.BoardPossibleCapturesColor,
     BoardCheckSquaresColor: serverStatus.BoardCheckSquaresColor,
+    TreasureQuestSound: serverStatus.TreasureQuestSound,
   };
   const standardSettingsTab: JSX.Element = (
     <>
@@ -61,6 +64,14 @@ const SettingsTab = () => {
           className="display-color"
           style={{ background: settings.BoardPossibleCapturesColor }}
         ></div>
+      </div>
+      <div className="info">
+        <p className="subtitle">Treasure Quest Sound</p>
+        <img
+          src={settings.TreasureQuestSound ? sound : noSound}
+          alt="sound"
+          style={{ height: "8vmin", width: "auto" }}
+        />
       </div>
     </>
   );

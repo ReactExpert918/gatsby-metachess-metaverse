@@ -36,7 +36,7 @@ class Modal extends Component<IProps> {
   modal() {
     return (
       <div ref={this.modalRef} className="modal-wrapper">
-        <div className="close-icon" onClick={this.props.onClose}>
+        <div className="close-icon btn-clickable" onClick={this.props.onClose}>
           <img src={CloseIcon} />
         </div>
         {this.props.children}
