@@ -13,7 +13,9 @@ const UsersListTableHeader = ({
         <th style={{ width: "10%" }}>Rank</th>
         <th style={{ width: "30%" }}>Username</th>
         <th style={{ width: "10%" }}>Game Count</th>
-        <th style={{ width: "10%" }}>Player Rating</th>
+        <th style={{ width: "10%" }}>
+          Player <br /> Rating
+        </th>
         {option === "G" && <th style={{ width: "10%" }}>Win Percentage</th>}
         {option !== "G" && (
           <>
@@ -32,7 +34,9 @@ const UsersListTableHeader = ({
         <th style={{ width: "10%" }}>Rank</th>
         <th style={{ width: "30%" }}>Username</th>
         <th style={{ width: "10%" }}>Game Count</th>
-        <th style={{ width: "10%" }}>Player Rating</th>
+        <th style={{ width: "10%" }}>
+          Player <br /> Rating
+        </th>
         <th style={{ width: "10%" }}>Win Percentage</th>
       </tr>
     );

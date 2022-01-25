@@ -155,10 +155,12 @@ const index = () => {
           response.status === PlayEnum.OK ||
           response.status === PlayEnum.OKGameFinished
         ) {
-          if (!response.level) {
-            playWrong();
-          } else {
-            playTreasure();
+          if (serverStatus.TreasureQuestSound) {
+            if (!response.level) {
+              playWrong();
+            } else {
+              playTreasure();
+            }
           }
           dispatch(
             Actions.onMove({
