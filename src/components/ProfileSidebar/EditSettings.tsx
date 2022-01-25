@@ -5,6 +5,8 @@ import { isSSR } from "../../lib/utils";
 import { Actions } from "../../store/user/user.action";
 import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
+import sound from "../../assets/images/sound.png";
+import noSound from "../../assets/images/noSound.png";
 
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
@@ -15,6 +17,7 @@ export interface ISettings {
   BoardPossibleMovesColor?: string;
   BoardPossibleCapturesColor?: string;
   BoardCheckSquaresColor?: string;
+  TreasureQuestSound?: boolean;
 }
 
 interface IProps {
@@ -37,7 +40,6 @@ const EditSettings = (props: IProps) => {
   const handleChange = (e: any, name: string): void => {
     if (!e.target) return;
     if (id) clearTimeout(id);
-    // console.log(e.target.value, name);
     const temp = e.target.value;
     id = setTimeout(
       () =>
@@ -220,6 +222,41 @@ const EditSettings = (props: IProps) => {
               id=""
               onChange={(e: any) =>
                 handleChange(e, "BoardPossibleCapturesColor")
+              }
+            />
+          </div>{" "}
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <label
+              className="Lables"
+              htmlFor="soundOn"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+            >
+              <label
+                className="Lables"
+                style={{ color: "rgba(255,255,255,0.6)" }}
+              >
+                Treasure Quest Sound
+              </label>
+              <br />
+              <img
+                src={settings.TreasureQuestSound ? sound : noSound}
+                alt="sound"
+                style={{ height: "8vmin", width: "auto" }}
+              />
+            </label>
+            <input
+              type="checkbox"
+              name=""
+              style={{ display: "none" }}
+              checked={settings.TreasureQuestSound}
+              id="soundOn"
+              onChange={(e: any) =>
+                setSettings(
+                  (settings: ISettings): ISettings => ({
+                    ...settings,
+                    TreasureQuestSound: e.target.checked,
+                  })
+                )
               }
             />
           </div>{" "}

@@ -122,6 +122,15 @@
     }
 }
 
+.soundOn--false {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+    height: 100%;
+    width: 30%;
+}
+
 @media screen and (max-width: 950px) {
     .profileSidebarContainer {
         width: 100%;

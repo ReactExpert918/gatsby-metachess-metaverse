@@ -159,11 +159,10 @@ const UserListTableItem = ({
               null}
             {(option !== "G" && (
               <>
-                {i < 3 ? (
-                  <td className="tableRankItemTextWrapper">
-                    6000 <span className="claimText">Claim</span>
-                  </td>
-                ) : null}
+                <td className="tableRankItemTextWrapper">
+                  6000
+                  {i < 3 ? <span className="claimText">Claim</span> : null}
+                </td>
                 <td className="tableRankItemTextWrapper">
                   {user.Account.WalletAddress
                     ? `${user.Account.WalletAddress.slice(

@@ -66,4 +66,5 @@ export interface IServerStatus {
   BoardPossibleMovesColor: string;
   BoardPossibleCapturesColor: string;
   BoardCheckSquaresColor: string;
+  TreasureQuestSound: boolean;
 }
