@@ -439,7 +439,31 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     const {
       gameplay: { historyWithTimestamp },
     } = store.getState() as IAppState;
-    if (index === historyWithTimestamp.length) return;
+    if (index === historyWithTimestamp.length) {
+      const {
+        gameplay: {
+          historyWithTimestamp,
+          startGameDate,
+          playMode,
+          endGameDate,
+          winner,
+        },
+      } = store.getState() as IAppState;
+      let lastDate = historyWithTimestamp[index - 1].timestamp;
+      const endAt = playMode
+        ? new Date().getTime() + 2000
+        : endGameDate - lastDate;
+      if (this.unmounted) return;
+      if (endAt > 0)
+        setTimeout(() => {
+          if (this.unmounted) return;
+          this.onGameEnd(winner, true);
+        }, endAt);
+      else {
+        this.onGameEnd(winner, true);
+      }
+      return;
+    }
     const m = historyWithTimestamp[index];
     console.log(this.currentReplayIndex, index);
     this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
@@ -452,58 +476,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   };
 
   realReplay = async () => {
-    const {
-      gameplay: {
-        historyWithTimestamp,
-        startGameDate,
-        playMode,
-        endGameDate,
-        winner,
-      },
-    } = store.getState() as IAppState;
     this.props.startGame();
-    let lastDate =
-      historyWithTimestamp[historyWithTimestamp.length - 1].timestamp;
-
-    // const doTheMovePromise = (promiseTime: number, cb: any) =>
-    //   new Promise((res) => {
-    //     setTimeout(() => {
-    //       if (this.unmounted) {
-    //         res();
-    //         return;
-    //       }
-    //       cb();
-    //       res();
-    //     }, promiseTime);
-    //   });
-
-    // for await (const m of historyWithTimestamp) {
-    // while (this.currentReplayIndex < historyWithTimestamp.length) {
-    //   if (this.unmounted) return;
-    //   const m = historyWithTimestamp[this.currentReplayIndex];
-    //   await doTheMovePromise(2000, () => {
-    //     if (this.unmounted) return;
-    //     this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
-    //     this.props.setLastTimestamp(m.timestamp);
-    //     this.currentReplayIndex++;
-    //     console.log(this.currentReplayIndex);
-    //   });
-    //   lastDate = m.timestamp;
-    // }
     this.recursiveReplayFunction(0);
-
-    const endAt = playMode
-      ? new Date().getTime() + 2000
-      : endGameDate - lastDate;
-    if (this.unmounted) return;
-    if (endAt > 0)
-      setTimeout(() => {
-        if (this.unmounted) return;
-        this.onGameEnd(winner, true);
-      }, endAt);
-    else {
-      this.onGameEnd(winner, true);
-    }
   };
 
   onResign() {
