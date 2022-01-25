@@ -32,7 +32,7 @@ class ApiService {
       id,
       otherEndpointProperties
     );
-    // console.log("url " + url);
+    console.log("url " + url, queries);
     return this._fetch(method, url, data, axiosProperties);
   };
 
@@ -45,7 +45,6 @@ class ApiService {
     try {
       const headers = otherProperties?.headers ? otherProperties.headers : {};
       const otherConfig = otherProperties?.other ? otherProperties.other : {};
-
       const response = await axios({
         method,
         url,

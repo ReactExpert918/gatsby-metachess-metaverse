@@ -20,7 +20,15 @@ import { IUser } from "../../store/user/user.interfaces";
 import isEmpty from "lodash/isEmpty";
 import subscribeToGameStart from "../../lib/gameStart";
 
-const UsersListTable = ({ option, type }: { option: string; type: string }) => {
+const UsersListTable = ({
+  option,
+  type,
+  quickPlayTime,
+}: {
+  option: string;
+  type: string;
+  quickPlayTime: number;
+}) => {
   return (
     <div className="usersRankingTable">
       <table>
@@ -36,7 +44,11 @@ const UsersListTable = ({ option, type }: { option: string; type: string }) => {
               onPress={onItemPress}
             />
           ))} */}
-          <UserListTableItem option={option} type={type} />
+          <UserListTableItem
+            option={option}
+            type={type}
+            quickPlayTime={quickPlayTime}
+          />
         </tbody>
       </table>
 
