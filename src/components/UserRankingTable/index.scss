@@ -3,7 +3,7 @@
     overflow-x: auto;
     width: 100%;
     table {
-        border-spacing: 20px 20px;
+        border-spacing: 1vmax 1vmin;
         width: 100%;
     }
     .usersRankingTableHeaderWrapper {
@@ -13,18 +13,18 @@
             border: 2px solid #cca66a;
             box-sizing: border-box;
             border-radius: 10px;
-            padding: 2vmin 0;
             font-family: Solway;
             font-style: normal;
+            padding: 0.5vmin 1vmax;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 12px;
             line-height: 120%;
             @media screen and (max-width: 768px) {
-                font-size: 11px;
+                font-size: 9px;
             }
-            @media screen and (max-width: 450px) {
-                font-size: 8px;
-            }
+            // @media screen and (max-width: 450px) {
+            //     font-size: 8px;
+            // }
             text-transform: uppercase;
             color: #ffffff;
             text-align: center;
@@ -61,8 +61,8 @@
         }
     }
     td img {
-        height: 10vmin;
-        width: 10vmin;
+        height: 6vmin;
+        width: 6vmin;
     }
     .usersRankingTableItemWrapper {
         cursor: pointer;
@@ -95,16 +95,19 @@
 }
 
 @media screen and (max-width: 768px) {
-    tr.usersRankingTableHeaderWrapper th {
-        min-width: 100px;
+    table {
+        min-width: 200vmin;
     }
-    tr.usersRankingTableHeaderWrapper th:nth-child(2) {
-        min-width: 300px;
-    }
-    tr.usersRankingTableHeaderWrapper th:nth-child(5) {
-        min-width: 200px;
-    }
-    tr.usersRankingTableHeaderWrapper th:nth-child(6) {
-        min-width: 200px;
-    }
+    //     tr.usersRankingTableHeaderWrapper th {
+    //         min-width: 100px;
+    //     }
+    //     tr.usersRankingTableHeaderWrapper th:nth-child(2) {
+    //         min-width: 300px;
+    //     }
+    //     tr.usersRankingTableHeaderWrapper th:nth-child(5) {
+    //         min-width: 200px;
+    //     }
+    //     tr.usersRankingTableHeaderWrapper th:nth-child(6) {
+    //         min-width: 200px;
+    //     }
 }

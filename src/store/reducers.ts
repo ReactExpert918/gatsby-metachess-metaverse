@@ -10,6 +10,8 @@ import { IUserReducer } from "./user/user.interfaces";
 import { IGamesReducer } from "./games/games.interfaces";
 import gamesReducer from "./games/games.reducer";
 import { ITreasureHuntReducer } from "./treasureHunt/treasureHunt.interface";
+import { ILeaderboardReducer } from "./leaderboard/leaderboard.interfaces";
+import leaderboardReducer from "./leaderboard/leaderboard.reducer";
 
 export interface IAppState {
   test: ITestReducer;
@@ -18,6 +20,7 @@ export interface IAppState {
   user: IUserReducer;
   games: IGamesReducer;
   treasureHunt: ITreasureHuntReducer;
+  leaderboard: ILeaderboardReducer;
 }
 
 const reducers = combineReducers({
@@ -27,6 +30,7 @@ const reducers = combineReducers({
   user: userReducer,
   games: gamesReducer,
   treasureHunt: treasureHuntReducer,
+  leaderboard: leaderboardReducer,
 });
 
 export default reducers;

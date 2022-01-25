@@ -313,6 +313,7 @@ const index = (props: IProps) => {
       {option && (
         <UsersRankingTable
           type={option}
+          quickPlayTime={activeQuickPlay}
           option={
             option === "Most Active Users" ? mostActiveUser : playerByRating
           }
