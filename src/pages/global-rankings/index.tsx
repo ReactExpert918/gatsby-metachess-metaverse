@@ -39,7 +39,9 @@ const index = (props: IProps) => {
       setMostActiveUsers(e.target.innerText[0]);
       return setOption("Most Active Users");
     }
-    setPlayerByRating(e.target.innerText[0] + e.target.innerText[1]);
+    setPlayerByRating(
+      e.target.innerText[0] + e.target.innerText[1].toLowerCase()
+    );
     return setOption("Player Ranking By Rating");
   };
   {
