@@ -30,40 +30,42 @@ const UserListTableItem = ({
   option,
   type,
   quickPlayTime,
+  page,
 }: {
   option: string;
   type: string;
   quickPlayTime: number;
+  page: number;
 }) => {
-  const leaderboard: ILeaderboardReducer = useSelector(
+  const { Leaderboard }: ILeaderboardReducer = useSelector(
     (state: IAppState): ILeaderboardReducer => state.leaderboard
   );
-  let temp: ILeaderBoardResult[] = [];
-  const [leaderBoard, setLeaderBoard] = useState<ILeaderBoardResult[]>(temp);
+  const [leaderBoard, setLeaderBoard] =
+    useState<ILeaderBoardResult[]>(Leaderboard);
   console.log(leaderBoard, option);
   useEffect(() => {
-    switch (option) {
-      case "G":
-        temp = leaderboard.aiGamesLeaderboard;
-        break;
-      case "Q":
-        temp = leaderboard.quickPlayLeaderboard;
-        break;
-      case "Bu":
-        temp = leaderboard.bulletLeaderboard;
-        break;
-      case "Bl":
-        temp = leaderboard.blitzLeaderboard;
-        break;
-      case "Cl":
-        temp = leaderboard.classicalLeaderboard;
-        break;
-      case "Ra":
-        temp = leaderboard.rapidLeaderboard;
-        break;
-    }
-    setLeaderBoard(temp);
-  }, [leaderboard]);
+    // switch (option) {
+    //   case "G":
+    //     temp = leaderboard.aiGamesLeaderboard;
+    //     break;
+    //   case "Q":
+    //     temp = leaderboard.quickPlayLeaderboard;
+    //     break;
+    //   case "Bu":
+    //     temp = leaderboard.bulletLeaderboard;
+    //     break;
+    //   case "Bl":
+    //     temp = leaderboard.blitzLeaderboard;
+    //     break;
+    //   case "Cl":
+    //     temp = leaderboard.classicalLeaderboard;
+    //     break;
+    //   case "Ra":
+    //     temp = leaderboard.rapidLeaderboard;
+    //     break;
+    // }
+    setLeaderBoard(Leaderboard);
+  }, [Leaderboard]);
   const dispatch = useDispatch();
   useEffect(() => {
     const dateNow = new Date();
@@ -72,12 +74,15 @@ const UserListTableItem = ({
       beginDate: allTime,
       endDate: dateNow.getTime(),
       top: 10,
-      skip: 0,
+      skip: (page - 1) * 10,
+      type: "",
     };
     if (type[0] === "M") {
       if (option === "G") {
-        dispatch(Actions.fetchAiGamesLeaderboard(requestObj));
+        requestObj.type = "ai";
+        dispatch(Actions.fetchLeaderboard(requestObj));
       } else {
+        requestObj.type = "qp";
         switch (quickPlayTime) {
           case 0:
             requestObj.beginDate = new Date(
@@ -95,36 +100,42 @@ const UserListTableItem = ({
             break;
         }
         // console.log(requestObj)
-        dispatch(Actions.fetchQuickPlayLeaderboard(requestObj));
+        dispatch(Actions.fetchLeaderboard(requestObj));
       }
     } else {
       let gameType: number;
       switch (option) {
-        case "BU":
+        case "Bu":
           gameType = 2;
           break;
-        case "CL":
+        case "Cl":
           gameType = 1;
           break;
-        case "BL":
+        case "Bl":
           gameType = 4;
           break;
-        case "RA":
+        case "Ra":
           gameType = 3;
           break;
       }
       dispatch(
-        Actions.fetchRatingLeaderboard({ ...requestObj, gameType: gameType })
+        Actions.fetchLeaderboard({
+          ...requestObj,
+          gameType,
+          type: "r",
+        })
       );
     }
-  }, [option, quickPlayTime, type]);
+  }, [option, quickPlayTime, type, page]);
   if (type[0] === "M") {
     return (
       <>
         {leaderBoard.map((user: ILeaderBoardResult, i: number) => (
           <tr>
             {" "}
-            <td className="tableRankItemTextWrapper">{i + 1}</td>
+            <td className="tableRankItemTextWrapper">
+              {(page - 1) * 10 + i + 1}
+            </td>
             <td
               style={{
                 display: "flex",
@@ -154,7 +165,9 @@ const UserListTableItem = ({
               {user.Account.AverageRating}
             </td>
             {(option === "G" && (
-              <td className="tableRankItemTextWrapper">50%</td>
+              <td className="tableRankItemTextWrapper">
+                {(user.Wins * 100) / user.Games}%
+              </td>
             )) ||
               null}
             {(option !== "G" && (
@@ -176,31 +189,6 @@ const UserListTableItem = ({
               null}
           </tr>
         ))}
-        {/* <td className="tableRankItemTextWrapper">1</td>
-        <td
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "2vmax",
-          }}
-        >
-          <img src={dummyUser} alt="userDP" />
-          <p className="tableRankItemTextWrapper" style={{ width: "100%" }}>
-            Akumasy
-          </p>
-        </td>
-        <td className="tableRankItemTextWrapper">88</td>
-        <td className="tableRankItemTextWrapper">1670</td>
-        {option === "G" && <td className="tableRankItemTextWrapper">50%</td>}
-        {option !== "G" && (
-          <>
-            <td className="tableRankItemTextWrapper">
-              6000 <span className="claimText">Claim</span>
-            </td>
-            <td className="tableRankItemTextWrapper">0x689 --- 36789</td>
-          </>
-        )} */}
       </>
     );
   } else {
@@ -238,7 +226,9 @@ const UserListTableItem = ({
             <td className="tableRankItemTextWrapper">
               {user.Account.AverageRating}
             </td>
-            <td className="tableRankItemTextWrapper">50%</td>
+            <td className="tableRankItemTextWrapper">
+              {(user.Wins * 100) / user.Games}%
+            </td>
           </tr>
         ))}
       </>
