@@ -36,10 +36,12 @@ const UsersListTable = ({
   useEffect(() => {
     setPage(1);
   }, [option, quickPlayTime]);
-  const nextCondition: boolean = (page + 1) * 10 <= totalResults;
-  const prevCondition: boolean = page - 1 > 0;
-  const firstCondition: boolean = page !== 1;
-  const lastCondition: boolean = page !== Math.ceil(totalResults / 10);
+  const nextCondition: boolean =
+    totalResults !== 0 && (page + 1) * 10 <= totalResults;
+  const prevCondition: boolean = totalResults !== 0 && page - 1 > 0;
+  const firstCondition: boolean = totalResults !== 0 && page !== 1;
+  const lastCondition: boolean =
+    totalResults !== 0 && page !== Math.ceil(totalResults / 10);
   return (
     <div className="usersRankingTable">
       <table>
