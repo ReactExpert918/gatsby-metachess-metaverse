@@ -3,6 +3,7 @@
 @import "./pages/treasurequest/index.scss";
 @import "./pages/already-authenticated/index.scss";
 @import "./pages/global-rankings/index.scss";
+@import "./pages/warfront/index.scss";
 // @import "./pages/test/index.scss";
 @import "./components/TreasureQuestRulesSection/index.scss";
 @import "./components/UserEditInfo/index.scss";
@@ -213,4 +214,9 @@ button {
 
 .m-auto {
     margin: auto;
+}
+
+.unity-canvas {
+    height: 100vh;
+    width: min-content;
 }
