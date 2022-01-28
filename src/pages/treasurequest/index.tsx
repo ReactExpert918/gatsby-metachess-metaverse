@@ -20,7 +20,7 @@ import TreasureLoot from "../../components/TreasureHuntLootInfo";
 import SocketService from "../../services/socket.service";
 import { toast } from "react-toastify";
 import { MODES } from "../../constants/playModes";
-import { IServerStatus } from "../../store/user/user.interfaces";
+import { IServerStatus, IUser } from "../../store/user/user.interfaces";
 import CelebrationOverlay from "../../components/CelebrationOverlay";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
@@ -51,6 +51,9 @@ const index = () => {
   const { serverStatus }: { serverStatus: IServerStatus } = useSelector(
     (state: IAppState) => state.user
   );
+  const user: IUser = useSelector(
+    (state: IAppState): IUser => state.user.currentUser
+  );
   const {
     moveList,
     gameOver,
@@ -77,7 +80,7 @@ const index = () => {
   let chessWidth =
     windowWidth <= WINDOW_WIDTH_LIMIT
       ? windowWidth
-      : (windowWidth * 800) / 1920;
+      : (windowWidth * 1300) / 1920;
   let chessHeight = WINDOW_WIDTH_LIMIT;
 
   if (wrapperRef?.current) {
@@ -85,7 +88,14 @@ const index = () => {
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
   useEffect(() => {
-    if (!gameInProgress) {
+    if (!user || !user.Username) {
+      navigate("/");
+      // toast.error("Guests cannot play Treasure Quest mode", {
+      //   position: toast.POSITION.BOTTOM_RIGHT,
+      //   autoClose: 10000,
+      //   closeOnClick: true,
+      // });
+    } else if (!gameInProgress) {
       SocketService.sendData(
         "start-treasure-hunt",
         null,
@@ -105,9 +115,10 @@ const index = () => {
             });
             dispatch(UserActions.setChoseMode(MODES.CHOSE_MODE));
             navigate("/choose-mode");
+          } else {
+            dispatch(Actions.setGameInProgress(true));
+            dispatch(Actions.setGameInProgressAndUserNavigating(false));
           }
-          dispatch(Actions.setGameInProgress(true));
-          dispatch(Actions.setGameInProgressAndUserNavigating(false));
         }
       );
     } else {
@@ -200,8 +211,11 @@ const index = () => {
     );
   };
   return (
-    <section className="gameContainer">
-      <section className="gameWrapper" style={{ alignItems: "baseline" }}>
+    <section className="gameContainer" style={{ maxWidth: "100%" }}>
+      <section
+        className="gameWrapper"
+        style={{ alignItems: "baseline", overflow: "hidden" }}
+      >
         {/* {windowWidth > 768 && (
           <section
             style={{
@@ -224,8 +238,6 @@ const index = () => {
           className="chessboardContainer"
           style={{
             maxWidth: chessWidth,
-            minHeight: "initial",
-            maxHeight: "initial",
           }}
         >
           <div
