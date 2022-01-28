@@ -38,10 +38,7 @@ const PlayWithHumanSection = (props: IProps) => {
         </div>
         <div className="menubuttons">
           <button className="colored">lobby</button>
-          <button
-            className="outlined"
-            onClick={() => navigate("/global-rankings")}
-          >
+          <button className="outlined" onClick={() => navigate("/leaderboard")}>
             global ranking
           </button>
         </div>
