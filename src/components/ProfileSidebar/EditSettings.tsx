@@ -5,7 +5,7 @@ import { isSSR } from "../../lib/utils";
 import { Actions } from "../../store/user/user.action";
 import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
-import sound from "../../assets/images/sound.png";
+import sound from "../../assets/images/Sound.png";
 import noSound from "../../assets/images/noSound.png";
 
 const Chessboard = React.lazy(() => import("chessboardjsx"));
@@ -241,7 +241,7 @@ const EditSettings = (props: IProps) => {
               <img
                 src={settings.TreasureQuestSound ? sound : noSound}
                 alt="sound"
-                style={{ height: "8vmin", width: "auto" }}
+                style={{ height: "5vmin", width: "auto" }}
               />
             </label>
             <input
@@ -251,12 +251,10 @@ const EditSettings = (props: IProps) => {
               checked={settings.TreasureQuestSound}
               id="soundOn"
               onChange={(e: any) =>
-                setSettings(
-                  (settings: ISettings): ISettings => ({
-                    ...settings,
-                    TreasureQuestSound: e.target.checked,
-                  })
-                )
+                setSettings({
+                  ...settings,
+                  TreasureQuestSound: e.target.checked,
+                })
               }
             />
           </div>{" "}
