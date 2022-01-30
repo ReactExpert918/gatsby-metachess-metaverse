@@ -4,7 +4,12 @@ import { Actions as userActions } from "./user.action";
 import { Actions as treasureHuntActions } from "../treasureHunt/treasureHunt.action";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-import { IServerStatus, IUser, MAINTENANCE_MODE } from "./user.interfaces";
+import {
+  IServerStatus,
+  IUser,
+  MAINTENANCE_MODE,
+  IFetchMatchPayload,
+} from "./user.interfaces";
 import { MAIN_WEBSITE } from "../../config";
 import { UserTypes } from "../../components/UserEditInfo";
 import { IAppState } from "../reducers";
@@ -81,12 +86,57 @@ function* onUpdateSettings({ payload }: { payload: ISettings }) {
   }
 }
 
-function* onFetchMatchesHistory() {
+function* onFetchMatchesHistory({ payload }: { payload: IFetchMatchPayload }) {
   try {
+    const queryParams: IQuery[] = Object.keys(payload).map(
+      (key: any): IQuery => {
+        if (key === "type") return { name: key, value: null };
+        return { name: key, value: payload[key] };
+      }
+    );
+    console.log(queryParams);
     const matchesHistory = yield call(() =>
-      API.execute("GET", ENDPOINTS.MATCHES_HISTORY)
+      API.execute("GET", ENDPOINTS.MATCHES_HISTORY, null, queryParams)
     );
     yield put(userActions.setMatchesHistory(matchesHistory));
+  } catch (e) {
+    console.log("err", e);
+  }
+}
+
+function* onFetchUserStatsDateRange({
+  payload,
+}: {
+  payload: { beginDate: number; endDate: number };
+}) {
+  try {
+    const queryParams: IQuery[] = Object.keys(payload).map(
+      (key: any): IQuery => {
+        if (key === "type") return { name: key, value: null };
+        return { name: key, value: payload[key] };
+      }
+    );
+    const userStats: {
+      WonGames: number;
+      DrawGames: number;
+      LostGames: number;
+      TreasuresFound: number;
+      TreasureGames: number;
+    } = yield call(() =>
+      API.execute("GET", ENDPOINTS.GET_USER_STATS, null, queryParams)
+    );
+    yield put(userActions.setUserStatsDateRange(userStats));
+  } catch (e) {
+    console.log("err", e);
+  }
+}
+
+function* onFetchUserStatsOnce() {
+  try {
+    const userStats: { WonGames: number; TreasureFound: number } = yield call(
+      () => API.execute("GET", ENDPOINTS.GET_USER_STATS)
+    );
+    yield put(userActions.setUserStatsOnce(userStats));
   } catch (e) {
     console.log("err", e);
   }
@@ -154,6 +204,20 @@ function* watchFetchMatchesHistory() {
   );
 }
 
+function* watchFetchUserStatsOnce() {
+  yield takeLatest(
+    ACTION_TYPE.FETCH_USER_STATS_ONCE as any,
+    onFetchUserStatsOnce
+  );
+}
+
+function* watchFetchUserStatsDateRange() {
+  yield takeLatest(
+    ACTION_TYPE.FETCH_USER_STATS_DATE_RANGE as any,
+    onFetchUserStatsDateRange
+  );
+}
+
 function* watchFetchServerStatus() {
   yield takeLatest(ACTION_TYPE.FETCH_SERVER_STATUS as any, onFetchServerStatus);
 }
@@ -173,4 +237,6 @@ export default [
   watchUpdateCurrentUser,
   watchSettingsChange,
   watchSetAuthenticated,
+  watchFetchUserStatsOnce,
+  watchFetchUserStatsDateRange,
 ];

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Actions as userActions } from "../../store/user/user.action";
+import { Actions, Actions as userActions } from "../../store/user/user.action";
 import Matches from "../../components/Matches";
 import ProfileSidebar from "../../components/ProfileSidebar";
 import { IAppState } from "../../store/reducers";
 import { IUser } from "../../store/user/user.interfaces";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import CloseIcon from "../../assets/images/close-icon.png";
 import { navigate } from "gatsby";
 import UserEditInfo from "../../components/UserEditInfo";
@@ -24,9 +24,47 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   useEffect(() => {
     if (currentUser?.Id && fetchCurrentUser) fetchCurrentUser();
   }, [fetchCurrentUser]);
+  const months: string[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let currentDate: number = new Date().getDate();
+  let currentMonth: number = new Date().getMonth();
+  let currentYear: number = new Date().getFullYear();
+  let daysInMonth: number = new Date(currentYear, currentMonth, 0).getDate();
+  let dateRange: string = currentDate < 15 ? "1-15" : `16-${daysInMonth}`;
+  let dateString: string = `${dateRange} ${months[currentMonth]} ${currentYear}`;
+  const [startDate, setStartDate] = useState(dateString);
 
   // console.log(fetchCurrentUser);
   // return <UserEditInfo />;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      Actions.fetchUserStatsDateRange({
+        beginDate: new Date(
+          +startDate.split(" ")[2],
+          months.indexOf(startDate.split(" ")[1]),
+          +startDate.split(" ")[0].split("-")[1]
+        ).getTime(),
+        endDate: new Date(
+          +startDate.split(" ")[2],
+          months.indexOf(startDate.split(" ")[1]),
+          +startDate.split(" ")[0].split("-")[0]
+        ).getTime(),
+      })
+    );
+  }, [startDate]);
 
   return (
     <div
@@ -40,19 +78,9 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
         maxWidth: "100%",
       }}
     >
-      <ProfileDateRange
-        title={"01-15 Aug 2020"}
-        onClickNext={() => {}}
-        onClickPrev={() => {}}
-      />
       <div className={"profileWrapper"}>
         <ProfileSidebar currentUser={currentUser} />
         <div className="profileOverall">
-          <img
-            src={CloseIcon}
-            className="close-icon"
-            onClick={() => navigate("/")}
-          />
           {!currentUser ? (
             <div></div>
           ) : currentUser.GuestId ? (
@@ -61,11 +89,85 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
             </div>
           ) : (
             <>
+              <ProfileDateRange
+                title={startDate}
+                onClickNext={() => {
+                  if (startDate === dateString) return;
+                  if (+startDate.split(" ")[0].split("-")[1] === 15) {
+                    let newDaysInMonth: number = new Date(
+                      +startDate.split(" ")[2],
+                      months.indexOf(startDate.split(" ")[1]) + 1,
+                      0
+                    ).getDate();
+                    return setStartDate(
+                      `16-${newDaysInMonth} ${startDate
+                        .split(" ")
+                        .slice(1)
+                        .join(" ")}`
+                    );
+                  }
+                  let newMonth: number;
+                  let newYear: number;
+                  if (months.indexOf(startDate.split(" ")[1]) === 11) {
+                    newMonth = 0;
+                    newYear = parseInt(startDate.split(" ")[2]) + 1;
+                  } else {
+                    newMonth = months.indexOf(startDate.split(" ")[1]) + 1;
+                    newYear = +startDate.split(" ")[2];
+                  }
+                  let newDaysInMonth: number = new Date(
+                    newYear,
+                    newMonth,
+                    0
+                  ).getDate();
+                  let newDateRange: string =
+                    +startDate.split(" ")[0].split("-")[1] > 15
+                      ? "1-15"
+                      : `16-${newDaysInMonth}`;
+                  let newDateString: string = `${newDateRange} ${months[newMonth]} ${newYear}`;
+                  setStartDate(newDateString);
+                }}
+                onClickPrev={() => {
+                  if (+startDate.split(" ")[0].split("-")[1] > 15) {
+                    return setStartDate(
+                      `1-15 ${startDate.split(" ").slice(1).join(" ")}`
+                    );
+                  }
+                  let newMonth: number;
+                  let newYear: number;
+                  if (months.indexOf(startDate.split(" ")[1]) === 0) {
+                    newMonth = 11;
+                    newYear = parseInt(startDate.split(" ")[2]) - 1;
+                  } else {
+                    newMonth = months.indexOf(startDate.split(" ")[1]) - 1;
+                    newYear = +startDate.split(" ")[2];
+                  }
+                  let newDaysInMonth: number = new Date(
+                    newYear,
+                    newMonth + 1,
+                    0
+                  ).getDate();
+                  let newDateRange: string = `16-${newDaysInMonth}`;
+                  let newDateString: string = `${newDateRange} ${months[newMonth]} ${newYear}`;
+                  setStartDate(newDateString);
+                }}
+              />
               <div className="summaryContainer">
                 <ProfileSummary />
                 <AnotherThing />
               </div>
-              <Matches />
+              <Matches
+                endDate={new Date(
+                  +startDate.split(" ")[2],
+                  months.indexOf(startDate.split(" ")[1]),
+                  +startDate.split(" ")[0].split("-")[1]
+                ).getTime()}
+                startDate={new Date(
+                  +startDate.split(" ")[2],
+                  months.indexOf(startDate.split(" ")[1]),
+                  +startDate.split(" ")[0].split("-")[0]
+                ).getTime()}
+              />
             </>
           )}
           {/* <ProfileDateRange

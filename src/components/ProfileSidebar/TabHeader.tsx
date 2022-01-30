@@ -6,7 +6,7 @@ import SettingsTab from "../../assets/images/settings.png";
 import { navigate } from "gatsby";
 export type ProfileTab = "star" | "achivement" | "profile" | "settings";
 
-const tabs: ProfileTab[] = ["star", "achivement", "settings", "profile"];
+const tabs: ProfileTab[] = ["star", "achivement", "profile", "settings"];
 
 interface Props {
   onSelect: (tab: ProfileTab) => void;
