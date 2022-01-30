@@ -1,6 +1,8 @@
 .profileSidebarContainer {
-    width: 280px;
-    height: 100%;
+    // width: 280px;
+    // height: 100%;
+    width: 100%;
+    height: fit-content;
     background: #0c1221;
     /* 1 */
     box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7), 0px 4px 30px rgba(32, 49, 79, 0.7);
@@ -44,8 +46,6 @@
                 &:hover {
                     opacity: 0.73;
                 }
-                height: 23.83px;
-                max-width: 25px;
                 margin-bottom: 8px;
             }
             .activeTabIndicator {
@@ -86,6 +86,8 @@
                 flex: 1;
                 flex-direction: row;
                 justify-content: start;
+                padding: 2vmin 2vmax;
+                background: rgba(255, 255, 255, 0.22);
                 img {
                     margin-right: 10px;
                 }
@@ -132,8 +134,5 @@
 }
 
 @media screen and (max-width: 950px) {
-    .profileSidebarContainer {
-        width: 100%;
-        height: fit-content;
-    }
+    .profileSidebarContainer {}
 }

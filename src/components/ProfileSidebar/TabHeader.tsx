@@ -3,6 +3,7 @@ import AchivementTab from "../../assets/images/achievments.png";
 import ProfileTab from "../../assets/images/profile.png";
 import StarTab from "../../assets/images/star.png";
 import SettingsTab from "../../assets/images/settings.png";
+import { navigate } from "gatsby";
 export type ProfileTab = "star" | "achivement" | "profile" | "settings";
 
 const tabs: ProfileTab[] = ["star", "achivement", "settings", "profile"];
@@ -16,7 +17,15 @@ const TabHeader = ({ onSelect, selected }: Props) => {
   return (
     <div className="tabWrapper">
       {tabs.map((tab, index) => (
-        <div className="singleTab" onClick={() => onSelect(tab)} key={index}>
+        <div
+          className="singleTab"
+          onClick={
+            tab === "settings"
+              ? () => navigate("/settings")
+              : () => onSelect(tab)
+          }
+          key={index}
+        >
           <img
             src={
               (tab === "star" && StarTab) ||

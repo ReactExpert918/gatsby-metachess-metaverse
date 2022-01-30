@@ -4,7 +4,7 @@ import EditIcon from "../../assets/images/EditIcon.png";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
 import EditSettings from "./EditSettings";
-import sound from "../../assets/images/sound.png";
+import sound from "../../assets/images/Sound.png";
 import noSound from "../../assets/images/noSound.png";
 
 const SettingsTab = () => {
@@ -70,7 +70,7 @@ const SettingsTab = () => {
         <img
           src={settings.TreasureQuestSound ? sound : noSound}
           alt="sound"
-          style={{ height: "8vmin", width: "auto" }}
+          style={{ height: "5vmin", width: "auto" }}
         />
       </div>
     </>

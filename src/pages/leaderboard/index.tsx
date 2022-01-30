@@ -101,7 +101,7 @@ const index = (props: IProps) => {
   return (
     <div className={"chooseTreasureQuestModeSection globalRankingsSection"}>
       <div className={"headerWrapper"} style={{ marginBottom: "4vmin" }}>
-        <p className="header-heading">Global Rankings</p>
+        <p className="header-heading">LEADERBOARD</p>
       </div>
       {option === "" && (
         <div className="filterWrapper">
