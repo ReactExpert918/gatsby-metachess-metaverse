@@ -5,7 +5,7 @@ export default () => {
   return (
     <div
       className="profileSidebarContainer"
-      style={{ width: "50%", margin: "0 auto 4vmin" }}
+      style={{ width: "50%",minWidth:"fit-content", margin: "0 auto 4vmin" }}
     >
       <SettingsTab />
     </div>

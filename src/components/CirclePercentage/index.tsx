@@ -14,6 +14,7 @@ interface Props {
   strokeColor?: string;
   percentage: number;
   children?: JSX.Element;
+  width?: string;
 }
 
 const CircleProgressBarBase = ({
@@ -21,11 +22,12 @@ const CircleProgressBarBase = ({
   trailStrokeColor = "#E84343",
   strokeColor = "#297BFB",
   percentage,
+  width = "170px",
   children,
 }: Props) => {
   return (
     <figure className={`circlePercentageWrapper ${className}`}>
-      <svg viewBox={circleConfig.viewBox} style={{ width: "170px" }}>
+      <svg viewBox={circleConfig.viewBox} style={{ width }}>
         <circle
           className="ring"
           cx={circleConfig.x}

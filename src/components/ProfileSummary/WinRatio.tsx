@@ -7,7 +7,7 @@ interface Props {
 }
 
 const WinRatio = ({ wins, loses }: Props) => {
-  const ratio = wins / (wins + loses);
+  const ratio = wins + loses !== 0 ? wins / (wins + loses) : 0;
   const symbols = [
     {
       title: "Wins",

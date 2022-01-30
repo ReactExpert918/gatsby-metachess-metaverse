@@ -17,6 +17,13 @@ export interface IUserReducer {
   choseMode: MODES;
   searchedUsersList: IUser[];
   alreadyAuthenticated: boolean;
+  userStats: {
+    WonGames?: number;
+    DrawGames?: number;
+    LostGames?: number;
+    TreasuresFound?: number;
+    TreasureGames?: number;
+  };
 }
 
 export interface IMatchHistory {
@@ -44,6 +51,7 @@ export interface IUser {
   RapidElo: number;
   GuestId?: number;
   WonGames: number;
+  TreasuresFound: number;
   TreasureGamesPlayedToday: number;
   Avatar: string;
   Settings: string;
@@ -53,18 +61,23 @@ export interface IServerStatus {
   BoardOddSquaresColor: string;
   Level1TreasureValue: number;
   Level2TreasureValue: number;
-  Level3TreasureValue: number
+  Level3TreasureValue: number;
   MaintenanceDuration: number;
   MaintenanceMode: MAINTENANCE_MODE;
   MaintenanceTime: number;
   Status: MAINTENANCE_MODE;
   TreasureQuestAttempts: number;
   TreasureQuestGamesPerDay: number;
-  BoardOddSquaresColor: string;
-  BoardEvenSquaresColor: string;
   BoardLastPlaySquaresColor: string;
   BoardPossibleMovesColor: string;
   BoardPossibleCapturesColor: string;
   BoardCheckSquaresColor: string;
   TreasureQuestSound: boolean;
+}
+
+export interface IFetchMatchPayload {
+  beginDate: number;
+  endDate: number;
+  startingAfter: number;
+  top: number;
 }
