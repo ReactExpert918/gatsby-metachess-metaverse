@@ -168,6 +168,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     this.unmounted = true;
     this.props.clear();
     clearTimeout(this.idTimeoutShowModal);
+    clearTimeout(this.replayTimeout)
     if (
       !this.props.winner &&
       this.props.playMode &&
