@@ -24,7 +24,6 @@ const ProfileSidebar = ({ currentUser }: { currentUser: IUser }) => {
         <TabHeader onSelect={setSelectedTab} selected={selectedTab} />
       ) : null}
       {selectedTab === "star" && <StarTabContent currentUser={currentUser} />}
-      {selectedTab === "settings" && <SettingsTab />}
       {/* {selectedTab === "achivement" && <AchivementInfoTabContent />} */}
       {selectedTab === "profile" && <UserEditInfo currentUser={currentUser} />}
     </div>

@@ -8,6 +8,8 @@ import { AI_PLAY_MODE } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
 import { connect } from "react-redux";
 import { IPieceMove } from "../../components/ChessboardWrapper/interface";
+import { MovePieceEnum } from "../../interfaces/game.interfaces";
+import { navigate } from "gatsby";
 
 interface IProps {
   playMode: ISetPlayModePayload;
@@ -60,9 +62,11 @@ class WarFront extends Component<IProps> {
       console.log("move from", from);
       console.log("move to", to);
       this.handleMove({ sourceSquare: from, targetSquare: to });
+      this.handleMultiplayerMove(this.game.turn() !== "w" ? "w" : "b", to);
     };
-    Window.promote = () => {
-      console.log("move from promoted");
+    Window.promote = (side: string, which: string, where: string) => {
+      console.log(side, which, where);
+      this.handleMultiplayerMove(which === "white" ? "w" : "b", where);
     };
   }
   initialize = () => {
@@ -84,6 +88,55 @@ class WarFront extends Component<IProps> {
     }
     return this.props.playerColor === this.game?.turn();
   };
+  handleMultiplayerMove = (
+    // fen: string,
+    whoPlayed: string,
+    move?: string
+    // shouldRerender?: boolean,
+    // isCheck?: boolean,
+    // isCheckmate?: boolean,
+    // isDraw?: boolean,
+    // isRepetition?: boolean,
+    // isStalemate?: boolean
+  ): void => {
+    const {
+      playMode: { isHumanVsHuman },
+      playerColor,
+      isReplay,
+    } = this.props;
+    if (!isReplay && isHumanVsHuman && move && whoPlayed === playerColor) {
+      SocketService.sendData("move-piece", move, (movePiece: MovePieceEnum) => {
+        console.log("move-piece:", movePiece, MovePieceEnum);
+        switch (movePiece) {
+          case MovePieceEnum.OK:
+            return;
+          case MovePieceEnum.GameNotFound:
+          case MovePieceEnum.GameNotStarted:
+            navigate("/");
+            return;
+          case MovePieceEnum.NotAValidMove:
+          case MovePieceEnum.NotYourTurn:
+            this.forceUpdate();
+            return;
+        }
+      });
+    }
+    // else if (!isReplay && !isHumanVsHuman && move) {
+    //   this.props.addToHistoryWithTimestamp({
+    //     move: move,
+    //     timestamp: new Date().getTime(),
+    //     fen,
+    //     isCheck,
+    //     isCheckmate,
+    //     isDraw,
+    //     isRepetition,
+    //     isStalemate,
+    //   });
+    // }
+    // if (shouldRerender) {
+    //   this.forceUpdate();
+    // }
+  };
   handleMove = (nextMove: IPieceMove, isAI?: boolean) => {
     if (
       nextMove &&
@@ -103,23 +156,36 @@ class WarFront extends Component<IProps> {
     // illegal move
     if (move === null) {
       return;
-    } if(move.promotion) {
+    }
+    if (move.promotion) {
       this.unityInstance.SendMessage(
         GameObj,
         "OnPromoted",
-        move.promotion
+        JSON.stringify({
+          side: this.game.turn() === "w" ? "white" : "black",
+          which: move.promotion,
+          where: nextMove.targetSquare,
+        })
       );
     }
-    if(this.game.in_checkmate()) {
+    if (this.game.in_checkmate()) {
       this.unityInstance.SendMessage(
         GameObj,
-        "OnCheckmate"
+        "OnCheckmate",
+        this.game.turn() === "w" ? "white" : "black"
       );
-    } else if(this.game.in_check()) {
+    } else if (this.game.in_check()) {
       this.unityInstance.SendMessage(
         GameObj,
-        "OnCheck"
+        "OnCheck",
+        this.game.turn() === "w" ? "white" : "black"
       );
+    } else if (
+      this.game.in_stalemate() ||
+      this.game.in_draw() ||
+      this.game.in_threefold_repetition()
+    ) {
+      this.unityInstance.SendMessage(GameObj, "OnDraw");
     }
     this.unityInstance.SendMessage(
       GameObj,
@@ -167,6 +233,7 @@ class WarFront extends Component<IProps> {
           alert(message);
         });
     };
+    console.log(script);
     document.body.appendChild(script);
   };
   ["game-timeout"] = (params: { winner: IUser }) => {
@@ -209,7 +276,7 @@ class WarFront extends Component<IProps> {
 }
 
 const mapStateToProps = (state: IAppState): IProps => ({
-  playMode: state.gameplay.playMode,
+  playMode: { isHumanVsHuman: false },
   playerColor: "w",
   isReplay: false,
   isAI: true,
