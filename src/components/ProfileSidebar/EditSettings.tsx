@@ -93,16 +93,19 @@ const EditSettings = (props: IProps) => {
         break;
     }
   };
-  // setSquareStyles
   return (
     <div className="Form-container">
       <div className="Form-wrapper">
         {!isSSR && (
           <React.Suspense fallback={<div />}>
             <Chessboard
-              darkSquareStyle={{ background: settings.BoardEvenSquaresColor }}
-              lightSquareStyle={{ background: settings.BoardOddSquaresColor }}
-              width={200}
+              darkSquareStyle={{
+                background: settings.BoardEvenSquaresColor,
+              }}
+              lightSquareStyle={{
+                background: settings.BoardOddSquaresColor,
+              }}
+              width={window && window.innerWidth < 500 ? 200 : 500}
               position={{ d4: "wK", e4: "wP", e7: "bK", d5: "bR" }}
               squareStyles={squareStyles}
               draggable={false}
@@ -127,113 +130,140 @@ const EditSettings = (props: IProps) => {
         )}
         <form
           className="signup-page__form"
-          style={{ gap: "2vmin" }}
+          style={{ gap: "2vmin", marginTop: "4vmin" }}
           autoComplete="off"
           onSubmit={handleSubmit}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board even squares color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardEvenSquaresColor}
-              id=""
-              onChange={(e: any) => handleChange(e, "BoardEvenSquaresColor")}
-            />
-          </div>{" "}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board odd squares color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardOddSquaresColor}
-              id=""
-              onChange={(e: any) => handleChange(e, "BoardOddSquaresColor")}
-            />
-          </div>{" "}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board check square color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardCheckSquaresColor}
-              id=""
-              onChange={(e: any) => handleChange(e, "BoardCheckSquaresColor")}
-            />
-          </div>{" "}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board last move square color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardLastPlaySquaresColor}
-              id=""
-              onChange={(e: any) =>
-                handleChange(e, "BoardLastPlaySquaresColor")
-              }
-            />
-          </div>{" "}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board possible move squares color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardPossibleMovesColor}
-              id=""
-              onChange={(e: any) => handleChange(e, "BoardPossibleMovesColor")}
-            />
-          </div>{" "}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <label
-              className="Lables"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              Board possible capture square color
-            </label>
-            <input
-              type="color"
-              name=""
-              value={settings.BoardPossibleCapturesColor}
-              id=""
-              onChange={(e: any) =>
-                handleChange(e, "BoardPossibleCapturesColor")
-              }
-            />
-          </div>{" "}
+          <div className="three-inputs">
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board even squares color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardEvenSquaresColor}
+                id=""
+                onChange={(e: any) => handleChange(e, "BoardEvenSquaresColor")}
+              />
+            </div>{" "}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board odd squares color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardOddSquaresColor}
+                id=""
+                onChange={(e: any) => handleChange(e, "BoardOddSquaresColor")}
+              />
+            </div>{" "}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board possible move squares color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardPossibleMovesColor}
+                id=""
+                onChange={(e: any) =>
+                  handleChange(e, "BoardPossibleMovesColor")
+                }
+              />
+            </div>{" "}
+          </div>
+          <div className="three-inputs">
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board last move square color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardLastPlaySquaresColor}
+                id=""
+                onChange={(e: any) =>
+                  handleChange(e, "BoardLastPlaySquaresColor")
+                }
+              />
+            </div>{" "}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board check square color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardCheckSquaresColor}
+                id=""
+                onChange={(e: any) => handleChange(e, "BoardCheckSquaresColor")}
+              />
+            </div>{" "}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label
+                className="Lables"
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
+              >
+                Board possible capture square color
+              </label>
+              <input
+                type="color"
+                name=""
+                value={settings.BoardPossibleCapturesColor}
+                id=""
+                onChange={(e: any) =>
+                  handleChange(e, "BoardPossibleCapturesColor")
+                }
+              />
+            </div>{" "}
+          </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <label
               className="Lables"
               htmlFor="soundOn"
-              style={{ color: "rgba(255,255,255,0.6)" }}
+              style={{ color: "rgba(255,255,255,0.6)", marginBottom: "2vmin" }}
             >
               <label
                 className="Lables"
-                style={{ color: "rgba(255,255,255,0.6)" }}
+                style={{
+                  color: "rgba(255,255,255,0.6)",
+                  marginBottom: "2vmin",
+                }}
               >
                 Treasure Quest Sound
               </label>

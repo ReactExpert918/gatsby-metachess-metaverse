@@ -12,6 +12,10 @@ export enum ACTION_TYPE {
   "SET_MATCHES_HISTORY" = "user_SET_MATCHES_HISTORY",
   "SET_SERVER_STATUS" = "user_SET_SERVER_STATUS",
   "FETCH_SERVER_STATUS" = "user_FETCH_SERVER_STATUS",
+  "SET_USER_STATS_ONCE" = "user_SET_USER_STATS_ONCE",
+  "FETCH_USER_STATS_ONCE" = "user_FETCH_USER_STATS_ONCE",
+  "SET_USER_STATS_DATE_RANGE" = "user_SET_USER_STATS_DATE_RANGE",
+  "FETCH_USER_STATS_DATE_RANGE" = "user_FETCH_USER_STATS_DATE_RANGE",
   "SET_CHOSE_MODE" = "user_SET_CHOSE_MODE",
   "DISPATCH_UPDATE_SETTINGS" = "user_DISPATCH_UPDATE_SETTINGS",
   "UPDATE_SETTINGS" = "user_UPDATE_SETTINGS",
@@ -39,6 +43,20 @@ export const Actions = {
   ),
   setServerStatus: createAction<IServerStatus>(ACTION_TYPE.SET_SERVER_STATUS),
   fetchServerStatus: createAction<any>(ACTION_TYPE.FETCH_SERVER_STATUS),
+  setUserStatsOnce: createAction<{ WonGames: number; TreasureFound: number }>(
+    ACTION_TYPE.SET_USER_STATS_ONCE
+  ),
+  fetchUserStatsOnce: createAction<null>(ACTION_TYPE.FETCH_USER_STATS_ONCE),
+  setUserStatsDateRange: createAction<{
+    WonGames: number;
+    DrawGames: number;
+    LostGames: number;
+    TreasuresFound: number;
+    TreasureGames: number;
+  }>(ACTION_TYPE.SET_USER_STATS_DATE_RANGE),
+  fetchUserStatsDateRange: createAction<{ beginDate: number; endDate: number }>(
+    ACTION_TYPE.FETCH_USER_STATS_DATE_RANGE
+  ),
   setChoseMode: createAction<MODES>(ACTION_TYPE.SET_CHOSE_MODE),
   searchUsers: createAction<any>(ACTION_TYPE.FETCH_SEARCHED_USER_LIST),
   setSearchedUserList: createAction<IUser[]>(

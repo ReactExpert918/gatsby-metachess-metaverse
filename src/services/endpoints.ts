@@ -24,6 +24,7 @@ export const ENDPOINTS = {
   GET_QUICKPLAY_LEADERBOARD: "GET_QUICKPLAY_LEADERBOARD",
   GET_AI_GAMES_LEADERBOARD: "GET_AI_GAMES_LEADERBOARD",
   GET_RATING_LEADERBOARD: "GET_RATING_LEADERBOARD",
+  GET_USER_STATS: "GET_USER_STATS",
 };
 
 const convertQuery = (queries: IQuery[]): string => {
@@ -58,9 +59,15 @@ export const constructUrl = (
     case ENDPOINTS.USER_UPDATE:
       return `${API_BASE_URL}/account/update`;
     case ENDPOINTS.MATCHES_HISTORY:
-      return `${API_BASE_URL}/account/gameHistory`;
+      return `${API_BASE_URL}/account/gameHistory${
+        queries ? convertQuery(queries) : ""
+      }`;
     case ENDPOINTS.SERVER_STATUS:
       return `${API_BASE_URL}/serverstatus`;
+    case ENDPOINTS.GET_USER_STATS:
+      return `${API_BASE_URL}/account/statistics${
+        queries ? convertQuery(queries) : ""
+      }`;
     case ENDPOINTS.FIND_USER:
       return `${API_BASE_URL}/account/find${
         queries ? convertQuery(queries) : ""

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Actions as userActions } from "../../store/user/user.action";
 import { Actions as gameplayActions } from "../../store/gameplay/gameplay.action";
 import { IAppState } from "../../store/reducers";
@@ -29,7 +29,10 @@ interface IActionProps {
   setPlayMode: typeof gameplayActions.setPlayMode;
 }
 
-interface IProps extends ISelectProps, IActionProps {}
+interface IProps extends ISelectProps, IActionProps {
+  startDate: number;
+  endDate: number;
+}
 
 const HEADERS = [
   {
@@ -45,13 +48,22 @@ const HEADERS = [
 ];
 
 const Matches = (props: IProps) => {
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    props.fetchMatchesHistory();
-  }, []);
-  const matchesHistory: any = props.matchesHistory && props.matchesHistory.map((t) => ({
-    ...t,
-    ["real-winner"]: t.Winner?.Id === props.currentUser?.Id ? "Win" : "Lost",
-  }));
+    const requestObj = {
+      beginDate: props.startDate,
+      endDate: props.endDate,
+      startingAfter: (page - 1) * 10,
+      top: 10,
+    };
+    props.fetchMatchesHistory(requestObj);
+  }, [props.startDate, props.endDate]);
+  const matchesHistory: any =
+    props.matchesHistory &&
+    props.matchesHistory.map((t) => ({
+      ...t,
+      ["real-winner"]: t.Winner?.Id === props.currentUser?.Id ? "Win" : "Lost",
+    }));
 
   const replayHistory = (matchHistory: IMatchHistory) => {
     props.setHistoryWithTimestamp(JSON.parse(matchHistory.BoardMoves));
@@ -59,7 +71,7 @@ const Matches = (props: IProps) => {
     props.setPlayMode({
       isAI: false,
       aiMode: null,
-      isHumanVsHuman: true
+      isHumanVsHuman: true,
     });
     const pieceSide = PieceSide.Black === matchHistory.PieceSide ? "b" : "w";
     props.setGameEndDate(matchHistory.EndDate);
@@ -70,18 +82,22 @@ const Matches = (props: IProps) => {
     });
     props.setPlayerColor(pieceSide);
     props.setOpponent(matchHistory.Opponent);
-    matchHistory.Winner && props.setGameWinner(
-      matchHistory.Winner.Id === props.currentUser.Id
-        ? pieceSide
-        : pieceSide === "b"
-        ? "w"
-        : "b"
-    );
+    matchHistory.Winner &&
+      props.setGameWinner(
+        matchHistory.Winner.Id === props.currentUser.Id
+          ? pieceSide
+          : pieceSide === "b"
+          ? "w"
+          : "b"
+      );
     navigate("/game");
   };
-
-  console.log("AA:", props.matchesHistory);
-
+  // const nextCondition: boolean =
+  //   totalResults !== 0 && (page + 1) * 10 <= totalResults;
+  // const prevCondition: boolean = totalResults !== 0 && page - 1 > 0;
+  // const firstCondition: boolean = totalResults !== 0 && page !== 1;
+  // const lastCondition: boolean =
+  //   totalResults !== 0 && page !== Math.ceil(totalResults / 10);
 
   return (
     <div className="matchesContainer shadowContainer">
@@ -90,104 +106,127 @@ const Matches = (props: IProps) => {
       </div>
 
       <div className={"innerContent main-table"}>
-        {!matchesHistory ? 
-        <div>
-          Loading...
-        </div> :
-        <table>
-          <thead>
-            <tr>
-              <th>Room</th>
-              <th>Opponent</th>
-              <th>Result</th>
-              <th>Mode</th>
-              <th className={'text-center'}>Elo Earned</th>
-              <th className={"text-center"}>Side</th>
-              <th className={"text-center"}>Time</th>
-              <th>Date</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {props.matchesHistory.map((x) => (
-              <tr key={x.Id}>
-                <td>
-                  <div className={"ellipsis"}>
-                    <p>{x.Identifier}</p>
-                  </div>
-                </td>
-
-                <td>
-                  <div>
-                    <p>{getOpponentName(false, null, x.Opponent as any)}</p>
-                  </div>
-                </td>
-
-                <td>
-                  <div>
-                    <p
-                      className={`${
-                        !x.Winner ? "draw" :
-                        x.Winner.Id === props.currentUser.Id
-                          ? "victory"
-                          : "defeat"
-                      }`}
-                    >
-                      {!x.Winner ? "Draw" :
-                        x.Winner.Id === props.currentUser.Id
-                        ? "Victory"
-                        : "Defeat"}
-                    </p>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <p className="mode">{`${getGameTypeName(x.Time.base)} - ${(x.GameMode == GameMode.Casual ? "Casual" : "Rated")}`}</p>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <p className={'text-center'}>{x.GameMode == GameMode.Casual ? "-" : <span className={x.EloEarned > 0 ? "victory" : "defeat"}>{`${x.EloEarned > 0 ? "+" : ""}${x.EloEarned}`}</span>}</p>
-                  </div>
-                </td>
-
-                <td>
-                  <div className={"side"}>
-                    {x.PieceSide === PieceSide.Black ? (
-                      <img src={SVG_ASSETS.bSide} />
-                    ) : x.PieceSide === PieceSide.White && (
-                      <img src={SVG_ASSETS.wSide} />
-                    )}
-                    {/* {x.PieceSide === PieceSide.Random && (
-                      <img src={SVG_ASSETS.bwSide} />
-                    )} */}
-                  </div>
-                </td>
-
-                <td>
-                  <div>
-                    <p className={'text-center'}>{`${x.Time.base}+${x.Time.increment}`}</p>
-                  </div>
-                </td>
-
-                <td>
-                  <div>
-                    <p>{`${moment(x.StartDate).format(
-                      `DD/MM/YYYY hh:mm:ss`
-                    )}`}</p>
-                  </div>
-                </td>
-
-                <td>
-                  <div>
-                    <button onClick={() => replayHistory(x)} className={"btn"}>Replay</button>
-                  </div>
-                </td>
+        {!matchesHistory ? (
+          <div>Loading...</div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Room</th>
+                <th>Opponent</th>
+                <th>Result</th>
+                <th>Mode</th>
+                <th className={"text-center"}>Elo Earned</th>
+                <th className={"text-center"}>Side</th>
+                <th className={"text-center"}>Time</th>
+                <th>Date</th>
+                <th />
               </tr>
-            ))}
-          </tbody>
-        </table>
-        }
+            </thead>
+            <tbody>
+              {props.matchesHistory.map((x) => (
+                <tr key={x.Id}>
+                  <td>
+                    <div className={"ellipsis"}>
+                      <p>{x.Identifier}</p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <p>{getOpponentName(false, null, x.Opponent as any)}</p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <p
+                        className={`${
+                          !x.Winner
+                            ? "draw"
+                            : x.Winner.Id === props.currentUser.Id
+                            ? "victory"
+                            : "defeat"
+                        }`}
+                      >
+                        {!x.Winner
+                          ? "Draw"
+                          : x.Winner.Id === props.currentUser.Id
+                          ? "Victory"
+                          : "Defeat"}
+                      </p>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p className="mode">{`${getGameTypeName(x.Time.base)} - ${
+                        x.GameMode == GameMode.Casual ? "Casual" : "Rated"
+                      }`}</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <p className={"text-center"}>
+                        {x.GameMode == GameMode.Casual ? (
+                          "-"
+                        ) : (
+                          <span
+                            className={x.EloEarned > 0 ? "victory" : "defeat"}
+                          >{`${x.EloEarned > 0 ? "+" : ""}${
+                            x.EloEarned
+                          }`}</span>
+                        )}
+                      </p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div className={"side"}>
+                      {x.PieceSide === PieceSide.Black ? (
+                        <img src={SVG_ASSETS.bSide} />
+                      ) : (
+                        x.PieceSide === PieceSide.White && (
+                          <img src={SVG_ASSETS.wSide} />
+                        )
+                      )}
+                      {/* {x.PieceSide === PieceSide.Random && (
+              <img src={SVG_ASSETS.bwSide} />
+            )} */}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <p
+                        className={"text-center"}
+                      >{`${x.Time.base}+${x.Time.increment}`}</p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <p>{`${moment(x.StartDate).format(
+                        `DD/MM/YYYY hh:mm:ss`
+                      )}`}</p>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div>
+                      <button
+                        onClick={() => replayHistory(x)}
+                        className={"btn"}
+                      >
+                        Replay
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
         {/* {HEADERS.map((t) => (
           <div key={t.key} className={"column"}>
             <div className={"header"}>
@@ -204,6 +243,76 @@ const Matches = (props: IProps) => {
             ))}
           </div>
         ))} */}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          gap: "2vmax",
+          float: "left",
+          padding: "0 2vmax",
+          margin: "4vmin 0",
+        }}
+      >
+        <p
+          style={{
+            fontSize: "12px",
+            fontWeight: "bolder",
+            // color: prevCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            // cursor: prevCondition ? "pointer" : "no-drop",
+          }}
+          // onClick={() => {
+          //   if (prevCondition)
+          //     setPage(page - 1);
+          // } }
+        >
+          ↼ Previous
+        </p>
+        <p
+          style={{
+            fontSize: "12px",
+            fontWeight: "bolder",
+            // color: nextCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            // cursor: nextCondition ? "pointer" : "no-drop",
+          }}
+          // onClick={() => {
+          //   if (nextCondition)
+          //     setPage(page + 1);
+          // } }
+        >
+          Next ⇀
+        </p>
+
+        <p
+          style={{
+            fontSize: "12px",
+            fontWeight: "bolder",
+            // color: firstCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            // cursor: firstCondition ? "pointer" : "no-drop",
+          }}
+          // onClick={() => {
+          //   if (firstCondition)
+          //     setPage(1);
+          // } }
+        >
+          First
+        </p>
+        <p
+          style={{
+            fontSize: "12px",
+            fontWeight: "bolder",
+            // color: lastCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            // cursor: lastCondition ? "pointer" : "no-drop",
+          }}
+          // onClick={() => {
+          //   if (lastCondition)
+          //     setPage(Math.ceil(totalResults / 10));
+          // } }
+        >
+          Last
+        </p>
       </div>
     </div>
   );
@@ -222,6 +331,6 @@ export default connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setGameStartDate: gameplayActions.setGameStartDate,
   setGameWinner: gameplayActions.setGameWinner,
   setPlayerColor: gameplayActions.setPlayerColor,
-  setPlayMode: gameplayActions.setPlayMode,  
+  setPlayMode: gameplayActions.setPlayMode,
   setOpponent: gameplayActions.setOpponent,
 })(Matches);

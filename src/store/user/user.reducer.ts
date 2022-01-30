@@ -10,6 +10,7 @@ const INITIAL_STATE: IUserReducer = {
   choseMode: MODES.CHOSE_MODE,
   searchedUsersList: [],
   alreadyAuthenticated: false,
+  userStats: {},
 };
 
 export default (
@@ -31,6 +32,12 @@ export default (
       },
       [ACTION_TYPE.SET_MATCHES_HISTORY]: {
         matchesHistory: action.payload,
+      },
+      [ACTION_TYPE.SET_USER_STATS_ONCE]: {
+        currentUser: { ...state.currentUser, ...action.payload },
+      },
+      [ACTION_TYPE.SET_USER_STATS_DATE_RANGE]: {
+        userStats: action.payload,
       },
       [ACTION_TYPE.SET_SERVER_STATUS]: {
         serverStatus: action.payload,
