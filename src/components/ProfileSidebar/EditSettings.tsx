@@ -5,7 +5,7 @@ import { isSSR } from "../../lib/utils";
 import { Actions } from "../../store/user/user.action";
 import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
-import sound from "../../assets/images/Sound.png";
+import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
 
 const Chessboard = React.lazy(() => import("chessboardjsx"));
