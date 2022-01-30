@@ -13,7 +13,6 @@ import SettingsTab from "./SettingsTab";
 
 const ProfileSidebar = ({ currentUser }: { currentUser: IUser }) => {
   const [selectedTab, setSelectedTab] = useState<ProfileTab>("star");
-
   return (
     <div className="profileSidebarContainer">
       <div className="header">

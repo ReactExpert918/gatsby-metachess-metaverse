@@ -32,7 +32,7 @@ const HeaderAccount = (props: ISelectProps) => {
           <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
           <BellIcon className="nav-icon" />
           <Link to={"/profile"} className="headerAccountContainer">
-            <span>
+            <span style={{overflow:"hidden"}}>
               <img src={props.currentUser?.Avatar || SmallPieceIcon} />
             </span>
 
