@@ -4,7 +4,7 @@ import EditIcon from "../../assets/images/EditIcon.png";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
 import EditSettings from "./EditSettings";
-import sound from "../../assets/images/Sound.png";
+import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
 
 const SettingsTab = () => {
