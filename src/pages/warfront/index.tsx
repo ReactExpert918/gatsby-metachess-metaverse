@@ -146,7 +146,7 @@ class WarFront extends Component<IProps> {
         GameObj,
         "OnPromoted",
         JSON.stringify({
-          side: this.game.turn() === "w" ? "white" : "black",
+          side: this.game.turn() !== "w" ? "white" : "black",
           which: move.promotion,
           where: nextMove.targetSquare,
         })
