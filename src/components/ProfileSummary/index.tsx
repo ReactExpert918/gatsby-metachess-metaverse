@@ -15,7 +15,7 @@ const ProfileSummary = () => {
     <div className="profileSummaryContainer shadowContainer">
       <div className="innerContent">
         <p className="sectionTitle">Summary</p>
-        <WinRatio wins={userStats.WonGames} loses={userStats.LostGames} />
+        <WinRatio wins={userStats.WonGames} loses={userStats.LostGames} draws={userStats.DrawGames}/>
       </div>
     </div>
   );

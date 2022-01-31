@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import StarIcon from "../../assets/images/star-icon.png";
+import ChestIcon from "../../assets/images/TreasureChest.png";
 import { Actions } from "../../store/user/user.action";
 import { IUser } from "../../store/user/user.interfaces";
 
@@ -48,7 +49,7 @@ const StarTabContent = ({ currentUser }: Props) => {
                 </div>
               </div>
               <div className="info-image">
-                <img src={StarIcon} />
+                <img src={ChestIcon} />
                 <div>
                   <p className="title">{currentUser.TreasuresFound}</p>
                   <p className="subtitle">Treasures Found</p>

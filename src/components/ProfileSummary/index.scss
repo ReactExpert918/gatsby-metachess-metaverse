@@ -23,6 +23,8 @@
             flex-direction: row;
             height: 40%;
             align-self: center;
+            gap: 2vmax;
+            flex-wrap: wrap;
             .symbolWrapper {
                 display: flex;
                 flex: 1;
