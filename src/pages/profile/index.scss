@@ -23,6 +23,9 @@
         overflow: auto;
         padding: 0 20px;
         position: relative;
+        @media screen and(max-width: 500px) {
+            gap: 5vmin;
+        }
         &::-webkit-scrollbar {
             display: none;
         }
@@ -74,5 +77,6 @@
     // }
     .summaryContainer {
         flex-direction: column;
+        gap: 5vmax;
     }
 }
