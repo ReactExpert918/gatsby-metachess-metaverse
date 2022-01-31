@@ -4,10 +4,11 @@ import CircleProgressBarBase from "../CirclePercentage";
 interface Props {
   wins: number;
   loses: number;
+  draws: number;
 }
 
-const WinRatio = ({ wins, loses }: Props) => {
-  const ratio = wins + loses !== 0 ? wins / (wins + loses) : 0;
+const WinRatio = ({ wins, loses, draws }: Props) => {
+  const ratio = wins + loses + draws !== 0 ? wins / (wins + loses + draws) : 0;
   const symbols = [
     {
       title: "Wins",
@@ -18,6 +19,11 @@ const WinRatio = ({ wins, loses }: Props) => {
       title: "Loses",
       count: loses,
       color: "rgba(255, 255, 255, 0.27)",
+    },
+    {
+      title: "Draws",
+      count: draws,
+      color: "rgba(255, 255, 255, 0.8)",
     },
   ];
   return (
