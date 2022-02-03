@@ -11,6 +11,8 @@ const MaintenancePage = () => {
   const { serverStatus } = useSelector((state: IAppState) => state.user);
   const mDate = moment(serverStatus.MaintenanceTime);
   console.log(serverStatus);
+  const tempDate:string = mDate.format("DD");
+  const suffix = tempDate[0]==="1"?"th":tempDate[tempDate.length-1]==="1"?"st":tempDate[tempDate.length-1]==="2"?"nd":tempDate[tempDate.length-1]==="3"?"rd":"th";
   return (
     <div className={"maintenance-page"}>
       {serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE && (
@@ -30,12 +32,11 @@ const MaintenancePage = () => {
         serverStatus.MaintenanceTime && (
           <p style={{ textTransform: "capitalize" }}>
             A maintenance is scheduled for {mDate.format("MMMM")}{" "}
-            {mDate.format("DD")}th at {mDate.format("LT")} with an estimated
+            {mDate.format("DD")}{suffix} at {mDate.format("LT")} with an estimated
             duration of {serverStatus.MaintenanceDuration} minutes. During the
             update, our services won't be available.
           </p>
         )}
-      <p></p>
     </div>
   );
 };
