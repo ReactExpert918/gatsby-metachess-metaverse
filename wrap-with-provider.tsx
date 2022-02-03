@@ -53,7 +53,10 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     store.dispatch(userActions.fetchServerStatus());
     return null;
   }
-  if (p.serverStatus && p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
+  if (
+    p.serverStatus &&
+    p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE
+  ) {
     navigate("/maintenance");
   }
   SocketService.subscribeTo({
@@ -115,16 +118,16 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         // });
       },
     });
-    SocketService.subscribeTo({
-      eventName: "app-settings-change",
-      callback: (settings: string) => {
-        if (typeof settings === "string") {
-          store.dispatch(userActions.setUserSettings(JSON.parse(settings)));
-        } else if (typeof settings === "object") {
-          store.dispatch(userActions.setUserSettings(settings));
-        }
-      },
-    });
+    // SocketService.subscribeTo({
+    //   eventName: "app-settings-change",
+    //   callback: (settings: string) => {
+    //     if (typeof settings === "string") {
+    //       store.dispatch(userActions.setUserSettings(JSON.parse(settings)));
+    //     } else if (typeof settings === "object") {
+    //       store.dispatch(userActions.setUserSettings(settings));
+    //     }
+    //   },
+    // });
     addMissedSocketActions();
 
     if (!token) {

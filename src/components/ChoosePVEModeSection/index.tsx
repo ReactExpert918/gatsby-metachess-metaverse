@@ -10,6 +10,7 @@ import {
   IUser,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
+import moment from "moment";
 interface IProps {
   setMode: typeof UserActions.setChoseMode;
 }
@@ -22,45 +23,106 @@ interface ISelectChooseModeSectionProps {
 const ChoosePVEModeSection = (
   props: ISelectChooseModeSectionProps & IProps
 ) => {
-  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
-  const tooltipRef = useRef<HTMLSpanElement>(null);
+  // const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const tooltipRef1 = useRef<HTMLSpanElement>(null);
+  const tooltipRef2 = useRef<HTMLSpanElement>(null);
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
-        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
+      {/* {!userSeenMaintenance &&
+        props.serverStatus.Status !== MAINTENANCE_MODE.NEW_GAMES_DISABLED && (
           <MaintenanceModal
             setUserSeen={() => {
               setUserSeenMaintenance(true);
             }}
           />
-        )}
+        )} */}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
-          onClick={() => props.setMode(MODES.PLAY_AI)}
+          onClick={() =>
+            props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+            props.setMode(MODES.PLAY_AI)
+          }
           title="Play With AI"
+          className="tooltip"
+          onMouseEnter={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef1.current.classList.add("visible")
+          }
+          onMouseLeave={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef1.current.classList.remove("visible")
+          }
         >
           <div className={"bottomAlign mb-25"}>
             <span className="d-flex pawn"></span>
             <span className="squaredButtonTitle mb-35">VS</span>
             <span className="d-flex user"></span>
+
+            <span className="tooltiptext" ref={tooltipRef1}>
+              {/* {props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED
+                ? "Gameplay is disabled due to server maintenance"
+                : ""} */}
+              {props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+                !props.serverStatus.MaintenanceDuration && (
+                  <p>
+                    A maintenance is scheduled for{" "}
+                    {moment(props.serverStatus.MaintenanceTime).format("MMMM")}{" "}
+                    {moment(props.serverStatus.MaintenanceTime).format("DD")}th
+                    at {moment(props.serverStatus.MaintenanceTime).format("LT")}
+                    . During the update, gameplay is suspended.
+                  </p>
+                )}
+              {props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+                props.serverStatus.MaintenanceDuration && (
+                  <p>
+                    A maintenance is scheduled for{" "}
+                    {moment(props.serverStatus.MaintenanceTime).format("MMMM")}{" "}
+                    {moment(props.serverStatus.MaintenanceTime).format("DD")}th
+                    at {moment(props.serverStatus.MaintenanceTime).format("LT")}{" "}
+                    with an estimated duration of{" "}
+                    {props.serverStatus.MaintenanceDuration} minutes. During the
+                    update, gameplay is suspended.
+                  </p>
+                )}
+            </span>
           </div>
         </SquaredButton>
         <SquaredButton
           onClick={() => {
-            if (props.user.Username) props.setMode(MODES.PLAY_TREASURE_QUEST);
+            if (
+              props.user &&
+              props.user.Username &&
+              props.todayAttempts &&
+              props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE
+            ) {
+              props.setMode(MODES.PLAY_TREASURE_QUEST);
+            }
           }}
           title="Treasure Quest"
           className="tooltip"
           onMouseEnter={() =>
-            (!props.user || !props.user.Username || !props.todayAttempts) &&
-            tooltipRef.current.classList.add("visible")
+            (!props.user ||
+              !props.user.Username ||
+              !props.todayAttempts ||
+              props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED) &&
+            tooltipRef2.current.classList.add("visible")
           }
           onMouseLeave={() =>
-            (!props.user || !props.user.Username || !props.todayAttempts) &&
-            tooltipRef.current.classList.remove("visible")
+            (!props.user ||
+              !props.user.Username ||
+              !props.todayAttempts ||
+              props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED) &&
+            tooltipRef2.current.classList.remove("visible")
           }
         >
           <div className={"bottomAlign mb-25"}>
@@ -68,10 +130,46 @@ const ChoosePVEModeSection = (
             {/* <span className="squaredButtonTitle mb-35">VS</span> */}
             <span className="d-flex user"></span>
 
-            <span className="tooltiptext" ref={tooltipRef}>
-              {props.user.GuestId
-                ? "Guests are not allowed to play this mode"
-                : "You have already exceeded maximum attempts for a day"}
+            <span className="tooltiptext" ref={tooltipRef2}>
+              {props.user.GuestId ? (
+                <p>Guests are not allowed to play this mode</p>
+              ) : props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED ? (
+                (props.serverStatus.MaintenanceMode ===
+                  MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+                  !props.serverStatus.MaintenanceDuration && (
+                    <p>
+                      A maintenance is scheduled for{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format(
+                        "MMMM"
+                      )}{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format("DD")}
+                      th at{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format("LT")}.
+                      During the update, gameplay is suspended.
+                    </p>
+                  )) ||
+                (props.serverStatus.MaintenanceMode ===
+                  MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+                  props.serverStatus.MaintenanceDuration && (
+                    <p>
+                      A maintenance is scheduled for{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format(
+                        "MMMM"
+                      )}{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format("DD")}
+                      th at{" "}
+                      {moment(props.serverStatus.MaintenanceTime).format(
+                        "LT"
+                      )}{" "}
+                      with an estimated duration of{" "}
+                      {props.serverStatus.MaintenanceDuration} minutes. During
+                      the update, gameplay is suspended.
+                    </p>
+                  ))
+              ) : (
+                <p>You have already exceeded maximum attempts for a day</p>
+              )}
             </span>
           </div>
         </SquaredButton>
@@ -80,7 +178,7 @@ const ChoosePVEModeSection = (
             setUserSeenMaintenance(false);
             if (
               props.serverStatus &&
-              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
+              props.serverStatus.Status === MAINTENANCE_MODE.NEW_GAMES_DISABLED
             ) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
