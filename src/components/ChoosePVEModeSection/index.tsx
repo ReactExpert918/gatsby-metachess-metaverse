@@ -64,34 +64,10 @@ const ChoosePVEModeSection = (
             <span className="d-flex user"></span>
 
             <span className="tooltiptext" ref={tooltipRef1}>
-              {/* {props.serverStatus.MaintenanceMode ===
-              MAINTENANCE_MODE.NEW_GAMES_DISABLED
-                ? "Gameplay is disabled due to server maintenance"
-                : ""} */}
-              {props.serverStatus.MaintenanceMode ===
-                MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
-                !props.serverStatus.MaintenanceDuration && (
-                  <p>
-                    A maintenance is scheduled for{" "}
-                    {moment(props.serverStatus.MaintenanceTime).format("MMMM")}{" "}
-                    {moment(props.serverStatus.MaintenanceTime).format("DD")}th
-                    at {moment(props.serverStatus.MaintenanceTime).format("LT")}
-                    . During the update, gameplay is suspended.
-                  </p>
-                )}
-              {props.serverStatus.MaintenanceMode ===
-                MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
-                props.serverStatus.MaintenanceDuration && (
-                  <p>
-                    A maintenance is scheduled for{" "}
-                    {moment(props.serverStatus.MaintenanceTime).format("MMMM")}{" "}
-                    {moment(props.serverStatus.MaintenanceTime).format("DD")}th
-                    at {moment(props.serverStatus.MaintenanceTime).format("LT")}{" "}
-                    with an estimated duration of{" "}
-                    {props.serverStatus.MaintenanceDuration} minutes. During the
-                    update, gameplay is suspended.
-                  </p>
-                )}
+               <p style={{ textTransform: "capitalize" }}>
+          The scheduled maintenance would start in approximately 30 minutes, we
+          have temporarily disabled gameplay until the maintenance is complete.
+        </p>
             </span>
           </div>
         </SquaredButton>
@@ -131,45 +107,14 @@ const ChoosePVEModeSection = (
             <span className="d-flex user"></span>
 
             <span className="tooltiptext" ref={tooltipRef2}>
-              {props.user.GuestId ? (
+              {props.serverStatus.MaintenanceMode ===
+                MAINTENANCE_MODE.NEW_GAMES_DISABLED ?<p style={{ textTransform: "capitalize" }}>
+                The scheduled maintenance would start in approximately 30 minutes, we
+                have temporarily disabled gameplay until the maintenance is complete.
+              </p> : props.user.GuestId ? (
                 <p>Guests are not allowed to play this mode</p>
-              ) : props.serverStatus.MaintenanceMode ===
-                MAINTENANCE_MODE.NEW_GAMES_DISABLED ? (
-                (props.serverStatus.MaintenanceMode ===
-                  MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
-                  !props.serverStatus.MaintenanceDuration && (
-                    <p>
-                      A maintenance is scheduled for{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format(
-                        "MMMM"
-                      )}{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format("DD")}
-                      th at{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format("LT")}.
-                      During the update, gameplay is suspended.
-                    </p>
-                  )) ||
-                (props.serverStatus.MaintenanceMode ===
-                  MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
-                  props.serverStatus.MaintenanceDuration && (
-                    <p>
-                      A maintenance is scheduled for{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format(
-                        "MMMM"
-                      )}{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format("DD")}
-                      th at{" "}
-                      {moment(props.serverStatus.MaintenanceTime).format(
-                        "LT"
-                      )}{" "}
-                      with an estimated duration of{" "}
-                      {props.serverStatus.MaintenanceDuration} minutes. During
-                      the update, gameplay is suspended.
-                    </p>
-                  ))
-              ) : (
-                <p>You have already exceeded maximum attempts for a day</p>
-              )}
+              ):<p style={{ textTransform: "capitalize" }}>You have exceeded the number of attempts for today</p>
+                }
             </span>
           </div>
         </SquaredButton>
