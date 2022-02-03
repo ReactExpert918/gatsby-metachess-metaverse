@@ -10,20 +10,32 @@ import { MAINTENANCE_MODE } from "../../store/user/user.interfaces";
 const MaintenancePage = () => {
   const { serverStatus } = useSelector((state: IAppState) => state.user);
   const mDate = moment(serverStatus.MaintenanceTime);
+  console.log(serverStatus);
   return (
     <div className={"maintenance-page"}>
-      {/* {serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE && (<p>
-        we want to schedule a maintenance in 20 days
-      </p>)} */}
-      {serverStatus.MaintenanceMode === MAINTENANCE_MODE.NEW_GAMES_DISABLED && !serverStatus.MaintenanceDuration && (<p>
-        A maintenance is scheduled for {mDate.format('MMMM')} {mDate.format('DD')}th at {mDate.format('LT')}. During the update, our services won't be available.
-      </p>)}
-      {serverStatus.MaintenanceMode === MAINTENANCE_MODE.NEW_GAMES_DISABLED && serverStatus.MaintenanceDuration && (<p>
-        A maintenance is scheduled for {mDate.format('MMMM')} {mDate.format('DD')}th at {mDate.format('LT')} with an estimated duration of {serverStatus.MaintenanceDuration} minutes. 
-        During the update, our services won't be available.
-      </p>)}
-      <p>
-      </p>
+      {serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE && (
+        <p style={{ textTransform: "capitalize" }}>
+          our services are currently under maintenance, please be patient while
+          we restore services to serve you better
+        </p>
+      )}
+      {serverStatus.MaintenanceMode === MAINTENANCE_MODE.NEW_GAMES_DISABLED && (
+        <p style={{ textTransform: "capitalize" }}>
+          The scheduled maintenance would start in approximately 30 minutes, we
+          have temporarily disabled gameplay until the maintenance is complete.
+        </p>
+      )}
+      {serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+        serverStatus.MaintenanceDuration &&
+        serverStatus.MaintenanceTime && (
+          <p style={{ textTransform: "capitalize" }}>
+            A maintenance is scheduled for {mDate.format("MMMM")}{" "}
+            {mDate.format("DD")}th at {mDate.format("LT")} with an estimated
+            duration of {serverStatus.MaintenanceDuration} minutes. During the
+            update, our services won't be available.
+          </p>
+        )}
+      <p></p>
     </div>
   );
 };
