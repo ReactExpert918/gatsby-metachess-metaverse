@@ -6,7 +6,7 @@ import { IServerStatus } from "../../store/user/user.interfaces";
 import EditSettings from "./EditSettings";
 import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
-import ChessboardWrapper from "./chessboardWrapper";
+import ChessboardWrapper from "./ChessboardWrapper";
 
 const SettingsTab = () => {
   const [editing, setEditing] = useState<boolean>(false);

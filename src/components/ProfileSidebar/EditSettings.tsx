@@ -7,7 +7,7 @@ import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
 import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
-import ChessboardWrapper from "./chessboardWrapper";
+import ChessboardWrapper from "./ChessboardWrapper";
 
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
