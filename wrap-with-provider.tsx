@@ -53,17 +53,19 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     store.dispatch(userActions.fetchServerStatus());
     return null;
   }
-  if (
-    p.serverStatus &&
-    p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE
-  ) {
-    navigate("/maintenance");
-  }
+  // if (p.serverStatus && p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
+  //   setIsLoading(false);
+  //   navigate("/maintenance");
+  // }
   SocketService.subscribeTo({
     eventName: "app-settings-change",
     callback: (serverStatus: IServerStatus) => {
       if (serverStatus) {
         store.dispatch(userActions.setServerStatus(serverStatus));
+      }
+      if (serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
+        setIsLoading(false);
+        navigate("/maintenance");
       }
     },
   });
@@ -76,7 +78,6 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     //   API.initialize();
     // }
     const token = TOKEN.user;
-
     SocketService.init();
 
     SocketService.subscribeTo({
@@ -96,10 +97,11 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       eventName: "running-match-treasure-hunt",
       callback: (runningMatch: {
         attempts: moveList;
-        leaveTimeStamp: number;
+        leaveTimestamp: number;
       }) => {
         console.log("runningMatch: ", runningMatch);
-        const timeLeft = new Date().getTime() - runningMatch.leaveTimeStamp;
+        const timeLeft: number = Math.floor(((runningMatch.leaveTimestamp + 10 * 60000) - new Date().getTime()) / 1000);
+        console.log(new Date(runningMatch.leaveTimestamp), new Date());
         let loot: number = runningMatch.attempts.reduce((ac, cu) => {
           if (cu.level)
             return ac + p.serverStatus[`Level${cu.level}TreasureValue`];
@@ -129,8 +131,11 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     //   },
     // });
     addMissedSocketActions();
-
-    if (!token) {
+    if (p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
+      setIsLoading(false);
+      navigate("/maintenance");
+    }
+    else if (!token) {
       const guestToken = TOKEN.guest;
       console.log("if not token");
       console.log("That is GuestToken_" + guestToken);
@@ -156,6 +161,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         }
       );
     } else if (token) {
+      console.log("Validated");
       SocketService.sendData(
         `set-user-token`,
         token,
@@ -170,7 +176,6 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             window.location.href = MAIN_WEBSITE;
             return;
           }
-
           TOKEN.user = token;
           // SocketService.sendData("resume-my-game", null, (...args: any) => {
           //   console.log("resume-my-game User - set-user-token", args);
@@ -193,6 +198,12 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     initialized.current = true;
   }
 
+  // if (
+  //   p.serverStatus &&
+  //   p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE
+  // ) {
+  //   navigate("/maintenance");
+  // }
   // }, []);
   return isLoading ? null : (
     <>
@@ -254,7 +265,6 @@ const Main = (p: any) => {
   // Instantiating store in `wrapRootElement` handler ensures:
   //  - there is fresh store for each SSR page
   //  - it will be called only once in browser, when React mounts
-
   return (
     <Provider store={store}>
       <ConnectedX>{p.element}</ConnectedX>

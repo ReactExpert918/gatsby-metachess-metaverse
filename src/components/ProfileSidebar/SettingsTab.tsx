@@ -6,6 +6,7 @@ import { IServerStatus } from "../../store/user/user.interfaces";
 import EditSettings from "./EditSettings";
 import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
+import ChessboardWrapper from "./chessboardWrapper";
 
 const SettingsTab = () => {
   const [editing, setEditing] = useState<boolean>(false);
@@ -70,9 +71,10 @@ const SettingsTab = () => {
         <img
           src={settings.TreasureQuestSound ? sound : noSound}
           alt="sound"
-          style={{ height: "5vmin", width: "auto" }}
+          style={{ height: window && window.innerWidth < 500 ? "8vmin" : "4vmin", width: "auto" }}
         />
       </div>
+      <ChessboardWrapper data={settings} />
     </>
   );
   return (
@@ -85,8 +87,8 @@ const SettingsTab = () => {
             alt="edit Icon"
             style={{
               // borderRadius: "50%",
-              width: "4vmin",
-              height: "4vmin",
+              width: window && window.innerWidth < 500 ? "8vmin" : "4vmin",
+              height: window && window.innerWidth < 500 ? "8vmin" : "4vmin",
               position: "absolute",
               right: 0,
               background: "#fff",

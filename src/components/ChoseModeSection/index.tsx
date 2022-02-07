@@ -4,7 +4,6 @@ import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
 import { Actions as UserActions } from "../../store/user/user.action";
 import { connect } from "react-redux";
-import MaintenanceModal from "../MaintenanceModal";
 import {
   IServerStatus,
   MAINTENANCE_MODE,
