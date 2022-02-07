@@ -8,7 +8,7 @@ interface Props {
 }
 
 const WinRatio = ({ wins, loses, draws }: Props) => {
-  const ratio = wins + loses + draws !== 0 ? wins / (wins + loses + draws) : 0;
+  const ratio = wins + loses + draws !== 0 ? (wins / (wins + loses + draws)).toFixed(2) : 0;
   const symbols = [
     {
       title: "Wins",

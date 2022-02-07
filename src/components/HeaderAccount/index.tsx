@@ -16,7 +16,7 @@ import BellIcon from "../../lib/svgIcons/BellIcon";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import warningIcon from "../../assets/images/warning.png";
 import { MAIN_WEBSITE } from "../../config";
-import MaintenancePage from "../../pages/maintenance";
+import MaintenancePage from "./MaintenancePage";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -35,9 +35,9 @@ const HeaderAccount = (props: ISelectProps) => {
         <>
           {props.serverStatus.MaintenanceMode ===
             MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
-          (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
-            props.serverStatus.MaintenanceTime &&
-            props.serverStatus.MaintenanceDuration) ? (
+            (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+              props.serverStatus.MaintenanceTime &&
+              props.serverStatus.MaintenanceDuration) ? (
             <MaintenanceInfo />
           ) : null}
           <SearchIcon className="nav-icon" />
@@ -60,9 +60,9 @@ const HeaderAccount = (props: ISelectProps) => {
           <div className="headerNavigatorContainer flex-end">
             {props.serverStatus.MaintenanceMode ===
               MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
-            (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
-              props.serverStatus.MaintenanceTime &&
-              props.serverStatus.MaintenanceDuration) ? (
+              (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+                props.serverStatus.MaintenanceTime &&
+                props.serverStatus.MaintenanceDuration) ? (
               <MaintenanceInfo />
             ) : null}
             <SearchIcon className="nav-icon mr-50" />

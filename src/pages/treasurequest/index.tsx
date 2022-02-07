@@ -76,15 +76,15 @@ const index = () => {
   if (!isSSR) windowHeight = window.innerHeight;
   let windowWidth = 1280;
   if (!isSSR) windowWidth = window.innerWidth;
-  console.log(windowWidth);
   let chessWidth =
     windowWidth <= WINDOW_WIDTH_LIMIT
       ? windowWidth
-      : (windowWidth * 1300) / 1920;
+      : windowWidth/2;
   let chessHeight = WINDOW_WIDTH_LIMIT;
 
   if (wrapperRef?.current) {
     chessHeight = wrapperRef.current.clientHeight;
+    console.log(chessHeight,chessWidth,windowWidth);
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
   useEffect(() => {
@@ -214,7 +214,8 @@ const index = () => {
     <section className="gameContainer" style={{ maxWidth: "100%" }}>
       <section
         className="gameWrapper"
-        style={{ alignItems: "baseline", overflow: "hidden" }}
+        style={{ alignItems: "baseline", overflow: "hidden",
+        gap:"3vmax",padding:"0 2vmax 5vmin",justifyContent:"space-around" }}
       >
         {/* {windowWidth > 768 && (
           <section
@@ -229,7 +230,7 @@ const index = () => {
             <MoveHistory />
           </section>
         )} */}
-        <section className="moveHistoryContainer treasureQuestMoves">
+        <section className="treasureQuestMoves">
           <TreasureLoot />
           <hr />
           <MoveHistory />
@@ -245,14 +246,14 @@ const index = () => {
             style={{ minWidth: chessWidth, flex: "initial" }}
             ref={wrapperRef}
           >
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 flex: 1,
                 flexDirection: "column",
                 justifyContent: "start",
               }}
-            >
+            > */}
               {!isSSR && (
                 <React.Suspense fallback={<div />}>
                   <Chessboard
@@ -268,7 +269,7 @@ const index = () => {
                   />
                 </React.Suspense>
               )}
-            </div>
+            {/* </div> */}
             {showAnimation ? <CelebrationOverlay /> : null}
           </div>
         </div>

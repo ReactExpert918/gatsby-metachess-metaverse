@@ -112,9 +112,8 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               <div className="block">
                 <div className="title">MODE</div>
                 <div className="mode">
-                  {`${getGameTypeName(gameRules.time.base)} - ${
-                    gameRules.mode == GameMode.Casual ? "Casual" : "Rated"
-                  }`}
+                  {`${getGameTypeName(gameRules.time.base)} - ${gameRules.mode == GameMode.Casual ? "Casual" : "Rated"
+                    }`}
                 </div>
               </div>
               <div className="block">
@@ -199,7 +198,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
                   onReplayPrevious();
                 }}
               >
-                ↼ Previous
+                {"<"} Previous
               </p>
 
               <p
@@ -211,7 +210,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
                 }}
                 onClick={onReplayNext}
               >
-                Next ⇀
+                Next {">"}
               </p>
             </div>
           )}

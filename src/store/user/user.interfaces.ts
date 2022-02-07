@@ -24,6 +24,7 @@ export interface IUserReducer {
     TreasuresFound?: number;
     TreasureGames?: number;
   };
+  matchesCount: number;
 }
 
 export interface IMatchHistory {

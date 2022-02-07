@@ -79,6 +79,7 @@ const ChoosePVEModeSection = (
               props.todayAttempts &&
               props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE
             ) {
+              console.log("hello")
               props.setMode(MODES.PLAY_TREASURE_QUEST);
             }
           }}
@@ -93,11 +94,11 @@ const ChoosePVEModeSection = (
             tooltipRef2.current.classList.add("visible")
           }
           onMouseLeave={() =>
-            (!props.user ||
-              !props.user.Username ||
-              !props.todayAttempts ||
-              props.serverStatus.MaintenanceMode ===
-                MAINTENANCE_MODE.NEW_GAMES_DISABLED) &&
+            // (!props.user ||
+            //   !props.user.Username ||
+            //   !props.todayAttempts ||
+            //   props.serverStatus.MaintenanceMode ===
+            //     MAINTENANCE_MODE.NEW_GAMES_DISABLED) &&
             tooltipRef2.current.classList.remove("visible")
           }
         >

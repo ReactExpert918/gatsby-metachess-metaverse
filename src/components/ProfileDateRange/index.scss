@@ -26,16 +26,18 @@
         font-size: 20px;
         font-weight: bolder;
         color: #fff;
+        cursor: pointer;
+        z-index: 10;
     }
-    .invisibleButton {
-        position: absolute;
-        width: 50%;
-        height: 100%;
-        &.left {
-            left: 0;
-        }
-        &.right {
-            right: 0;
-        }
-    }
+    // .invisibleButton {
+    //     position: absolute;
+    //     width: 50%;
+    //     height: 100%;
+    //     &.left {
+    //         left: 0;
+    //     }
+    //     &.right {
+    //         right: 0;
+    //     }
+    // }
 }

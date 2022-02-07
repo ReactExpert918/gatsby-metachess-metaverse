@@ -9,7 +9,7 @@
 
 .tooltip .tooltiptext {
     width: 16vmax;
-    opacity: 0;
+    display: none;
     background: #0c1221;
     border: 2px solid #cca66a;
     text-align: center;
@@ -41,7 +41,7 @@
 }
 
 .tooltiptext.visible {
-    opacity: 1;
+    display: block;
 }
 
 @media screen and (max-width: 768px) {

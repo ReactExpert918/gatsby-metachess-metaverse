@@ -6,10 +6,9 @@
     flex-direction: column;
     gap: 8vmin;
     .summaryContainer {
-        padding: 3vmin 2vmax;
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         gap: 2vmax;
         // flex-direction: column;
         align-items: center;
@@ -21,7 +20,7 @@
         flex: 1 1 auto;
         max-height: calc(100vh - 80px);
         overflow: auto;
-        padding: 0 20px;
+        padding: 0 4vmax;
         position: relative;
         @media screen and(max-width: 500px) {
             gap: 5vmin;
@@ -77,6 +76,7 @@
     // }
     .summaryContainer {
         flex-direction: column;
-        gap: 5vmax;
+        gap: 5vmax !important;
+        padding: 3vmin 2vmax;
     }
 }

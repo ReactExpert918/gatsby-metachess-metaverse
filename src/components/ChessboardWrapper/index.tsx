@@ -306,10 +306,10 @@ class ChessboardWrapper extends Component<IProps, IState> {
       typeof nextMove === "string"
         ? nextMove
         : {
-            from: nextMove.sourceSquare,
-            to: nextMove.targetSquare,
-            promotion: "q", // always promote to a queen for example simplicity
-          }
+          from: nextMove.sourceSquare,
+          to: nextMove.targetSquare,
+          promotion: "q", // always promote to a queen for example simplicity
+        }
     );
 
     if (pieceSquare) {
@@ -647,7 +647,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
                   }}
                   onClick={this.props.onReplayPrevious}
                 >
-                  ↼ Previous
+                  {"<"} Previous
                 </p>
 
                 <p
@@ -659,7 +659,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
                   }}
                   onClick={this.props.onReplayNext}
                 >
-                  Next ⇀
+                  Next {">"}
                 </p>
               </div>
             )}
