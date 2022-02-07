@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
@@ -19,46 +19,85 @@ interface ISelectChooseModeSectionProps {
 const ChoosePVPModeSection = (
   props: ISelectChooseModeSectionProps & IProps
 ) => {
-  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+  const tooltipRef1 = useRef<HTMLSpanElement>(null);
+  const tooltipRef2 = useRef<HTMLSpanElement>(null);
+  // const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
+      {/* {!userSeenMaintenance &&
         props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
           <MaintenanceModal
             setUserSeen={() => {
               setUserSeenMaintenance(true);
             }}
           />
-        )}
+        )} */}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
           onClick={() => {
-            setUserSeenMaintenance(false);
+            // setUserSeenMaintenance(false);
             if (
-              props.serverStatus &&
-              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
+              props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE
             ) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
           }}
           title="PLAY WITH HUMAN"
+          className="tooltip"
+          onMouseEnter={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef1.current.classList.add("visible")
+          }
+          onMouseLeave={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef1.current.classList.remove("visible")
+          }
         >
           <div className={"bottomAlign multiple mb-25"}>
             <span className="d-flex user"></span>
             <span className="squaredButtonTitle mb-35">VS</span>
             <span className="d-flex user"></span>
+
+            <span className="tooltiptext" ref={tooltipRef1}>
+              {props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED
+                ? "Gameplay is disabled due to server maintenance"
+                : ""}
+            </span>
           </div>
         </SquaredButton>
-        <SquaredButton title="TOURNAMENT" className="tournamentSquad">
+        <SquaredButton
+          title="TOURNAMENT"
+          className="tournamentSquad tooltip"
+          onMouseEnter={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef2.current.classList.add("visible")
+          }
+          onMouseLeave={() =>
+            props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED &&
+            tooltipRef2.current.classList.remove("visible")
+          }
+        >
           <span className="d-flex pawn"></span>
           <span className="tLine-1"></span>
           <span className="d-flex user user-1"></span>
           <span className="tLine-2"></span>
           <span className="d-flex user user-2"></span>
           <span className="tLine-3"></span>
+
+          <span className="tooltiptext" ref={tooltipRef2}>
+            {props.serverStatus.MaintenanceMode ===
+            MAINTENANCE_MODE.NEW_GAMES_DISABLED
+              ? "Gameplay is disabled due to server maintenance"
+              : ""}
+          </span>
         </SquaredButton>
       </div>
     </div>

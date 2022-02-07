@@ -4,7 +4,6 @@ import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
 import { Actions as UserActions } from "../../store/user/user.action";
 import { connect } from "react-redux";
-import MaintenanceModal from "../MaintenanceModal";
 import {
   IServerStatus,
   MAINTENANCE_MODE,
@@ -17,8 +16,8 @@ interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
 }
 const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
-  const isServerOnline =
-    props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
+  // const isServerOnline =
+  //   props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
   return (
     <div className={"choseModeSectionContainer"}>
       <div className={"headerWrapper"}>
@@ -26,11 +25,11 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
-          className={!isServerOnline ? "no-cursor" : ""}
+          // className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            if (props.serverStatus && isServerOnline) {
-              return props.setMode(MODES.PVE_MODE);
-            }
+            // if (props.serverStatus && isServerOnline) {
+            return props.setMode(MODES.PVE_MODE);
+            // }
           }}
           title="PLAYER VS ENVIRONMENT"
         >
@@ -39,11 +38,11 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
-          className={!isServerOnline ? "no-cursor" : ""}
+          // className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            if (props.serverStatus && isServerOnline) {
-              return props.setMode(MODES.PVP_MODE);
-            }
+            // if (props.serverStatus && isServerOnline) {
+            return props.setMode(MODES.PVP_MODE);
+            // }
           }}
           title="PLAYER VS PLAYER"
         >

@@ -20,11 +20,11 @@ const GameInfo = (props: IProps) => {
   );
   const dispatch = useDispatch();
   return (
-    <div className="chessboardSidebarWrapper" style={{ marginTop: "0" }}>
+    <div className="chessboardSidebarWrapper treasureHuntInfoWrapper" style={{ margin: "0",maxWidth:"25vmax" }}>
       <div className="timersWrapper">
         <div className="gameInfoContainer">
           <p className="gameInfoTitle">{"Game Info"}</p>
-          <p className="gameDetail">Attempts Left:{chancesRemaining}</p>
+          <p className="gameDetail" style={{fontSize:"20px",fontWeight:"400"}}>Attempts Left:{chancesRemaining}</p>
         </div>
         {gameOver && (
           <button

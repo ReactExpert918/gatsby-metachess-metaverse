@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "gatsby";
 import { IAppState } from "../../store/reducers";
 import { connect, useDispatch } from "react-redux";
-import { IUser } from "../../store/user/user.interfaces";
+import {
+  IServerStatus,
+  IUser,
+  MAINTENANCE_MODE,
+} from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { chatActions } from "../../store/chat/chat.actions";
 import { HeaderNavigatorItem } from "../Header";
@@ -10,11 +14,13 @@ import SearchIcon from "../../lib/svgIcons/SearchIcon";
 import FriendsIcon from "../../lib/svgIcons/FriendsIcon";
 import BellIcon from "../../lib/svgIcons/BellIcon";
 import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
+import warningIcon from "../../assets/images/warning.png";
 import { MAIN_WEBSITE } from "../../config";
-import MaintenancePage from "../../pages/maintenance";
+import MaintenancePage from "./MaintenancePage";
 
 interface ISelectProps {
   currentUser: IUser;
+  serverStatus: IServerStatus;
 }
 
 const HeaderAccount = (props: ISelectProps) => {
@@ -27,12 +33,18 @@ const HeaderAccount = (props: ISelectProps) => {
     <div className="headerNavigatorContainer flex-end">
       {props.currentUser && props.currentUser.Username ? (
         <>
-          <MaintenanceInfo />
+          {props.serverStatus.MaintenanceMode ===
+            MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
+            (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+              props.serverStatus.MaintenanceTime &&
+              props.serverStatus.MaintenanceDuration) ? (
+            <MaintenanceInfo />
+          ) : null}
           <SearchIcon className="nav-icon" />
           <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
           <BellIcon className="nav-icon" />
           <Link to={"/profile"} className="headerAccountContainer">
-            <span style={{overflow:"hidden"}}>
+            <span style={{ overflow: "hidden" }}>
               <img src={props.currentUser?.Avatar || SmallPieceIcon} />
             </span>
 
@@ -46,7 +58,13 @@ const HeaderAccount = (props: ISelectProps) => {
       ) : (
         <>
           <div className="headerNavigatorContainer flex-end">
-            <MaintenanceInfo />
+            {props.serverStatus.MaintenanceMode ===
+              MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
+              (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+                props.serverStatus.MaintenanceTime &&
+                props.serverStatus.MaintenanceDuration) ? (
+              <MaintenanceInfo />
+            ) : null}
             <SearchIcon className="nav-icon mr-50" />
             <HeaderNavigatorItem
               className="pr-50"
@@ -67,7 +85,13 @@ const HeaderAccount = (props: ISelectProps) => {
 const MaintenanceInfo = () => {
   return (
     <div className="maintenance-info">
-      <BellIcon className="nav-icon tooltip-info-icon" />
+      {/* <BellIcon className="nav-icon tooltip-info-icon" /> */}
+      <img
+        src={warningIcon}
+        alt="warning"
+        className="nav-icon tooltip-info-icon"
+        style={{ height: "5vmin", width: "auto" }}
+      />
       <div className="tooltip">
         <span className="tooltip-header"></span>
         <MaintenancePage />
@@ -78,6 +102,7 @@ const MaintenanceInfo = () => {
 
 const mapStateToProps = (state: IAppState): ISelectProps => ({
   currentUser: state.user.currentUser,
+  serverStatus: state.user.serverStatus,
 });
 
 const enhance = connect(mapStateToProps);

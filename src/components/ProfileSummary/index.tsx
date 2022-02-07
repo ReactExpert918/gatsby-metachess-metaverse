@@ -13,9 +13,9 @@ const ProfileSummary = () => {
   } = useSelector((state: IAppState) => state.user.userStats);
   return (
     <div className="profileSummaryContainer shadowContainer">
-      <div className="innerContent">
+      <div className="innerContent profileSummaryInnerContent">
         <p className="sectionTitle">Summary</p>
-        <WinRatio wins={userStats.WonGames} loses={userStats.LostGames} draws={userStats.DrawGames}/>
+        <WinRatio wins={userStats.WonGames} loses={userStats.LostGames} draws={userStats.DrawGames} />
       </div>
     </div>
   );
