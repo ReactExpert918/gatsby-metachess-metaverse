@@ -27,13 +27,13 @@ const ResumeOldGameModal = (props: IProps) => {
     }
 
     return () => {
-      if (timeout) {
         clearTimeout(timeout);
-      }
     };
   }, [timeLeft]);
-  const minutes: number = Math.floor(timeLeft / 60);
-  const seconds: number = minutes !== 10 ? timeLeft - minutes * 60 : 0;
+  // function timeLeftToMinutesAndSeconds(timeLeft) {
+    var minutes:number = Math.floor(timeLeft / 60);
+    var seconds:number = timeLeft-minutes*60;
+  
   return (
     <Modal
       onClose={onClose}

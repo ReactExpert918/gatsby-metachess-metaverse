@@ -7,6 +7,7 @@ const INITIAL_STATE: IUserReducer = {
   currentUser: null,
   matchesHistory: null,
   serverStatus: null,
+  matchesCount: 0,
   choseMode: MODES.CHOSE_MODE,
   searchedUsersList: [],
   alreadyAuthenticated: false,
@@ -31,7 +32,8 @@ export default (
         serverStatus: { ...state.serverStatus, ...action.payload },
       },
       [ACTION_TYPE.SET_MATCHES_HISTORY]: {
-        matchesHistory: action.payload,
+        matchesHistory: action.payload?.results,
+        matchesCount: action.payload?.count,
       },
       [ACTION_TYPE.SET_USER_STATS_ONCE]: {
         currentUser: { ...state.currentUser, ...action.payload },

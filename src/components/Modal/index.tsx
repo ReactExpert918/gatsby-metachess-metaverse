@@ -10,6 +10,7 @@ interface IProps {
   draggable?: boolean;
   withBorder?: boolean;
   withCloseIcon?: boolean;
+  notShowClose?: boolean;
 }
 
 class Modal extends Component<IProps> {
@@ -36,19 +37,18 @@ class Modal extends Component<IProps> {
   modal() {
     return (
       <div ref={this.modalRef} className="modal-wrapper">
-        <div className="close-icon btn-clickable" onClick={this.props.onClose}>
-          <img src={CloseIcon} />
-        </div>
         {this.props.children}
+        {!this.props.notShowClose && <div className="close-icon btn-clickable" onClick={this.props.onClose}>
+          <img src={CloseIcon} />
+        </div>}
       </div>
     );
   }
   render() {
     return (
       <div
-        className={`modal ${this.props.isTopLeft && "top-left"} ${
-          this.props.withShadow && "with-shadow"
-        } ${this.props.withBorder && `border3`}`}
+        className={`modal ${this.props.isTopLeft && "top-left"} ${this.props.withShadow && "with-shadow"
+          } ${this.props.withBorder && `border3`}`}
       >
         {this.props.draggable ? (
           <Draggable cancel=".btn-clickable">{this.modal()}</Draggable>

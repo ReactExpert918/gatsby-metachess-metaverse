@@ -16,7 +16,9 @@ const ProfileSidebar = ({ currentUser }: { currentUser: IUser }) => {
   return (
     <div className="profileSidebarContainer">
       <div className="header">
-        <img src={currentUser?.Avatar || ProfilePlaceholder} />
+        <span>
+          <img src={currentUser?.Avatar || ProfilePlaceholder} />
+        </span>
         <p>{currentUser ? getOpponentName(false, null, currentUser) : ""}</p>
       </div>
       {!currentUser?.GuestId ? (

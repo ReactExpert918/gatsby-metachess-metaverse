@@ -50,17 +50,26 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   // return <UserEditInfo />;
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("Dates ", new Date(
+      +startDate.split(" ")[2],
+      months.indexOf(startDate.split(" ")[1]),
+      +startDate.split(" ")[0].split("-")[0]
+    ), new Date(
+      +startDate.split(" ")[2],
+      months.indexOf(startDate.split(" ")[1]),
+      +startDate.split(" ")[0].split("-")[1]
+    ))
     dispatch(
       Actions.fetchUserStatsDateRange({
         beginDate: new Date(
           +startDate.split(" ")[2],
           months.indexOf(startDate.split(" ")[1]),
-          +startDate.split(" ")[0].split("-")[1]
+          +startDate.split(" ")[0].split("-")[0]
         ).getTime(),
         endDate: new Date(
           +startDate.split(" ")[2],
           months.indexOf(startDate.split(" ")[1]),
-          +startDate.split(" ")[0].split("-")[0]
+          +startDate.split(" ")[0].split("-")[1]
         ).getTime(),
       })
     );

@@ -14,6 +14,7 @@ import { getGameTypeName } from "../../helpers/gameTypeHelper";
 interface ISelectProps {
   matchesHistory: IMatchHistory[];
   currentUser: IUser;
+  matchesCount: number;
 }
 
 interface IActionProps {
@@ -57,7 +58,7 @@ const Matches = (props: IProps) => {
       top: 10,
     };
     props.fetchMatchesHistory(requestObj);
-  }, [props.startDate, props.endDate]);
+  }, [props.startDate, props.endDate, page]);
   const matchesHistory: any =
     props.matchesHistory &&
     props.matchesHistory.map((t) => ({
@@ -87,17 +88,17 @@ const Matches = (props: IProps) => {
         matchHistory.Winner.Id === props.currentUser.Id
           ? pieceSide
           : pieceSide === "b"
-          ? "w"
-          : "b"
+            ? "w"
+            : "b"
       );
     navigate("/game");
   };
-  // const nextCondition: boolean =
-  //   totalResults !== 0 && (page + 1) * 10 <= totalResults;
-  // const prevCondition: boolean = totalResults !== 0 && page - 1 > 0;
-  // const firstCondition: boolean = totalResults !== 0 && page !== 1;
-  // const lastCondition: boolean =
-  //   totalResults !== 0 && page !== Math.ceil(totalResults / 10);
+  const nextCondition: boolean =
+    props.matchesCount !== 0 && (page + 1) * 10 <= props.matchesCount;
+  const prevCondition: boolean = props.matchesCount !== 0 && page - 1 > 0;
+  const firstCondition: boolean = props.matchesCount !== 0 && page !== 1;
+  const lastCondition: boolean =
+    props.matchesCount !== 0 && page !== Math.ceil(props.matchesCount / 10);
 
   return (
     <div className="matchesContainer shadowContainer">
@@ -108,7 +109,7 @@ const Matches = (props: IProps) => {
       <div className={"innerContent main-table"}>
         {!matchesHistory ? (
           <div>Loading...</div>
-        ) : (
+        ) : !matchesHistory.length ? <p>No Matches From {new Date(props.startDate).toDateString()} to {new Date(props.endDate).toDateString()}</p> : (
           <table>
             <thead>
               <tr>
@@ -120,6 +121,7 @@ const Matches = (props: IProps) => {
                 <th className={"text-center"}>Side</th>
                 <th className={"text-center"}>Time</th>
                 <th>Date</th>
+                <th>Replay</th>
                 <th />
               </tr>
             </thead>
@@ -141,27 +143,25 @@ const Matches = (props: IProps) => {
                   <td>
                     <div>
                       <p
-                        className={`${
-                          !x.Winner
-                            ? "draw"
-                            : x.Winner.Id === props.currentUser.Id
+                        className={`${!x.Winner
+                          ? "draw"
+                          : x.Winner.Id === props.currentUser.Id
                             ? "victory"
                             : "defeat"
-                        }`}
+                          }`}
                       >
                         {!x.Winner
                           ? "Draw"
                           : x.Winner.Id === props.currentUser.Id
-                          ? "Victory"
-                          : "Defeat"}
+                            ? "Victory"
+                            : "Defeat"}
                       </p>
                     </div>
                   </td>
                   <td>
                     <div>
-                      <p className="mode">{`${getGameTypeName(x.Time.base)} - ${
-                        x.GameMode == GameMode.Casual ? "Casual" : "Rated"
-                      }`}</p>
+                      <p className="mode">{`${getGameTypeName(x.Time.base)} - ${x.GameMode == GameMode.Casual ? "Casual" : "Rated"
+                        }`}</p>
                     </div>
                   </td>
                   <td>
@@ -172,9 +172,8 @@ const Matches = (props: IProps) => {
                         ) : (
                           <span
                             className={x.EloEarned > 0 ? "victory" : "defeat"}
-                          >{`${x.EloEarned > 0 ? "+" : ""}${
-                            x.EloEarned
-                          }`}</span>
+                          >{`${x.EloEarned > 0 ? "+" : ""}${x.EloEarned
+                            }`}</span>
                         )}
                       </p>
                     </div>
@@ -253,49 +252,49 @@ const Matches = (props: IProps) => {
           gap: "2vmax",
           float: "left",
           padding: "0 2vmax",
-          margin: "4vmin 0",
+          margin: "0 0 4vmin",
         }}
       >
         <p
           style={{
             fontSize: "12px",
             fontWeight: "bolder",
-            // color: prevCondition ? "#fff" : "rgba(255,255,255,0.6)",
-            // cursor: prevCondition ? "pointer" : "no-drop",
+            color: prevCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            cursor: prevCondition ? "pointer" : "no-drop",
           }}
-          // onClick={() => {
-          //   if (prevCondition)
-          //     setPage(page - 1);
-          // } }
+          onClick={() => {
+            if (prevCondition)
+              setPage(page - 1);
+          }}
         >
-          ↼ Previous
+          {"<"} Previous
         </p>
         <p
           style={{
             fontSize: "12px",
             fontWeight: "bolder",
-            // color: nextCondition ? "#fff" : "rgba(255,255,255,0.6)",
-            // cursor: nextCondition ? "pointer" : "no-drop",
+            color: nextCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            cursor: nextCondition ? "pointer" : "no-drop",
           }}
-          // onClick={() => {
-          //   if (nextCondition)
-          //     setPage(page + 1);
-          // } }
+          onClick={() => {
+            if (nextCondition)
+              setPage(page + 1);
+          }}
         >
-          Next ⇀
+          Next {">"}
         </p>
 
         <p
           style={{
             fontSize: "12px",
             fontWeight: "bolder",
-            // color: firstCondition ? "#fff" : "rgba(255,255,255,0.6)",
-            // cursor: firstCondition ? "pointer" : "no-drop",
+            color: firstCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            cursor: firstCondition ? "pointer" : "no-drop",
           }}
-          // onClick={() => {
-          //   if (firstCondition)
-          //     setPage(1);
-          // } }
+          onClick={() => {
+            if (firstCondition)
+              setPage(1);
+          }}
         >
           First
         </p>
@@ -303,13 +302,13 @@ const Matches = (props: IProps) => {
           style={{
             fontSize: "12px",
             fontWeight: "bolder",
-            // color: lastCondition ? "#fff" : "rgba(255,255,255,0.6)",
-            // cursor: lastCondition ? "pointer" : "no-drop",
+            color: lastCondition ? "#fff" : "rgba(255,255,255,0.6)",
+            cursor: lastCondition ? "pointer" : "no-drop",
           }}
-          // onClick={() => {
-          //   if (lastCondition)
-          //     setPage(Math.ceil(totalResults / 10));
-          // } }
+          onClick={() => {
+            if (lastCondition)
+              setPage(Math.ceil(props.matchesCount / 10));
+          }}
         >
           Last
         </p>
@@ -319,8 +318,8 @@ const Matches = (props: IProps) => {
 };
 
 const mapStateToProps = ({
-  user: { matchesHistory, currentUser },
-}: IAppState): ISelectProps => ({ matchesHistory, currentUser });
+  user: { matchesHistory, currentUser, matchesCount },
+}: IAppState): ISelectProps => ({ matchesHistory, currentUser, matchesCount });
 
 export default connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   fetchMatchesHistory: userActions.fetchMatchesHistory,

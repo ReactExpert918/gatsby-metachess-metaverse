@@ -8,18 +8,24 @@
 /* Tooltip text */
 
 .tooltip .tooltiptext {
-    width: 120px;
-    opacity: 0;
-    background-color: #fff;
-    color: black;
+    width: 16vmax;
+    display: none;
+    background: #0c1221;
+    border: 2px solid #cca66a;
     text-align: center;
-    padding: 5px 0;
+    p {
+        color: #fff;
+        font-weight: 400;
+        font-size: 14px;
+    }
+    padding: 0.4vmin 0.5vmax;
     border-radius: 6px;
     position: absolute;
     transition: all 0.2s ease;
     top: 50%;
     left: 105%;
     transform: translateY(-50%);
+    z-index: 1000;
 }
 
 .tooltip .tooltiptext::after {
@@ -31,11 +37,11 @@
     margin-top: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent white transparent transparent;
+    border-color: transparent #cca66a transparent transparent;
 }
 
 .tooltiptext.visible {
-    opacity: 1;
+    display: block;
 }
 
 @media screen and (max-width: 768px) {
