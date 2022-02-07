@@ -1,10 +1,10 @@
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, lazy, useEffect, useState } from "react";
 import Chess, { ChessInstance, Square } from "chess.js";
-import Chessboard from "chessboardjsx";
 import { getPiecePositions } from "../../helpers/getPiecePositions";
 import { isSSR } from "../../lib/utils";
 import CustomPiece from "../CustomPiece";
 import { ISettings } from "./EditSettings";
+const Chessboard = lazy(() => import("chessboardjsx"));
 
 const ChessboardWrapper = ({ data }: { data: ISettings }) => {
   const [game, setGame] = useState<ChessInstance>(new (Chess as any)());
