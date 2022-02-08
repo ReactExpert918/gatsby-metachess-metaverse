@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import UsersListTableHeader from "./UsersListTableHeader";
-import UserListTableItem from "./UsersListTableItem";
+import React, { useEffect, useState } from "react";
+import TableHeader from "./TableHeader";
+import TableItem from "./TableItem";
 import SocketService from "../../services/socket.service";
 import { IGameItem, RoomEvent } from "../../store/games/games.interfaces";
 import { IAppState } from "../../store/reducers";
@@ -15,10 +15,13 @@ import {
   PieceSide,
   GameType,
 } from "../../interfaces/game.interfaces";
-import { navigate } from "gatsby";
+import { navigateTo } from "gatsby-link";
 import { IUser } from "../../store/user/user.interfaces";
 import isEmpty from "lodash/isEmpty";
 import subscribeToGameStart from "../../lib/gameStart";
+
+import socketIO from "socket.io-client";
+import { SOCKET, API, COOKIE_DOMAIN, MAIN_WEBSITE } from "../../config";
 
 // export interface IUserListItem {
 //   id: string;
@@ -36,7 +39,7 @@ interface ISelectProps {
 }
 
 interface IActionProps {
-  setGameItems: typeof GamesActions.setGameItems;
+  liveGameItems: typeof GamesActions.liveGameItems;
   setPlayerColor: typeof GameplayActions.setPlayerColor;
   setGameRules: typeof GameplayActions.setGameRules;
   setOpponent: typeof GameplayActions.setOpponent;
@@ -50,7 +53,7 @@ interface IProps extends ISelectProps, IActionProps {
   currentUser: IUser;
 }
 
-interface IJoinRoomsPage {
+interface ISpectateRoomsPage {
   user: IUser;
   rooms: IGameItem[];
 }
@@ -75,8 +78,8 @@ interface IJoinRoomsPage {
 //   };
 // };
 
-const UsersListTable = ({
-  setGameItems,
+const Livegames = ({
+  liveGameItems,
   setPlayerColor,
   setGameRules,
   setOpponent,
@@ -84,6 +87,11 @@ const UsersListTable = ({
   setCurrentUser,
   modifyGameItems,
 }: IProps) => {
+  const [rooms, setRooms] = useState([]);
+  socketIO(SOCKET).io.on("spectatable", (res)=>{
+  setRooms(res);
+});
+  console.log(liveGameItems);
   const { currentUser } = useSelector((state: IAppState) => state.user);
   // const gameItems: IGameItem[] = [
   //   {
@@ -117,44 +125,52 @@ const UsersListTable = ({
         modifyGameItems(args);
       },
     });
-    SocketService.sendData(
-      `join-rooms-page`,
-      null,
-      ({ rooms, user }: IJoinRoomsPage) => {
-        setCurrentUser({ ...user });
-        setGameItems(rooms);
-      }
-    );
+    // SocketService.sendData(
+    //   `spectate-rooms-page`,
+    //   null,
+    //   ({ user, rooms }: ISpectateRoomsPage) => {
+    //     console.log(user, rooms);
+    //     setCurrentUser({ ...user });
+    //     liveGameItems(rooms);
+    //   }
+    // );
 
     return () => {
       SocketService.sendData(`leave-rooms-page`, null, () => {});
     };
   }, []);
 
-  const onItemPress = (roomId: string) => {
-    subscribeToGameStart();
-
-    SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
-      // TODO: Will be typeof GameRules
-      console.log("join-game:", stringForNow);
+  const onItemPress = (roomId: string) => {    
+    // navigateTo(`/watch/${roomId}`);
+    SocketService.sendData("start-spectating", roomId, (response) => {
+      console.log("start-spectating", response);      
+      if(respose){
+      navigate(`/watch/?${roomId}`);        
+      } else {
+        return;
+      }
     });
   };
-console.log(gameItems);
+console.log("gameItems", rooms);
+
+
   return (
     <div className="usersListTable">
       <table>
         <thead>
-          <UsersListTableHeader />
+          <TableHeader />
         </thead>
         <tbody>
-          {(gameItems || []).map((item, index) => (
-            <UserListTableItem
-              key={item.roomId}
-              index={index}
-              item={item}
-              onPress={onItemPress}
-            />
-          ))}          
+          {rooms.map((item, index) => (
+            // <TableItem
+            //   key={item}
+            //   index={index}
+            //   item={item}
+            //   onPress={onItemPress}
+            // />
+
+            <li onPress={onItemPress} >{item}</li>
+          ))}
         </tbody>
       </table>
 
@@ -166,7 +182,7 @@ console.log(gameItems);
 };
 
 const connected = connect(null, {
-  setGameItems: GamesActions.setGameItems,
+  liveGameItems: GamesActions.liveGameItems,
   modifyGameItems: GamesActions.modifyGameItems,
   setPlayerColor: GameplayActions.setPlayerColor,
   setGameRules: GameplayActions.setGameRules,
@@ -175,4 +191,4 @@ const connected = connect(null, {
   setCurrentUser: UserActions.setCurrentUser,
 });
 
-export default connected(UsersListTable);
+export default connected(Livegames);
