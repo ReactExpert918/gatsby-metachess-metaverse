@@ -185,19 +185,19 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         eloDraw: this.props.gameElos.eloDraw,
       });
     }
-    if (this.props.playMode.isAI) {
-      API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
-        Key: this.token,
-        Result:
-          this.state.winner === this.props.playerColor
-            ? 1
-            : this.state.winner === null
-            ? 3
-            : 2,
-        PieceSide: this.props.playerColor === "w" ? 1 : 2,
-        BoardMoves: this.props.moveHistoryTimestamp,
-      });
-    }
+    // if (this.props.playMode.isAI) {
+    //   API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
+    //     Key: this.token,
+    //     Result:
+    //       this.state.winner === this.props.playerColor
+    //         ? 1
+    //         : this.state.winner === null
+    //         ? 3
+    //         : 2,
+    //     PieceSide: this.props.playerColor === "w" ? 1 : 2,
+    //     BoardMoves: this.props.moveHistoryTimestamp,
+    //   });
+    // }
     this.props.setGameElos(null);
   }
 

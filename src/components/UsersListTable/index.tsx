@@ -84,31 +84,7 @@ const UsersListTable = ({
   setCurrentUser,
   modifyGameItems,
 }: IProps) => {
-  const { currentUser } = useSelector((state: IAppState) => state.user);
-  // const gameItems: IGameItem[] = [
-  //   {
-  //     gameRules: {
-  //       type: GameType.Blitz,
-  //       rating: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       chessCoin: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       time: {
-  //         base: 5,
-  //         increment: 1,
-  //       },
-  //       mode: GameMode.Rated,
-  //       hostSide: PieceSide.Black,
-  //     },
-  //     host: currentUser,
-  //     roomId: "123",
-  //     status: RoomEvent.GameStarted,
-  //   },
-  // ];
+  const { currentUser } = useSelector((state: IAppState) => state.user);  
   const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
   useEffect(() => {
     SocketService.subscribeTo({
@@ -156,6 +132,7 @@ console.log(gameItems);
             />
           ))}          
         </tbody>
+
       </table>
 
       {/* <div className="listItems">
