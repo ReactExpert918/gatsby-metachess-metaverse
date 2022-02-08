@@ -121,7 +121,7 @@ const Livegames = ({
       },
     });
     SocketService.sendData(
-      `join-rooms-page`,
+      `spectatable-rooms-page`,
       null,
       ({ user, rooms }: ISpectateRoomsPage) => {
         console.log(user, rooms);
@@ -139,13 +139,26 @@ const Livegames = ({
     // navigateTo(`/watch/${roomId}`);
     SocketService.sendData("start-spectating", roomId, (response) => {
       console.log("start-spectating", response);      
-      if(respose){
-      navigate(`/watch/?${roomId}`);        
+      if(response){
+      navigateTo(`/watch/${roomId}`);        
       } else {
         return;
       }
     });
   };
+
+  const onJoingame = () => {
+const roomId = "8yRog2nAgsDSZjalukjDRbSEGF1o4k0a";
+    SocketService.sendData("start-spectating",roomId, (response) => {
+      console.log("start-spectating", response);      
+      if(response){
+      navigateTo(`/watch/${roomId}`);        
+      } else {
+        return;
+      }
+    });
+
+  }
   
   return (
     <div className="usersListTable">
@@ -153,7 +166,7 @@ const Livegames = ({
         <thead>
           <TableHeader />
         </thead>
-        <tbody>
+        {/*<tbody>
           {livegamesList.map((item, index) => (
             <TableItem
               key={item}
@@ -162,12 +175,9 @@ const Livegames = ({
               onPress={onItemPress}
             />            
           ))}
-        </tbody>
+        </tbody>*/}
       </table>
-
-      {/* <div className="listItems">
-        
-      </div> */}
+     <button onClick={onJoingame} >BUTTON</button>
     </div>
   );
 };
