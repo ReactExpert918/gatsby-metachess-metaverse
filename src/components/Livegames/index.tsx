@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import UsersListTableHeader from "./UsersListTableHeader";
-import UserListTableItem from "./UsersListTableItem";
+import React, { useEffect, useState } from "react";
+import TableHeader from "./TableHeader";
+import TableItem from "./TableItem";
 import SocketService from "../../services/socket.service";
 import { IGameItem, RoomEvent } from "../../store/games/games.interfaces";
 import { IAppState } from "../../store/reducers";
@@ -15,10 +15,13 @@ import {
   PieceSide,
   GameType,
 } from "../../interfaces/game.interfaces";
-import { navigate } from "gatsby";
+import { navigateTo } from "gatsby-link";
 import { IUser } from "../../store/user/user.interfaces";
 import isEmpty from "lodash/isEmpty";
 import subscribeToGameStart from "../../lib/gameStart";
+
+import socketIO from "socket.io-client";
+import { SOCKET, API, COOKIE_DOMAIN, MAIN_WEBSITE } from "../../config";
 
 // export interface IUserListItem {
 //   id: string;
@@ -50,7 +53,7 @@ interface IProps extends ISelectProps, IActionProps {
   currentUser: IUser;
 }
 
-interface IJoinRoomsPage {
+interface ISpectateRoomsPage {
   user: IUser;
   rooms: IGameItem[];
 }
@@ -75,7 +78,7 @@ interface IJoinRoomsPage {
 //   };
 // };
 
-const UsersListTable = ({
+const Livegames = ({
   setGameItems,
   setPlayerColor,
   setGameRules,
@@ -83,7 +86,7 @@ const UsersListTable = ({
   setPlayMode,
   setCurrentUser,
   modifyGameItems,
-}: IProps) => {
+}: IProps) => {  
   const { currentUser } = useSelector((state: IAppState) => state.user);
   // const gameItems: IGameItem[] = [
   //   {
@@ -120,9 +123,10 @@ const UsersListTable = ({
     SocketService.sendData(
       `join-rooms-page`,
       null,
-      ({ rooms, user }: IJoinRoomsPage) => {
+      ({ user, rooms }: ISpectateRoomsPage) => {
+        console.log(user, rooms);
         setCurrentUser({ ...user });
-        setGameItems(rooms);
+        setGameItems(rooms);      
       }
     );
 
@@ -131,30 +135,33 @@ const UsersListTable = ({
     };
   }, []);
 
-  const onItemPress = (roomId: string) => {
-    subscribeToGameStart();
-
-    SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
-      // TODO: Will be typeof GameRules
-      console.log("join-game:", stringForNow);
+  const onItemPress = (roomId: string) => {    
+    // navigateTo(`/watch/${roomId}`);
+    SocketService.sendData("start-spectating", roomId, (response) => {
+      console.log("start-spectating", response);      
+      if(respose){
+      navigate(`/watch/?${roomId}`);        
+      } else {
+        return;
+      }
     });
   };
-console.log(gameItems);
+  
   return (
     <div className="usersListTable">
       <table>
         <thead>
-          <UsersListTableHeader />
+          <TableHeader />
         </thead>
         <tbody>
-          {(gameItems || []).map((item, index) => (
-            <UserListTableItem
-              key={item.roomId}
+          {livegamesList.map((item, index) => (
+            <TableItem
+              key={item}
               index={index}
               item={item}
               onPress={onItemPress}
-            />
-          ))}          
+            />            
+          ))}
         </tbody>
       </table>
 
@@ -175,4 +182,4 @@ const connected = connect(null, {
   setCurrentUser: UserActions.setCurrentUser,
 });
 
-export default connected(UsersListTable);
+export default connected(Livegames);

@@ -35,6 +35,14 @@ function* onModifyGameItems({ payload }: { payload: IGameItem }) {
 
         return yield put(Actions.setGameItems(newArray));
       }
+    case 4:
+      return yield put(
+        Actions.liveGameItems(
+          newArray.filter(
+            (game: IGameItem): boolean => game.roomId === payload.roomId
+          )
+        )
+      );
   }
 }
 

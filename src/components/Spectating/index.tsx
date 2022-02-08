@@ -95,7 +95,7 @@ interface ISelectProps {
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
 
-class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
+class Spectating extends Component<IActionProps & ISelectProps & PageProps, IState> {
   fen: string = INITIAL_FEN;
   oldFen: string = INITIAL_FEN;
   previousFen: string = INITIAL_FEN;
@@ -754,6 +754,6 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setMissedSocketActions: GameplayActions.setMissedSocketActions,
   setLoseMatchForLeaving: GameplayActions.setLoseMatchForLeaving,
   setGameMounted: GameplayActions.setGameMounted,
-})(Game);
+})(Spectating);
 
 export default connected;

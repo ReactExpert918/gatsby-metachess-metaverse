@@ -11,6 +11,7 @@ interface Props {
   uri: string;
 }
 
+
 export const HeaderNavigatorItem = ({
   title,
   to,
@@ -72,7 +73,7 @@ export const HeaderNavigator = ({ currentUri, menu }: { currentUri: string }) =>
         active={currentUri === "/learn"}
       />
       <HeaderNavigatorItem
-        to="/"
+        to="/watch"
         title="WATCH"
         active={currentUri === "/watch"}
       />
