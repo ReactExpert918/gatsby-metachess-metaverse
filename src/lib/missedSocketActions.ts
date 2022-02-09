@@ -1,4 +1,4 @@
-import { IMoveSocket } from "../interfaces/game.interfaces";
+import { IMoveSocket, ISpectSocket } from "../interfaces/game.interfaces";
 import SocketService from "../services/socket.service";
 import store from "../store";
 import { ACTION_TYPE } from "../store/gameplay/gameplay.action";
@@ -65,5 +65,9 @@ export const addMissedSocketActions = () => {
   SocketService.subscribeTo({
     eventName: "leave-game-prompt",
     callback: appendCallback("leave-game-prompt"),
+  });
+  SocketService.subscribeTo({
+    eventName: "spectators-update",
+    callback: appendCallback("spectators-update")
   });
 };

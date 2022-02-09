@@ -17,7 +17,7 @@ import {
   GameRules,
   IMoveSocket,
   MovePieceEnum,
-  ISpectSocket,
+  SpectList
 } from "../../interfaces/game.interfaces";
 import MovesHistory from "../../components/MovesHistory";
 import SpectatorList from "../../components/SpectatorList";
@@ -33,7 +33,7 @@ import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 import ActionButtons from "../../components/ActionButtons";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-
+import { navigateTo } from "gatsby-link";
 interface IState {
   drawTimes: number;
   skillLevel: number;
@@ -95,121 +95,66 @@ interface ISelectProps {
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
 
-class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
+class Spectating extends Component<IActionProps & ISelectProps & PageProps, IState> {
   fen: string = INITIAL_FEN;
   oldFen: string = INITIAL_FEN;
   previousFen: string = INITIAL_FEN;
-  replayTimeout: NodeJS.Timer = null;
   token: string = "";
   chessboardWrapperRef = React.createRef<ChessboardWrapper>();
-  // currentReplayIndex: number = React.createRef<number>().current;
   currentReplayIndex: number = 0;
   initialized: boolean = false;
 
   unmounted = false;
 
   state: IState = {
-    drawTimes: 0,
-    skillLevel: 20,
-    maximumError: 0,
-    probability: 0,
-    timerLimit: 5,
-    timerBonus: 3,
-    screen: "AI_GAME",
-    showEndModal: false,
-    winner: null,
-    showDrawModal: false,
-    showAwaitingDrawModal: false,
-    showOpponentLeftModal: false,
-    showAbortModal: false,
-    playerName: "",
-    showFirstMoveTime: true,
+    winner: null,    
+    showOpponentLeftModal: false,   
+    showSpectatorLeftModal: false,   
+    playerName: "",    
     spectlist: [],
+    playser_A: {
+      playerName: "",
+      timerLimit: 5,
+      timerBonus: 3,
+      drawTimes: 0,
+      skillLevel: 20,
+      maximumError: 0,
+      probability: 0,
+      screen: "AI_GAME",
+      showEndModal: false,
+
+    },
+    player_B: {
+      playerName: "",
+      timerLimit: 5,
+      timerBonus: 3,
+      drawTimes: 0,
+      skillLevel: 20,
+      maximumError: 0,
+      probability: 0,
+      screen: "AI_GAME",
+      showEndModal: false,
+    },
   };
 
   idTimeoutShowModal: NodeJS.Timeout = null;
   constructor(props: any) {
     super(props);
-    this.onResign = this.onResign.bind(this);
+    // SocketService.subscribeTo({
+    //     eventName: "spectators-update",
+    //     callback: (spectList: ISpectSocket) => {
+    //       console.log(spectList);
+    //       // this.setState({spectlist});
+    //     }
+    //   })
+    SocketService.subscribeTo({
+        eventName: "spectate-piece-move",
+        callback: this["move-piece"],
+      });
     // this.currentReplayIndex = 0;
   }
 
-  componentDidMount() {
-    if (!this.props.playMode) {
-      return;
-    }
-    if (this.props.playMode.isAI) {
-      SocketService.sendData(
-        "start-ai-game",
-        this.props.playMode.aiMode,
-        (token: string) => {
-          this.token = token;
-        }
-      );
-    }
-    if (this.props.isReplay) this.doReplay();
-    else if (this.props.playMode.isHumanVsHuman) {
-      if (this.props.isResume) {
-        this.fen = this.props.gameFen ?? INITIAL_FEN;
-        this.forceUpdate();
-      } else {
-        this.props.missedSocketActions.forEach((t) => {
-          if (t && t[0]) {
-            // @ts-ignore
-            // @ts-nocheck
-            this[t[0]](t[1]);
-          }
-        });
-      }
-      // this.props.setFirstTimer(25000);
-    }
 
-    this.props.setGameMounted(true);
-  }
-
-  componentWillUnmount() {
-    this.unmounted = true;
-    this.props.clear();
-    clearTimeout(this.idTimeoutShowModal);
-    clearTimeout(this.replayTimeout)
-    if (
-      !this.props.winner &&
-      this.props.playMode &&
-      !this.props.isReplay &&
-      !this.props.playMode.isAI
-    ) {
-      SocketService.sendData("leave-game", null, null);
-      this.props.setLoseMatchForLeaving({
-        opponentName: getOpponentName(false, null, this.props.opponent),
-        eloLost: this.props.gameElos.eloLose,
-        eloDraw: this.props.gameElos.eloDraw,
-      });
-    }
-    // if (this.props.playMode.isAI) {
-    //   API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
-    //     Key: this.token,
-    //     Result:
-    //       this.state.winner === this.props.playerColor
-    //         ? 1
-    //         : this.state.winner === null
-    //         ? 3
-    //         : 2,
-    //     PieceSide: this.props.playerColor === "w" ? 1 : 2,
-    //     BoardMoves: this.props.moveHistoryTimestamp,
-    //   });
-    // }
-    this.props.setGameElos(null);
-  }
-
-  onDrawRequested = () => {
-    this.setState({
-      showDrawModal: true,
-    });
-  };
-
-  onCancelledGame = (playerName: string) => {
-    this.setState({ showAbortModal: true, playerName });
-  };
 
   initialize = () => {
     const { playMode } = this.props;
@@ -236,57 +181,51 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             2000
           );
           console.log("game-timeout:", params);
+
         },
       });
       SocketService.subscribeTo({
         eventName: "spectators-update",
         callback: (spectList: ISpectSocket) => {
-          this.setState({spectlist: spectList});
+          this.setState({spectlist: SpectList});
         }
       })
       SocketService.subscribeTo({
-        eventName: "move-piece",
+        eventName: "spectate-piece-move",
         callback: this["move-piece"],
       });
 
-      SocketService.subscribeTo({
-        eventName: "resign",
-        callback: this.resign,
-      });
-      SocketService.subscribeTo({
-        eventName: "answer-draw-request",
-        callback: this["answer-draw-request"],
-      });
-      SocketService.subscribeTo({
-        eventName: "request-draw",
-        callback: this["request-draw"],
-      });
+    
       SocketService.subscribeTo({
         eventName: "game-cancelled",
         callback: this["game-cancelled"],
       });      
-      SocketService.subscribeTo({
-        eventName: "leave-game-prompt",
-        callback: this["leave-game-prompt"],
-      });
     }
   };
 
   ["move-piece"] = (move: IMoveSocket) => {
-    console.log("MOVE:", move);
+    console.log("move:", move);
     if (!this.chessboardWrapperRef?.current) {
       return;
     }
 
     const { opponent, moveHistoryData } = this.props;
+    const {player_A, player_B} = this.state;
+    if (player_A == [] && player_B == []){
+      this.setState({player_A: opponent});
+    } else if(player_A !== [] && player_B == []){
+      this.setState({player_B: opponent});
+    } else {
+      if(player_A.playerName == opponent.GuestId){
+        this.setState({player_A: opponent});
+      } else {
+        this.setState({player_B: opponent});
+      }
+    }
 
-    console.log(opponent, moveHistoryData, this.props);
-    if (
-      opponent &&
-      this.chessboardWrapperRef?.current &&
-      ((opponent.Id && opponent.Id === move.player?.Id) ||
-        (opponent.GuestId && opponent.GuestId === move.player?.GuestId))
-    ) {
+
+    // console.log(this.props);
+    if (opponent && this.chessboardWrapperRef?.current ) {
       this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
     }
 
@@ -306,55 +245,19 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
 
     console.log("on move-piece::", move);
   };
-
-  ["resign"] = ({ winner }: any) => {
-    this.onGameEnd(
-      winner.Id === this.props.currentUser.Id &&
-        winner.GuestId === this.props.currentUser.GuestId
-        ? this.props.playerColor
-        : this.props.playerColor === "w"
-        ? "b"
-        : "w"
-    );
-  };
-
-  ["answer-draw-request"] = (drawAccepted: boolean) => {
-    this.setState({
-      showAwaitingDrawModal: false,
-      showDrawModal: false,
-    });
-    if (drawAccepted) this.onGameEnd("draw");
-  };
-
-  ["request-draw"] = () => {
-    this.onDrawRequested();
-  };
+  
 
   ["game-cancelled"] = () => {
-    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;
-    if (moveHistoryData.length === 0) {
-      let xPlayer = "";
-      if (playerColor === "w") {
-        xPlayer = currentUser.Username || "You";
-      } else {
-        xPlayer = opponent.Username || "Guest";
-      }
-      this.onCancelledGame(xPlayer);
-    }
-    if (moveHistoryData.length === 1) {
-      let xPlayer = "";
-      if (playerColor === "b") {
-        xPlayer = currentUser.Username || "You";
-      } else {
-        xPlayer = opponent.Username || "Guest";
-      }
-      this.onCancelledGame(xPlayer);
-    }
+    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;    
+      let xPlayer = opponent.Username;
+      this.onCancelledGame(xPlayer);    
   };
 
-  ["leave-game-prompt"] = () => {
+  ["stop-spectating"] = () => {
     this.setState({
-      showOpponentLeftModal: true,
+      showSpectatorLeftModal: true,
+    }, ()=> {
+      navigateTo("/watch");
     });
   };
 
@@ -430,151 +333,16 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     }
   };
 
-  doReplay = async (
-    fen?: string,
-    last?: number,
-    moveHistory?: string[],
-    onMove?: string
-  ) => {
-    this.fen = fen || INITIAL_FEN;
-    this.oldFen = fen || INITIAL_FEN;
-
-    this.props.setReplay(true);
-    this.props.setOnMove(onMove || "w");
-    this.props.setLastTimestamp(last || 0);
-    this.props.setMoveHistory(moveHistory || []);
-
-    this.forceUpdate(this.realReplay);
-  };
-
-  recursiveReplayFunction = (index: number) => {
-    const {
-      gameplay: { historyWithTimestamp },
-    } = store.getState() as IAppState;
-    if (index === historyWithTimestamp.length) {
-      const {
-        gameplay: {
-          historyWithTimestamp,
-          startGameDate,
-          playMode,
-          endGameDate,
-          winner,
-        },
-      } = store.getState() as IAppState;
-      let lastDate = historyWithTimestamp[index - 1].timestamp;
-      const endAt = playMode
-        ? new Date().getTime() + 2000
-        : endGameDate - lastDate;
-      if (this.unmounted) return;
-      if (endAt > 0)
-        setTimeout(() => {
-          if (this.unmounted) return;
-          this.onGameEnd(winner, true);
-        }, endAt);
-      else {
-        this.onGameEnd(winner, true);
-      }
-      return;
-    }
-    const m = historyWithTimestamp[index];
-    console.log(this.currentReplayIndex, index);
-    this.chessboardWrapperRef?.current?.handleMove(m.move as string, true);
-    this.props.setLastTimestamp(m.timestamp);
-    this.currentReplayIndex = index + 1;
-    this.replayTimeout = setTimeout(
-      () => this.recursiveReplayFunction(index + 1),
-      2000
-    );
-  };
-
-  realReplay = async () => {
-    this.props.startGame();
-    this.recursiveReplayFunction(0);
-  };
-
-  onResign() {
-    SocketService.sendData("resign", null, () => {
-      // this.onGameEnd(this.props.playerColor === "b" ? "w" : "b");
-    });
-  }
-
-  onDrawRequest = () => {
-    const { drawTimes } = this.state;
-    if (drawTimes < 5) {
-      SocketService.sendData("request-draw", null, () => {
-        this.setState({
-          drawTimes: drawTimes + 1,
-          showAwaitingDrawModal: true,
-        });
-      });
-    }
-  };
-
-  userRequestedDrawTimeout = () => {
-    this.setState({
-      showDrawModal: false,
-      showAwaitingDrawModal: false,
-    });
-  };
-
-  cancelDraw = () => {
-    SocketService.sendData("answer-draw-request", false, () => {
-      this.setState({
-        showDrawModal: false,
-        showAwaitingDrawModal: false,
-      });
-    });
-  };
-
-  confirmDraw = () => {
-    SocketService.sendData("answer-draw-request", true, () => {
-      this.setState({
-        showDrawModal: false,
-        showAwaitingDrawModal: false,
-      });
-      this.onGameEnd("draw");
-    });
-  };
-
-  onReplayNext = () => {
-    if (this.currentReplayIndex === this.props.moveHistoryTimestamp.length)
-      return;
-    clearTimeout(this.replayTimeout);
-    this.props.setOnMove(this.currentReplayIndex % 2 === 0 ? "w" : "b");
-    this.props.setMoveHistory(
-      this.props.moveHistoryData.slice(0, this.currentReplayIndex)
-    );
-    this.fen = this.props.moveHistoryTimestamp[this.currentReplayIndex].fen;
-    this.props.setLastTimestamp(
-      this.props.moveHistoryTimestamp[this.currentReplayIndex].timestamp
-    );
-    this.recursiveReplayFunction(this.currentReplayIndex);
-  };
-  onReplayPrevious = () => {
-    clearTimeout(this.replayTimeout);
-    const temp =
-      this.currentReplayIndex - 2 >= 0 ? this.currentReplayIndex - 2 : 0;
-    this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
-    this.props.setMoveHistory(this.props.moveHistoryData.slice(0, temp + 1));
-    this.fen = this.props.moveHistoryTimestamp[temp].fen;
-    this.props.setLastTimestamp(
-      this.props.moveHistoryTimestamp[temp].timestamp
-    );
-    this.recursiveReplayFunction(temp);
-  };
+  
   render() {
     const {
-      skillLevel,
-      maximumError,
-      probability,
-      showEndModal,
-      winner,
-      drawTimes,
-      showDrawModal,
-      showAwaitingDrawModal,
-      showAbortModal,
-      playerName,
-      showFirstMoveTime,
+    winner,  
+    showOpponentLeftModal, 
+    showSpectatorLeftModal,   
+    playerName,  
+    spectlist,
+    playser_A,
+    player_B,
     } = this.state;
     const {
       playMode,
@@ -596,15 +364,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       this.initialize();
       this.initialized = true;
     }
-    // if (
-    //   !this.props.isReplay &&
-    //   this.props.playMode &&
-    //   !this.props.playMode.isHumanVsHuman &&
-    //   !this.props.playMode.isAI
-    // ) {
-    //   navigate("/");
-    //   return null;
-    // }
+    
 
     return (
       <div className="gameContainer">
@@ -672,8 +432,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             onGameEnd={this.onGameEnd}
             isAI={playMode.isAI}
             aiDifficulty={playMode.aiMode}
-            opponent={opponent}
-            currentUser={currentUser}
+            opponent={player_A}
+            currentUser={player_B}
             timer={timer}
             isReplay={this.props.isReplay}
             playMode={playMode}
@@ -697,21 +457,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             drawEnabled={drawTimes < 5}
             showFirstMoveTime={showFirstMoveTime}
           />
-          <SpectatorList list = {this.state.spectlist} />
-          {this.state.showOpponentLeftModal && (
-            <OpponentLeftModal
-              playerColor={this.props.playerColor}
-              onAnswer={(a) => {
-                this.setState({ showOpponentLeftModal: false });
-                SocketService.sendData(
-                  "leave-game-prompt",
-                  a !== "draw",
-                  () => {}
-                );
-                this.onGameEnd(a);
-              }}
-            />
-          )}
+          <SpectatorList list = {this.state.spectlist} />          
         </div>
       </div>
     );
@@ -757,6 +503,6 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setMissedSocketActions: GameplayActions.setMissedSocketActions,
   setLoseMatchForLeaving: GameplayActions.setLoseMatchForLeaving,
   setGameMounted: GameplayActions.setGameMounted,
-})(Game);
+})(Spectating);
 
 export default connected;

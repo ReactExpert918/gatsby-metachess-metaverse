@@ -69,3 +69,8 @@ export interface IMoveSocket {
   winner?: any;
   timestamp: number;
 }
+
+
+export interface ISpectSocket {
+  spectlist: array;
+}
