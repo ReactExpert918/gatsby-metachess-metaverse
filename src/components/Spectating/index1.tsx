@@ -111,7 +111,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     showSpectatorLeftModal: false,   
     playerName: "",    
     spectlist: [],
-    player_A: {
+    playser_A: {
       playerName: "",
       timerLimit: 5,
       timerBonus: 3,
@@ -121,7 +121,6 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       probability: 0,
       screen: "AI_GAME",
       showEndModal: false,
-      playerColor : "",
 
     },
     player_B: {
@@ -134,7 +133,6 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       probability: 0,
       screen: "AI_GAME",
       showEndModal: false,
-      playerColor : "",
     },
   };
 
@@ -161,14 +159,36 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     const { playMode } = this.props;
 
     if (playMode.isHumanVsHuman) {
-      
+      SocketService.subscribeTo({
+        eventName: "game-timeout",
+        callback: (params: { winner: IUser }) => {
+          const { opponent, playerColor } = this.props;
+          let winner = playerColor;
+          if (opponent?.Id && opponent.Id === params?.winner?.Id) {
+            winner = playerColor === "w" ? "b" : "w";
+          } else if (
+            opponent?.GuestId &&
+            opponent.GuestId === params?.winner?.GuestId
+          ) {
+            winner = playerColor === "w" ? "b" : "w";
+          } else if (!params.winner) {
+            winner = null;
+          }
+          this.props.stopTimers();
+          this.idTimeoutShowModal = setTimeout(
+            () => this.setState({ showEndModal: true, winner }),
+            2000
+          );
+          console.log("game-timeout:", params);
+
+        },
+      });
       SocketService.subscribeTo({
         eventName: "spectators-update",
         callback: (spectList: ISpectSocket) => {
-          // console.log("spectList", spectList);
           this.setState({spectlist: SpectList});
         }
-      })
+      });
       SocketService.subscribeTo({
         eventName: "spectate-piece-move",
         callback: this["move-piece"],
@@ -184,21 +204,31 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
   ["move-piece"] = (move: IMoveSocket) => {
     console.log("move:", move);
-    if (this.chessboardWrapperRef?.current) {
+    if (!this.chessboardWrapperRef?.current) {
       return;
     }
 
-    const { host, secondPlayer, moveHistoryData } = this.props;
-    const { player_A, player_B} = this.state;
-    if(player_A == [])
-      this.setState({player_A: host});
-    if(player_B == [])
-      this.setState({player_B: secondPlayer});  
-    if(this,props.whitePieces[GuestId] == player_A[playerName]){
-      this.setState({player_A[playerColor]: "w"}, {{player_B[playerColor]: "b"}});
+    const { opponent, moveHistoryData } = this.props;
+    console.lo(this.props);
+    const {player_A, player_B} = this.state;
+    if (player_A == [] && player_B == []){
+      this.setState({player_A: opponent});
+    } else if(player_A !== [] && player_B == []){
+      this.setState({player_B: opponent});
     } else {
-      this.setState({player_A[playerColor]: "b"}, {{player_B[playerColor]: "w"}});
+      if(player_A.playerName == opponent.GuestId){
+        this.setState({player_A: opponent});
+      } else {
+        this.setState({player_B: opponent});
+      }
     }
+
+
+    // console.log(this.props);
+    if (opponent && this.chessboardWrapperRef?.current ) {
+      this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
+    }
+
     this.props.addToHistoryWithTimestamp({
       move: move.move,
       timestamp: move.timestamp,
@@ -212,6 +242,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       this.setState({ showFirstMoveTime: false });
       this.props.setLastTimestamp(move.timestamp);
     }
+
     console.log("on move-piece::", move);
   };
   
@@ -222,13 +253,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       this.onCancelledGame(xPlayer);    
   };
 
-  ["stop-spectating"] = () => {
-    this.setState({
-      showSpectatorLeftModal: true,
-    }, ()=> {
-      navigate("/watch");
-    });
-  };
+  
 
   handleMove = (
     fen: string,
@@ -301,7 +326,11 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       this.props.setGameWinner(winner);
     }
   };
-
+  onLeave = () => {
+    SocketService.sendData("stop-spectating", null, () => {
+      navigate("/watch");
+    });
+  }
   
   render() {
     const {
@@ -310,8 +339,8 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     showSpectatorLeftModal,   
     playerName,  
     spectlist,
-    host,
-    secondPlayer,
+    playser_A,
+    player_B,
     } = this.state;
     const {
       playMode,
@@ -337,97 +366,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
     return (
       <div className="gameContainer">
-        {showEndModal && (
-          <WinModal
-            onReplay={async () => {
-              // this.props.setReplay(true);
-              this.setState(
-                { showEndModal: false, winner: null },
-                this.doReplay
-              );
-            }}
-            onClose={() => {
-              this.setState({ showEndModal: false });
-            }}
-            opponent={opponent}
-            key={String(showEndModal)}
-            isReplay={this.props.isReplay}
-            elo={gameRules && getGameTypeElo(gameRules.type, currentUser)}
-            gameElos={gameElos}
-            gameRules={gameRules}
-            winner={winner}
-            playerColor={playerColor}
-            playMode={playMode}
-          />
-        )}
-        {showAwaitingDrawModal && (
-          <RequestDrawModal
-            isUserRequested={true}
-            cancelDraw={this.userRequestedDrawTimeout}
-            confirmDraw={this.confirmDraw}
-          />
-        )}
-        {showDrawModal && (
-          <RequestDrawModal
-            isUserRequested={false}
-            cancelDraw={this.cancelDraw}
-            confirmDraw={this.confirmDraw}
-          />
-        )}
-        {showAbortModal && (
-          <AbortGameModal
-            playerName={playerName}
-            onCancel={() => {
-              this.setState({ showAbortModal: false, showEndModal: false });
-              this.props.clear();
-              navigate("/");
-            }}
-          />
-        )}
-        <div className="gameWrapper">
-          {/* <Chat /> */}
-          <MovesHistory />          
-          <ChessboardWrapper
-            gameRules={gameRules}
-            ref={this.chessboardWrapperRef}
-            skillLevel={skillLevel}
-            maximumError={maximumError}
-            probability={probability}
-            fen={this.fen}
-            playerColor={playerColor}
-            handleMove={this.handleMove}
-            timerLimit={this.state.timerLimit * 1000 * 60}
-            timerBonus={this.state.timerBonus * 1000}
-            onGameEnd={this.onGameEnd}
-            isAI={playMode.isAI}
-            aiDifficulty={playMode.aiMode}
-            opponent={player_A}
-            currentUser={player_B}
-            timer={timer}
-            isReplay={this.props.isReplay}
-            playMode={playMode}
-            moveHistoryData={moveHistoryData}
-            serverStatus={this.props.serverStatus}
-            onReplayPrevious={this.onReplayPrevious}
-            onReplayNext={this.onReplayNext}
-          />
-          {!playMode.isAI && !this.props.isReplay && (
-            <ActionButtons
-              draw={this.onDrawRequest}
-              drawEnabled={drawTimes < 5}
-              resign={this.onResign}
-            />
-          )}
-          <GameInfo
-            resing={this.onResign}
-            onDraw={this.onDrawRequest}
-            onReplayPrevious={this.onReplayPrevious}
-            onReplayNext={this.onReplayNext}
-            drawEnabled={drawTimes < 5}
-            showFirstMoveTime={showFirstMoveTime}
-          />
-          <SpectatorList list = {this.state.spectlist} />          
-        </div>
+        <button onClick={this.onLeave}></button>
       </div>
     );
   }
