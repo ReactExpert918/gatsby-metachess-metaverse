@@ -88,7 +88,7 @@ const UsersListTable = ({
             if (prevCondition) setPage(page - 1);
           }}
         >
-          ↼ Previous
+          {"<"} Previous
         </p>
         <p
           style={{
@@ -101,7 +101,7 @@ const UsersListTable = ({
             if (nextCondition) setPage(page + 1);
           }}
         >
-          Next ⇀
+          Next {">"}
         </p>
 
         <p

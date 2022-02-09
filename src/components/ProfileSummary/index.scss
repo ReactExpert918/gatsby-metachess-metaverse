@@ -6,6 +6,15 @@
     border-radius: 20px;
     width: 50%;
     height: 100%;
+    .profileSummaryInnerContent.innerContent{
+        height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    }
     .sectionTitle {
         color: #fff;
         margin-bottom: 8%;
@@ -16,12 +25,12 @@
         flex-direction: row;
         align-items: stretch;
         // width: 120px;
+        margin: auto 0;
         gap: 2vmax;
         .symbols {
             display: flex;
             flex: 1;
             flex-direction: row;
-            height: 40%;
             align-self: center;
             gap: 2vmax;
             flex-wrap: wrap;

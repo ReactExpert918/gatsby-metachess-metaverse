@@ -7,6 +7,7 @@ import { squareStyles } from "../../pages/treasurequest";
 import CustomPiece from "../CustomPiece";
 import sound from "../../assets/images/sound.png";
 import noSound from "../../assets/images/noSound.png";
+import ChessboardWrapper from "./ChessboardWrapper";
 
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 
@@ -27,9 +28,6 @@ interface IProps {
 
 const EditSettings = (props: IProps) => {
   const [settings, setSettings] = useState<ISettings>(props.settings);
-  const [squareStyles, setSquareStyles] = useState<squareStyles>({
-    ["d4"]: { background: settings.BoardCheckSquaresColor },
-  });
   let id: NodeJS.Timer = null;
   const dispatch = useDispatch();
   const handleSubmit = async (e: any) => {
@@ -50,84 +48,52 @@ const EditSettings = (props: IProps) => {
       500
     );
   };
-  const highlightSquare = (sourceSquare: any, squaresToHighlight: any) => {
-    const highlightStyles = [...squaresToHighlight].reduce((a, c) => {
-      const canBeEaten = c === "d5";
-      return {
-        ...a,
-        ...{
-          [c]: {
-            background: canBeEaten
-              ? `radial-gradient(circle, ${settings.BoardPossibleCapturesColor} 36%, transparent 0)`
-              : `radial-gradient(circle, ${settings.BoardPossibleMovesColor} 36%, transparent 0)`,
-            borderRadius: "50%",
-          },
-        },
-      };
-    }, {});
-    setSquareStyles({
-      ...squareStyles,
-      ...highlightStyles,
-      ["d4"]: { background: settings.BoardCheckSquaresColor },
-    });
-  };
-  useEffect(() => {
-    setSquareStyles({
-      ["d4"]: { background: settings.BoardCheckSquaresColor },
-    });
-  }, [settings]);
-  // console.log(squareStyles, settings);
-  const handlePieceClick = (piece: string): void => {
-    setSquareStyles({
-      ["d4"]: { background: settings.BoardCheckSquaresColor },
-    });
+  // const highlightSquare = (sourceSquare: any, squaresToHighlight: any) => {
+  //   const highlightStyles = [...squaresToHighlight].reduce((a, c) => {
+  //     const canBeEaten = c === "d5";
+  //     return {
+  //       ...a,
+  //       ...{
+  //         [c]: {
+  //           background: canBeEaten
+  //             ? `radial-gradient(circle, ${settings.BoardPossibleCapturesColor} 36%, transparent 0)`
+  //             : `radial-gradient(circle, ${settings.BoardPossibleMovesColor} 36%, transparent 0)`,
+  //           borderRadius: "50%",
+  //         },
+  //       },
+  //     };
+  //   }, {});
+  //   setSquareStyles({
+  //     ...squareStyles,
+  //     ...highlightStyles,
+  //     ["d4"]: { background: settings.BoardCheckSquaresColor },
+  //   });
+  // };
+  // useEffect(() => {
+  //   setSquareStyles({
+  //     ["d4"]: { background: settings.BoardCheckSquaresColor },
+  //   });
+  // }, [settings]);
+  // // console.log(squareStyles, settings);
+  // const handlePieceClick = (piece: string): void => {
+  //   setSquareStyles({
+  //     ["d4"]: { background: settings.BoardCheckSquaresColor },
+  //   });
 
-    switch (piece) {
-      case "d4":
-        highlightSquare(piece, ["e5", "c5", "d5", "c4", "d3", "c3", "e3"]);
-        break;
-      case "e4":
-        highlightSquare(piece, ["e5", "d5"]);
-        break;
-      case "e7":
-        break;
-    }
-  };
+  //   switch (piece) {
+  //     case "d4":
+  //       highlightSquare(piece, ["e5", "c5", "d5", "c4", "d3", "c3", "e3"]);
+  //       break;
+  //     case "e4":
+  //       highlightSquare(piece, ["e5", "d5"]);
+  //       break;
+  //     case "e7":
+  //       break;
+  //   }
+  // };
   return (
     <div className="Form-container">
       <div className="Form-wrapper">
-        {!isSSR && (
-          <React.Suspense fallback={<div />}>
-            <Chessboard
-              darkSquareStyle={{
-                background: settings.BoardEvenSquaresColor,
-              }}
-              lightSquareStyle={{
-                background: settings.BoardOddSquaresColor,
-              }}
-              width={window && window.innerWidth < 500 ? 200 : 500}
-              position={{ d4: "wK", e4: "wP", e7: "bK", d5: "bR" }}
-              squareStyles={squareStyles}
-              draggable={false}
-              onSquareClick={handlePieceClick}
-              onPieceClick={() => setSquareStyles({})}
-              pieces={{
-                wP: (pieceProps) => <CustomPiece name={"wP"} {...pieceProps} />,
-                wN: (pieceProps) => <CustomPiece name={"wN"} {...pieceProps} />,
-                wB: (pieceProps) => <CustomPiece name={"wB"} {...pieceProps} />,
-                wR: (pieceProps) => <CustomPiece name={"wR"} {...pieceProps} />,
-                wQ: (pieceProps) => <CustomPiece name={"wQ"} {...pieceProps} />,
-                wK: (pieceProps) => <CustomPiece name={"wK"} {...pieceProps} />,
-                bP: (pieceProps) => <CustomPiece name={"bP"} {...pieceProps} />,
-                bN: (pieceProps) => <CustomPiece name={"bN"} {...pieceProps} />,
-                bB: (pieceProps) => <CustomPiece name={"bB"} {...pieceProps} />,
-                bR: (pieceProps) => <CustomPiece name={"bR"} {...pieceProps} />,
-                bQ: (pieceProps) => <CustomPiece name={"bQ"} {...pieceProps} />,
-                bK: (pieceProps) => <CustomPiece name={"bK"} {...pieceProps} />,
-              }}
-            />
-          </React.Suspense>
-        )}
         <form
           className="signup-page__form"
           style={{ gap: "2vmin", marginTop: "4vmin" }}
@@ -263,6 +229,7 @@ const EditSettings = (props: IProps) => {
                 style={{
                   color: "rgba(255,255,255,0.6)",
                   marginBottom: "2vmin",
+                  display: "inline-block"
                 }}
               >
                 Treasure Quest Sound
@@ -271,7 +238,7 @@ const EditSettings = (props: IProps) => {
               <img
                 src={settings.TreasureQuestSound ? sound : noSound}
                 alt="sound"
-                style={{ height: "5vmin", width: "auto" }}
+                style={{ height: window && window.innerWidth < 500 ? "8vmin" : "4vmin", width: "auto" }}
               />
             </label>
             <input
@@ -288,6 +255,8 @@ const EditSettings = (props: IProps) => {
               }
             />
           </div>{" "}
+
+          <ChessboardWrapper data={settings} />
           <button className="claimButton">Update</button>
         </form>
       </div>
