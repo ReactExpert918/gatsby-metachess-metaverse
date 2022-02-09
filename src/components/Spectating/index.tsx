@@ -17,7 +17,7 @@ import {
   SpectatingGameRules,
   IMoveSocket,
   MovePieceEnum,
-  SpectList
+  ISpectSocket
 } from "../../interfaces/game.interfaces";
 import MovesHistory from "../../components/MovesHistory";
 import SpectatorList from "../../components/SpectatorList";
@@ -141,13 +141,13 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
   idTimeoutShowModal: NodeJS.Timeout = null;
   constructor(props: any) {
     super(props);
-    // SocketService.subscribeTo({
-    //     eventName: "spectators-update",
-    //     callback: (spectList: ISpectSocket) => {
-    //       console.log(spectList);
-    //       // this.setState({spectlist});
-    //     }
-    //   })
+    SocketService.subscribeTo({
+        eventName: "spectators-update",
+        callback: (spectList: ISpectSocket) => {
+          console.log(spectList);
+          // this.setState({spectlist});
+        }
+      })
     SocketService.subscribeTo({
         eventName: "spectate-piece-move",
         callback: this["move-piece"],
@@ -195,9 +195,11 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     if(player_B == [])
       this.setState({player_B: secondPlayer});  
     if(this,props.whitePieces[GuestId] == player_A[playerName]){
-      this.setState({player_A[playerColor]: "w"}, {{player_B[playerColor]: "b"}});
+      this.setState({player_A:[...this.state.player_A, {playerColor: "w"}]});
+      this.setState({player_B:[...this.state.player_B, {playerColor: "b"}]});
     } else {
-      this.setState({player_A[playerColor]: "b"}, {{player_B[playerColor]: "w"}});
+      this.setState({player_B:[...this.state.player_B, {playerColor: "w"}]});
+      this.setState({player_A:[...this.state.player_A, {playerColor: "b"}]})
     }
     this.props.addToHistoryWithTimestamp({
       move: move.move,
@@ -217,7 +219,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
   
 
   ["game-cancelled"] = () => {
-    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;    
+    const { moveHistoryData, playerColor,host, secondPlayer } = this.props;    
       let xPlayer = opponent.Username;
       this.onCancelledGame(xPlayer);    
   };
