@@ -8,12 +8,12 @@ import eyes from "../../assets/images/eye.png";
 const SpectatorList = ({ list }) => {  
   const Lists = useRef(null);  
 function showing (){
-  Lists.current.classList.add("showing");
+  if(Lists.current.classList.indexOf("showing"))
+  Lists.current.classList.remove("showing");
+  else
+    Lists.current.classList.add("showing");
 }
 
-function hidden () {
-  Lists.current.classList.remove("showing");
-}
 // const PP = ["AA", "B"];
   return (
     <div className="spectlist">
@@ -24,8 +24,7 @@ function hidden () {
           </p>
         ))}
       </div>
-    <button className="spectatorsListContainer" onMouseOver = {showing} onMouseLeave = {hidden}
-    >
+    <button className="spectatorsListContainer" onClick = {showing}>
       <img src={eyes} className="watchImg" />
       <p className="watchcount">{list.length}</p> 
     </button>     
