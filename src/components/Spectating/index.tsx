@@ -33,7 +33,7 @@ import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 import ActionButtons from "../../components/ActionButtons";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-
+import { navigateTo } from "gatsby-link";
 interface IState {
   drawTimes: number;
   skillLevel: number;
@@ -107,12 +107,6 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
   unmounted = false;
 
   state: IState = {
-    drawTimes: 0,
-    skillLevel: 20,
-    maximumError: 0,
-    probability: 0,
-    screen: "AI_GAME",
-    showEndModal: false,
     winner: null,    
     showOpponentLeftModal: false,   
     showSpectatorLeftModal: false,   
@@ -122,12 +116,24 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       playerName: "",
       timerLimit: 5,
       timerBonus: 3,
+      drawTimes: 0,
+      skillLevel: 20,
+      maximumError: 0,
+      probability: 0,
+      screen: "AI_GAME",
+      showEndModal: false,
 
     },
     player_B: {
       playerName: "",
       timerLimit: 5,
       timerBonus: 3,
+      drawTimes: 0,
+      skillLevel: 20,
+      maximumError: 0,
+      probability: 0,
+      screen: "AI_GAME",
+      showEndModal: false,
     },
   };
 
@@ -193,11 +199,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       SocketService.subscribeTo({
         eventName: "game-cancelled",
         callback: this["game-cancelled"],
-      });
-      SocketService.subscribeTo({
-        eventName: "stop-spectating",
-        callback: this["stop-spectating"],
-      });
+      });      
     }
   };
 
@@ -207,14 +209,23 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       return;
     }
 
-    const { opponent,currentUser, moveHistoryData } = this.props;
-    console.log(this.props);
-    if (
-      opponent &&
-      this.chessboardWrapperRef?.current &&
-      ((opponent.Id && opponent.Id === move.player?.Id) ||
-        (opponent.GuestId && opponent.GuestId === move.player?.GuestId))
-    ) {
+    const { opponent, moveHistoryData } = this.props;
+    const {player_A, player_B} = this.state;
+    if (player_A == [] && player_B == []){
+      this.setState({player_A: opponent});
+    } else if(player_A !== [] && player_B == []){
+      this.setState({player_B: opponent});
+    } else {
+      if(player_A.playerName == opponent.GuestId){
+        this.setState({player_A: opponent});
+      } else {
+        this.setState({player_B: opponent});
+      }
+    }
+
+
+    // console.log(this.props);
+    if (opponent && this.chessboardWrapperRef?.current ) {
       this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
     }
 
@@ -237,30 +248,16 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
   
 
   ["game-cancelled"] = () => {
-    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;
-    if (moveHistoryData.length === 0) {
-      let xPlayer = "";
-      if (playerColor === "w") {
-        xPlayer = currentUser.Username || "You";
-      } else {
-        xPlayer = opponent.Username || "Guest";
-      }
-      this.onCancelledGame(xPlayer);
-    }
-    if (moveHistoryData.length === 1) {
-      let xPlayer = "";
-      if (playerColor === "b") {
-        xPlayer = currentUser.Username || "You";
-      } else {
-        xPlayer = opponent.Username || "Guest";
-      }
-      this.onCancelledGame(xPlayer);
-    }
+    const { moveHistoryData, playerColor, opponent, currentUser } = this.props;    
+      let xPlayer = opponent.Username;
+      this.onCancelledGame(xPlayer);    
   };
 
   ["stop-spectating"] = () => {
     this.setState({
-      showOpponentLeftModal: true,
+      showSpectatorLeftModal: true,
+    }, ()=> {
+      navigateTo("/watch");
     });
   };
 
@@ -339,17 +336,13 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
   
   render() {
     const {
-      skillLevel,
-      maximumError,
-      probability,
-      showEndModal,
-      winner,
-      drawTimes,
-      showDrawModal,
-      showAwaitingDrawModal,
-      showAbortModal,
-      playerName,
-      showFirstMoveTime,
+    winner,  
+    showOpponentLeftModal, 
+    showSpectatorLeftModal,   
+    playerName,  
+    spectlist,
+    playser_A,
+    player_B,
     } = this.state;
     const {
       playMode,
@@ -375,8 +368,97 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
     return (
       <div className="gameContainer">
-      
-
+        {showEndModal && (
+          <WinModal
+            onReplay={async () => {
+              // this.props.setReplay(true);
+              this.setState(
+                { showEndModal: false, winner: null },
+                this.doReplay
+              );
+            }}
+            onClose={() => {
+              this.setState({ showEndModal: false });
+            }}
+            opponent={opponent}
+            key={String(showEndModal)}
+            isReplay={this.props.isReplay}
+            elo={gameRules && getGameTypeElo(gameRules.type, currentUser)}
+            gameElos={gameElos}
+            gameRules={gameRules}
+            winner={winner}
+            playerColor={playerColor}
+            playMode={playMode}
+          />
+        )}
+        {showAwaitingDrawModal && (
+          <RequestDrawModal
+            isUserRequested={true}
+            cancelDraw={this.userRequestedDrawTimeout}
+            confirmDraw={this.confirmDraw}
+          />
+        )}
+        {showDrawModal && (
+          <RequestDrawModal
+            isUserRequested={false}
+            cancelDraw={this.cancelDraw}
+            confirmDraw={this.confirmDraw}
+          />
+        )}
+        {showAbortModal && (
+          <AbortGameModal
+            playerName={playerName}
+            onCancel={() => {
+              this.setState({ showAbortModal: false, showEndModal: false });
+              this.props.clear();
+              navigate("/");
+            }}
+          />
+        )}
+        <div className="gameWrapper">
+          {/* <Chat /> */}
+          <MovesHistory />          
+          <ChessboardWrapper
+            gameRules={gameRules}
+            ref={this.chessboardWrapperRef}
+            skillLevel={skillLevel}
+            maximumError={maximumError}
+            probability={probability}
+            fen={this.fen}
+            playerColor={playerColor}
+            handleMove={this.handleMove}
+            timerLimit={this.state.timerLimit * 1000 * 60}
+            timerBonus={this.state.timerBonus * 1000}
+            onGameEnd={this.onGameEnd}
+            isAI={playMode.isAI}
+            aiDifficulty={playMode.aiMode}
+            opponent={player_A}
+            currentUser={player_B}
+            timer={timer}
+            isReplay={this.props.isReplay}
+            playMode={playMode}
+            moveHistoryData={moveHistoryData}
+            serverStatus={this.props.serverStatus}
+            onReplayPrevious={this.onReplayPrevious}
+            onReplayNext={this.onReplayNext}
+          />
+          {!playMode.isAI && !this.props.isReplay && (
+            <ActionButtons
+              draw={this.onDrawRequest}
+              drawEnabled={drawTimes < 5}
+              resign={this.onResign}
+            />
+          )}
+          <GameInfo
+            resing={this.onResign}
+            onDraw={this.onDrawRequest}
+            onReplayPrevious={this.onReplayPrevious}
+            onReplayNext={this.onReplayNext}
+            drawEnabled={drawTimes < 5}
+            showFirstMoveTime={showFirstMoveTime}
+          />
+          <SpectatorList list = {this.state.spectlist} />          
+        </div>
       </div>
     );
   }

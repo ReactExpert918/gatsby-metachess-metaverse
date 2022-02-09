@@ -6,8 +6,7 @@ import eyes from "../../assets/images/eye.png";
 
 
 const SpectatorList = ({ list }) => {  
-// const list = this.props.list;
-  const Lists = useRef(null);
+  const Lists = useRef(null);  
 function showing (){
   Lists.current.classList.add("showing");
 }
@@ -19,11 +18,11 @@ function hidden () {
   return (
     <div className="spectlist">
     <div className="cellWrapper" ref={Lists}>
-        {list.map((spectator: string, index: number) => (
-          <p key={index}>
-            {spectator} is looking for your game.
+        {(list || []).map((spectator: string, index: number) => (
+          <p key = {index}>
+            {spectator["GuestId"]} is looking for your game.
           </p>
-        )).reverse()}
+        ))}
       </div>
     <button className="spectatorsListContainer" onMouseOver = {showing} onMouseLeave = {hidden}
     >
