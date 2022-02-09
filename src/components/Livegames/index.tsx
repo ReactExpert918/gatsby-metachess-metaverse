@@ -164,7 +164,7 @@ const Livegames = ({
           <TableHeader />
         </thead>
         <tbody>
-          {livegamesList.map((item, index) => (
+          {(gameItems || []).map((item, index) => (
             <TableItem
               key={item}
               index={index}
