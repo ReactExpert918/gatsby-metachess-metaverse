@@ -17,7 +17,7 @@ import {
   GameRules,
   IMoveSocket,
   MovePieceEnum,
-  SpectList
+  ISpectSocket,
 } from "../../interfaces/game.interfaces";
 import MovesHistory from "../../components/MovesHistory";
 import SpectatorList from "../../components/SpectatorList";
@@ -241,7 +241,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "spectators-update",
         callback: (spectList: ISpectSocket) => {
-          this.setState({spectlist: SpectList});
+          this.setState({spectlist: spectList});
         }
       })
       SocketService.subscribeTo({
@@ -264,7 +264,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "game-cancelled",
         callback: this["game-cancelled"],
-      });
+      });      
       SocketService.subscribeTo({
         eventName: "leave-game-prompt",
         callback: this["leave-game-prompt"],
@@ -273,11 +273,14 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   };
 
   ["move-piece"] = (move: IMoveSocket) => {
+    console.log("MOVE:", move);
     if (!this.chessboardWrapperRef?.current) {
       return;
     }
 
     const { opponent, moveHistoryData } = this.props;
+
+    console.log(opponent, moveHistoryData, this.props);
     if (
       opponent &&
       this.chessboardWrapperRef?.current &&
