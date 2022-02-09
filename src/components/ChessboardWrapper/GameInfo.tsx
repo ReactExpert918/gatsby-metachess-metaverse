@@ -64,7 +64,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
-        {!playMode.isAI && showFirstMoveTime && (
+       {/* {!playMode.isAI && showFirstMoveTime && (
           <div>
             <Timer
               className="timer-desktop-first"
@@ -75,7 +75,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               }
             />
           </div>
-        )}
+        )}*/}
         {!playMode.isAI && (
           <Timer
             className="timer-desktop"
@@ -149,7 +149,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
           )}
         </div>
         <div>
-          {!playMode.isAI && showFirstMoveTime && (
+          {/*{!playMode.isAI && showFirstMoveTime && (
             <>
               <Timer
                 className="timer-desktop-first"
@@ -175,7 +175,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
                 />
               )}
             </>
-          )}
+          )}*/}
           {props.isReplay && windowWidth >= 768 && (
             <div
               style={{
