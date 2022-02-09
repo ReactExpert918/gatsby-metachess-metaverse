@@ -148,7 +148,7 @@ const Livegames = ({
   };
 
   const onJoingame = () => {
-const roomId = "xEsSpWHNT6zNUbbTkjqRIspyX5X0PzYl";
+const roomId = "Oz63FvU8Vf4aHvlD4AzcFWm54xaH8YHF";
     SocketService.sendData("start-spectating",roomId, (response) => {
       console.log("start-spectating", response);      
       if(response){

@@ -70,3 +70,7 @@ export interface IMoveSocket {
   timestamp: number;
 }
 
+
+export interface ISpectSocket {
+  spectlist: array;
+}

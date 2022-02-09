@@ -144,7 +144,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     SocketService.subscribeTo({
         eventName: "spectate-piece-move",
         callback: this["move-piece"],
-      })
+      });
     // this.currentReplayIndex = 0;
   }
 
@@ -152,7 +152,6 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
   initialize = () => {
     const { playMode } = this.props;
-    console.log(playMode);
 
     if (playMode.isHumanVsHuman) {
       SocketService.subscribeTo({
@@ -176,6 +175,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
             2000
           );
           console.log("game-timeout:", params);
+
         },
       });
       SocketService.subscribeTo({
@@ -207,7 +207,8 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       return;
     }
 
-    const { opponent, moveHistoryData } = this.props;
+    const { opponent,currentUser, moveHistoryData } = this.props;
+    console.log(this.props);
     if (
       opponent &&
       this.chessboardWrapperRef?.current &&
@@ -374,125 +375,8 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
     return (
       <div className="gameContainer">
-        {showEndModal && (
-          <WinModal
-            onReplay={async () => {
-              // this.props.setReplay(true);
-              this.setState(
-                { showEndModal: false, winner: null },
-                this.doReplay
-              );
-            }}
-            onClose={() => {
-              this.setState({ showEndModal: false });
-            }}
-            opponent={opponent}
-            key={String(showEndModal)}
-            isReplay={this.props.isReplay}
-            elo={gameRules && getGameTypeElo(gameRules.type, currentUser)}
-            gameElos={gameElos}
-            gameRules={gameRules}
-            winner={winner}
-            playerColor={playerColor}
-            playMode={playMode}
-          />
-        )}
-        {showAwaitingDrawModal && (
-          <RequestDrawModal
-            isUserRequested={true}
-            cancelDraw={this.userRequestedDrawTimeout}
-            confirmDraw={this.confirmDraw}
-          />
-        )}
-        {showDrawModal && (
-          <RequestDrawModal
-            isUserRequested={false}
-            cancelDraw={this.cancelDraw}
-            confirmDraw={this.confirmDraw}
-          />
-        )}
-        {showAbortModal && (
-          <AbortGameModal
-            playerName={playerName}
-            onCancel={() => {
-              this.setState({ showAbortModal: false, showEndModal: false });
-              this.props.clear();
-              navigate("/");
-            }}
-          />
-        )}
-        <div className="gameWrapper">
-          {/* <Chat /> */}
-          <MovesHistory />          
-          <ChessboardWrapper
-            gameRules={gameRules}
-            ref={this.chessboardWrapperRef}
-            skillLevel={skillLevel}
-            maximumError={maximumError}
-            probability={probability}
-            fen={this.fen}
-            playerColor={playerColor}
-            handleMove={this.handleMove}
-            timerLimit={this.state.timerLimit * 1000 * 60}
-            timerBonus={this.state.timerBonus * 1000}
-            onGameEnd={this.onGameEnd}
-            isAI={playMode.isAI}
-            aiDifficulty={playMode.aiMode}
-            opponent={opponent}
-            currentUser={currentUser}
-            timer={timer}
-            isReplay={this.props.isReplay}
-            playMode={playMode}
-            moveHistoryData={moveHistoryData}
-            serverStatus={this.props.serverStatus}
-            onReplayPrevious={this.onReplayPrevious}
-            onReplayNext={this.onReplayNext}
-          />
-          {!playMode.isAI && !this.props.isReplay && (
-            <ActionButtons
-              draw={this.onDrawRequest}
-              drawEnabled={drawTimes < 5}
-              resign={this.onResign}
-            />
-          )}
-          <GameInfo
-            resing={this.onResign}
-            onDraw={this.onDrawRequest}
-            onReplayPrevious={this.onReplayPrevious}
-            onReplayNext={this.onReplayNext}
-            drawEnabled={drawTimes < 5}
-            showFirstMoveTime={showFirstMoveTime}
-          />
-          <SpectatorList list = {this.state.spectlist} />
-          {this.state.showOpponentLeftModal && (
-            <OpponentLeftModal
-              playerColor={this.props.playerColor}
-              onAnswer={(a) => {
-                this.setState({ showOpponentLeftModal: false });
-                SocketService.sendData(
-                  "leave-game-prompt",
-                  a !== "draw",
-                  () => {}
-                );
-                this.onGameEnd(a);
-              }}
-            />
-          )}
-          {this.state.showSpectatorLeftModal && (
-            <OpponentLeftModal
-              playerColor={this.props.playerColor}
-              onAnswer={(a) => {
-                this.setState({ showOpponentLeftModal: false });
-                SocketService.sendData(
-                  "leave-game-prompt",
-                  a !== "draw",
-                  () => {}
-                );
-                this.onGameEnd(a);
-              }}
-            />
-          )}
-        </div>
+      
+
       </div>
     );
   }
