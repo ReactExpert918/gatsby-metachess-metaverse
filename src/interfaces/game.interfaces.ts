@@ -41,6 +41,14 @@ export interface GameRules {
   type: GameType;
 }
 
+export interface SpectatingGameRules {
+  chessCoin: MinMax;
+  hostSide: PieceSide;
+  rating: number;
+  mode: GameMode;
+  time: Time;
+  type: GameType;
+}
 export enum ResultCondition {
   Gameplay = 1,
   Timeout,
