@@ -10,7 +10,7 @@ const MovesHistory = () => {
   const { moveHistory } = useSelector((state: IAppState): ISelectProps => ({
     moveHistory: state.gameplay.moveHistory
   }))
-
+console.log(moveHistory);
   return (
     <div className="moveHistoryContainer">
       <p className="title">Moves history</p>
