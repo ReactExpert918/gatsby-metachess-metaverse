@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Spectating from "../../../components/Spectating";
-import game from "../game"
-import Livegames from "../../components/Livegames";
 
 
 
@@ -15,5 +13,5 @@ const RoomList = (props) => {
     )
 }
 
-export default RoomList
+export default RoomList;
 

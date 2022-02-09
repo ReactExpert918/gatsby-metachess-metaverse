@@ -15,7 +15,7 @@ import {
   PieceSide,
   GameType,
 } from "../../interfaces/game.interfaces";
-import { navigateTo } from "gatsby-link";
+import { navigate } from "gatsby-link";
 import { IUser } from "../../store/user/user.interfaces";
 import isEmpty from "lodash/isEmpty";
 import subscribeToGameStart from "../../lib/gameStart";
@@ -128,34 +128,30 @@ const Livegames = ({
         setCurrentUser({ ...user });
         setGameItems(rooms);      
       }
-    );
-
-    return () => {
-      SocketService.sendData(`leave-rooms-page`, null, () => {});
-    };
+    );    
   }, []);
 
   const onItemPress = (roomId: string) => {    
     SocketService.sendData("start-spectating", roomId, (response) => {
       console.log("start-spectating", response);      
       if(response){
-      navigateTo(`/watch/${roomId}`);        
+      navigate(`/watch/${roomId}`);        
       } else {
         return;
       }
     });
   };
 
-  // const onJoingame = () => {
-  // // const roomId = "F5pf4aMCHUXSjsRykuNT32FWBByfOO4Y";
-  //   SocketService.sendData("start-spectating",roomId, (response) => {
-  //     console.log("start-spectating", response);      
-  //     if(response){
-  //     navigateTo(`/watch/${roomId}`);        
-  //     } 
-  //   });
+  const onJoingame = () => {
+  const roomId = "AfKsCU6EkPfcB3cVIlibB8qyfmt1rhuy";
+    SocketService.sendData("start-spectating",roomId, (response) => {
+      console.log("start-spectating", response);      
+      if(response){
+      navigate(`/watch/${roomId}`);        
+      } 
+    });
 
-  // }
+  }
   
   return (
     <div className="usersListTable">
@@ -174,7 +170,7 @@ const Livegames = ({
           ))}
         </tbody>
       </table>
-     {/*<button onClick={onJoingame} >BUTTON</button>*/}
+     <button onClick={onJoingame} >BUTTON</button>
     </div>
   );
 };
