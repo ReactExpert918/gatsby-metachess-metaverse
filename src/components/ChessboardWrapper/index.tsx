@@ -666,14 +666,12 @@ class ChessboardWrapper extends Component<IProps, IState> {
           </div>
         </div>
         <PlayerStatus
-          gameType={gameType}
           chessAscii={chessAscii}
-          color={playerColor}
+          gameType={gameType}
           isReplay={this.props.isReplay}
-          player={currentUser}
+          color={playerColor === "w" ? "w" : "b"}
           playMode={playMode}
-          name={"YOU"}
-          reverse={true}
+          player={currentUser}
         />
         {!playMode.isAI && (
           <Timer

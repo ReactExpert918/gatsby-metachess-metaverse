@@ -136,7 +136,6 @@ const Livegames = ({
   }, []);
 
   const onItemPress = (roomId: string) => {    
-    // navigateTo(`/watch/${roomId}`);
     SocketService.sendData("start-spectating", roomId, (response) => {
       console.log("start-spectating", response);      
       if(response){
@@ -147,18 +146,16 @@ const Livegames = ({
     });
   };
 
-  const onJoingame = () => {
-const roomId = "Oz63FvU8Vf4aHvlD4AzcFWm54xaH8YHF";
-    SocketService.sendData("start-spectating",roomId, (response) => {
-      console.log("start-spectating", response);      
-      if(response){
-      navigateTo(`/watch/${roomId}`);        
-      } else {
-        return;
-      }
-    });
+  // const onJoingame = () => {
+  // // const roomId = "F5pf4aMCHUXSjsRykuNT32FWBByfOO4Y";
+  //   SocketService.sendData("start-spectating",roomId, (response) => {
+  //     console.log("start-spectating", response);      
+  //     if(response){
+  //     navigateTo(`/watch/${roomId}`);        
+  //     } 
+  //   });
 
-  }
+  // }
   
   return (
     <div className="usersListTable">
@@ -166,7 +163,7 @@ const roomId = "Oz63FvU8Vf4aHvlD4AzcFWm54xaH8YHF";
         <thead>
           <TableHeader />
         </thead>
-        {/*<tbody>
+        <tbody>
           {livegamesList.map((item, index) => (
             <TableItem
               key={item}
@@ -175,9 +172,9 @@ const roomId = "Oz63FvU8Vf4aHvlD4AzcFWm54xaH8YHF";
               onPress={onItemPress}
             />            
           ))}
-        </tbody>*/}
+        </tbody>
       </table>
-     <button onClick={onJoingame} >BUTTON</button>
+     {/*<button onClick={onJoingame} >BUTTON</button>*/}
     </div>
   );
 };
