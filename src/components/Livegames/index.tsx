@@ -142,16 +142,16 @@ const Livegames = ({
     });
   };
 
-  const onJoingame = () => {
-  const roomId = "AfKsCU6EkPfcB3cVIlibB8qyfmt1rhuy";
-    SocketService.sendData("start-spectating",roomId, (response) => {
-      console.log("start-spectating", response);      
-      if(response){
-      navigate(`/watch/${roomId}`);        
-      } 
-    });
+  // const onJoingame = () => {
+  // const roomId = "AfKsCU6EkPfcB3cVIlibB8qyfmt1rhuy";
+  //   SocketService.sendData("start-spectating",roomId, (response) => {
+  //     console.log("start-spectating", response);      
+  //     if(response){
+  //     navigate(`/watch/${roomId}`);        
+  //     } 
+  //   });
 
-  }
+  // }
   
   return (
     <div className="usersListTable">
@@ -170,7 +170,7 @@ const Livegames = ({
           ))}
         </tbody>
       </table>
-     <button onClick={onJoingame} >BUTTON</button>
+     {/*<button onClick={onJoingame} >BUTTON</button>*/}
     </div>
   );
 };
