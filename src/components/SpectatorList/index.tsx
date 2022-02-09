@@ -6,12 +6,13 @@ import eyes from "../../assets/images/eye.png";
 
 
 const SpectatorList = ({ list }) => {  
-  const Lists = useRef(null);  
-function showing (){
-  if(Lists.current.classList.indexOf("showing"))
+  const Lists = useRef(null);    
+function showing (){  
+  if(Lists.current.classList[1] == "showing"){
   Lists.current.classList.remove("showing");
-  else
+  } else{
     Lists.current.classList.add("showing");
+  }
 }
 
 // const PP = ["AA", "B"];
