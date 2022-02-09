@@ -14,7 +14,7 @@ import {
 } from "../../store/gameplay/gameplay.interfaces";
 import { IAppState } from "../../store/reducers";
 import {
-  GameRules,
+  SpectatingGameRules,
   IMoveSocket,
   MovePieceEnum,
   SpectList
@@ -33,7 +33,6 @@ import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 import ActionButtons from "../../components/ActionButtons";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
-import { navigateTo } from "gatsby-link";
 interface IState {
   drawTimes: number;
   skillLevel: number;
@@ -112,7 +111,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     showSpectatorLeftModal: false,   
     playerName: "",    
     spectlist: [],
-    playser_A: {
+    player_A: {
       playerName: "",
       timerLimit: 5,
       timerBonus: 3,
@@ -122,6 +121,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       probability: 0,
       screen: "AI_GAME",
       showEndModal: false,
+      playerColor : "",
 
     },
     player_B: {
@@ -134,6 +134,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       probability: 0,
       screen: "AI_GAME",
       showEndModal: false,
+      playerColor : "",
     },
   };
 
@@ -160,33 +161,11 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     const { playMode } = this.props;
 
     if (playMode.isHumanVsHuman) {
-      SocketService.subscribeTo({
-        eventName: "game-timeout",
-        callback: (params: { winner: IUser }) => {
-          const { opponent, playerColor } = this.props;
-          let winner = playerColor;
-          if (opponent?.Id && opponent.Id === params?.winner?.Id) {
-            winner = playerColor === "w" ? "b" : "w";
-          } else if (
-            opponent?.GuestId &&
-            opponent.GuestId === params?.winner?.GuestId
-          ) {
-            winner = playerColor === "w" ? "b" : "w";
-          } else if (!params.winner) {
-            winner = null;
-          }
-          this.props.stopTimers();
-          this.idTimeoutShowModal = setTimeout(
-            () => this.setState({ showEndModal: true, winner }),
-            2000
-          );
-          console.log("game-timeout:", params);
-
-        },
-      });
+      
       SocketService.subscribeTo({
         eventName: "spectators-update",
         callback: (spectList: ISpectSocket) => {
+          // console.log("spectList", spectList);
           this.setState({spectlist: SpectList});
         }
       })
@@ -205,30 +184,21 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
 
   ["move-piece"] = (move: IMoveSocket) => {
     console.log("move:", move);
-    if (!this.chessboardWrapperRef?.current) {
+    if (this.chessboardWrapperRef?.current) {
       return;
     }
 
-    const { opponent, moveHistoryData } = this.props;
-    const {player_A, player_B} = this.state;
-    if (player_A == [] && player_B == []){
-      this.setState({player_A: opponent});
-    } else if(player_A !== [] && player_B == []){
-      this.setState({player_B: opponent});
+    const { host, secondPlayer, moveHistoryData } = this.props;
+    const { player_A, player_B} = this.state;
+    if(player_A == [])
+      this.setState({player_A: host});
+    if(player_B == [])
+      this.setState({player_B: secondPlayer});  
+    if(this,props.whitePieces[GuestId] == player_A[playerName]){
+      this.setState({player_A[playerColor]: "w"}, {{player_B[playerColor]: "b"}});
     } else {
-      if(player_A.playerName == opponent.GuestId){
-        this.setState({player_A: opponent});
-      } else {
-        this.setState({player_B: opponent});
-      }
+      this.setState({player_A[playerColor]: "b"}, {{player_B[playerColor]: "w"}});
     }
-
-
-    // console.log(this.props);
-    if (opponent && this.chessboardWrapperRef?.current ) {
-      this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
-    }
-
     this.props.addToHistoryWithTimestamp({
       move: move.move,
       timestamp: move.timestamp,
@@ -242,7 +212,6 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
       this.setState({ showFirstMoveTime: false });
       this.props.setLastTimestamp(move.timestamp);
     }
-
     console.log("on move-piece::", move);
   };
   
@@ -257,7 +226,7 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     this.setState({
       showSpectatorLeftModal: true,
     }, ()=> {
-      navigateTo("/watch");
+      navigate("/watch");
     });
   };
 
@@ -341,8 +310,8 @@ class Spectating extends Component<IActionProps & ISelectProps & PageProps, ISta
     showSpectatorLeftModal,   
     playerName,  
     spectlist,
-    playser_A,
-    player_B,
+    host,
+    secondPlayer,
     } = this.state;
     const {
       playMode,
