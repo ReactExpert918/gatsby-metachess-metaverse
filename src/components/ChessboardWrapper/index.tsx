@@ -19,7 +19,7 @@ import {
   ITimer,
 } from "../../store/gameplay/gameplay.interfaces";
 import { getGameType } from "../../helpers/gameTypeHelper";
-import { GameRules } from "../../interfaces/game.interfaces";
+import { GameRules, SpectatingGameRules } from "../../interfaces/game.interfaces";
 import Timer from "../Timer";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 const WINDOW_WIDTH_LIMIT = 768;
@@ -64,6 +64,7 @@ interface IProps {
   isReplay: boolean;
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
+  spectatingGameRules: SpectatingGameRules;
   moveHistoryData: string[];
   serverStatus: IServerStatus;
   onReplayPrevious: () => void;
@@ -502,14 +503,17 @@ class ChessboardWrapper extends Component<IProps, IState> {
       currentUser,
       timer,
       gameRules,
+      spectatingGameRules,
       ...restProps
     } = this.props;
 
     let windowWidth = 1280;
     if (!isSSR) windowWidth = window.innerWidth;
-
-    const gameType = playMode.isAI ? null : getGameType(gameRules.time.base);
-
+// console.log("playMode", playMode);
+// console.log("time", gameRules);
+// console.log("time", spectatingGameRules);
+    // const gameType = (playMode != undefined && playMode != null && playMode.isAI) ? null : getGameType(gameRules.time.base || spectatingGameRules.time.base);
+    const gameType = null;
     // const opponentName = "INTERMEDIATE AI";
     let windowHeight = WINDOW_WIDTH_LIMIT;
     // const limitedHeight =
@@ -538,7 +542,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
         style={{ maxWidth: chessWidth }}
         {...restProps}
       >
-        {!playMode.isAI && (
+        {playMode != null && !playMode.isAI && (
           <Timer
             className="timer-mobile mt-20"
             timeLeft={playerColor === "b" ? timer?.white : timer?.black}
@@ -551,7 +555,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
           color={playerColor === "b" ? "w" : "b"}
           playMode={playMode}
           player={opponent}
-        />
+        />       
         <div
           className={"chessboardWrapper"}
           style={{ minWidth: chessWidth }}
