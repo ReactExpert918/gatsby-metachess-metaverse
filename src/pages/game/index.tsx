@@ -697,7 +697,11 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             drawEnabled={drawTimes < 5}
             showFirstMoveTime={showFirstMoveTime}
           />
-          <SpectatorList list = {this.state.spectlist} />
+          {!this.props.playMode.isAI && (
+            <SpectatorList list = {this.state.spectlist} />
+            
+          )}
+          
           {this.state.showOpponentLeftModal && (
             <OpponentLeftModal
               playerColor={this.props.playerColor}

@@ -3,15 +3,14 @@ import Spectating from "../../../components/Spectating";
 
 
 
-const RoomList = (props) => {
+const RoomList = (props: any) => {
   console.log(props);
-  
   return (
     <div>
-      <Spectating roomId = {props.id}/>
+      <Spectating roomId = {props.id} />      
     </div>
     )
 }
 
-export default RoomList;
+export default RoomList
 
