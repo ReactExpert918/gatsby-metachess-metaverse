@@ -61,6 +61,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
   };
 
   const windowWidth = isSSR ? 1024 : window.innerWidth;
+  console.log(playMode);
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
@@ -76,7 +77,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
             />
           </div>
         )}*/}
-        {!playMode.isAI && (
+        {playMode != null && !playMode.isAI && (
           <Timer
             className="timer-desktop"
             timeLeft={
@@ -88,7 +89,8 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
         )}
         <div className="gameInfoContainer">
           <p className="gameInfoTitle">{"Game Info"}</p>
-          {playMode.isAI ? (
+          {
+            (playMode != undefined && playMode != null && playMode.isAI) ? (
             <>
               <p className="gameDetail">
                 Opponent:{" "}
