@@ -185,19 +185,19 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         eloDraw: this.props.gameElos.eloDraw,
       });
     }
-    // if (this.props.playMode.isAI) {
-    //   API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
-    //     Key: this.token,
-    //     Result:
-    //       this.state.winner === this.props.playerColor
-    //         ? 1
-    //         : this.state.winner === null
-    //         ? 3
-    //         : 2,
-    //     PieceSide: this.props.playerColor === "w" ? 1 : 2,
-    //     BoardMoves: this.props.moveHistoryTimestamp,
-    //   });
-    // }
+    if (this.props.playMode.isAI) {
+      API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
+        Key: this.token,
+        Result:
+          this.state.winner === this.props.playerColor
+            ? 1
+            : this.state.winner === null
+              ? 3
+              : 2,
+        PieceSide: this.props.playerColor === "w" ? 1 : 2,
+        BoardMoves: this.props.moveHistoryTimestamp,
+      });
+    }
     this.props.setGameElos(null);
   }
 
@@ -241,7 +241,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "spectators-update",
         callback: (spectList: ISpectSocket) => {
-          this.setState({spectlist: spectList});
+          this.setState({ spectlist: spectList });
         }
       })
       SocketService.subscribeTo({
@@ -264,7 +264,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "game-cancelled",
         callback: this["game-cancelled"],
-      });      
+      });
       SocketService.subscribeTo({
         eventName: "leave-game-prompt",
         callback: this["leave-game-prompt"],
@@ -313,8 +313,8 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         winner.GuestId === this.props.currentUser.GuestId
         ? this.props.playerColor
         : this.props.playerColor === "w"
-        ? "b"
-        : "w"
+          ? "b"
+          : "w"
     );
   };
 
@@ -657,7 +657,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         )}
         <div className="gameWrapper">
           {/* <Chat /> */}
-          <MovesHistory />          
+          <MovesHistory />
           <ChessboardWrapper
             gameRules={gameRules}
             ref={this.chessboardWrapperRef}
@@ -698,10 +698,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             showFirstMoveTime={showFirstMoveTime}
           />
           {!this.props.playMode.isAI && (
-            <SpectatorList list = {this.state.spectlist} />
-            
+            <SpectatorList list={this.state.spectlist} />
+
           )}
-          
+
           {this.state.showOpponentLeftModal && (
             <OpponentLeftModal
               playerColor={this.props.playerColor}
@@ -710,7 +710,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
                 SocketService.sendData(
                   "leave-game-prompt",
                   a !== "draw",
-                  () => {}
+                  () => { }
                 );
                 this.onGameEnd(a);
               }}
