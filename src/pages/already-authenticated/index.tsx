@@ -14,7 +14,7 @@ const Index = () => {
     console.log(alreadyAuthenticated);
   }, []);
   return (
-    <Modal onClose={() => console.log("close")}>
+    <Modal onClose={() => console.log("close")} notShowClose={true}>
       <div className="accessDenied">
         <img src={accessDenied} />
         <div className={"headerWrapper"} style={{ marginBottom: "4vmin" }}>
