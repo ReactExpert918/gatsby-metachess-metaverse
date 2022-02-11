@@ -65,7 +65,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
-       {/* {!playMode.isAI && showFirstMoveTime && (
+        {!playMode.isAI && showFirstMoveTime && (
           <div>
             <Timer
               className="timer-desktop-first"
@@ -76,7 +76,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               }
             />
           </div>
-        )}*/}
+        )}
         {playMode != null && !playMode.isAI && (
           <Timer
             className="timer-desktop"
@@ -91,67 +91,67 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
           <p className="gameInfoTitle">{"Game Info"}</p>
           {
             (playMode != undefined && playMode != null && playMode.isAI) ? (
-            <>
-              <p className="gameDetail">
-                Opponent:{" "}
-                {getOpponentName(playMode.isAI, playMode.aiMode, opponent)}
-              </p>
-              <p className="gameDetail">
-                Opponent color: {playerColor === "w" ? "Black" : "White"}
-              </p>
-            </>
-          ) : (
-            <div className="block-container">
-              {gameRules.chessCoin && (
+              <>
+                <p className="gameDetail">
+                  Opponent:{" "}
+                  {getOpponentName(playMode.isAI, playMode.aiMode, opponent)}
+                </p>
+                <p className="gameDetail">
+                  Opponent color: {playerColor === "w" ? "Black" : "White"}
+                </p>
+              </>
+            ) : (
+              <div className="block-container">
+                {gameRules.chessCoin && (
+                  <div className="block">
+                    <div className="title">
+                      Chess Coin: {gameRules.chessCoin.minium} -{" "}
+                    </div>
+                    <div className="value">{gameRules.chessCoin.maxium}</div>
+                  </div>
+                )}
+                <div></div>
                 <div className="block">
-                  <div className="title">
-                    Chess Coin: {gameRules.chessCoin.minium} -{" "}
-                  </div>
-                  <div className="value">{gameRules.chessCoin.maxium}</div>
-                </div>
-              )}
-              <div></div>
-              <div className="block">
-                <div className="title">MODE</div>
-                <div className="mode">
-                  {`${getGameTypeName(gameRules.time.base)} - ${gameRules.mode == GameMode.Casual ? "Casual" : "Rated"
-                    }`}
-                </div>
-              </div>
-              <div className="block">
-                <div className="title">TIME</div>
-                <div className="value">
-                  {`${gameRules.time.base}+${gameRules.time.increment}`}
-                </div>
-              </div>
-              {gameRules.mode === GameMode.Rated && gameElos && (
-                <div className="block" style={{ marginTop: 10 }}>
-                  <div className="value-image win">
-                    <TrophySvg className="trophy" />+{gameElos.eloWin}
-                  </div>
-                  <div className="title-small">DRAW</div>
-                  <div className="value-image">
-                    <TrophySvg className="trophy" />
-                    {gameElos.eloDraw}
-                  </div>
-                  <div className="title-small">DEFEAT</div>
-                  <div className="value-image lose">
-                    <TrophySvg className="trophy" />
-                    {gameElos.eloLose}
+                  <div className="title">MODE</div>
+                  <div className="mode">
+                    {`${getGameTypeName(gameRules.time.base)} - ${gameRules.mode == GameMode.Casual ? "Casual" : "Rated"
+                      }`}
                   </div>
                 </div>
-              )}
-              {/* {gameRules.mode.toString() === GameMode.Rated.toString() && (
+                <div className="block">
+                  <div className="title">TIME</div>
+                  <div className="value">
+                    {`${gameRules.time.base}+${gameRules.time.increment}`}
+                  </div>
+                </div>
+                {gameRules.mode === GameMode.Rated && gameElos && (
+                  <div className="block" style={{ marginTop: 10 }}>
+                    <div className="value-image win">
+                      <TrophySvg className="trophy" />+{gameElos.eloWin}
+                    </div>
+                    <div className="title-small">DRAW</div>
+                    <div className="value-image">
+                      <TrophySvg className="trophy" />
+                      {gameElos.eloDraw}
+                    </div>
+                    <div className="title-small">DEFEAT</div>
+                    <div className="value-image lose">
+                      <TrophySvg className="trophy" />
+                      {gameElos.eloLose}
+                    </div>
+                  </div>
+                )}
+                {/* {gameRules.mode.toString() === GameMode.Rated.toString() && (
                 <p>
                   Rating: {gameRules.rating.minium}-{gameRules.rating.maxium}
                 </p>
               )} */}
-              {/* Win: {gameElos.eloWin} */}
-            </div>
-          )}
+                {/* Win: {gameElos.eloWin} */}
+              </div>
+            )}
         </div>
         <div>
-          {/*{!playMode.isAI && showFirstMoveTime && (
+          {!playMode.isAI && showFirstMoveTime && (
             <>
               <Timer
                 className="timer-desktop-first"
@@ -177,7 +177,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
                 />
               )}
             </>
-          )}*/}
+          )}
           {props.isReplay && windowWidth >= 768 && (
             <div
               style={{

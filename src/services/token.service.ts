@@ -33,7 +33,7 @@ class TokenService {
     console.log("API_Guest_" + API)
     const cookies = new Cookies();
     if (token) {
-      console.log(cookies, token);
+      console.log(cookies, token, COOKIE_DOMAIN);
       cookies.set(this.guestKey, token, this.cookieOptions());
     }
   }
