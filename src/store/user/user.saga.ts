@@ -36,7 +36,7 @@ function* onFetchCurrentUser() {
         chances,
       })
     );
-    yield put(userActions.setUserSettings(JSON.parse(user.Settings)));
+    yield put(userActions.setUserSettings(user.Settings));
     yield put(userActions.setCurrentUser(user));
   } catch (res) {
     if (res.data === "not verified" && res.status === 401) {
