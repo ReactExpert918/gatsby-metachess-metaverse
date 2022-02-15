@@ -189,7 +189,7 @@
       flex-direction: column;
       padding: 0 10px;
       button {
-        margin: 10px !important;
+        margin: 10px 0 !important;
         padding: 10px 0 !important;
         font-size: 18px;
         width: 100%;
@@ -209,6 +209,21 @@
           font-size: 14px;
         }
       }
+    }
+  }
+
+  .usersListTable {
+    table {
+      border-spacing: 10px 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .choseModeContainer {
+    width: 100%;
+    .playWithHumanContainer {
+      width: 100%;
     }
   }
 }
