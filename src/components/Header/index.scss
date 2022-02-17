@@ -190,6 +190,7 @@
     display: none !important;
 }
 
+
 @media screen and (max-width: 1055px) {
     .headerContainer {
         padding: 20px 0 !important;
@@ -200,6 +201,10 @@
 @media screen and (max-width: 425px) {
     .toggleBtn img {
         margin-right: 20px !important;
+    }
+
+    .headerNavigatorContainer, .headerNavigatorMobile {
+        width: calc(100% - 40px);
     }
 }
 
