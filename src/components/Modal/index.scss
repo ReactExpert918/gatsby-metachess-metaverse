@@ -49,3 +49,9 @@
 //     width: 90%;
 //   }
 // }
+
+@media screen and (max-width: 700px) {
+  .modal-wrapper {
+    width: calc(100% - 24px);
+  }
+}
