@@ -14,6 +14,7 @@ import { navigate } from "gatsby";
 import PlayWithHumanSection from "../../components/PlayWithHumanSection";
 import ChoosePVEModeSection from "../../components/ChoosePVEModeSection";
 import ChoosePVPModeSection from "../../components/ChoosePVPModeSection";
+import PlayTournamentSection from "../../components/PlayTournamentSection";
 import TreasureQuestRulesSection from "../../components/TreasureQuestRulesSection";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
@@ -88,6 +89,9 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
       )}
       {choseMode === MODES.PLAY_WITH_HUMAN && (
         <PlayWithHumanSection goBack={onGoBack} onJoinRoom={onJoinRoom} />
+      )}
+      {choseMode === MODES.PLAY_TOURNAMENT && (
+        <PlayTournamentSection onJoinRoom={onJoinRoom} />
       )}
     </div>
   );

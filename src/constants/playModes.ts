@@ -5,6 +5,7 @@ export enum MODES {
   PLAY_AI,
   PLAY_WITH_HUMAN,
   PLAY_TREASURE_QUEST,
+  PLAY_TOURNAMENT,
 }
 
 export enum AI_PLAY_MODE {
