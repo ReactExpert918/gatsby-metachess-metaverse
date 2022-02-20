@@ -23,7 +23,7 @@ export enum GameType {
   Classical = 1,
   Blitz,
   Rapid,
-  Bullet
+  Bullet,
 }
 
 export interface ILoseMatchForLeaving {
@@ -54,7 +54,7 @@ export enum ResultCondition {
   Timeout,
   Resign,
   Leave,
-  DrawRequest
+  DrawRequest,
 }
 
 export enum MovePieceEnum {
@@ -78,7 +78,6 @@ export interface IMoveSocket {
   timestamp: number;
 }
 
-
 export interface ISpectSocket {
-  spectlist: array;
+  spectlist: Array<any>;
 }

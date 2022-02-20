@@ -3,63 +3,118 @@ import { IUser } from "../store/user/user.interfaces";
 import { GameRules, PieceSide } from "../interfaces/game.interfaces";
 import { navigate } from "gatsby";
 import store from "../store";
-import { Actions as gameplayActions } from "../store/gameplay/gameplay.action";
-import { Actions as userActions } from "../store/user/user.action";
-import { IGameplayElos } from "../store/gameplay/gameplay.interfaces";
+import { Actions as spectatingActions } from "../store/spectate/spectate.action";
+import {
+  IGameplayElos,
+  IMoveWithTimestamp,
+  ITimer,
+} from "../store/spectate/spectate.interfaces";
+import { INITIAL_FEN } from "../pages/game";
 
-interface GameStartParams {
-  opponent: IUser;
-  user: IUser;
-  gameRules: GameRules;
-  side: PieceSide;
-  startDate: number;
-  gameElos: IGameplayElos;
+export interface SpectatingRoomInfo {
+  secondPlayer?: IUser;
+  host?: IUser;
+  gameRules?: GameRules;
+  startDate?: number;
+  gameElos?: IGameplayElos;
+  gameStartDate?: number;
+  historyMoves?: Array<IMoveWithTimestamp>;
+  hostLeft?: boolean;
+  hostTimeLeft?: number;
+  isHostTurn?: boolean;
+  winner?: "w" | "b" | "draw";
+  gameEndDate?: number;
+  secondPlayerLeft?: boolean;
+  secondPlayerTimeLeft?: number;
+  spectatorNotifications?: [];
+  isReplay?: boolean;
+  moveHistory?: string[];
+  hostColor?: "w" | "b";
+  timer?: ITimer;
+  onMove?: "w" | "b";
+  gameFen?: string;
+  whitePieces?: { GuestId?: number; Id?: number };
 }
 
-const subscribeToSpectateStart = (beforeNavigateCb?: () => void) => {
-  SocketService.subscribeTo({
-    eventName: "start-spectating",
-    callback: (params: GameStartParams) => {
-      startGame(params, beforeNavigateCb);
-      console.log("Spectating start", params);
-      store.dispatch(userActions.setCurrentUser({...params.user}));
-      store.dispatch(gameplayActions.setGameElos({...params.gameElos}));
-    },
-  });
+const subscribeToSpectateStart = (roomId: string) => {
+  SocketService.sendData(
+    "start-spectating",
+    roomId,
+    (data: SpectatingRoomInfo) => {
+      console.log("start-spectating", data);
+      if (data === false) return navigate("/");
+      const hostGuest = data.host.GuestId;
+      const whitePiecesGuest = data.whitePieces.GuestId;
+      const opponentGuest = data.secondPlayer.GuestId;
+      let hostColor: "b" | "w";
+      if (hostGuest) {
+        if (whitePiecesGuest) {
+          hostColor = hostGuest === whitePiecesGuest ? "w" : "b";
+        } else {
+          hostColor = "b";
+        }
+      } else {
+        if (!whitePiecesGuest) {
+          hostColor = data.host.Id === data.whitePieces.Id ? "w" : "b";
+        } else {
+          hostColor = "b";
+        }
+      }
+      // ? "w"
+      // : "b";
+      store.dispatch(
+        spectatingActions.setRoomInfo({
+          ...data,
+          onMove: data.historyMoves.length % 2 === 0 ? "w" : "b",
+          timer: {
+            black:
+              hostColor === "b" ? data.hostTimeLeft : data.secondPlayerTimeLeft,
+            white:
+              hostColor !== "b" ? data.hostTimeLeft : data.secondPlayerTimeLeft,
+          },
+          hostColor,
+          moveHistory: data.historyMoves.map((m) => m.move),
+          isReplay: false,
+          gameFen:
+            data.historyMoves.length !== 0
+              ? data.historyMoves[data.historyMoves.length - 1].fen
+              : INITIAL_FEN,
+        })
+      );
+      // store.dispatch(spectatingActions.setGameElos(data.gameElos));
+      // store.dispatch(
+      //   spectatingActions.setGameStartDate(data.startDate || data.gameStartDate)
+      // );
+      // store.dispatch(spectatingActions.setGameRules(data.gameRules));
+      // store.dispatch(
+      //   spectatingActions.setMoveHistory(data.historyMoves.map((m) => m.move))
+      // );
+      // store.dispatch(
+      //   spectatingActions.setHistoryWithTimestamp(data.historyMoves)
+      // );
+      // store.dispatch(spectatingActions.setOpponent(data.secondPlayer));
+      // const hostColor = data?.whitePieces?.Id === data?.host?.Id ? "w" : "b";
+      // store.dispatch(spectatingActions.setPlayerColor(hostColor));
+      // store.dispatch(spectatingActions.setGameWinner(null));
+      // store.dispatch(
+      //   spectatingActions.startGame({
+      //     black:
+      //       hostColor === "b" ? data.hostTimeLeft : data.secondPlayerTimeLeft,
+      //     white:
+      //       hostColor === "w" ? data.hostTimeLeft : data.secondPlayerTimeLeft,
+      //   })
+      // );
+    }
+  );
 };
 
-export const startGame = (
-  params: GameStartParams,
-  beforeNavigateCb?: () => void
-) => {
-  store.dispatch(
-    gameplayActions.setPlayerColor(
-      params.side === PieceSide.Black ? "b" : "w"
-    )
-  );
-  store.dispatch(gameplayActions.setOpponent(params.opponent));
-  store.dispatch(
-    gameplayActions.setGameRules({
-      ...params.gameRules
-    })
-  );
-
-  store.dispatch(gameplayActions.setGameStartDate(params.startDate));
-  store.dispatch(gameplayActions.setGameWinner(null));
-
-  store.dispatch(
-    gameplayActions.setPlayMode({
-      isAI: false,
-      aiMode: null,
-      isHumanVsHuman: true,
-      isCreate: false,
-    })
-  );
-  store.dispatch(gameplayActions.startGame());
-  if (beforeNavigateCb) {
-    beforeNavigateCb();
-  }
-  navigate("/game");
-}
+// export const startGame = (
+//   params: SpectatingRoomInfo,
+//   beforeNavigateCb?: () => void
+// ) => {
+//   if (beforeNavigateCb) {
+//     beforeNavigateCb();
+//   }
+// }
 
 export default subscribeToSpectateStart;

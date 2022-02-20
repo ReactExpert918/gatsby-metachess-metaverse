@@ -84,9 +84,16 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       eventName: "running-match",
       callback: (runningMatch: IGameResume) => {
         console.log(runningMatch);
-
-        store.dispatch(gameplayActions.resumeGame(runningMatch));
-        navigate("/game");
+        store.dispatch(
+          gameplayActions.setLoseMatchForLeaving({
+            opponentName: runningMatch.opponent.Username,
+            eloLost: runningMatch.gameElos.eloLose,
+            eloDraw: runningMatch.gameElos.eloDraw,
+          })
+        );
+        navigate("/");
+        // store.dispatch(gameplayActions.resumeGame(runningMatch));
+        // navigate("/game");
 
         // SocketService.sendData("resume-my-game", null, (...args: any) => {
         //   console.log("resume-my-game In running match - set-guest-token:", args);
@@ -100,7 +107,10 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         leaveTimestamp: number;
       }) => {
         console.log("runningMatch: ", runningMatch);
-        const timeLeft: number = Math.floor(((runningMatch.leaveTimestamp + 10 * 60000) - new Date().getTime()) / 1000);
+        const timeLeft: number = Math.floor(
+          (runningMatch.leaveTimestamp + 10 * 60000 - new Date().getTime()) /
+            1000
+        );
         console.log(new Date(runningMatch.leaveTimestamp), new Date());
         let loot: number = runningMatch.attempts.reduce((ac, cu) => {
           if (cu.level)
@@ -134,8 +144,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
     if (p.serverStatus.MaintenanceMode === MAINTENANCE_MODE.UNDER_MAINTENANCE) {
       setIsLoading(false);
       navigate("/maintenance");
-    }
-    else if (!token) {
+    } else if (!token) {
       const guestToken = TOKEN.guest;
       console.log("if not token");
       console.log("That is GuestToken_" + guestToken);

@@ -33,6 +33,7 @@ interface IProps extends IActionProps {
   isReplay: boolean;
   gameRules: GameRules;
   playMode: ISetPlayModePayload;
+  prefix?: string;
 }
 
 const WinModal = (props: IProps) => {
@@ -47,6 +48,7 @@ const WinModal = (props: IProps) => {
     onClose,
     playMode,
     onReplay,
+    prefix = "",
   } = props;
 
   const isDraw = winner === "draw";
@@ -63,8 +65,10 @@ const WinModal = (props: IProps) => {
 
     if (playMode?.isHumanVsHuman) {
       props.setChoseMode(MODES.PLAY_WITH_HUMAN);
+      navigate("/choose-mode");
     } else {
       props.setChoseMode(MODES.CHOSE_MODE);
+      navigate("/choose-mode");
     }
   };
 
@@ -113,7 +117,11 @@ const WinModal = (props: IProps) => {
         <div
           className={`result ${isDraw ? "draw" : isVictory ? "win" : "lose"}`}
         >
-          {isDraw ? "Draw!" : isVictory ? "Victory!" : "Defeat!"}
+          {isDraw
+            ? "Draw!"
+            : isVictory
+            ? `${prefix} Victory!`
+            : `${prefix} Defeat!`}
         </div>
         <div className="elo-container">
           {isReplay || !playMode.isHumanVsHuman ? (
