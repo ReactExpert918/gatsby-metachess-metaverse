@@ -16,6 +16,7 @@ const INITIAL_STATE: IGameplayReducer = {
   opponent: null,
   lastTimestamp: 0,
   gameRules: null,
+  spectlist: [],
   // gameRules: {
   //   chessCoin: null,
   //   hostSide: PieceSide.Random,
@@ -82,6 +83,9 @@ export default (state = INITIAL_STATE, action: Action): IGameplayReducer => {
       },
       [ACTION_TYPE.SET_OPPONENT]: {
         opponent: action.payload,
+      },
+      [ACTION_TYPE.SET_SPECTATORS]: {
+        spectlist: action.payload,
       },
       [ACTION_TYPE.CLEAR]: {
         ...INITIAL_STATE,

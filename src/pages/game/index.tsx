@@ -20,7 +20,6 @@ import {
   ISpectSocket,
 } from "../../interfaces/game.interfaces";
 import MovesHistory from "../../components/MovesHistory";
-import SpectatorList from "../../components/SpectatorList";
 import { IServerStatus, IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { navigate } from "gatsby";
@@ -33,6 +32,7 @@ import { getGameTypeElo } from "../../helpers/gameTypeHelper";
 import ActionButtons from "../../components/ActionButtons";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
+import SpectatorsDisplay from "../../components/SpectatorsDisplay";
 
 interface IState {
   drawTimes: number;
@@ -72,6 +72,7 @@ interface IActionProps {
   setGameElos: typeof GameplayActions.setGameElos;
   setMissedSocketActions: typeof GameplayActions.setMissedSocketActions;
   setGameMounted: typeof GameplayActions.setGameMounted;
+  setSpectators: typeof GameplayActions.setSpectators;
 }
 
 interface ISelectProps {
@@ -91,6 +92,7 @@ interface ISelectProps {
   moveHistoryData: string[];
   moveHistoryTimestamp: IMoveWithTimestamp[];
   serverStatus: IServerStatus;
+  spectList: Partial<IUser>[];
 }
 
 export const INITIAL_FEN = `rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1`;
@@ -105,6 +107,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   // currentReplayIndex: number = React.createRef<number>().current;
   currentReplayIndex: number = 0;
   initialized: boolean = false;
+  spectList: string[] = [];
 
   unmounted = false;
 
@@ -124,7 +127,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     showAbortModal: false,
     playerName: "",
     showFirstMoveTime: true,
-    spectlist: [],
   };
 
   idTimeoutShowModal: NodeJS.Timeout = null;
@@ -171,7 +173,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     this.unmounted = true;
     this.props.clear();
     clearTimeout(this.idTimeoutShowModal);
-    clearTimeout(this.replayTimeout)
+    clearTimeout(this.replayTimeout);
     if (
       !this.props.winner &&
       this.props.playMode &&
@@ -185,15 +187,15 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         eloDraw: this.props.gameElos.eloDraw,
       });
     }
-    if (this.props.playMode.isAI) {
+    if (this.props.playMode && this.props.playMode.isAI) {
       API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
         Key: this.token,
         Result:
           this.state.winner === this.props.playerColor
             ? 1
             : this.state.winner === null
-              ? 3
-              : 2,
+            ? 3
+            : 2,
         PieceSide: this.props.playerColor === "w" ? 1 : 2,
         BoardMoves: this.props.moveHistoryTimestamp,
       });
@@ -239,12 +241,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         },
       });
       SocketService.subscribeTo({
-        eventName: "spectators-update",
-        callback: (spectList: ISpectSocket) => {
-          this.setState({ spectlist: spectList });
-        }
-      })
-      SocketService.subscribeTo({
         eventName: "move-piece",
         callback: this["move-piece"],
       });
@@ -253,6 +249,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         eventName: "resign",
         callback: this.resign,
       });
+
       SocketService.subscribeTo({
         eventName: "answer-draw-request",
         callback: this["answer-draw-request"],
@@ -264,6 +261,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       SocketService.subscribeTo({
         eventName: "game-cancelled",
         callback: this["game-cancelled"],
+      });
+      SocketService.subscribeTo({
+        eventName: "spectators-update",
+        callback: this["spectators-update"],
       });
       SocketService.subscribeTo({
         eventName: "leave-game-prompt",
@@ -289,10 +290,15 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     ) {
       this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
     }
-
     this.props.addToHistoryWithTimestamp({
       move: move.move,
       timestamp: move.timestamp,
+      fen: move.fen,
+      isCheck: move.isCheck,
+      isCheckmate: move.isCheckmate,
+      isDraw: move.isDraw,
+      isRepetition: move.isRepetition,
+      isStalemate: move.isStalemate,
     });
 
     if (moveHistoryData.length === 1) {
@@ -313,9 +319,14 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         winner.GuestId === this.props.currentUser.GuestId
         ? this.props.playerColor
         : this.props.playerColor === "w"
-          ? "b"
-          : "w"
+        ? "b"
+        : "w"
     );
+  };
+
+  ["spectators-update"] = (spectList: Array<Partial<IUser>>) => {
+    console.log("SPECTLIST->>>>", spectList);
+    this.props.setSpectators(spectList);
   };
 
   ["answer-draw-request"] = (drawAccepted: boolean) => {
@@ -399,7 +410,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             return;
         }
       });
-    } else if (!isReplay && !isHumanVsHuman && move) {
+    } else if (!isReplay && move) {
       this.props.addToHistoryWithTimestamp({
         move: move,
         timestamp: new Date().getTime(),
@@ -550,13 +561,15 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     );
     this.recursiveReplayFunction(this.currentReplayIndex);
   };
+
   onReplayPrevious = () => {
+    if (this.currentReplayIndex <= 1) return;
     clearTimeout(this.replayTimeout);
-    const temp =
-      this.currentReplayIndex - 2 >= 0 ? this.currentReplayIndex - 2 : 0;
-    this.props.setOnMove(temp % 2 === 0 ? "w" : "b");
+    const temp = this.currentReplayIndex - 2;
     this.props.setMoveHistory(this.props.moveHistoryData.slice(0, temp + 1));
-    this.fen = this.props.moveHistoryTimestamp[temp].fen;
+    console.log(this.fen);
+    this.fen = this.props.moveHistoryTimestamp[temp].fen || INITIAL_FEN;
+    console.log(this.fen);
     this.props.setLastTimestamp(
       this.props.moveHistoryTimestamp[temp].timestamp
     );
@@ -655,6 +668,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             }}
           />
         )}
+        <SpectatorsDisplay />
         <div className="gameWrapper">
           {/* <Chat /> */}
           <MovesHistory />
@@ -697,10 +711,6 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             drawEnabled={drawTimes < 5}
             showFirstMoveTime={showFirstMoveTime}
           />
-          {!this.props.playMode.isAI && (
-            <SpectatorList list={this.state.spectlist} />
-
-          )}
 
           {this.state.showOpponentLeftModal && (
             <OpponentLeftModal
@@ -710,7 +720,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
                 SocketService.sendData(
                   "leave-game-prompt",
                   a !== "draw",
-                  () => { }
+                  () => {}
                 );
                 this.onGameEnd(a);
               }}
@@ -739,6 +749,7 @@ const mapStateToProps = (state: IAppState): ISelectProps => ({
   moveHistoryData: state.gameplay.moveHistory,
   moveHistoryTimestamp: state.gameplay.historyWithTimestamp,
   serverStatus: state.user.serverStatus,
+  spectList: state.gameplay.spectlist,
 });
 
 const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
@@ -761,6 +772,7 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setMissedSocketActions: GameplayActions.setMissedSocketActions,
   setLoseMatchForLeaving: GameplayActions.setLoseMatchForLeaving,
   setGameMounted: GameplayActions.setGameMounted,
+  setSpectators: GameplayActions.setSpectators,
 })(Game);
 
 export default connected;

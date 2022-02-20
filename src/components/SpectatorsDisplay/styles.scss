@@ -1,0 +1,39 @@
+.spectators-display-section {
+  position: relative;
+  height: 8vmin;
+  width: 8vmin;
+  position: fixed;
+  bottom: 8vmin;
+  right: 8vmin;
+  border-radius: 8px;
+  border: 2px solid #dd962b;
+  z-index: 10000;
+  .eye-container-spectators {
+    height: 100%;
+    width: 100%;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .spectator-user-list-display {
+    position: absolute;
+    top: 20%;
+    left: -100%;
+    padding: 1vmin 2vmin;
+    border-radius: 8px;
+    border: 2px solid #dd962b;
+    box-sizing: border-box;
+    transform: translateX(-60%);
+    width: 20vmin;
+    height: 12vmin;
+    overflow: auto;
+    background-color: grey;
+    color: #fff;
+    .spectator-user-display {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 900;
+    }
+  }
+}

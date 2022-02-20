@@ -4,7 +4,7 @@ import {
   IMoveSocket,
   PieceSide,
   ILoseMatchForLeaving,
-  ISpectSocket
+  ISpectSocket,
 } from "../../interfaces/game.interfaces";
 import { IUser } from "../user/user.interfaces";
 import { Timer } from "../../lib/timer";
@@ -13,7 +13,7 @@ export interface IGameplayReducer {
   playerColor: "b" | "w";
   onMove: "b" | "w";
   moveHistory: string[];
-  spectlist: string[];  
+  spectlist: Partial<IUser>[];
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
   opponent: IUser;
@@ -31,7 +31,6 @@ export interface IGameplayReducer {
   gameFen: string;
   gameElos: IGameplayElos;
   loseMatchForLeaving: ILoseMatchForLeaving;
-  spectlist: ISpectSocket;
 }
 
 export interface ISetPlayModePayload {
@@ -83,5 +82,5 @@ export interface IGameResume {
   side: PieceSide;
   startDate: number;
   gameElos: IGameplayElos;
-  spectlist: string[];  
+  spectlist: Partial<IUser>[];
 }
