@@ -291,8 +291,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
     if (this.stalemateSound) {
       setTimeout(async () => {
-        await Sounds.stalemate();
         this.props.onGameEnd("draw");
+        await Sounds.stalemate();
       }, 300);
       this.stalemateSound = false;
     }
