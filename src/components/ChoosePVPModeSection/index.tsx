@@ -72,6 +72,14 @@ const ChoosePVPModeSection = (
           </div>
         </SquaredButton>
         <SquaredButton
+          onClick={() => {
+            // setUserSeenMaintenance(false);
+            if (
+              props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE
+            ) {
+              return props.setMode(MODES.PLAY_TOURNAMENT);
+            }
+          }}
           title="TOURNAMENT"
           className="tournamentSquad tooltip"
           onMouseEnter={() =>

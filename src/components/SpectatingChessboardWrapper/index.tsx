@@ -175,7 +175,11 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
     this.setSquareStylesExceptions({ sourceSquare, targetSquare });
     // alert(this.game.in_checkmate());
-    if (this.game.in_stalemate()) {
+    if (
+      this.game.in_stalemate() ||
+      this.game.in_threefold_repetition() ||
+      this.game.in_draw()
+    ) {
       this.stalemateSound = true;
     } else if (this.game.in_checkmate()) {
       this.checkmateSound = true;
