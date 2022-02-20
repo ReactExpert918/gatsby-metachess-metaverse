@@ -145,7 +145,7 @@
 
 @media screen and (max-width: 769px) {
     .headerContainer {
-        padding: 20px 0 !important;
+        padding-right: 0px !important;
         flex-direction: column;
     }
     .headerNavigatorMobile {
@@ -169,7 +169,7 @@
     }
     .headerNavigatorContainer {
         flex-direction: column;
-        margin: 5px 20px;
+        margin: 0 20px;
     }
     .headerNavigatorContainerMobile {
         width: 95%;
@@ -190,9 +190,10 @@
     display: none !important;
 }
 
+
 @media screen and (max-width: 1055px) {
     .headerContainer {
-        padding: 20px 0 !important;
+        padding-right: 0px !important;
         align-items: unset;
     }
 }
@@ -200,6 +201,10 @@
 @media screen and (max-width: 425px) {
     .toggleBtn img {
         margin-right: 20px !important;
+    }
+
+    .headerNavigatorContainer, .headerNavigatorMobile {
+        width: calc(100% - 40px);
     }
 }
 
