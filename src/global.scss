@@ -27,10 +27,10 @@
 @import "./components/Home/index.scss";
 @import "./components/Button/index.scss";
 @import "./components/SquaredButton/index.scss";
-@import "./components/SpectatorList/index.scss";
 @import "./components/ChessboardWrapper/index.scss";
 @import "./components/MovesHistory/index.scss";
 @import "./components/ChoseModeSection/index.scss";
+@import "./components/SpectatorsDisplay/styles.scss";
 @import "./components/PlayWithAISection/index.scss";
 @import "./components/NewGameModal/index.scss";
 @import "./components/PageBackground/index.scss";
@@ -58,33 +58,36 @@
 @import "./components/ProfileSummary/index.scss";
 // @import "./bootstrap.min.css";
 :root {
-    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-    font-family: Solway; //var(--bs-font-sans-serif);
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-family: Solway; //var(--bs-font-sans-serif);
 }
 
 html,
 body,
 #___gatsby {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    margin: 0px;
+  margin: 0px;
 }
 
 div[role="group"][tabindex] {
-    height: 100%;
+  height: 100%;
 }
 
 #gatsby-focus-wrapper {
-    height: 100%;
+  height: 100%;
 }
 
 // @font-face {
@@ -99,125 +102,125 @@ div[role="group"][tabindex] {
 //   font-display: swap;
 // }
 p {
-    color: #0f1f38;
-    line-height: 1.32;
-    font-weight: bold;
+  color: #0f1f38;
+  line-height: 1.32;
+  font-weight: bold;
 }
 
 .xx-large {
-    font-size: 33px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 33px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .x-large {
-    font-size: 33px;
+  font-size: 33px;
 }
 
 .large {
-    font-size: 22px;
+  font-size: 22px;
 }
 
 .normal {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 .wrapContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  & .wrapPage {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    flex: 1;
     position: relative;
-    & .wrapPage {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        position: relative;
-    }
-    &.no-scroll {
-        overflow: hidden;
-    }
-    .no-scroll {
-        overflow: hidden;
-    }
+  }
+  &.no-scroll {
+    overflow: hidden;
+  }
+  .no-scroll {
+    overflow: hidden;
+  }
 }
 
 .desktopMaxWidth {
-    margin: 0 auto;
-    max-width: 1161px;
+  margin: 0 auto;
+  max-width: 1161px;
 }
 
 button {
-    outline: none;
-    padding: 0;
-    border: none;
-    background: none;
+  outline: none;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 .btn {
-    background: #0f1f38 0% 0% no-repeat padding-box;
-    border-radius: 9px;
-    width: 100%;
-    height: 100%;
-    opacity: 1;
-    letter-spacing: 1.19px;
-    color: #ffffff;
-    display: inline-block;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
+  background: #0f1f38 0% 0% no-repeat padding-box;
+  border-radius: 9px;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  letter-spacing: 1.19px;
+  color: #ffffff;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .no-pointer {
-    cursor: default;
+  cursor: default;
 }
 
 .mt-75 {
-    margin-top: 75px;
+  margin-top: 75px;
 }
 
 .mt-20 {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .mr-50 {
-    margin-right: 50px !important;
+  margin-right: 50px !important;
 }
 
 .pr-50 {
-    padding-right: 50px !important;
+  padding-right: 50px !important;
 }
 
 .mb-35 {
-    margin-bottom: 35px;
+  margin-bottom: 35px;
 }
 
 .mr-30 {
-    margin-right: 30px !important;
+  margin-right: 30px !important;
 }
 
 .mb-25 {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 .mb-20 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .d-flex {
-    display: flex;
+  display: flex;
 }
 
 .m-0 {
-    margin: 0;
+  margin: 0;
 }
 
 .m-auto {
-    margin: auto;
+  margin: auto;
 }
 
 .unity-canvas {
-    height: 100vh;
-    width: min-content;
+  height: 100vh;
+  width: min-content;
 }
