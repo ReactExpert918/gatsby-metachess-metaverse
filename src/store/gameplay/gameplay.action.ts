@@ -41,6 +41,7 @@ export enum ACTION_TYPE {
   "SET_GAME_MOUNTED" = "gameplay_SET_GAME_MOUNTED",
   "SET_RESUME_PARAMETERS" = "gameplay_SET_RESUME_PARAMETERS",
   "RESUME_GAME" = "gameplay_RESUME_GAME",
+  "SET_SPECTATORS" = "gameplay_SET_SPECTATORS",
 }
 
 export const Actions = {
@@ -87,4 +88,5 @@ export const Actions = {
   setResumeParameters: createAction<{ isResume: boolean; gameFen: string }>(
     ACTION_TYPE.SET_RESUME_PARAMETERS
   ),
+  setSpectators: createAction<Partial<IUser>[]>(ACTION_TYPE.SET_SPECTATORS),
 };

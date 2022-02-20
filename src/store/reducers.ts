@@ -12,6 +12,8 @@ import gamesReducer from "./games/games.reducer";
 import { ITreasureHuntReducer } from "./treasureHunt/treasureHunt.interface";
 import { ILeaderboardReducer } from "./leaderboard/leaderboard.interfaces";
 import leaderboardReducer from "./leaderboard/leaderboard.reducer";
+import { ISpectateReducer } from "./spectate/spectate.interfaces";
+import spectateReducer from "./spectate/spectate.reducer";
 
 export interface IAppState {
   test: ITestReducer;
@@ -21,6 +23,7 @@ export interface IAppState {
   games: IGamesReducer;
   treasureHunt: ITreasureHuntReducer;
   leaderboard: ILeaderboardReducer;
+  spectate: ISpectateReducer;
 }
 
 const reducers = combineReducers({
@@ -31,6 +34,7 @@ const reducers = combineReducers({
   games: gamesReducer,
   treasureHunt: treasureHuntReducer,
   leaderboard: leaderboardReducer,
+  spectate: spectateReducer,
 });
 
 export default reducers;
