@@ -14,6 +14,25 @@ export interface ISpectateReducer {
   roomInfo: SpectatingRoomInfo;
 }
 
+export enum NOTIFICATION_TYPE {
+  Chat = 1,
+  DrawRequest,
+  AcceptDraw,
+  DeclineDraw,
+  BackToGame,
+  Leave,
+  Resign,
+  LeavePromptWin,
+  LeavePromptDraw,
+}
+
+export interface ISpectateNotification {
+  Type: NOTIFICATION_TYPE;
+  AccountId: number;
+  GuestId: number;
+  Timestamp: number;
+}
+
 export interface IGameplayElos {
   eloWin: number;
   eloLose: number;

@@ -18,7 +18,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { IAppState } from "../../../store/reducers";
 import { navigate } from "gatsby";
 import subscribeToSpectate from "../../../lib/spectate";
-import { ISpectateReducer } from "../../../store/spectate/spectate.interfaces";
+import {
+  ISpectateNotification,
+  ISpectateReducer,
+  NOTIFICATION_TYPE,
+} from "../../../store/spectate/spectate.interfaces";
 import { Actions } from "../../../store/spectate/spectate.action";
 import { INITIAL_FEN } from "../../game";
 import WinModal from "../../../components/WinModal";
@@ -76,6 +80,36 @@ const Spectating = (props: any) => {
     });
     return () => clearTimeout(replayTimeout.current);
   }, []);
+  useEffect(() => {
+    if (!roomInfo) return;
+    SocketService.subscribeTo({
+      eventName: "spectators-notification",
+      callback: (spectateNotification: ISpectateNotification) => {
+        console.log(spectateNotification);
+        const initiatorId =
+          spectateNotification.AccountId || spectateNotification.GuestId;
+        const hostId = roomInfo?.host?.Id || roomInfo?.host?.GuestId;
+        const initiatorIsHost = initiatorId === hostId;
+        const opponentColor = roomInfo?.hostColor === "w" ? "b" : "w";
+        switch (spectateNotification.Type) {
+          case NOTIFICATION_TYPE.AcceptDraw:
+            onGameEnd("draw");
+            break;
+          case NOTIFICATION_TYPE.Resign:
+            onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
+            break;
+          case NOTIFICATION_TYPE.LeavePromptDraw:
+            onGameEnd("draw");
+            break;
+          case NOTIFICATION_TYPE.LeavePromptWin:
+            onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
+            break;
+          default:
+            break;
+        }
+      },
+    });
+  }, [roomInfo]);
   const handleMove = (
     fen: string,
     playerOnMove: string,
