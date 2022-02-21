@@ -1,9 +1,11 @@
 import React from "react";
+import playImg from "../../assets/images/play.png";
 
 interface Props {
   data: any;
+  type: number
 }
-const TournamentTableItem = ({ data }: Props) => {
+const TournamentTableItem = ({ data, type }: Props) => {
 
   const itemClick = (dataId: string) => {
     console.log(dataId);
@@ -14,7 +16,12 @@ const TournamentTableItem = ({ data }: Props) => {
       onClick={() => itemClick(data.id)}
       className={`tournamentTableItemWrapper cells`}
     >
-      <td>{data.name}</td>
+      <td>
+        <div>
+          {type === 1 && <img src={playImg} />}
+          <span>{data.name}</span>
+        </div>
+      </td>
       <td>{data.duration}</td>
       <td>{data.start_time}</td>
       <td>{data.time_control}</td>

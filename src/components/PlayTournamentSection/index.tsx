@@ -17,7 +17,7 @@ const PlayTournamentSection = (props: IProps) => {
   const [type, setType] = useState(0);
   const [curpage, setPage] = useState(0);
   const filteredData = DATA.filter(each => each['type'] == TYPE[type]);
-  const countPerPage = 4;
+  const countPerPage = 10;
   const maxpage = filteredData.length === 0 ? 0 : Math.floor((filteredData.length - 1) / countPerPage) + 1;
   const showingData = filteredData.filter((each, index) => (index >= curpage * countPerPage && index < (curpage +1) * countPerPage));
 

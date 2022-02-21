@@ -11,13 +11,13 @@ const TournamentTable = (props: IProps) => {
 
   return (
       <div className="tournamentTableContainer">
-        <table className={"tournamentTable" + (props.type === 1 ? " ongoingTable" : "")}>
+        <table className="tournamentTable">
           <thead>
             <TournamentTableHeader />
           </thead>
           <tbody>
             {props.data.map((each, index) => (
-              <TournamentTableItem data={each} key={index} />
+              <TournamentTableItem data={each} key={index} type={props.type} />
             ))}
           </tbody>
         </table>
