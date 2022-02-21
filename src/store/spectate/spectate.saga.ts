@@ -34,11 +34,12 @@ function dispatchTimerChange() {
 function onSetOnMove({ payload }: { payload: string }) {
   const startDate = Date.now();
   const isReplay = store.getState().spectate.roomInfo.isReplay;
+  const historyMoves = store.getState().spectate.roomInfo.historyMoves;
   if (!isReplay) {
-    if (payload === "b") {
+    if (payload === "b" && historyMoves.length >= 2) {
       BLACK_TIMER.reinit(startDate, dispatchTimerChange);
       WHITE_TIMER.stop(startDate, false);
-    } else {
+    } else if (historyMoves.length >= 2) {
       WHITE_TIMER.reinit(startDate, dispatchTimerChange);
       BLACK_TIMER.stop(startDate, false);
     }
@@ -74,10 +75,10 @@ function onSetRoomInfo({ payload }: { payload: SpectatingRoomInfo }) {
     hostColor !== "b" ? payload.hostTimeLeft : payload.secondPlayerTimeLeft
   );
   console.log("onSetRoomInfo", payload);
-  if (payload.onMove === "b") {
+  if (payload.onMove === "b" && payload.historyMoves.length >= 2) {
     BLACK_TIMER.reinit(startDate, dispatchTimerChange);
     WHITE_TIMER.stop(startDate, false);
-  } else {
+  } else if (payload.historyMoves.length >= 2) {
     WHITE_TIMER.reinit(startDate, dispatchTimerChange);
     BLACK_TIMER.stop(startDate, false);
   }
