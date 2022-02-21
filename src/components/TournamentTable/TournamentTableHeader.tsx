@@ -1,7 +1,7 @@
 import React from "react";
 
 const TournamentTableHeader = () => (
-  <tr className="tournamentTableHeaderWrapper tournamentTableItemWrapper cells">
+  <tr className="tournamentTableHeaderWrapper cells">
     <td>Tournament Name</td>
     <td>Duration</td>
     <td>Start Time</td>
