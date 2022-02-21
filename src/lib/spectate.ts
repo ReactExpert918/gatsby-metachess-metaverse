@@ -7,6 +7,7 @@ import { Actions as spectatingActions } from "../store/spectate/spectate.action"
 import {
   IGameplayElos,
   IMoveWithTimestamp,
+  ISpectateNotification,
   ITimer,
 } from "../store/spectate/spectate.interfaces";
 import { INITIAL_FEN } from "../pages/game";
@@ -26,7 +27,7 @@ export interface SpectatingRoomInfo {
   gameEndDate?: number;
   secondPlayerLeft?: boolean;
   secondPlayerTimeLeft?: number;
-  spectatorNotifications?: [];
+  spectatorNotifications?: ISpectateNotification;
   isReplay?: boolean;
   moveHistory?: string[];
   hostColor?: "w" | "b";
@@ -43,25 +44,10 @@ const subscribeToSpectateStart = (roomId: string) => {
     (data: SpectatingRoomInfo) => {
       console.log("start-spectating", data);
       if (data === false) return navigate("/");
-      const hostGuest = data.host.GuestId;
-      const whitePiecesGuest = data.whitePieces.GuestId;
-      const opponentGuest = data.secondPlayer.GuestId;
-      let hostColor: "b" | "w";
-      if (hostGuest) {
-        if (whitePiecesGuest) {
-          hostColor = hostGuest === whitePiecesGuest ? "w" : "b";
-        } else {
-          hostColor = "b";
-        }
-      } else {
-        if (!whitePiecesGuest) {
-          hostColor = data.host.Id === data.whitePieces.Id ? "w" : "b";
-        } else {
-          hostColor = "b";
-        }
-      }
-      // ? "w"
-      // : "b";
+
+      const whitePiecesId = data.whitePieces.Id || data.whitePieces.GuestId;
+      const hostId = data?.host?.Id || data?.host?.GuestId;
+      const hostColor = whitePiecesId === hostId ? "w" : "b";
       store.dispatch(
         spectatingActions.setRoomInfo({
           ...data,

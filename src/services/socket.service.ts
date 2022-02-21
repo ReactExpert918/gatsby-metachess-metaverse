@@ -39,6 +39,10 @@ class _SocketHandler {
     }
   };
 
+  closeConnection = () => {
+    this.io.close();
+  };
+
   sendData = (eventName: string, payload: any, ackCallback?: Function) => {
     if (!this?.io?.connected) {
       console.log("cookies Domain socket" + COOKIE_DOMAIN);

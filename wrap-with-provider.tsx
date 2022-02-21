@@ -37,7 +37,7 @@ interface ISelectXProps {
   gameInProgress: boolean;
   gameInProgressUserNavigating: boolean;
   timeLeft: number;
-  alreadyAutheticated: boolean;
+  alreadyAuthenticated: boolean;
 }
 
 interface IActionProps {
@@ -91,7 +91,21 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             eloDraw: runningMatch.gameElos.eloDraw,
           })
         );
-        navigate("/");
+        return navigate("/");
+        // store.dispatch(gameplayActions.resumeGame(runningMatch));
+        // navigate("/game");
+
+        // SocketService.sendData("resume-my-game", null, (...args: any) => {
+        //   console.log("resume-my-game In running match - set-guest-token:", args);
+        // });
+      },
+    });
+
+    SocketService.subscribeTo({
+      eventName: "user-disconnect",
+      callback: () => {
+        SocketService.closeConnection();
+        store.dispatch(userActions.setAlreadyAuthenticated(true));
         // store.dispatch(gameplayActions.resumeGame(runningMatch));
         // navigate("/game");
 
@@ -216,7 +230,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
   // }, []);
   return isLoading ? null : (
     <>
-      {p.loseMatchForLeaving && (
+      {p.loseMatchForLeaving && !p.alreadyAuthenticated && (
         <ResumeOldGameModal
           onResume={() => {
             SocketService.sendData(
@@ -260,7 +274,7 @@ const mapStateToProps = (state: IAppState) => ({
   gameInProgress: state.treasureHunt.gameInProgress,
   timeLeft: state.treasureHunt.timeLeft,
   gameInProgressUserNavigating: state.treasureHunt.gameInProgressUserNavigating,
-  alreadyAutheticated: state.user.alreadyAuthenticated,
+  alreadyAuthenticated: state.user.alreadyAuthenticated,
 });
 
 const ConnectedX = connect<ISelectXProps>(mapStateToProps as any, {
