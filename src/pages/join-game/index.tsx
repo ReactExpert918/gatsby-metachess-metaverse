@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { Actions } from "../../store/user/user.action";
 import { MODES } from "../../constants/playModes";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
+import Modal from "../../components/Modal";
 
 interface gameInfo {
   gameRules?: GameRules;
@@ -46,65 +47,67 @@ const JoinGame = () => {
   }, []);
   if (!roomInfo || !roomInfo.gameRules) return null;
   return (
-    <div className={"choseModeSectionContainer"}>
-      <div className={"headerWrapper"}>
-        <p className="header-heading">GAME IN PROGRESS</p>
-      </div>
-      <div className="sub-headingRules">
-        {getOpponentName(false, null, roomInfo.host)} VS{" "}
-        {getOpponentName(false, null, roomInfo.secondPlayer)}
-      </div>
+    <Modal
+      onClose={() => {
+        navigate("/");
+      }}
+      withBorder={true}
+      withShadow={true}
+    >
       <div
         style={{
-          fontSize: "20px",
-          color: "#fff",
-          fontWeight: "500",
-          width: "100%",
-          textAlign: "center",
-          marginBottom: "4vmin",
+          padding: "2vmin 2vmax",
+          background: "rgba(255,255,255,0.2)",
+          backdropFilter: "blur(2px)",
         }}
       >
-        The game is in progress, do you want to spectate the game instead?
+        <div className="sub-headingRules playersName">
+          {getOpponentName(false, null, roomInfo.host)} VS{" "}
+          {getOpponentName(false, null, roomInfo.secondPlayer)}
+        </div>
+        <div className="alreadyProgressGame">
+          The game is already in progress. Would you like to watch it live?
+        </div>
+        <section
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <button
+            className="claimButton"
+            style={{
+              width: "initial",
+              textTransform: "uppercase",
+              padding: "2vmin 2vmax",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              dispatch(Actions.setChoseMode(MODES.PLAY_WITH_HUMAN));
+              navigate(`/choose-mode`);
+            }}
+          >
+            Back to lobby
+          </button>
+          <button
+            className="claimButton"
+            style={{
+              width: "initial",
+              textTransform: "uppercase",
+              padding: "2vmin 2vmax",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              navigate(`/watch/${roomId.current}`);
+            }}
+          >
+            Spectate
+          </button>
+        </section>
       </div>
-      <section
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          width: "100%",
-        }}
-      >
-        <button
-          className="claimButton"
-          style={{
-            width: "initial",
-            textTransform: "uppercase",
-            padding: "2vmin 2vmax",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            navigate(`/watch/${roomId.current}`);
-          }}
-        >
-          Spectate
-        </button>
-        <button
-          className="claimButton"
-          style={{
-            width: "initial",
-            textTransform: "uppercase",
-            padding: "2vmin 2vmax",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            dispatch(Actions.setChoseMode(MODES.PLAY_WITH_HUMAN));
-            navigate(`/choose-mode`);
-          }}
-        >
-          Back to lobby
-        </button>
-      </section>
-    </div>
+    </Modal>
   );
 };
 
