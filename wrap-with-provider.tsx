@@ -239,7 +239,6 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
               (runningMatch: IGameResume) => {
                 p.setLoseMatchForLeaving(null);
                 store.dispatch(gameplayActions.resumeGame(runningMatch));
-                navigate("/game");
               }
             );
           }}
