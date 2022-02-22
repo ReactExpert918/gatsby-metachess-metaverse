@@ -84,6 +84,16 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       eventName: "running-match",
       callback: (runningMatch: IGameResume) => {
         console.log(runningMatch);
+        if (window.location.pathname === "/game") {
+          SocketService.sendData(
+            "resume-my-game",
+            null,
+            (runningMatch: IGameResume) => {
+              p.setLoseMatchForLeaving(null);
+              store.dispatch(gameplayActions.resumeGame(runningMatch));
+            }
+          );
+        }
         store.dispatch(
           gameplayActions.setLoseMatchForLeaving({
             opponentName: runningMatch.opponent.Username,
