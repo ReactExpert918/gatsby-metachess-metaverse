@@ -93,15 +93,16 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
               store.dispatch(gameplayActions.resumeGame(runningMatch));
             }
           );
+        } else {
+          store.dispatch(
+            gameplayActions.setLoseMatchForLeaving({
+              opponentName: runningMatch.opponent.Username,
+              eloLost: runningMatch.gameElos.eloLose,
+              eloDraw: runningMatch.gameElos.eloDraw,
+            })
+          );
+          return navigate("/");
         }
-        store.dispatch(
-          gameplayActions.setLoseMatchForLeaving({
-            opponentName: runningMatch.opponent.Username,
-            eloLost: runningMatch.gameElos.eloLose,
-            eloDraw: runningMatch.gameElos.eloDraw,
-          })
-        );
-        return navigate("/");
         // store.dispatch(gameplayActions.resumeGame(runningMatch));
         // navigate("/game");
 
