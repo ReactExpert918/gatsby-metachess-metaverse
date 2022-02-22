@@ -158,12 +158,14 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   BLACK_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
-    payload.startDate
+    payload.startDate,
+    side === PieceSide.Black ? timeLeft : opponentTimeLeft
   );
   WHITE_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
-    payload.startDate
+    payload.startDate,
+    side === PieceSide.White ? timeLeft : opponentTimeLeft
   );
 
   const lastTimestamp =
@@ -201,12 +203,21 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       black: BLACK_TIMER.timeLeft,
     })
   );
+  // yield put(
+  //   gameplayActions.setPlayerColor(side === PieceSide.White ? "w" : "b")
+  // );
 
   yield put(gameplayActions.setGameElos(gameElos));
-
-  yield put(
-    gameplayActions.setPlayerColor(payload.side === PieceSide.Black ? "b" : "w")
-  );
+  let playerColor: "w" | "b";
+  if (payload.history.length % 2 === 0) {
+    if (isYourTurn) playerColor = "w";
+    else playerColor = "b";
+  } else {
+    if (isYourTurn) playerColor = "b";
+    else playerColor = "w";
+  }
+  yield put(gameplayActions.setPlayerColor(playerColor));
+  // yield put(gameplayActions.setPlayerColor();
 
   yield put(gameplayActions.setOpponent(payload.opponent as IUser));
 
@@ -235,11 +246,7 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   );
 
   yield put(gameplayActions.setMoveHistory(payload.history.map((x) => x.move)));
-  yield put(
-    gameplayActions.setHistoryWithTimestamp(
-      payload.history.map((x) => ({ move: x.move, timestamp: x.timestamp }))
-    )
-  );
+  yield put(gameplayActions.setHistoryWithTimestamp(payload.history));
 
   // payload.history.forEach((x, index) => {
   //   if (index % 2 === 0) {
