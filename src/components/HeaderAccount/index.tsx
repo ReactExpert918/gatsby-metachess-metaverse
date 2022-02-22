@@ -17,6 +17,7 @@ import SmallPieceIcon from "../../assets/images/Subtracao_22.svg";
 import warningIcon from "../../assets/images/warning.png";
 import { MAIN_WEBSITE } from "../../config";
 import MaintenancePage from "./MaintenancePage";
+import TOKEN from "../../services/token.service";
 
 interface ISelectProps {
   currentUser: IUser;
@@ -35,14 +36,14 @@ const HeaderAccount = (props: ISelectProps) => {
         <>
           {props.serverStatus.MaintenanceMode ===
             MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
-            (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
-              props.serverStatus.MaintenanceTime &&
-              props.serverStatus.MaintenanceDuration) ? (
+          (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+            props.serverStatus.MaintenanceTime &&
+            props.serverStatus.MaintenanceDuration) ? (
             <MaintenanceInfo />
           ) : null}
-          <SearchIcon className="nav-icon" />
+          {/* <SearchIcon className="nav-icon" /> */}
           <FriendsIcon className="nav-icon" onClick={openSideChatPanel} />
-          <BellIcon className="nav-icon" />
+          {/* <BellIcon className="nav-icon" /> */}
           <Link to={"/profile"} className="headerAccountContainer">
             <span style={{ overflow: "hidden" }}>
               <img src={props.currentUser?.Avatar || SmallPieceIcon} />
@@ -54,18 +55,32 @@ const HeaderAccount = (props: ISelectProps) => {
                 : ""}
             </p>
           </Link>
+          <a
+            className={`headerNavigatorItem `}
+            style={{ marginLeft: "24px" }}
+            onClick={() => {
+              TOKEN.remove();
+            }}
+          >
+            <p className={`headerNavigatorItemTitle `}>Logout</p>
+            {/* <div
+        className={`headerActiveIndicator ${
+          active ? "headerActiveIndicatorActive" : ""
+        }`}
+      /> */}
+          </a>
         </>
       ) : (
         <>
           <div className="headerNavigatorContainer flex-end">
             {props.serverStatus.MaintenanceMode ===
               MAINTENANCE_MODE.NEW_GAMES_DISABLED ||
-              (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
-                props.serverStatus.MaintenanceTime &&
-                props.serverStatus.MaintenanceDuration) ? (
+            (props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE &&
+              props.serverStatus.MaintenanceTime &&
+              props.serverStatus.MaintenanceDuration) ? (
               <MaintenanceInfo />
             ) : null}
-            <SearchIcon className="nav-icon mr-50" />
+            {/* <SearchIcon className="nav-icon mr-50" /> */}
             <HeaderNavigatorItem
               className="pr-50"
               url={`${MAIN_WEBSITE}login?r=game`}

@@ -10,7 +10,8 @@ class TokenService {
   private readonly cookieOptions = () => ({
     path: "/",
     expires: moment().add(1, "years").toDate(),
-    domain: COOKIE_DOMAIN,
+    domain:
+      window.location.hostname !== "localhost" ? COOKIE_DOMAIN : "localhost",
   });
 
   set user(token: string) {
