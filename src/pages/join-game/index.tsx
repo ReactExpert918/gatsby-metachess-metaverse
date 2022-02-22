@@ -103,7 +103,7 @@ const JoinGame = () => {
               navigate(`/watch/${roomId.current}`);
             }}
           >
-            Spectate
+            Watch Live
           </button>
         </section>
       </div>
