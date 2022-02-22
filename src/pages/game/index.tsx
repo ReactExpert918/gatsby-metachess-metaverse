@@ -149,6 +149,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         }
       );
     }
+    if (this.props.moveHistoryData.length > 1) {
+      this.setState({ showFirstMoveTime: false });
+    }
     if (this.props.isReplay) this.doReplay();
     else if (this.props.playMode.isHumanVsHuman) {
       if (this.props.isResume) {

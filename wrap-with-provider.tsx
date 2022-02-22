@@ -84,14 +84,25 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       eventName: "running-match",
       callback: (runningMatch: IGameResume) => {
         console.log(runningMatch);
-        store.dispatch(
-          gameplayActions.setLoseMatchForLeaving({
-            opponentName: runningMatch.opponent.Username,
-            eloLost: runningMatch.gameElos.eloLose,
-            eloDraw: runningMatch.gameElos.eloDraw,
-          })
-        );
-        return navigate("/");
+        if (window.location.pathname === "/game") {
+          SocketService.sendData(
+            "resume-my-game",
+            null,
+            (runningMatch: IGameResume) => {
+              p.setLoseMatchForLeaving(null);
+              store.dispatch(gameplayActions.resumeGame(runningMatch));
+            }
+          );
+        } else {
+          store.dispatch(
+            gameplayActions.setLoseMatchForLeaving({
+              opponentName: runningMatch.opponent.Username,
+              eloLost: runningMatch.gameElos.eloLose,
+              eloDraw: runningMatch.gameElos.eloDraw,
+            })
+          );
+          return navigate("/");
+        }
         // store.dispatch(gameplayActions.resumeGame(runningMatch));
         // navigate("/game");
 
