@@ -108,12 +108,13 @@ const UsersListTable = ({
   }, []);
 
   const onItemPress = (roomId: string) => {
-    subscribeToGameStart();
+    // subscribeToGameStart();
 
-    SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
-      // TODO: Will be typeof GameRules
-      console.log("join-game:", stringForNow);
-    });
+    // SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
+    //   // TODO: Will be typeof GameRules
+    //   console.log("join-game:", stringForNow);
+    // });
+    navigate(`/join-game/${roomId}`);
   };
 console.log(gameItems);
   return (
