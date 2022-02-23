@@ -84,7 +84,7 @@ const UsersListTable = ({
   setCurrentUser,
   modifyGameItems,
 }: IProps) => {
-  const { currentUser } = useSelector((state: IAppState) => state.user);  
+  const { currentUser } = useSelector((state: IAppState) => state.user);
   const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
   useEffect(() => {
     SocketService.subscribeTo({
@@ -114,9 +114,9 @@ const UsersListTable = ({
     //   // TODO: Will be typeof GameRules
     //   console.log("join-game:", stringForNow);
     // });
-    navigate(`/join-game/${roomId}`);
+    navigate(`/join-game?roomId=${roomId}`);
   };
-console.log(gameItems);
+  console.log(gameItems);
   return (
     <div className="usersListTable">
       <table>
@@ -131,9 +131,8 @@ console.log(gameItems);
               item={item}
               onPress={onItemPress}
             />
-          ))}          
+          ))}
         </tbody>
-
       </table>
 
       {/* <div className="listItems">

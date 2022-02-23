@@ -59,16 +59,16 @@ function* onGameStart() {
 
   if (!gameRules) return;
 
-  BLACK_TIMER = new Timer(
-    gameRules.time.base,
-    gameRules.time.increment,
-    startGameDate
-  );
-  WHITE_TIMER = new Timer(
-    gameRules.time.base,
-    gameRules.time.increment,
-    startGameDate
-  );
+  // BLACK_TIMER = new Timer(
+  //   gameRules.time.base,
+  //   gameRules.time.increment,
+  //   startGameDate
+  // );
+  // WHITE_TIMER = new Timer(
+  //   gameRules.time.base,
+  //   gameRules.time.increment,
+  //   startGameDate
+  // );
 
   BLACK_FIRST_MOVE_TIMER = new Timer(25 / 60, 0, startGameDate);
 
@@ -91,8 +91,8 @@ function* onGameStart() {
 
   yield put(
     gameplayActions.setTimer({
-      black: BLACK_TIMER.timeLeft,
-      white: WHITE_TIMER.timeLeft,
+      black: gameRules.time.base * 1000 * 60,
+      white: gameRules.time.base * 1000 * 60,
     })
   );
 }
@@ -112,8 +112,24 @@ function* onSetLastTimestamp({ payload }: { payload: number }) {
     WHITE_TIMER.clear();
     BLACK_TIMER = null;
   }
+  if (gameplay.moveHistory.length === 2) {
+    BLACK_TIMER = new Timer(
+      gameplay.gameRules.time.base,
+      gameplay.gameRules.time.increment,
+      payload
+    );
+    WHITE_TIMER = new Timer(
+      gameplay.gameRules.time.base,
+      gameplay.gameRules.time.increment,
+      payload
+    );
+    BLACK_FIRST_MOVE_TIMER.clear();
+    BLACK_FIRST_MOVE_TIMER.finished = true;
+    WHITE_FIRST_MOVE_TIMER.clear();
+    WHITE_FIRST_MOVE_TIMER.finished = true;
+  }
 
-  if (!BLACK_TIMER || !WHITE_TIMER) {
+  if ((!BLACK_TIMER || !WHITE_TIMER) && gameplay.moveHistory.length >= 2) {
     return;
   }
   if (gameplay.onMove === "b") {
@@ -155,17 +171,25 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   const { gameRules, side, timeLeft, opponentTimeLeft, isYourTurn, gameElos } =
     payload;
 
+  let playerColor: "w" | "b";
+  if (payload.history.length % 2 === 0) {
+    if (isYourTurn) playerColor = "w";
+    else playerColor = "b";
+  } else {
+    if (isYourTurn) playerColor = "b";
+    else playerColor = "w";
+  }
   BLACK_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
     payload.startDate,
-    side === PieceSide.Black ? timeLeft : opponentTimeLeft
+    playerColor === "b" ? timeLeft : opponentTimeLeft
   );
   WHITE_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
     payload.startDate,
-    side === PieceSide.White ? timeLeft : opponentTimeLeft
+    playerColor === "w" ? timeLeft : opponentTimeLeft
   );
 
   const lastTimestamp =
@@ -173,7 +197,7 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       ? payload.history[payload.history.length - 1].timestamp
       : payload.startDate;
 
-  if (side === PieceSide.White) {
+  if (playerColor === "w") {
     if (isYourTurn) {
       BLACK_TIMER.stop(lastTimestamp);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
@@ -208,14 +232,6 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   // );
 
   yield put(gameplayActions.setGameElos(gameElos));
-  let playerColor: "w" | "b";
-  if (payload.history.length % 2 === 0) {
-    if (isYourTurn) playerColor = "w";
-    else playerColor = "b";
-  } else {
-    if (isYourTurn) playerColor = "b";
-    else playerColor = "w";
-  }
   yield put(gameplayActions.setPlayerColor(playerColor));
   // yield put(gameplayActions.setPlayerColor();
 
