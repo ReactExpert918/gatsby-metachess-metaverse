@@ -50,8 +50,13 @@
 		}
 	}
 }
-
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 768px) {
+	.tournamentTableContainer {
+		overflow-x: scroll;
+		margin-bottom: 20px;
+	}
+}
+/*@media screen and (max-width: 900px) {
 	.tournamentTable {
 		td:nth-child(3),
 		td:nth-child(4),
@@ -83,4 +88,4 @@
 			display: none;
 		}
 	}
-}
+}*/
