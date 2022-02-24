@@ -70,6 +70,7 @@ interface IActionProps {
   setGameWinner: typeof GameplayActions.setGameWinner;
   startGame: typeof GameplayActions.startGame;
   setGameElos: typeof GameplayActions.setGameElos;
+  setTimer: typeof GameplayActions.setManualTimer;
   setMissedSocketActions: typeof GameplayActions.setMissedSocketActions;
   setGameMounted: typeof GameplayActions.setGameMounted;
   setSpectators: typeof GameplayActions.setSpectators;
@@ -311,6 +312,16 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     if (moveHistoryData.length > 1) {
       this.setState({ showFirstMoveTime: false });
       this.props.setLastTimestamp(move.timestamp);
+      this.props.setTimer({
+        black:
+          this.props.playerColor === "w"
+            ? move.opponentTimeLeft
+            : move.timeLeft,
+        white:
+          this.props.playerColor === "w"
+            ? move.timeLeft
+            : move.opponentTimeLeft,
+      });
     }
 
     console.log("on move-piece::", move);
@@ -431,12 +442,21 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     }
   };
 
-  onGameEnd = (winner: "b" | "w" | "draw", isReplay = false) => {
+  onGameEnd = (
+    winner: "b" | "w" | "draw",
+    isReplay = false,
+    calledByChessboard?: boolean
+  ) => {
     this.props.stopTimers();
-    this.idTimeoutShowModal = setTimeout(
-      () => this.setState({ showEndModal: true, winner }),
-      2000
-    );
+
+    if (calledByChessboard) {
+      this.idTimeoutShowModal = setTimeout(
+        () => this.setState({ showEndModal: true, winner }),
+        2000
+      );
+    } else {
+      this.setState({ showEndModal: true, winner });
+    }
 
     if (!isReplay && this.props.playMode.isHumanVsHuman) {
       this.props.setGameEndDate(Date.now());
@@ -763,6 +783,7 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   setLastTimestamp: GameplayActions.setLastTimestamp,
   setFirstMoveTimer: GameplayActions.setFirstMoveTimer,
   setFirstTimer: GameplayActions.setFirstTimer,
+  setTimer: GameplayActions.setManualTimer,
   stopTimers: GameplayActions.stopTimers,
   clear: GameplayActions.clear,
   addToHistoryWithTimestamp: GameplayActions.addToHistoryWithTimestamp,

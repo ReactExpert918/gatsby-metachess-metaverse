@@ -65,7 +65,11 @@ interface IProps {
   isAI: boolean;
   aiDifficulty: AI_PLAY_MODE;
   opponent: IUser;
-  onGameEnd: (winner: "b" | "w" | "draw") => void;
+  onGameEnd: (
+    winner: "b" | "w" | "draw",
+    replay: boolean,
+    calledByChessboard: boolean
+  ) => void;
   chessSize?: number;
   currentUser: IUser;
   timer: ITimer;
@@ -486,7 +490,11 @@ class ChessboardWrapper extends Component<IProps, IState> {
     if (this.checkmateSound) {
       setTimeout(async () => {
         await Sounds.checkmate();
-        this.props.onGameEnd(this.game.turn() === "b" ? "w" : "b");
+        this.props.onGameEnd(
+          this.game.turn() === "b" ? "w" : "b",
+          this.props.isReplay,
+          true
+        );
       }, 300);
       this.setSquareStylesExceptions({ color: this.game.turn() });
       this.checkmateSound = false;
@@ -495,7 +503,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
     if (this.stalemateSound) {
       setTimeout(async () => {
         await Sounds.stalemate();
-        this.props.onGameEnd("draw");
+        this.props.onGameEnd("draw", this.props.isReplay, true);
       }, 300);
       this.stalemateSound = false;
     }

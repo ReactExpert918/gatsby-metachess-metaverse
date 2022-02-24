@@ -108,6 +108,9 @@ export default (state = INITIAL_STATE, action: Action): IGameplayReducer => {
       [ACTION_TYPE.SET_TIMER]: {
         timer: action.payload,
       },
+      [ACTION_TYPE.SET_TIMER_MANUAL]: {
+        timer: action.payload,
+      },
       [ACTION_TYPE.SET_FIRST_TIMER]: {
         firstTimer: action.payload,
       },
