@@ -76,6 +76,8 @@ export interface IMoveSocket {
   fen: string;
   winner?: any;
   timestamp: number;
+  timeLeft: number;
+  opponentTimeLeft: number;
 }
 
 export interface ISpectSocket {
