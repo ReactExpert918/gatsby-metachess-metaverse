@@ -5,7 +5,7 @@ import { IAppState } from "../reducers";
 import { GameRules, PieceSide } from "../../interfaces/game.interfaces";
 import { Timer } from "../../lib/timer";
 import store from "..";
-import { IGameResume } from "./gameplay.interfaces";
+import { IGameplayReducer, IGameResume, ITimer } from "./gameplay.interfaces";
 import { pullAllBy } from "lodash";
 import { navigate } from "gatsby";
 import { IUser } from "../user/user.interfaces";
@@ -102,13 +102,13 @@ function* onSetLastTimestamp({ payload }: { payload: number }) {
 
   if (!WHITE_TIMER && BLACK_TIMER) {
     BLACK_TIMER.finished = true;
-    BLACK_TIMER.stop(payload);
+    BLACK_TIMER.stop(payload, false);
     BLACK_TIMER.clear();
     BLACK_TIMER = null;
   }
   if (!BLACK_TIMER && WHITE_TIMER) {
     WHITE_TIMER.finished = true;
-    WHITE_TIMER.stop(payload);
+    WHITE_TIMER.stop(payload, false);
     WHITE_TIMER.clear();
     BLACK_TIMER = null;
   }
@@ -132,12 +132,14 @@ function* onSetLastTimestamp({ payload }: { payload: number }) {
   if ((!BLACK_TIMER || !WHITE_TIMER) && gameplay.moveHistory.length >= 2) {
     return;
   }
+  BLACK_TIMER.timeLeft = gameplay.timer.black;
+  WHITE_TIMER.timeLeft = gameplay.timer.white;
   if (gameplay.onMove === "b") {
     BLACK_TIMER.reinit(payload, dispatchTimerChange);
-    WHITE_TIMER.stop(payload);
+    WHITE_TIMER.stop(payload, false);
   } else {
     WHITE_TIMER.reinit(payload, dispatchTimerChange);
-    BLACK_TIMER.stop(payload);
+    BLACK_TIMER.stop(payload, false);
   }
 }
 
@@ -165,6 +167,12 @@ function* onClear() {
   }
   BLACK_TIMER = null;
   WHITE_TIMER = null;
+}
+
+function* onSetTimer({ payload }: { payload: ITimer }) {
+  // const { gameplay }: { gameplay: IGameplayReducer } = yield select();
+  WHITE_TIMER.timeLeft = payload.white;
+  BLACK_TIMER.timeLeft = payload.black;
 }
 
 function* onResumeGame({ payload }: { payload: IGameResume }) {
@@ -196,13 +204,17 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
     payload.history.length > 0
       ? payload.history[payload.history.length - 1].timestamp
       : payload.startDate;
+  // const secondLastTimestamp =
+  //   payload.history.length > 1
+  //     ? payload.history[payload.history.length - 2].timestamp
+  //     : payload.startDate;
 
   if (playerColor === "w") {
     if (isYourTurn) {
-      BLACK_TIMER.stop(lastTimestamp);
+      BLACK_TIMER.stop(lastTimestamp, false);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     } else {
-      WHITE_TIMER.stop(lastTimestamp);
+      WHITE_TIMER.stop(lastTimestamp, false);
       BLACK_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
 
@@ -210,15 +222,15 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
     BLACK_TIMER.timeLeft = opponentTimeLeft;
   } else {
     if (isYourTurn) {
-      WHITE_TIMER.stop(lastTimestamp);
+      WHITE_TIMER.stop(lastTimestamp, false);
       BLACK_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     } else {
-      BLACK_TIMER.stop(lastTimestamp);
+      BLACK_TIMER.stop(lastTimestamp, false);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
 
-    BLACK_TIMER.timeLeft = timeLeft;
-    WHITE_TIMER.timeLeft = opponentTimeLeft;
+    WHITE_TIMER.timeLeft = timeLeft;
+    BLACK_TIMER.timeLeft = opponentTimeLeft;
   }
 
   yield put(
@@ -312,6 +324,10 @@ function* watchSetFirstMoveTimer() {
   );
 }
 
+function* watchSetMoveTimer() {
+  yield takeLatest(ACTION_TYPE.SET_TIMER_MANUAL as any, onSetTimer);
+}
+
 function* watchGameStart() {
   yield takeLatest(ACTION_TYPE.START_GAME as any, onGameStart);
 }
@@ -332,4 +348,5 @@ export default [
   watchClear,
   watchStopTimers,
   watchResumeGame,
+  // watchSetMoveTimer,
 ];

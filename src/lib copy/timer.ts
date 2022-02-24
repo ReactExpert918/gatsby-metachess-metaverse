@@ -1,9 +1,9 @@
 export class Timer {
   finished: boolean = false;
-  timePassed: number = 0;
+  private timePassed: number = 0;
   timeLeft: number = 0;
   private timerBonus: number = 0;
-  timerLimit: number = 0;
+  private timerLimit: number = 0;
 
   private startDate: number = 0;
 
