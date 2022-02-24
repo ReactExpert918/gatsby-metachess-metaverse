@@ -24,6 +24,7 @@ export enum ACTION_TYPE {
   "SET_LAST_TIMESTAMP" = "gameplay_SET_LAST_TIMESTAMP",
   "SET_LAST_TIMESTAMP_FIRST_MOVE" = "gameplay_SET_LAST_TIMESTAMP_FIRST_MOVE",
   "SET_TIMER" = "gameplay_SET_TIMER",
+  "SET_TIMER_MANUAL" = "gameplay_SET_TIMER_MANUAL",
   "SET_FIRST_TIMER" = "gameplay_SET_FIRST_TIMER",
   "STOP_TIMERS" = "gameplay_STOP_TIMERS",
   "ADD_TO_HISTORY_WITH_TIMESTAMP" = "gameplay_ADD_TO_HISTORY_WITH_TIMESTAMP",
@@ -60,6 +61,7 @@ export const Actions = {
     ACTION_TYPE.SET_LAST_TIMESTAMP_FIRST_MOVE
   ),
   setTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER),
+  setManualTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER_MANUAL),
   setFirstTimer: createAction<ITimer>(ACTION_TYPE.SET_FIRST_TIMER),
   setLoseMatchForLeaving: createAction<ILoseMatchForLeaving>(
     ACTION_TYPE.SET_LOSE_MATCH_FOR_LEAVING
