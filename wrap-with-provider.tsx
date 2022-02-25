@@ -240,6 +240,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
               null,
               (runningMatch: IGameResume) => {
                 p.setLoseMatchForLeaving(null);
+                console.log("Running match->>>", runningMatch);
                 store.dispatch(gameplayActions.resumeGame(runningMatch));
               }
             );
