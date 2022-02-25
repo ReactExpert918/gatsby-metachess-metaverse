@@ -132,8 +132,8 @@ function* onSetLastTimestamp({ payload }: { payload: number }) {
   if ((!BLACK_TIMER || !WHITE_TIMER) && gameplay.moveHistory.length >= 2) {
     return;
   }
-  BLACK_TIMER.timeLeft = gameplay.timer.black;
-  WHITE_TIMER.timeLeft = gameplay.timer.white;
+  // BLACK_TIMER.timeLeft = gameplay.timer.black;
+  // WHITE_TIMER.timeLeft = gameplay.timer.white;
   if (gameplay.onMove === "b") {
     BLACK_TIMER.reinit(payload, dispatchTimerChange);
     WHITE_TIMER.stop(payload, false);
@@ -170,9 +170,17 @@ function* onClear() {
 }
 
 function* onSetTimer({ payload }: { payload: ITimer }) {
-  // const { gameplay }: { gameplay: IGameplayReducer } = yield select();
+  const { gameplay }: { gameplay: IGameplayReducer } = yield select();
   WHITE_TIMER.timeLeft = payload.white;
   BLACK_TIMER.timeLeft = payload.black;
+
+  if (gameplay.onMove === "b") {
+    BLACK_TIMER.reinit(gameplay.lastTimestamp, dispatchTimerChange);
+    WHITE_TIMER.stop(gameplay.lastTimestamp, false);
+  } else {
+    WHITE_TIMER.reinit(gameplay.lastTimestamp, dispatchTimerChange);
+    BLACK_TIMER.stop(gameplay.lastTimestamp, false);
+  }
 }
 
 function* onResumeGame({ payload }: { payload: IGameResume }) {
@@ -346,5 +354,5 @@ export default [
   watchClear,
   watchStopTimers,
   watchResumeGame,
-  // watchSetMoveTimer,
+  watchSetMoveTimer,
 ];
