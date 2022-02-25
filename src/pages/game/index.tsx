@@ -314,9 +314,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       this.props.setLastTimestamp(move.timestamp);
       this.props.setTimer({
         black:
-          this.props.playerColor === "w"
-            ? move.opponentTimeLeft
-            : move.timeLeft,
+          this.props.playerColor === "b"
+            ? move.timeLeft
+            : move.opponentTimeLeft,
         white:
           this.props.playerColor === "w"
             ? move.timeLeft
