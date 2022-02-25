@@ -190,14 +190,12 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   BLACK_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
-    payload.startDate,
-    playerColor === "b" ? timeLeft : opponentTimeLeft
+    payload.startDate
   );
   WHITE_TIMER = new Timer(
     gameRules.time.base,
     gameRules.time.increment,
-    payload.startDate,
-    playerColor === "w" ? timeLeft : opponentTimeLeft
+    payload.startDate
   );
 
   const lastTimestamp =
@@ -229,12 +227,12 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
 
-    WHITE_TIMER.timeLeft = timeLeft;
-    BLACK_TIMER.timeLeft = opponentTimeLeft;
+    WHITE_TIMER.timeLeft = opponentTimeLeft;
+    BLACK_TIMER.timeLeft = timeLeft;
   }
 
   yield put(
-    gameplayActions.setTimer({
+    gameplayActions.setManualTimer({
       white: WHITE_TIMER.timeLeft,
       black: BLACK_TIMER.timeLeft,
     })
