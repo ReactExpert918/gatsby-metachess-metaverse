@@ -50,6 +50,7 @@ const Spectating = (props: any) => {
   const [winner, setWinner] = useState<"b" | "w" | "draw" | null>(null);
   const [updater, setupdater] = useState<boolean>(false);
   const currentReplayIndex = useRef<number>(0);
+  const initialized = useRef<boolean>(false);
   const replayTimeout = useRef<NodeJS.Timeout>(null);
   const chessboardWrapperRef = useRef<ChessboardWrapper>(null);
   const dispatch = useDispatch();
@@ -68,48 +69,81 @@ const Spectating = (props: any) => {
     const roomId: string = props.id;
     console.log(roomId);
     subscribeToSpectate(roomId);
-    SocketService.subscribeTo({
-      eventName: "spectate-piece-move",
-      callback: (moveInfo: IMoveSocket) => {
-        console.log(moveInfo);
-        chessboardWrapperRef?.current?.handleMove(
-          moveInfo.move as string,
-          true
-        );
-      },
-    });
     return () => clearTimeout(replayTimeout.current);
   }, []);
-  useEffect(() => {
-    if (!roomInfo) return;
+  const onGameEnd = (
+    winner: "b" | "w" | "draw",
+    isReplay = false,
+    calledByChessboard: boolean = false
+  ) => {
+    dispatch(Actions.stopTimers());
+    if (calledByChessboard)
+      idTimeoutShowModal.current = setTimeout(() => {
+        setShowEndModal(true);
+        setWinner(winner);
+      }, 2000);
+    else {
+      setWinner(winner);
+      setShowEndModal(true);
+    }
+    if (!isReplay) {
+      dispatch(Actions.setGameEndDate(new Date().getTime()));
+      dispatch(Actions.setGameWinner(winner));
+    }
+  };
+  const movePieceCallback = (moveInfo: IMoveSocket) => {
+    console.log(moveInfo);
+    chessboardWrapperRef?.current?.handleMove(moveInfo.move as string, true);
+    dispatch(
+      Actions.setManualTimer({
+        black:
+          roomInfo.hostColor === "b"
+            ? moveInfo.hostTimeLeft
+            : moveInfo.secondPlayerTimeLeft,
+        white:
+          roomInfo.hostColor === "w"
+            ? moveInfo.hostTimeLeft
+            : moveInfo.secondPlayerTimeLeft,
+      })
+    );
+  };
+  const spectateNotificationCallback = (
+    spectateNotification: ISpectateNotification
+  ) => {
+    console.log(spectateNotification);
+    const initiatorId =
+      spectateNotification.AccountId || spectateNotification.GuestId;
+    const hostId = roomInfo?.host?.Id || roomInfo?.host?.GuestId;
+    const initiatorIsHost = initiatorId === hostId;
+    const opponentColor = roomInfo?.hostColor === "w" ? "b" : "w";
+    switch (spectateNotification.Type) {
+      case NOTIFICATION_TYPE.AcceptDraw:
+        onGameEnd("draw");
+        break;
+      case NOTIFICATION_TYPE.Resign:
+        onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
+        break;
+      case NOTIFICATION_TYPE.LeavePromptDraw:
+        onGameEnd("draw");
+        break;
+      case NOTIFICATION_TYPE.LeavePromptWin:
+        onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
+        break;
+      default:
+        break;
+    }
+  };
+  const initialize = () => {
+    initialized.current = true;
+    SocketService.subscribeTo({
+      eventName: "spectate-piece-move",
+      callback: movePieceCallback,
+    });
     SocketService.subscribeTo({
       eventName: "spectators-notification",
-      callback: (spectateNotification: ISpectateNotification) => {
-        console.log(spectateNotification);
-        const initiatorId =
-          spectateNotification.AccountId || spectateNotification.GuestId;
-        const hostId = roomInfo?.host?.Id || roomInfo?.host?.GuestId;
-        const initiatorIsHost = initiatorId === hostId;
-        const opponentColor = roomInfo?.hostColor === "w" ? "b" : "w";
-        switch (spectateNotification.Type) {
-          case NOTIFICATION_TYPE.AcceptDraw:
-            onGameEnd("draw");
-            break;
-          case NOTIFICATION_TYPE.Resign:
-            onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
-            break;
-          case NOTIFICATION_TYPE.LeavePromptDraw:
-            onGameEnd("draw");
-            break;
-          case NOTIFICATION_TYPE.LeavePromptWin:
-            onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
-            break;
-          default:
-            break;
-        }
-      },
+      callback: spectateNotificationCallback,
     });
-  }, [roomInfo]);
+  };
   const handleMove = (
     fen: string,
     playerOnMove: string,
@@ -159,17 +193,6 @@ const Spectating = (props: any) => {
       () => recursiveReplayFunction(currentReplayIndex.current),
       2000
     );
-  };
-  const onGameEnd = (winner: "b" | "w" | "draw", isReplay = false) => {
-    dispatch(Actions.stopTimers());
-    idTimeoutShowModal.current = setTimeout(() => {
-      setShowEndModal(true);
-      setWinner(winner);
-    }, 2000);
-    if (!isReplay) {
-      dispatch(Actions.setGameEndDate(new Date().getTime()));
-      dispatch(Actions.setGameWinner(winner));
-    }
   };
 
   const onReplayPrevious = () => {
@@ -236,6 +259,7 @@ const Spectating = (props: any) => {
     replayTimeout.current = setTimeout(() => recursiveReplayFunction(0), 2000);
   };
   if (!roomInfo?.gameRules) return <div>spectatin</div>;
+  if (!initialized.current) initialize();
   return (
     <div className="gameContainer">
       {showEndModal && (

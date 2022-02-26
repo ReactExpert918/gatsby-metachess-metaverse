@@ -11,6 +11,7 @@ import { SpectatingRoomInfo } from "../../lib/spectate";
 export enum ACTION_TYPE {
   "SET_ROOM_INFO" = "spectate_SET_ROOM_INFO",
   "SET_TIMER" = "spectate_SET_TIMER",
+  "SET_MANUAL_TIMER" = "spectate_SET_MANUAL_TIMER",
   "ADD_IN_MOVE_HISTORY" = "spectate_ADD_IN_MOVE_HISTORY",
   "SET_ON_MOVE" = "spectate_SET_ON_MOVE",
   "SET_MOVE_HISTORY" = "spectate_SET_MOVE_HISTORY",
@@ -23,6 +24,7 @@ export enum ACTION_TYPE {
 export const Actions = {
   setRoomInfo: createAction<SpectatingRoomInfo>(ACTION_TYPE.SET_ROOM_INFO),
   setTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER),
+  setManualTimer: createAction<ITimer>(ACTION_TYPE.SET_MANUAL_TIMER),
   addInMoveHistory: createAction<IMoveWithTimestamp>(
     ACTION_TYPE.ADD_IN_MOVE_HISTORY
   ),

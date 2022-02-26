@@ -31,12 +31,17 @@ function dispatchTimerChange() {
   }
 }
 
-function onSetOnMove({ payload }: { payload: string }) {
+function* onSetManualTimer({ payload }: { payload: ITimer }) {
+  const {
+    spectate: {
+      roomInfo: { isReplay, historyMoves, timer, onMove },
+    },
+  } = (yield select()) as IAppState;
   const startDate = Date.now();
-  const isReplay = store.getState().spectate.roomInfo.isReplay;
-  const historyMoves = store.getState().spectate.roomInfo.historyMoves;
+  WHITE_TIMER.timeLeft = payload.white;
+  BLACK_TIMER.timeLeft = payload.black;
   if (!isReplay) {
-    if (payload === "b" && historyMoves.length >= 2) {
+    if (onMove === "b" && historyMoves.length >= 2) {
       BLACK_TIMER.reinit(startDate, dispatchTimerChange);
       WHITE_TIMER.stop(startDate, false);
     } else if (historyMoves.length >= 2) {
@@ -61,7 +66,7 @@ function* onClear() {
 
 function onSetRoomInfo({ payload }: { payload: SpectatingRoomInfo }) {
   const startDate = payload.gameStartDate || payload.startDate;
-  const hostColor = payload?.whitePieces?.Id === payload?.host?.Id ? "w" : "b";
+  const hostColor = payload.hostColor;
   BLACK_TIMER = new Timer(
     payload.gameRules.time.base,
     payload.gameRules.time.increment,
@@ -72,7 +77,7 @@ function onSetRoomInfo({ payload }: { payload: SpectatingRoomInfo }) {
     payload.gameRules.time.base,
     payload.gameRules.time.increment,
     payload.gameStartDate || payload.startDate,
-    hostColor !== "b" ? payload.hostTimeLeft : payload.secondPlayerTimeLeft
+    hostColor === "w" ? payload.hostTimeLeft : payload.secondPlayerTimeLeft
   );
   console.log("onSetRoomInfo", payload);
   if (payload.onMove === "b" && payload.historyMoves.length >= 2) {
@@ -89,7 +94,7 @@ function* watchSetRoomInfo() {
 }
 
 function* watchOnMove() {
-  yield takeLatest(ACTION_TYPE.SET_ON_MOVE as any, onSetOnMove);
+  yield takeLatest(ACTION_TYPE.SET_MANUAL_TIMER as any, onSetManualTimer);
 }
 
 function* watchStopTimers() {
