@@ -255,7 +255,7 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
   }
 
   yield put(
-    gameplayActions.setManualTimer({
+    gameplayActions.setTimer({
       white: WHITE_TIMER.timeLeft,
       black: BLACK_TIMER.timeLeft,
     })
