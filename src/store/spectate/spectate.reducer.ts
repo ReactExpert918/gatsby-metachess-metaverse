@@ -24,6 +24,9 @@ export default (state = INITIAL_STATE, action: Action): ISpectateReducer => {
       [ACTION_TYPE.SET_TIMER]: {
         roomInfo: { ...state.roomInfo, timer: action.payload },
       },
+      [ACTION_TYPE.SET_MANUAL_TIMER]: {
+        roomInfo: { ...state.roomInfo, timer: action.payload },
+      },
       [ACTION_TYPE.SET_REPLAY]: {
         roomInfo: {
           ...state.roomInfo,

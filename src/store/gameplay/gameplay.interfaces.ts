@@ -83,4 +83,7 @@ export interface IGameResume {
   startDate: number;
   gameElos: IGameplayElos;
   spectlist: Partial<IUser>[];
+  playerIsHost: boolean;
+  hostTimeLeft: number;
+  secondPlayerTimeLeft: number;
 }
