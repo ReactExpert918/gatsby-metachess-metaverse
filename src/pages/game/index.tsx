@@ -286,6 +286,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     const { opponent, moveHistoryData } = this.props;
 
     console.log(opponent, moveHistoryData, this.props);
+    let playerIsHost: boolean = move.playerIsHost;
     if (
       opponent &&
       this.chessboardWrapperRef?.current &&
@@ -293,6 +294,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         (opponent.GuestId && opponent.GuestId === move.player?.GuestId))
     ) {
       this.chessboardWrapperRef?.current?.handleMove(move.move as string, true);
+      playerIsHost = !playerIsHost;
     }
     this.props.addToHistoryWithTimestamp({
       move: move.move,
@@ -312,16 +314,33 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     if (moveHistoryData.length > 1) {
       this.setState({ showFirstMoveTime: false });
       this.props.setLastTimestamp(move.timestamp);
-      this.props.setTimer({
-        black:
-          this.props.playerColor === "b"
-            ? move.timeLeft
-            : move.opponentTimeLeft,
-        white:
-          this.props.playerColor === "w"
-            ? move.timeLeft
-            : move.opponentTimeLeft,
-      });
+      let timer: ITimer;
+      if (this.props.playerColor === "b") {
+        if (playerIsHost)
+          timer = {
+            white: move.secondPlayerTimeLeft,
+            black: move.hostTimeLeft,
+          };
+        else {
+          timer = {
+            white: move.hostTimeLeft,
+            black: move.secondPlayerTimeLeft,
+          };
+        }
+      } else {
+        if (playerIsHost)
+          timer = {
+            white: move.hostTimeLeft,
+            black: move.secondPlayerTimeLeft,
+          };
+        else {
+          timer = {
+            white: move.secondPlayerTimeLeft,
+            black: move.hostTimeLeft,
+          };
+        }
+      }
+      this.props.setTimer(timer);
     }
 
     console.log("on move-piece::", move);

@@ -184,8 +184,15 @@ function* onSetTimer({ payload }: { payload: ITimer }) {
 }
 
 function* onResumeGame({ payload }: { payload: IGameResume }) {
-  const { gameRules, side, timeLeft, opponentTimeLeft, isYourTurn, gameElos } =
-    payload;
+  const {
+    gameRules,
+    side,
+    hostTimeLeft,
+    secondPlayerTimeLeft,
+    playerIsHost,
+    isYourTurn,
+    gameElos,
+  } = payload;
 
   let playerColor: "w" | "b";
   if (payload.history.length % 2 === 0) {
@@ -223,9 +230,13 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       WHITE_TIMER.stop(lastTimestamp, false);
       BLACK_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
-
-    WHITE_TIMER.timeLeft = timeLeft;
-    BLACK_TIMER.timeLeft = opponentTimeLeft;
+    if (playerIsHost) {
+      WHITE_TIMER.timeLeft = hostTimeLeft;
+      BLACK_TIMER.timeLeft = secondPlayerTimeLeft;
+    } else {
+      WHITE_TIMER.timeLeft = secondPlayerTimeLeft;
+      BLACK_TIMER.timeLeft = hostTimeLeft;
+    }
   } else {
     if (isYourTurn) {
       WHITE_TIMER.stop(lastTimestamp, false);
@@ -234,9 +245,13 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
       BLACK_TIMER.stop(lastTimestamp, false);
       WHITE_TIMER.reinit(lastTimestamp, dispatchTimerChange);
     }
-
-    WHITE_TIMER.timeLeft = opponentTimeLeft;
-    BLACK_TIMER.timeLeft = timeLeft;
+    if (playerIsHost) {
+      WHITE_TIMER.timeLeft = secondPlayerTimeLeft;
+      BLACK_TIMER.timeLeft = hostTimeLeft;
+    } else {
+      WHITE_TIMER.timeLeft = hostTimeLeft;
+      BLACK_TIMER.timeLeft = secondPlayerTimeLeft;
+    }
   }
 
   yield put(

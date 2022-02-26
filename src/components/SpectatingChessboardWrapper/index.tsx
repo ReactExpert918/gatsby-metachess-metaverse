@@ -59,7 +59,11 @@ interface IProps {
   moveHistoryData: IMoveWithTimestamp[];
   serverStatus: IServerStatus;
   onReplayPrevious: () => void;
-  onGameEnd: (winner: "b" | "w" | "draw") => void;
+  onGameEnd: (
+    winner: "b" | "w" | "draw",
+    isReplay: boolean,
+    calledByChessboard: boolean
+  ) => void;
   handleMove: (
     fen: string,
     playerOnMove: string,
@@ -284,7 +288,11 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     if (this.checkmateSound) {
       setTimeout(async () => {
-        this.props.onGameEnd(this.game.turn() === "b" ? "w" : "b");
+        this.props.onGameEnd(
+          this.game.turn() === "b" ? "w" : "b",
+          this.props.isReplay,
+          true
+        );
         await Sounds.checkmate();
       }, 300);
       this.setSquareStylesExceptions({
@@ -295,7 +303,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
 
     if (this.stalemateSound) {
       setTimeout(async () => {
-        this.props.onGameEnd("draw");
+        this.props.onGameEnd("draw", this.props.isReplay, true);
         await Sounds.stalemate();
       }, 300);
       this.stalemateSound = false;
