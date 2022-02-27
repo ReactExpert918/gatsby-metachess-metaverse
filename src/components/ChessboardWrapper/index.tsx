@@ -24,6 +24,7 @@ import {
   SpectatingGameRules,
 } from "../../interfaces/game.interfaces";
 import Timer from "../Timer";
+import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 const Chessboard = React.lazy(() => import("chessboardjsx"));
 const WINDOW_WIDTH_LIMIT = 768;
 
@@ -547,8 +548,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     const chessAscii = this.game ? this.game.ascii() : "";
     const combinedSquareStyles = {
-      ...squareStyles,
       ...squareStylesExceptions.lastMove,
+      ...squareStyles,
       ...squareStylesExceptions.checkOrCheckmate,
     };
     console.log(chessWidth, WINDOW_WIDTH_LIMIT, chessHeight);
@@ -693,6 +694,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
           color={playerColor === "w" ? "w" : "b"}
           playMode={playMode}
           player={currentUser}
+          reverse={true}
+          name={getOpponentName(false, null, currentUser)}
         />
         {!playMode.isAI && (
           <Timer

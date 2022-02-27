@@ -157,6 +157,14 @@ function* onSetFirstMoveTimer({}: {}) {
 }
 
 function* onClear() {
+  if (BLACK_FIRST_MOVE_TIMER) {
+    BLACK_FIRST_MOVE_TIMER.clear();
+    BLACK_FIRST_MOVE_TIMER.finished = true;
+  }
+  if (WHITE_FIRST_MOVE_TIMER) {
+    WHITE_FIRST_MOVE_TIMER.clear();
+    WHITE_FIRST_MOVE_TIMER.finished = true;
+  }
   if (BLACK_TIMER) {
     BLACK_TIMER.clear();
     BLACK_TIMER.finished = true;
@@ -165,7 +173,10 @@ function* onClear() {
     WHITE_TIMER.clear();
     WHITE_TIMER.finished = true;
   }
+
   BLACK_TIMER = null;
+  BLACK_FIRST_MOVE_TIMER = null;
+  WHITE_FIRST_MOVE_TIMER = null;
   WHITE_TIMER = null;
 }
 

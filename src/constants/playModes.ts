@@ -9,7 +9,7 @@ export enum MODES {
 }
 
 export enum AI_PLAY_MODE {
-  BEGINNER,
+  BEGINNER = 1,
   ROOKIE,
   AMATEUR,
   INTERMEDIATE,
