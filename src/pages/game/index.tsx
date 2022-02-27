@@ -516,26 +516,10 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     if (index === historyWithTimestamp.length) {
       const {
         gameplay: {
-          historyWithTimestamp,
-          startGameDate,
-          playMode,
-          endGameDate,
           winner,
         },
       } = store.getState() as IAppState;
-      let lastDate = historyWithTimestamp[index - 1].timestamp;
-      const endAt = playMode
-        ? new Date().getTime() + 2000
-        : endGameDate - lastDate;
-      if (this.unmounted) return;
-      if (endAt > 0)
-        setTimeout(() => {
-          if (this.unmounted) return;
-          this.onGameEnd(winner, true);
-        }, endAt);
-      else {
         this.onGameEnd(winner, true);
-      }
       return;
     }
     const m = historyWithTimestamp[index];
