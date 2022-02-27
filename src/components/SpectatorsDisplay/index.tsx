@@ -19,6 +19,7 @@ const SpectatorsDisplay = () => {
         // onMouseOver={() => setShowUsers(true)}
         // onMouseLeave={() => setShowUsers(false)}
         // onClick={() => setShowUsers(!showUsers)}
+        onClick={() => setShowUsers(!showUsers)}
       >
         <img
           src={eyeIcon}
@@ -27,7 +28,6 @@ const SpectatorsDisplay = () => {
           //     setShowUsers(true);
           //   }}
           //   onMouseLeave={() => setShowUsers(false)}
-          onClick={() => setShowUsers(!showUsers)}
         />
         <p className="spectators-number">{spectators.length}</p>
       </div>
