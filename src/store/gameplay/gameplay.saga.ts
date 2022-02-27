@@ -285,6 +285,7 @@ function* onResumeGame({ payload }: { payload: IGameResume }) {
 
   yield put(gameplayActions.setGameStartDate(payload.startDate));
 
+  yield put(gameplayActions.setSpectators(payload.spectlist));
   yield put(gameplayActions.setGameWinner(null));
 
   yield put(
