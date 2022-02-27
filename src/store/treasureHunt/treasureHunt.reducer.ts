@@ -61,6 +61,9 @@ export default (
         gameOver: false,
         gameInProgress: action.payload,
       },
+      [ACTION_TYPE.SET_TIME_LEFT]: {
+        timeLeft: action.payload,
+      },
       [ACTION_TYPE.SET_GAME_IN_PROGRESS]: {
         gameInProgress: action.payload,
       },

@@ -2,18 +2,25 @@ import React, { useEffect, useState } from "react";
 import Modal from "../Modal/index";
 import { ILoseMatchForLeaving } from "../../interfaces/game.interfaces";
 import { TrophySvg } from "../Images";
+import { useSelector } from "react-redux";
+import { IAppState } from "../../store/reducers";
 
 interface IProps {
   onResume: () => void;
   onLeave: () => void;
-  leavingTime: number;
 }
 
 const ResumeOldGameModal = (props: IProps) => {
   const onClose = () => {
     props.onLeave();
   };
-  const [timeLeft, setTimeLeft] = useState(props.leavingTime);
+  const { timeLeft: leavingTime }: { timeLeft: number } = useSelector(
+    (state: IAppState) => state.treasureHunt
+  );
+  const [timeLeft, setTimeLeft] = useState(leavingTime || 600);
+  useEffect(() => {
+    setTimeLeft(leavingTime || 600);
+  }, [leavingTime]);
   useEffect(() => {
     let timeout: NodeJS.Timeout = null;
     if (timeLeft >= 0) {
