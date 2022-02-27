@@ -1,4 +1,10 @@
-import React, { CSSProperties, RefObject, useEffect, useState } from "react";
+import React, {
+  CSSProperties,
+  RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Square } from "chess.js";
 import { navigate } from "gatsby";
 import crackedImage from "../../assets/images/crackedImage.jpg";
@@ -60,9 +66,9 @@ const index = () => {
     gameInProgress,
   }: { moveList: moveList; gameOver: boolean; gameInProgress: boolean } =
     useSelector((state: IAppState) => state.treasureHunt);
-  const wrapperRef: RefObject<HTMLDivElement> = React.useRef();
-  const gameOverRef: RefObject<boolean> = React.useRef(gameOver);
-  const timeOutId = React.useRef<NodeJS.Timer>(null);
+  const wrapperRef = useRef<HTMLDivElement>();
+  const gameOverRef = useRef<boolean>(gameOver);
+  const timeOutId = useRef<NodeJS.Timer>(null);
   const squareStyling = (pieceSquare: string) => {
     console.log(pieceSquare);
     return {
@@ -77,14 +83,12 @@ const index = () => {
   let windowWidth = 1280;
   if (!isSSR) windowWidth = window.innerWidth;
   let chessWidth =
-    windowWidth <= WINDOW_WIDTH_LIMIT
-      ? windowWidth
-      : windowWidth/2;
+    windowWidth <= WINDOW_WIDTH_LIMIT ? windowWidth : windowWidth / 2;
   let chessHeight = WINDOW_WIDTH_LIMIT;
 
   if (wrapperRef?.current) {
     chessHeight = wrapperRef.current.clientHeight;
-    console.log(chessHeight,chessWidth,windowWidth);
+    console.log(chessHeight, chessWidth, windowWidth);
     if (chessHeight < chessWidth) chessWidth = chessHeight;
   }
   useEffect(() => {
@@ -137,6 +141,7 @@ const index = () => {
       console.log(gameOverRef.current);
       if (!gameOverRef.current) {
         SocketService.sendData("leave-game-treasure-hunt", null, null);
+        dispatch(Actions.setTimeLeft(600))
         dispatch(Actions.setGameInProgressAndUserNavigating(true));
       } else {
         dispatch(Actions.resetGame(false));
@@ -214,8 +219,13 @@ const index = () => {
     <section className="gameContainer" style={{ maxWidth: "100%" }}>
       <section
         className="gameWrapper"
-        style={{ alignItems: "baseline", overflow: "hidden",
-        gap:"3vmax",padding:"0 2vmax 5vmin",justifyContent:"space-around" }}
+        style={{
+          alignItems: "baseline",
+          overflow: "hidden",
+          gap: "3vmax",
+          padding: "0 2vmax 5vmin",
+          justifyContent: "space-around",
+        }}
       >
         {/* {windowWidth > 768 && (
           <section
@@ -254,21 +264,21 @@ const index = () => {
                 justifyContent: "start",
               }}
             > */}
-              {!isSSR && (
-                <React.Suspense fallback={<div />}>
-                  <Chessboard
-                    width={chessWidth}
-                    onSquareClick={handleSquareClick}
-                    squareStyles={squareStyles}
-                    darkSquareStyle={{
-                      background: `${serverStatus.BoardEvenSquaresColor} 0% 0% no-repeat padding-box`,
-                    }}
-                    lightSquareStyle={{
-                      background: `${serverStatus.BoardOddSquaresColor} 0% 0% no-repeat padding-box`,
-                    }}
-                  />
-                </React.Suspense>
-              )}
+            {!isSSR && (
+              <React.Suspense fallback={<div />}>
+                <Chessboard
+                  width={chessWidth}
+                  onSquareClick={handleSquareClick}
+                  squareStyles={squareStyles}
+                  darkSquareStyle={{
+                    background: `${serverStatus.BoardEvenSquaresColor} 0% 0% no-repeat padding-box`,
+                  }}
+                  lightSquareStyle={{
+                    background: `${serverStatus.BoardOddSquaresColor} 0% 0% no-repeat padding-box`,
+                  }}
+                />
+              </React.Suspense>
+            )}
             {/* </div> */}
             {showAnimation ? <CelebrationOverlay /> : null}
           </div>
