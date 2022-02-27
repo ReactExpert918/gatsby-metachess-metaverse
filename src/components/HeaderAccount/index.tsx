@@ -60,6 +60,7 @@ const HeaderAccount = (props: ISelectProps) => {
             style={{ marginLeft: "24px" }}
             onClick={() => {
               TOKEN.remove();
+              window.location.reload();
             }}
           >
             <p className={`headerNavigatorItemTitle `}>Logout</p>

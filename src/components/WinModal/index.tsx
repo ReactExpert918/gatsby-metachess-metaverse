@@ -20,6 +20,7 @@ import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 interface IActionProps {
   clear: typeof GameplayActions.clear;
   setChoseMode: typeof UserActions.setChoseMode;
+  setLoseMatchForLeaving: typeof GameplayActions.setLoseMatchForLeaving;
 }
 
 interface IProps extends IActionProps {
@@ -57,6 +58,7 @@ const WinModal = (props: IProps) => {
 
   const close = () => {
     if (onClose) onClose();
+    props.setLoseMatchForLeaving(null);
 
     if (isReplay && playMode.isHumanVsHuman) {
       navigate("/profile");
@@ -136,41 +138,29 @@ const WinModal = (props: IProps) => {
                   )} won the match.`
                 : "Match ended up as a draw."}
             </div>
-          ) : (
+          ) : gameRules.mode !== GameMode.Casual ? (
             <>
               <div
-                className={`elo ${
-                  gameRules.mode === GameMode.Casual
-                    ? ""
-                    : isVictory
-                    ? "win"
-                    : isDefeat
-                    ? "lose"
-                    : ""
-                }`}
+                className={`elo ${isVictory ? "win" : isDefeat ? "lose" : ""}`}
               >
-                {gameRules.mode === GameMode.Casual ? (
-                  elo
-                ) : (
-                  <Counter
-                    initialValue={elo}
-                    increment={
-                      isVictory
-                        ? Math.round(gameElos.eloWin)
-                        : isDefeat
-                        ? Math.round(gameElos.eloLose)
-                        : Math.round(gameElos.eloDraw)
-                    }
-                    msDelayStart={1550}
-                    msStep={100}
-                  />
-                )}
+                <Counter
+                  initialValue={elo}
+                  increment={
+                    isVictory
+                      ? Math.round(gameElos.eloWin)
+                      : isDefeat
+                      ? Math.round(gameElos.eloLose)
+                      : Math.round(gameElos.eloDraw)
+                  }
+                  msDelayStart={1550}
+                  msStep={100}
+                />
               </div>
               <div className="elo-title">
                 {getGameTypeName(gameRules.time.base)}
               </div>
             </>
-          )}
+          ) : null}
         </div>
 
         <div className={"btn-container"}>
@@ -193,6 +183,7 @@ const WinModal = (props: IProps) => {
 const connected = connect<{}, IActionProps>(null, {
   clear: GameplayActions.clear,
   setChoseMode: UserActions.setChoseMode,
+  setLoseMatchForLeaving: GameplayActions.setLoseMatchForLeaving,
 })(WinModal);
 
 export default connected;

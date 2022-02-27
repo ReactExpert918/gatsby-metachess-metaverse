@@ -10,9 +10,10 @@ const SpectatorsDisplay = () => {
     (state: IAppState) => state.gameplay.spectlist
   );
   const [showUsers, setShowUsers] = useState<boolean>(false);
-  console.log("SHOUSER ", showUsers);
   return (
-    <section className="spectators-display-section">
+    <section
+      className={`spectators-display-section ${showUsers ? "showUsers" : ""}`}
+    >
       <div
         className="eye-container-spectators"
         // onMouseOver={() => setShowUsers(true)}
@@ -28,6 +29,7 @@ const SpectatorsDisplay = () => {
           //   onMouseLeave={() => setShowUsers(false)}
           onClick={() => setShowUsers(!showUsers)}
         />
+        <p className="spectators-number">{spectators.length}</p>
       </div>
       {showUsers ? (
         <div className="spectator-user-list-display">

@@ -50,7 +50,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
-        {
+        {!props.isReplay && (
           <Timer
             className="timer-desktop"
             timeLeft={
@@ -59,7 +59,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
                 : timer?.black
             }
           />
-        }
+        )}
         <div className="gameInfoContainer">
           <p className="gameInfoTitle">{"Game Info"}</p>
 
@@ -113,14 +113,14 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
           </div>
         </div>
         <div>
-          {
+          {!props.isReplay && (
             <>
               <Timer
                 className="timer-desktop"
                 timeLeft={playerColor === "w" ? timer?.white : timer?.black}
               />
             </>
-          }
+          )}
           {props.isReplay && windowWidth >= 768 && (
             <div
               style={{

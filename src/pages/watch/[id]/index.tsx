@@ -121,7 +121,7 @@ const Spectating = (props: any) => {
         onGameEnd("draw");
         break;
       case NOTIFICATION_TYPE.Resign:
-        onGameEnd(initiatorIsHost ? roomInfo.hostColor : opponentColor);
+        onGameEnd(!initiatorIsHost ? roomInfo.hostColor : opponentColor);
         break;
       case NOTIFICATION_TYPE.LeavePromptDraw:
         onGameEnd("draw");

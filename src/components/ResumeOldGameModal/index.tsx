@@ -36,15 +36,31 @@ const ResumeOldGameModal = (props: IProps) => {
 
   return (
     <Modal
-      onClose={(onClose)}
+      onClose={onClose}
       isTopLeft={true}
       withShadow={true}
       withBorder={true}
+      isBlack={true}
+      isDrawModal={true}
     >
       <div className={"resume-old-game-modal"}>
-        <p>You are currently in a game against {props.loseMatchForLeaving.opponentName}.<br />If you don't return in 30 seconds, you are going to <strong>lose (<TrophySvg />{props.loseMatchForLeaving.eloLost})</strong> or <strong>draw (<TrophySvg />{props.loseMatchForLeaving.eloDraw})</strong> the match.</p>
-        <div className={'timeleft'}>
-          <p>{(timeLeft / 1000).toString().split('.')[0]}</p>
+        <p>
+          You are currently in a game against{" "}
+          {props.loseMatchForLeaving.opponentName}.<br />
+          If you don't return in 30 seconds, you are going to{" "}
+          <strong>
+            lose (<TrophySvg />
+            {props.loseMatchForLeaving.eloLost})
+          </strong>{" "}
+          or{" "}
+          <strong>
+            draw (<TrophySvg />
+            {props.loseMatchForLeaving.eloDraw})
+          </strong>{" "}
+          the match.
+        </p>
+        <div className={"timeleft"}>
+          <p>{(timeLeft / 1000).toString().split(".")[0]}</p>
         </div>
         <div className={"btn-container"}>
           <button onClick={props.onResume} className={"btn"}>

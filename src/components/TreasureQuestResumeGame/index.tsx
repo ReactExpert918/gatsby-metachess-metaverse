@@ -27,19 +27,21 @@ const ResumeOldGameModal = (props: IProps) => {
     }
 
     return () => {
-        clearTimeout(timeout);
+      clearTimeout(timeout);
     };
   }, [timeLeft]);
   // function timeLeftToMinutesAndSeconds(timeLeft) {
-    var minutes:number = Math.floor(timeLeft / 60);
-    var seconds:number = timeLeft-minutes*60;
-  
+  var minutes: number = Math.floor(timeLeft / 60);
+  var seconds: number = timeLeft - minutes * 60;
+
   return (
     <Modal
       onClose={onClose}
       isTopLeft={true}
       withShadow={true}
       withBorder={true}
+      isBlack={true}
+      isDrawModal={true}
     >
       <div className={"resume-old-game-modal"}>
         <p>You are currently in a treasure quest game</p>
