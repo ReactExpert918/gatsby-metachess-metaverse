@@ -41,7 +41,11 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   let currentDate: number = new Date().getDate();
   let currentMonth: number = new Date().getMonth();
   let currentYear: number = new Date().getFullYear();
-  let daysInMonth: number = new Date(currentYear, currentMonth, 0).getDate();
+  let daysInMonth: number = new Date(
+    currentYear,
+    currentMonth + 1,
+    0
+  ).getDate();
   let dateRange: string = currentDate < 15 ? "1-15" : `16-${daysInMonth}`;
   let dateString: string = `${dateRange} ${months[currentMonth]} ${currentYear}`;
   const [startDate, setStartDate] = useState(dateString);
@@ -50,15 +54,19 @@ const Profile = ({ currentUser, fetchCurrentUser }: Props & IActionProps) => {
   // return <UserEditInfo />;
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("Dates ", new Date(
-      +startDate.split(" ")[2],
-      months.indexOf(startDate.split(" ")[1]),
-      +startDate.split(" ")[0].split("-")[0]
-    ), new Date(
-      +startDate.split(" ")[2],
-      months.indexOf(startDate.split(" ")[1]),
-      +startDate.split(" ")[0].split("-")[1]
-    ))
+    console.log(
+      "Dates ",
+      new Date(
+        +startDate.split(" ")[2],
+        months.indexOf(startDate.split(" ")[1]),
+        +startDate.split(" ")[0].split("-")[0]
+      ),
+      new Date(
+        +startDate.split(" ")[2],
+        months.indexOf(startDate.split(" ")[1]),
+        +startDate.split(" ")[0].split("-")[1]
+      )
+    );
     dispatch(
       Actions.fetchUserStatsDateRange({
         beginDate: new Date(

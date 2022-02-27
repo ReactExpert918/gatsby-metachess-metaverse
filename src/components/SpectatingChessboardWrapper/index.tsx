@@ -344,8 +344,8 @@ class ChessboardWrapper extends Component<IProps, IState> {
     }
     const chessAscii = this.game ? this.game.ascii() : "";
     const combinedSquareStyles = {
-      ...squareStyles,
       ...squareStylesExceptions.lastMove,
+      ...squareStyles,
       ...squareStylesExceptions.checkOrCheckmate,
     };
     console.log(chessWidth, WINDOW_WIDTH_LIMIT, chessHeight);
@@ -356,10 +356,12 @@ class ChessboardWrapper extends Component<IProps, IState> {
         style={{ maxWidth: chessWidth }}
         {...restProps}
       >
-        <Timer
-          className="timer-mobile mt-20"
-          timeLeft={playerColor === "b" ? timer?.white : timer?.black}
-        />
+        {!this.props.isReplay && (
+          <Timer
+            className="timer-mobile mt-20"
+            timeLeft={playerColor === "b" ? timer?.white : timer?.black}
+          />
+        )}
         <PlayerStatus
           chessAscii={chessAscii}
           gameType={gameType}
@@ -484,11 +486,14 @@ class ChessboardWrapper extends Component<IProps, IState> {
           color={playerColor === "w" ? "w" : "b"}
           playMode={playMode}
           player={host}
+          reverse={true}
         />
-        <Timer
-          className="timer-mobile"
-          timeLeft={playerColor === "w" ? timer?.white : timer?.black}
-        />
+        {!this.props.isReplay && (
+          <Timer
+            className="timer-mobile"
+            timeLeft={playerColor === "w" ? timer?.white : timer?.black}
+          />
+        )}
       </div>
     );
   }
