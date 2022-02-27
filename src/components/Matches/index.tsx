@@ -51,6 +51,9 @@ const HEADERS = [
 const Matches = (props: IProps) => {
   const [page, setPage] = useState(1);
   useEffect(() => {
+    setPage(1);
+  }, [props.endDate, props.startDate]);
+  useEffect(() => {
     const requestObj = {
       beginDate: props.startDate,
       endDate: props.endDate,
@@ -88,8 +91,8 @@ const Matches = (props: IProps) => {
         matchHistory.Winner.Id === props.currentUser.Id
           ? pieceSide
           : pieceSide === "b"
-            ? "w"
-            : "b"
+          ? "w"
+          : "b"
       );
     navigate("/game");
   };
@@ -109,7 +112,12 @@ const Matches = (props: IProps) => {
       <div className={"innerContent main-table"}>
         {!matchesHistory ? (
           <div>Loading...</div>
-        ) : !matchesHistory.length ? <p>No Matches From {new Date(props.startDate).toDateString()} to {new Date(props.endDate).toDateString()}</p> : (
+        ) : !matchesHistory.length ? (
+          <p>
+            No Matches From {new Date(props.startDate).toDateString()} to{" "}
+            {new Date(props.endDate).toDateString()}
+          </p>
+        ) : (
           <table>
             <thead>
               <tr>
@@ -121,7 +129,7 @@ const Matches = (props: IProps) => {
                 <th className={"text-center"}>Side</th>
                 <th className={"text-center"}>Time</th>
                 <th>Date</th>
-                <th>Replay</th>
+                <th></th>
                 <th />
               </tr>
             </thead>
@@ -143,25 +151,27 @@ const Matches = (props: IProps) => {
                   <td>
                     <div>
                       <p
-                        className={`${!x.Winner
-                          ? "draw"
-                          : x.Winner.Id === props.currentUser.Id
+                        className={`${
+                          !x.Winner
+                            ? "draw"
+                            : x.Winner.Id === props.currentUser.Id
                             ? "victory"
                             : "defeat"
-                          }`}
+                        }`}
                       >
                         {!x.Winner
                           ? "Draw"
                           : x.Winner.Id === props.currentUser.Id
-                            ? "Victory"
-                            : "Defeat"}
+                          ? "Victory"
+                          : "Defeat"}
                       </p>
                     </div>
                   </td>
                   <td>
                     <div>
-                      <p className="mode">{`${getGameTypeName(x.Time.base)} - ${x.GameMode == GameMode.Casual ? "Casual" : "Rated"
-                        }`}</p>
+                      <p className="mode">{`${getGameTypeName(x.Time.base)} - ${
+                        x.GameMode == GameMode.Casual ? "Casual" : "Rated"
+                      }`}</p>
                     </div>
                   </td>
                   <td>
@@ -172,8 +182,9 @@ const Matches = (props: IProps) => {
                         ) : (
                           <span
                             className={x.EloEarned > 0 ? "victory" : "defeat"}
-                          >{`${x.EloEarned > 0 ? "+" : ""}${x.EloEarned
-                            }`}</span>
+                          >{`${x.EloEarned > 0 ? "+" : ""}${
+                            x.EloEarned
+                          }`}</span>
                         )}
                       </p>
                     </div>
@@ -263,8 +274,7 @@ const Matches = (props: IProps) => {
             cursor: prevCondition ? "pointer" : "no-drop",
           }}
           onClick={() => {
-            if (prevCondition)
-              setPage(page - 1);
+            if (prevCondition) setPage(page - 1);
           }}
         >
           {"<"} Previous
@@ -277,8 +287,7 @@ const Matches = (props: IProps) => {
             cursor: nextCondition ? "pointer" : "no-drop",
           }}
           onClick={() => {
-            if (nextCondition)
-              setPage(page + 1);
+            if (nextCondition) setPage(page + 1);
           }}
         >
           Next {">"}
@@ -292,8 +301,7 @@ const Matches = (props: IProps) => {
             cursor: firstCondition ? "pointer" : "no-drop",
           }}
           onClick={() => {
-            if (firstCondition)
-              setPage(1);
+            if (firstCondition) setPage(1);
           }}
         >
           First
@@ -306,8 +314,7 @@ const Matches = (props: IProps) => {
             cursor: lastCondition ? "pointer" : "no-drop",
           }}
           onClick={() => {
-            if (lastCondition)
-              setPage(Math.ceil(props.matchesCount / 10));
+            if (lastCondition) setPage(Math.ceil(props.matchesCount / 10));
           }}
         >
           Last

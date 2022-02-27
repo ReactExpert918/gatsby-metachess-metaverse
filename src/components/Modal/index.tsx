@@ -1,6 +1,7 @@
 import React, { Component, createRef } from "react";
 import Draggable from "react-draggable";
-import CloseIcon from "../../assets/images/CloseIcon.svg";
+// import CloseIcon from "../../assets/images/CloseIcon.svg";
+import CloseIconSvg from "./CloseIconSvg";
 
 interface IProps {
   children: JSX.Element;
@@ -11,6 +12,8 @@ interface IProps {
   withBorder?: boolean;
   withCloseIcon?: boolean;
   notShowClose?: boolean;
+  isBlack?: boolean;
+  isDrawModal?: boolean;
 }
 
 class Modal extends Component<IProps> {
@@ -40,10 +43,19 @@ class Modal extends Component<IProps> {
         {this.props.children}
         {!this.props.notShowClose && (
           <div
-            className="close-icon btn-clickable"
+            className={`close-icon btn-clickable ${
+              this.props.isDrawModal ? "draw-modal-close" : ""
+            }`}
             onClick={this.props.onClose}
           >
-            <img src={CloseIcon} />
+            <CloseIconSvg color={this.props.isBlack ? "#000" : "#fff"} />
+            {/* {!this.props.isBlack ? (
+              // <img src={CloseIcon} />
+            ) : (
+              <p style={{ color: "#000", fontSize: "10px", fontWeight: "900" }}>
+                X
+              </p>
+            )} */}
           </div>
         )}
       </div>

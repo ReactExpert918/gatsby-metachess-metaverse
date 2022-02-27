@@ -55,6 +55,7 @@ export interface IUser {
   TreasuresFound: number;
   TreasureGamesPlayedToday: number;
   Avatar: string;
+  HighestAIGameLevelWon: number;
   Settings: string;
 }
 export interface IServerStatus {

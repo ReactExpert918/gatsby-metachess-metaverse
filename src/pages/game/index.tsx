@@ -4,6 +4,7 @@ import SocketService from "../../services/socket.service";
 import WinModal from "../../components/WinModal";
 import { connect } from "react-redux";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
+import { Actions as UserActions } from "../../store/user/user.action";
 import GameInfo from "../../components/ChessboardWrapper/GameInfo";
 import { PageProps } from "gatsby";
 import {
@@ -59,6 +60,7 @@ interface IActionProps {
   setPlayerColor: typeof GameplayActions.setPlayerColor;
   setLastTimestamp: typeof GameplayActions.setLastTimestamp;
   setFirstMoveTimer: typeof GameplayActions.setFirstMoveTimer;
+  setCurrentUser: typeof UserActions.setCurrentUser;
   setFirstTimer: typeof GameplayActions.setFirstTimer;
   clear: typeof GameplayActions.clear;
   setLoseMatchForLeaving: typeof GameplayActions.setLoseMatchForLeaving;
@@ -179,7 +181,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     clearTimeout(this.idTimeoutShowModal);
     clearTimeout(this.replayTimeout);
     if (
-      !this.props.winner &&
+      !this.state.winner &&
       this.props.playMode &&
       !this.props.isReplay &&
       !this.props.playMode.isAI
@@ -197,12 +199,19 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
         Result:
           this.state.winner === this.props.playerColor
             ? 1
-            : this.state.winner === null
+            : this.state.winner === null || this.state.winner === "draw"
             ? 3
             : 2,
         PieceSide: this.props.playerColor === "w" ? 1 : 2,
         BoardMoves: this.props.moveHistoryTimestamp,
       });
+      if (this.state.winner === this.props.playerColor) {
+        this.props.setCurrentUser({
+          ...this.props.currentUser,
+          HighestAIGameLevelWon:
+            this.props.currentUser.HighestAIGameLevelWon + 1,
+        });
+      }
     }
     this.props.setGameElos(null);
   }
@@ -546,12 +555,14 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
   };
 
   onResign() {
+    if (this.props.isReplay || this.state.winner) return;
     SocketService.sendData("resign", null, () => {
-      // this.onGameEnd(this.props.playerColor === "b" ? "w" : "b");
+      this.onGameEnd(this.props.playerColor === "b" ? "w" : "b");
     });
   }
 
   onDrawRequest = () => {
+    if (this.props.isReplay || this.state.winner) return;
     const { drawTimes } = this.state;
     if (drawTimes < 5) {
       SocketService.sendData("request-draw", null, () => {
@@ -710,7 +721,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             }}
           />
         )}
-        <SpectatorsDisplay />
+        {this.props.playMode.isHumanVsHuman && !this.props.isReplay && (
+          <SpectatorsDisplay />
+        )}
         <div className="gameWrapper">
           {/* <Chat /> */}
           <MovesHistory />
@@ -746,7 +759,7 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
             />
           )}
           <GameInfo
-            resing={this.onResign}
+            resign={this.onResign}
             onDraw={this.onDrawRequest}
             onReplayPrevious={this.onReplayPrevious}
             onReplayNext={this.onReplayNext}
@@ -799,6 +812,7 @@ const connected = connect<ISelectProps, IActionProps>(mapStateToProps as any, {
   addInMoveHistory: GameplayActions.addInMoveHistory,
   setOpponent: GameplayActions.setOpponent,
   setPlayerColor: GameplayActions.setPlayerColor,
+  setCurrentUser: UserActions.setCurrentUser,
   setLastTimestamp: GameplayActions.setLastTimestamp,
   setFirstMoveTimer: GameplayActions.setFirstMoveTimer,
   setFirstTimer: GameplayActions.setFirstTimer,

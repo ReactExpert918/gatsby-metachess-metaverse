@@ -28,6 +28,7 @@ import { addMissedSocketActions } from "./src/lib/missedSocketActions";
 import { ILoseMatchForLeaving } from "./src/interfaces/game.interfaces";
 import { MAIN_WEBSITE } from "./src/config";
 import { moveList } from "./src/store/treasureHunt/treasureHunt.interface";
+import { getOpponentName } from "./src/helpers/getOpponentNameByPlayMode";
 
 interface ISelectXProps {
   playMode: ISetPlayModePayload;
@@ -88,7 +89,11 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
         setTimeout(() => {
           store.dispatch(
             gameplayActions.setLoseMatchForLeaving({
-              opponentName: runningMatch.opponent.Username,
+              opponentName: getOpponentName(
+                false,
+                null,
+                runningMatch.opponent as IUser
+              ),
               eloLost: runningMatch.gameElos.eloLose,
               eloDraw: runningMatch.gameElos.eloDraw,
             })
@@ -167,8 +172,13 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
       SocketService.sendData(
         `set-guest-token`,
         guestToken,
-        (params: { user: IUser; token: string } | string) => {
+        (params: {
+          user: IUser;
+          token: string;
+          highestAIGameLevelWon: number;
+        }) => {
           console.log(params);
+          //@ts-ignore
           if (params === "already authenticated") {
             console.log(params);
             store.dispatch(userActions.setAlreadyAuthenticated(true));
@@ -177,7 +187,12 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           const tokenToSet = params.token ? params.token : guestToken;
           TOKEN.guest = tokenToSet;
           API.initialize();
-          store.dispatch(userActions.setCurrentUser({ ...params.user }));
+          store.dispatch(
+            userActions.setCurrentUser({
+              ...params.user,
+              HighestAIGameLevelWon: params.highestAIGameLevelWon,
+            })
+          );
 
           // SocketService.sendData("resume-my-game", null, (...args: any) => {
           //   console.log("resume-my-game Guest - set-guest-token:", args);
@@ -252,18 +267,20 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           leavingTime={30000} // todo: From backend value when user left game
         />
       )}
-      {p.gameInProgress && p.gameInProgressUserNavigating && (
-        <ResumeOldGameModalTreasureQuest
-          onResume={() => {
-            navigate("/treasurequest");
-          }}
-          onLeave={() => {
-            console.log("here");
-            p.setGameInProgressAndUserNavigating(false);
-          }}
-          leavingTime={p.timeLeft || 600} // todo: From backend value when user left game
-        />
-      )}
+      {p.gameInProgress &&
+        p.gameInProgressUserNavigating &&
+        !p.alreadyAuthenticated && (
+          <ResumeOldGameModalTreasureQuest
+            onResume={() => {
+              navigate("/treasurequest");
+            }}
+            onLeave={() => {
+              console.log("here");
+              p.setGameInProgressAndUserNavigating(false);
+            }}
+            leavingTime={p.timeLeft || 600} // todo: From backend value when user left game
+          />
+        )}
       {p.children}
     </>
   );

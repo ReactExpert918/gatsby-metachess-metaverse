@@ -34,12 +34,12 @@ const RequestDrawModal = ({
     ? "Waiting for other player's response..."
     : "Do you want to draw a game?";
   return (
-    <Modal onClose={cancelDraw}>
+    <Modal onClose={cancelDraw} isBlack={true} isDrawModal={true}>
       <div className={"request-draw-modal"}>
         <p className="title">{title}</p>
         <p>{subtitle}</p>
-        <div className={'timeleft'}>
-          <p>{(timeLeft / 1000).toString().split('.')[0]}</p>
+        <div className={"timeleft"}>
+          <p>{(timeLeft / 1000).toString().split(".")[0]}</p>
         </div>
         <div className={"btn-container"}>
           {!isUserRequested && (
