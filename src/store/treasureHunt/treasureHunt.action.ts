@@ -8,6 +8,7 @@ export enum ACTION_TYPE {
   "CLAIM_SHAH" = "CLAIM_SHAH",
   "SET_TREASURE_MODE" = "SET_TREASURE_MODE",
   "SET_GAME_START_DATE" = "SET_GAME_START_DATE",
+  "SET_TIME_LEFT" = "SET_TIME_LEFT",
   "SET_GAME_END_DATE" = "SET_GAME_END_DATE",
   "SET_GAME_RESUMED" = "SET_GAME_RESUMED",
   "SET_GAME_INFORMATION" = "SET_GAME_INFORMATION",
@@ -22,6 +23,7 @@ export const Actions = {
   setTreasureQuestMode: createAction<ISetPlayModePayload>(
     ACTION_TYPE.SET_TREASURE_MODE
   ),
+  setTimeLeft: createAction<number>(ACTION_TYPE.SET_TIME_LEFT),
   setGameStartDate: createAction<number>(ACTION_TYPE.SET_GAME_START_DATE),
   setGameEndDate: createAction<number>(ACTION_TYPE.SET_GAME_END_DATE),
   resumeGame: createAction<{

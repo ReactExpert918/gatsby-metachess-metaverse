@@ -277,8 +277,7 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
             onLeave={() => {
               console.log("here");
               p.setGameInProgressAndUserNavigating(false);
-            }}
-            leavingTime={p.timeLeft || 600} // todo: From backend value when user left game
+            }} // todo: From backend value when user left game
           />
         )}
       {p.children}
