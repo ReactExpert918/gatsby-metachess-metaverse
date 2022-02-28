@@ -82,7 +82,7 @@ export interface IGameResume {
   side: PieceSide;
   startDate: number;
   gameElos: IGameplayElos;
-  spectlist: Partial<IUser>[];
+  spectators: Partial<IUser>[];
   playerIsHost: boolean;
   hostTimeLeft: number;
   secondPlayerTimeLeft: number;
