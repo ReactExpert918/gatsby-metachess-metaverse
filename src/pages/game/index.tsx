@@ -34,6 +34,7 @@ import ActionButtons from "../../components/ActionButtons";
 import API from "../../services/api.service";
 import { ENDPOINTS } from "../../services/endpoints";
 import SpectatorsDisplay from "../../components/SpectatorsDisplay";
+import TOKEN from "../../services/token.service";
 
 interface IState {
   drawTimes: number;
@@ -194,17 +195,24 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
       });
     }
     if (this.props.playMode && this.props.playMode.isAI) {
-      API.execute("POST", ENDPOINTS.POST_AI_GAME_DATA, {
-        Key: this.token,
-        Result:
-          this.state.winner === this.props.playerColor
-            ? 1
-            : this.state.winner === null || this.state.winner === "draw"
-            ? 3
-            : 2,
-        PieceSide: this.props.playerColor === "w" ? 1 : 2,
-        BoardMoves: this.props.moveHistoryTimestamp,
-      });
+      API.execute(
+        "POST",
+        ENDPOINTS.POST_AI_GAME_DATA,
+        {
+          Key: this.token,
+          Result:
+            this.state.winner === this.props.playerColor
+              ? 1
+              : this.state.winner === null || this.state.winner === "draw"
+              ? 3
+              : 2,
+          PieceSide: this.props.playerColor === "w" ? 1 : 2,
+          BoardMoves: this.props.moveHistoryTimestamp,
+        },
+        null,
+        null,
+        { headers: { Authorization: TOKEN.user || TOKEN.guest } }
+      );
       if (this.state.winner === this.props.playerColor) {
         this.props.setCurrentUser({
           ...this.props.currentUser,
@@ -515,11 +523,9 @@ class Game extends Component<IActionProps & ISelectProps & PageProps, IState> {
     } = store.getState() as IAppState;
     if (index === historyWithTimestamp.length) {
       const {
-        gameplay: {
-          winner,
-        },
+        gameplay: { winner },
       } = store.getState() as IAppState;
-        this.onGameEnd(winner, true);
+      this.onGameEnd(winner, true);
       return;
     }
     const m = historyWithTimestamp[index];
