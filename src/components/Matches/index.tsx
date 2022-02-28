@@ -57,7 +57,7 @@ const Matches = (props: IProps) => {
     const requestObj = {
       beginDate: props.startDate,
       endDate: props.endDate,
-      startingAfter: (page - 1) * 10,
+      skip: (page - 1) * 10,
       top: 10,
     };
     props.fetchMatchesHistory(requestObj);
@@ -97,7 +97,7 @@ const Matches = (props: IProps) => {
     navigate("/game");
   };
   const nextCondition: boolean =
-    props.matchesCount !== 0 && (page + 1) * 10 <= props.matchesCount;
+    props.matchesCount !== 0 && 0 < props.matchesCount - page * 10;
   const prevCondition: boolean = props.matchesCount !== 0 && page - 1 > 0;
   const firstCondition: boolean = props.matchesCount !== 0 && page !== 1;
   const lastCondition: boolean =
