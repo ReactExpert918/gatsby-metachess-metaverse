@@ -16,6 +16,8 @@ import { IAppState } from "../reducers";
 import { ITreasureHuntReducer } from "../treasureHunt/treasureHunt.interface";
 import { ISettings } from "../../components/ProfileSidebar/EditSettings";
 import { navigate } from "gatsby";
+import { toast } from "react-toastify";
+import TOKEN from "../../services/token.service";
 
 function* onFetchCurrentUser() {
   try {
@@ -39,8 +41,25 @@ function* onFetchCurrentUser() {
     yield put(userActions.setUserSettings(user.Settings));
     yield put(userActions.setCurrentUser(user));
   } catch (res) {
-    if (res.data === "not verified" && res.status === 401) {
-      window.location.href = MAIN_WEBSITE;
+    // if (res.data === "not verified" && res.status === 401) {
+    //         toast.error(
+    //           <p>
+    //             Session Has Expired. Please Login Again{" "}
+    //             <a href={`${MAIN_WEBSITE}signup?r=game`}>Here</a>
+    //           </p>
+    //         );
+    // }
+    if (res.status === 401 && res.data === "not verified") {
+      TOKEN.remove();
+      toast.error("Email is not verified");
+    }
+    if (res.status === 401 && res.data === "banned") {
+      TOKEN.remove();
+      toast.error("Your Account has been  banned please contact support");
+    }
+    if (res.status === 401) {
+      TOKEN.remove();
+      toast.error("Session has expired please login again");
     }
     console.log("err", res);
   }
