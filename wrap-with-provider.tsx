@@ -29,6 +29,7 @@ import { ILoseMatchForLeaving } from "./src/interfaces/game.interfaces";
 import { MAIN_WEBSITE } from "./src/config";
 import { moveList } from "./src/store/treasureHunt/treasureHunt.interface";
 import { getOpponentName } from "./src/helpers/getOpponentNameByPlayMode";
+import { toast } from "react-toastify";
 
 interface ISelectXProps {
   playMode: ISetPlayModePayload;
@@ -213,7 +214,6 @@ const X = (p: ISelectXProps & IActionProps & { children: any }) => {
           }
           if (!isTokenValid) {
             TOKEN.remove();
-            window.location.href = MAIN_WEBSITE;
             return;
           }
           TOKEN.user = token;
