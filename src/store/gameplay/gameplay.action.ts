@@ -24,6 +24,7 @@ export enum ACTION_TYPE {
   "SET_LAST_TIMESTAMP" = "gameplay_SET_LAST_TIMESTAMP",
   "SET_LAST_TIMESTAMP_FIRST_MOVE" = "gameplay_SET_LAST_TIMESTAMP_FIRST_MOVE",
   "SET_TIMER" = "gameplay_SET_TIMER",
+  "SET_TIMER_MANUAL" = "gameplay_SET_TIMER_MANUAL",
   "SET_FIRST_TIMER" = "gameplay_SET_FIRST_TIMER",
   "STOP_TIMERS" = "gameplay_STOP_TIMERS",
   "ADD_TO_HISTORY_WITH_TIMESTAMP" = "gameplay_ADD_TO_HISTORY_WITH_TIMESTAMP",
@@ -41,6 +42,7 @@ export enum ACTION_TYPE {
   "SET_GAME_MOUNTED" = "gameplay_SET_GAME_MOUNTED",
   "SET_RESUME_PARAMETERS" = "gameplay_SET_RESUME_PARAMETERS",
   "RESUME_GAME" = "gameplay_RESUME_GAME",
+  "SET_SPECTATORS" = "gameplay_SET_SPECTATORS",
 }
 
 export const Actions = {
@@ -59,6 +61,7 @@ export const Actions = {
     ACTION_TYPE.SET_LAST_TIMESTAMP_FIRST_MOVE
   ),
   setTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER),
+  setManualTimer: createAction<ITimer>(ACTION_TYPE.SET_TIMER_MANUAL),
   setFirstTimer: createAction<ITimer>(ACTION_TYPE.SET_FIRST_TIMER),
   setLoseMatchForLeaving: createAction<ILoseMatchForLeaving>(
     ACTION_TYPE.SET_LOSE_MATCH_FOR_LEAVING
@@ -87,4 +90,5 @@ export const Actions = {
   setResumeParameters: createAction<{ isResume: boolean; gameFen: string }>(
     ACTION_TYPE.SET_RESUME_PARAMETERS
   ),
+  setSpectators: createAction<Partial<IUser>[]>(ACTION_TYPE.SET_SPECTATORS),
 };

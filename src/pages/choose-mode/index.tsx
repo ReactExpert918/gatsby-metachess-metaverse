@@ -1,12 +1,21 @@
 import React from "react";
 import ChoseModeSection from "../../components/ChoseModeSection";
 import PlayWithAISection from "../../components/PlayWithAISection";
-import { MODES, AI_PLAY_MODE } from "../../constants/playModes";
+import {
+  MODES,
+  AI_PLAY_MODE,
+  TREASURE_QUEST_MODES,
+} from "../../constants/playModes";
 import { connect } from "react-redux";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
 import { Actions as UserActions } from "../../store/user/user.action";
+import { Actions as TreasureQuestActions } from "../../store/treasureHunt/treasureHunt.action";
 import { navigate } from "gatsby";
 import PlayWithHumanSection from "../../components/PlayWithHumanSection";
+import ChoosePVEModeSection from "../../components/ChoosePVEModeSection";
+import ChoosePVPModeSection from "../../components/ChoosePVPModeSection";
+import PlayTournamentSection from "../../components/PlayTournamentSection";
+import TreasureQuestRulesSection from "../../components/TreasureQuestRulesSection";
 import { IAppState } from "../../store/reducers";
 import { IServerStatus } from "../../store/user/user.interfaces";
 
@@ -15,6 +24,8 @@ interface IActionProps {
   setPlayerColor: typeof GameplayActions.setPlayerColor;
   setChoseMode: typeof UserActions.setChoseMode;
   setGameStartDate: typeof GameplayActions.setGameStartDate;
+  setTreasureQuestMode: typeof TreasureQuestActions.setTreasureQuestMode;
+  setTreasureQuestGameStartDate: typeof TreasureQuestActions.setGameStartDate;
 }
 
 interface ISelectChooseModeProps {
@@ -34,6 +45,14 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
     navigate("/game");
   };
 
+  const setTreasureQuestPlayMode = (playMode: TREASURE_QUEST_MODES) => {
+    props.setTreasureQuestMode({
+      treasureQuestMode: playMode,
+    });
+    props.setTreasureQuestGameStartDate(new Date().getTime());
+    navigate("/treasurequest");
+  };
+
   const onJoinRoom = (roomName: string) => {
     props.setPlayMode({
       isHumanVsHuman: true,
@@ -49,15 +68,30 @@ const ChoseMode = (props: ISelectChooseModeProps & IActionProps) => {
   const { choseMode } = props;
 
   return (
-    <div
-      className="choseModeContainer m-auto"
-    >
-      {choseMode === MODES.CHOSE_MODE && <ChoseModeSection setMode={props.setChoseMode} />}
+    <div className="choseModeContainer m-auto">
+      {choseMode === MODES.CHOSE_MODE && (
+        <ChoseModeSection setMode={props.setChoseMode} />
+      )}
+      {choseMode === MODES.PVE_MODE && (
+        <ChoosePVEModeSection setMode={props.setChoseMode} />
+      )}
+      {choseMode === MODES.PVP_MODE && (
+        <ChoosePVPModeSection setMode={props.setChoseMode} />
+      )}
+      {choseMode === MODES.PLAY_TREASURE_QUEST && (
+        <TreasureQuestRulesSection
+          setTreasureMode={setTreasureQuestPlayMode}
+          goBack={onGoBack}
+        />
+      )}
       {choseMode === MODES.PLAY_AI && (
         <PlayWithAISection setPlayMode={setAIPlayMode} goBack={onGoBack} />
       )}
       {choseMode === MODES.PLAY_WITH_HUMAN && (
         <PlayWithHumanSection goBack={onGoBack} onJoinRoom={onJoinRoom} />
+      )}
+      {choseMode === MODES.PLAY_TOURNAMENT && (
+        <PlayTournamentSection onJoinRoom={onJoinRoom} />
       )}
     </div>
   );
@@ -75,6 +109,8 @@ const connected = connect<ISelectChooseModeProps, IActionProps>(
     setPlayerColor: GameplayActions.setPlayerColor,
     setChoseMode: UserActions.setChoseMode,
     setGameStartDate: GameplayActions.setGameStartDate,
+    setTreasureQuestMode: TreasureQuestActions.setTreasureQuestMode,
+    setTreasureQuestGameStartDate: TreasureQuestActions.setGameStartDate,
   }
 )(ChoseMode);
 

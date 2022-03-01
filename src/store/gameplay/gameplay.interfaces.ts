@@ -4,6 +4,7 @@ import {
   IMoveSocket,
   PieceSide,
   ILoseMatchForLeaving,
+  ISpectSocket,
 } from "../../interfaces/game.interfaces";
 import { IUser } from "../user/user.interfaces";
 import { Timer } from "../../lib/timer";
@@ -12,6 +13,7 @@ export interface IGameplayReducer {
   playerColor: "b" | "w";
   onMove: "b" | "w";
   moveHistory: string[];
+  spectlist: Partial<IUser>[];
   playMode: ISetPlayModePayload;
   gameRules: GameRules;
   opponent: IUser;
@@ -53,6 +55,12 @@ export interface ITimer {
 export interface IMoveWithTimestamp {
   move: string;
   timestamp: number;
+  fen?: string;
+  isCheck?: boolean;
+  isCheckmate?: boolean;
+  isDraw?: boolean;
+  isRepetition?: boolean;
+  isStalemate?: boolean;
 }
 
 export enum ResultCondition {
@@ -74,4 +82,8 @@ export interface IGameResume {
   side: PieceSide;
   startDate: number;
   gameElos: IGameplayElos;
+  spectators: Partial<IUser>[];
+  playerIsHost: boolean;
+  hostTimeLeft: number;
+  secondPlayerTimeLeft: number;
 }

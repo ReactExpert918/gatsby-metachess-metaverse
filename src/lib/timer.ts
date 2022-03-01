@@ -1,9 +1,9 @@
 export class Timer {
   finished: boolean = false;
-  private timePassed: number = 0;
+  timePassed: number = 0;
   timeLeft: number = 0;
   private timerBonus: number = 0;
-  private timerLimit: number = 0;
+  timerLimit: number = 0;
 
   private startDate: number = 0;
 
@@ -13,9 +13,14 @@ export class Timer {
 
   interval: NodeJS.Timeout;
 
-  constructor(timeBase: number, timeIncrement: number, startDate: number) {
+  constructor(
+    timeBase: number,
+    timeIncrement: number,
+    startDate: number,
+    timeLeft?: number
+  ) {
     this.timerBonus = timeIncrement * 1000;
-    this.timeLeft = timeBase * 1000 * 60;
+    this.timeLeft = timeLeft ? timeLeft : timeBase * 1000 * 60;
     this.timerLimit = timeBase * 1000 * 60;
     this.startDate = startDate;
     this.previousTimestamp = this.startDate;
@@ -33,7 +38,9 @@ export class Timer {
 
   reinit = (lastTimestamp: number, secondPassCallback: () => void) => {
     this.previousTimestamp = lastTimestamp;
+    // this.timePassed = this.timerLimit - this.timeLeft;
 
+    console.log(secondPassCallback);
     if (!secondPassCallback) {
       return;
     }

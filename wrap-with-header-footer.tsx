@@ -1,18 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import Header from "./src/components/Header";
-import ChatWrapper from "./src/components/ChatWrapper";
-import ToastProvider from "./src/components/ToastProvider";
-import FriendsSidebar from "./src/components/FriendsSidebar";
 import "react-toastify/dist/ReactToastify.css";
+import ChatWrapper from "./src/components/ChatWrapper";
+import FriendsSidebar from "./src/components/FriendsSidebar";
+import Header from "./src/components/Header";
+import MaintenanceModal from "./src/components/MaintenanceModal";
 import PageBackground from "./src/components/PageBackground";
+import ToastProvider from "./src/components/ToastProvider";
+import { IAppState } from "./src/store/reducers";
+import { IServerStatus, MAINTENANCE_MODE } from "./src/store/user/user.interfaces";
 
 export default ({ element, props }: { element: JSX.Element; props: any }) => {
   return (
     <div
-      className={`wrapContainer ${
-        props.path.includes("/game") ? "no-scroll" : ""
-      }`}
+      className={`wrapContainer ${props.path.includes("/game") ? "no-scroll" : ""
+        }`}
     >
       <Header {...props} />
       <>
@@ -32,8 +35,9 @@ export default ({ element, props }: { element: JSX.Element; props: any }) => {
           rtl={false}
           draggable
           pauseOnHover
-          theme='colored'
+          theme="colored"
         />
+        <MaintenanceModal showClose={true} />
       </>
     </div>
   );

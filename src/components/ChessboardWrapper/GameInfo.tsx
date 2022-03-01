@@ -13,6 +13,7 @@ import { IUser } from "../../store/user/user.interfaces";
 import ActionButtons from "../ActionButtons";
 import { getGameTypeName } from "../../helpers/gameTypeHelper";
 import { TrophySvg } from "../Images";
+import { isSSR } from "../../lib/utils";
 
 interface ISelectProps {
   gameRules: GameRules;
@@ -30,6 +31,8 @@ interface IGameInfoProps {
   drawEnabled: boolean;
   onDraw: () => void;
   showFirstMoveTime: boolean;
+  onReplayPrevious: () => void;
+  onReplayNext: () => void;
 }
 
 const getOpponentColor = (playerColor: "b" | "w") => {
@@ -49,16 +52,20 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
     onDraw,
     drawEnabled,
     showFirstMoveTime,
+    onReplayPrevious,
+    onReplayNext,
   } = props;
 
   const onResign = () => {
     resign();
   };
 
+  const windowWidth = isSSR ? 1024 : window.innerWidth;
+  console.log(playMode);
   return (
     <div className="chessboardSidebarWrapper">
       <div className="timersWrapper">
-        {!playMode.isAI && showFirstMoveTime && (
+        {!playMode.isAI && showFirstMoveTime && !props.isReplay && (
           <div>
             <Timer
               className="timer-desktop-first"
@@ -70,7 +77,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
             />
           </div>
         )}
-        {!playMode.isAI && (
+        {playMode != null && !playMode.isAI && !props.isReplay && (
           <Timer
             className="timer-desktop"
             timeLeft={
@@ -82,7 +89,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
         )}
         <div className="gameInfoContainer">
           <p className="gameInfoTitle">{"Game Info"}</p>
-          {playMode.isAI ? (
+          {playMode != undefined && playMode != null && playMode.isAI ? (
             <>
               <p className="gameDetail">
                 Opponent:{" "}
@@ -144,7 +151,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
           )}
         </div>
         <div>
-          {!playMode.isAI && showFirstMoveTime && (
+          {!playMode.isAI && showFirstMoveTime && !props.isReplay && (
             <>
               <Timer
                 className="timer-desktop-first"
@@ -154,22 +161,58 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               />
             </>
           )}
-          {!playMode.isAI && (
+          {playMode != null && !playMode.isAI && !props.isReplay && (
             <>
               <Timer
                 className="timer-desktop"
                 timeLeft={playerColor === "w" ? timer?.white : timer?.black}
               />
-              {!props.isReplay && (
-                <ActionButtons
-                  draw={onDraw}
-                  drawEnabled={drawEnabled}
-                  resign={() => {
-                    onResign();
-                  }}
-                />
-              )}
+              <ActionButtons
+                draw={onDraw}
+                drawEnabled={drawEnabled}
+                resign={() => {
+                  onResign();
+                }}
+              />
             </>
+          )}
+          {props.isReplay && windowWidth >= 768 && (
+            <div
+              style={{
+                width: "100%",
+                height: "10vh",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bolder",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  console.log("hello");
+                  onReplayPrevious();
+                }}
+              >
+                {"<"} Previous
+              </p>
+
+              <p
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "bolder",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+                onClick={onReplayNext}
+              >
+                Next {">"}
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -205,14 +248,7 @@ const Connected = connect<ISelectProps, any>(
 )(GameInfo);
 
 const T = (p: any) => {
-  return (
-    <Connected
-      resign={Object.values(p)[0]}
-      onDraw={Object.values(p)[1]}
-      drawEnabled={Object.values(p)[2]}
-      showFirstMoveTime={Object.values(p)[3]}
-    />
-  );
+  return <Connected {...p} />;
 };
 
 export default T;

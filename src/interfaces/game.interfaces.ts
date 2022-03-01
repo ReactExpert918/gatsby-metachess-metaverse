@@ -23,7 +23,7 @@ export enum GameType {
   Classical = 1,
   Blitz,
   Rapid,
-  Bullet
+  Bullet,
 }
 
 export interface ILoseMatchForLeaving {
@@ -41,12 +41,20 @@ export interface GameRules {
   type: GameType;
 }
 
+export interface SpectatingGameRules {
+  chessCoin: MinMax;
+  hostSide: PieceSide;
+  rating: number;
+  mode: GameMode;
+  time: Time;
+  type: GameType;
+}
 export enum ResultCondition {
   Gameplay = 1,
   Timeout,
   Resign,
   Leave,
-  DrawRequest
+  DrawRequest,
 }
 
 export enum MovePieceEnum {
@@ -68,4 +76,11 @@ export interface IMoveSocket {
   fen: string;
   winner?: any;
   timestamp: number;
+  playerIsHost: boolean;
+  hostTimeLeft: number;
+  secondPlayerTimeLeft: number;
+}
+
+export interface ISpectSocket {
+  spectlist: Array<any>;
 }

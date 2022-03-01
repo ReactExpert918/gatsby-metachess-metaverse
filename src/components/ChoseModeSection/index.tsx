@@ -2,36 +2,55 @@ import React, { useState } from "react";
 import SquaredButton from "../SquaredButton";
 import { MODES } from "../../constants/playModes";
 import { IAppState } from "../../store/reducers";
+import { Actions as UserActions } from "../../store/user/user.action";
 import { connect } from "react-redux";
-import MaintenanceModal from "../MaintenanceModal";
 import {
   IServerStatus,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
 interface IProps {
-  setMode: (p: MODES) => void;
+  setMode: typeof UserActions.setChoseMode;
 }
 
-interface ISelectChooseModeSectionProps extends IProps {
+interface ISelectChooseModeSectionProps {
   serverStatus: IServerStatus;
 }
-const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
-  const [userSeenMaintenance, setUserSeenMaintenance] = useState(true);
+const ChoseModeSection = (props: ISelectChooseModeSectionProps & IProps) => {
+  // const isServerOnline =
+  //   props.serverStatus.MaintenanceMode === MAINTENANCE_MODE.ONLINE;
   return (
     <div className={"choseModeSectionContainer"}>
-      {!userSeenMaintenance &&
-        props.serverStatus.Status !== MAINTENANCE_MODE.ONLINE && (
-          <MaintenanceModal
-            setUserSeen={() => {
-              setUserSeenMaintenance(true);
-            }}
-          />
-        )}
       <div className={"headerWrapper"}>
         <p className="header-heading">CHOOSE A GAME MODE</p>
       </div>
       <div className={"squaredWrapper"}>
         <SquaredButton
+          // className={!isServerOnline ? "no-cursor" : ""}
+          onClick={() => {
+            // if (props.serverStatus && isServerOnline) {
+            return props.setMode(MODES.PVE_MODE);
+            // }
+          }}
+          title="PLAYER VS ENVIRONMENT"
+        >
+          <div className={"bottomAlign multiple mb-25"}>
+            <p className="header-heading-title">PVE</p>
+          </div>
+        </SquaredButton>
+        <SquaredButton
+          // className={!isServerOnline ? "no-cursor" : ""}
+          onClick={() => {
+            // if (props.serverStatus && isServerOnline) {
+            return props.setMode(MODES.PVP_MODE);
+            // }
+          }}
+          title="PLAYER VS PLAYER"
+        >
+          <div className={"bottomAlign multiple mb-25"}>
+            <p className="header-heading-title">PVP</p>
+          </div>
+        </SquaredButton>
+        {/* <SquaredButton
           onClick={() => props.setMode(MODES.PLAY_AI)}
           title="PLAY WITH AI"
         >
@@ -40,12 +59,9 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           </div>
         </SquaredButton>
         <SquaredButton
+          className={!isServerOnline ? "no-cursor" : ""}
           onClick={() => {
-            setUserSeenMaintenance(false);
-            if (
-              props.serverStatus &&
-              props.serverStatus.Status === MAINTENANCE_MODE.ONLINE
-            ) {
+            if (props.serverStatus && isServerOnline) {
               return props.setMode(MODES.PLAY_WITH_HUMAN);
             }
           }}
@@ -64,7 +80,7 @@ const ChoseModeSection = (props: ISelectChooseModeSectionProps) => {
           <span className="tLine-2"></span>
           <span className="d-flex user user-2"></span>
           <span className="tLine-3"></span>
-        </SquaredButton>
+        </SquaredButton> */}
       </div>
     </div>
   );

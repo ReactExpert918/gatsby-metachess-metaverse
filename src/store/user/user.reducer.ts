@@ -7,8 +7,11 @@ const INITIAL_STATE: IUserReducer = {
   currentUser: null,
   matchesHistory: null,
   serverStatus: null,
+  matchesCount: 0,
   choseMode: MODES.CHOSE_MODE,
-  searchedUsersList: []
+  searchedUsersList: [],
+  alreadyAuthenticated: false,
+  userStats: {},
 };
 
 export default (
@@ -22,8 +25,21 @@ export default (
       [ACTION_TYPE.SET_CURRENT_USER]: {
         currentUser: action.payload,
       },
+      [ACTION_TYPE.SET_2_DEVICES]: {
+        alreadyAuthenticated: action.payload,
+      },
+      [ACTION_TYPE.UPDATE_SETTINGS]: {
+        serverStatus: { ...state.serverStatus, ...action.payload },
+      },
       [ACTION_TYPE.SET_MATCHES_HISTORY]: {
-        matchesHistory: action.payload,
+        matchesHistory: action.payload?.results,
+        matchesCount: action.payload?.count,
+      },
+      [ACTION_TYPE.SET_USER_STATS_ONCE]: {
+        currentUser: { ...state.currentUser, ...action.payload },
+      },
+      [ACTION_TYPE.SET_USER_STATS_DATE_RANGE]: {
+        userStats: action.payload,
       },
       [ACTION_TYPE.SET_SERVER_STATUS]: {
         serverStatus: action.payload,

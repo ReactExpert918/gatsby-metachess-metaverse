@@ -1,13 +1,18 @@
-import { Cookies } from 'react-cookie';
-import moment from 'moment';
-import { COOKIE_DOMAIN ,SOCKET,MAIN_WEBSITE,API} from '../config';
+import { Cookies } from "react-cookie";
+import moment from "moment";
+import { COOKIE_DOMAIN, SOCKET, MAIN_WEBSITE, API } from "../config";
 
 class TokenService {
-  private userKey: string = 'sessionToken';
-  private guestKey: string = 'guestSessionToken';
+  private userKey: string = "sessionToken";
+  private guestKey: string = "guestSessionToken";
 
   // private readonly cookieOptions = () => ({ path: '/', expires: moment().add(1, 'years').toDate(), domain: `localhost` })
-  private readonly cookieOptions = () => ({ path: '/', expires: moment().add(1, 'years').toDate(), domain: COOKIE_DOMAIN })
+  private readonly cookieOptions = () => ({
+    path: "/",
+    expires: moment().add(1, "years").toDate(),
+    domain:
+      window.location.hostname !== "localhost" ? COOKIE_DOMAIN : "localhost",
+  });
 
   set user(token: string) {
     const cookies = new Cookies();
@@ -26,13 +31,14 @@ class TokenService {
   }
 
   set guest(token: string) {
-    console.log("Set_Guest_Token _"+token)
-    console.log("cookies_Domain_setting_token_Guest _" + COOKIE_DOMAIN)
-    console.log("socket_Guest_" +SOCKET)
-    console.log("MAIN_WEBSITE_Guest_" +MAIN_WEBSITE)
-    console.log("API_Guest_" +API)
+    console.log("Set_Guest_Token _" + token);
+    console.log("cookies_Domain_setting_token_Guest _" + COOKIE_DOMAIN);
+    console.log("socket_Guest_" + SOCKET);
+    console.log("MAIN_WEBSITE_Guest_" + MAIN_WEBSITE);
+    console.log("API_Guest_" + API);
     const cookies = new Cookies();
     if (token) {
+      console.log(cookies, token, COOKIE_DOMAIN);
       cookies.set(this.guestKey, token, this.cookieOptions());
     }
   }
@@ -48,7 +54,7 @@ class TokenService {
 
   get io(): string {
     const cookies = new Cookies();
-    return cookies.get('io');
+    return cookies.get("io");
   }
 
   remove = (): void => {
@@ -59,7 +65,7 @@ class TokenService {
     if (cookies.get(this.guestKey)) {
       cookies.remove(this.guestKey, this.cookieOptions());
     }
-  }
+  };
 }
 
 const TOKEN = new TokenService();

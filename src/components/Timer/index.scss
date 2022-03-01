@@ -1,7 +1,7 @@
 @import "../../helpers.scss";
 .timer {
-  width: calc(100vw * (154 / 1920));
-  height: calc(100vw * (90 / 1920));
+  width: 7vmax;
+  height: 8vmin;
   min-width: 82px;
   min-height: 48px;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -32,6 +32,7 @@
   .block-container {
     display: flex;
     flex-wrap: wrap;
+    padding: 0 20px;
   }
 
   .block {
@@ -40,7 +41,7 @@
   }
 
   .value {
-    color: #0f1f38;
+    color: #607aa2;
   }
 
   .title-small {
@@ -77,7 +78,7 @@
 
   .title {
     font-weight: 700;
-    color: #0f1f38;
+    color: #fff;
     font-size: 12px;
     letter-spacing: 1px;
   }

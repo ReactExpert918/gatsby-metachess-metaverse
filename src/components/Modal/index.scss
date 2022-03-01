@@ -16,9 +16,13 @@
       top: 24px;
       right: 24px;
       cursor: pointer;
-      z-index: 1;
+      z-index: 100;
       padding: 5px;
       display: flex;
+    }
+    .draw-modal-close {
+      top: 4px;
+      right: 4px;
     }
   }
 
@@ -38,14 +42,20 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
-  .modal-wrapper {
-    width: 75%;
-  }
-}
+// @media screen and (max-width: 1000px) {
+//   .modal-wrapper {
+//     width: 75%;
+//   }
+// }
 
-@media screen and (max-width: 480px) {
+// @media screen and (max-width: 480px) {
+//   .modal-wrapper {
+//     width: 90%;
+//   }
+// }
+
+@media screen and (max-width: 700px) {
   .modal-wrapper {
-    width: 90%;
+    width: calc(100% - 24px);
   }
 }

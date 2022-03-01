@@ -11,17 +11,17 @@ interface Props {
 const ProfileDateRange = ({ onClickNext, onClickPrev, title }: Props) => {
   return (
     <div className="dateRangeWrapper">
-      <img src={SmallArrowLeft} />
+      <p className="leftIcon"
+        onClick={() => onClickPrev(new Date())}> {"<"}</p>
       <p className="title">{title}</p>
-      <img src={SmallArrowRight} />
-      <div
+      <p className="leftIcon"
+        onClick={() => onClickNext(new Date())}> {">"}</p>
+      {/* <div
         className="invisibleButton left"
-        onClick={() => onClickPrev(new Date())}
       />
       <div
         className="invisibleButton right"
-        onClick={() => onClickNext(new Date())}
-      />
+      /> */}
     </div>
   );
 };

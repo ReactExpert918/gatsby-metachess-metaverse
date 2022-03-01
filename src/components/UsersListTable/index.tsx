@@ -85,30 +85,6 @@ const UsersListTable = ({
   modifyGameItems,
 }: IProps) => {
   const { currentUser } = useSelector((state: IAppState) => state.user);
-  // const gameItems: IGameItem[] = [
-  //   {
-  //     gameRules: {
-  //       type: GameType.Blitz,
-  //       rating: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       chessCoin: {
-  //         maxium: 10,
-  //         minium: 2,
-  //       },
-  //       time: {
-  //         base: 5,
-  //         increment: 1,
-  //       },
-  //       mode: GameMode.Rated,
-  //       hostSide: PieceSide.Black,
-  //     },
-  //     host: currentUser,
-  //     roomId: "123",
-  //     status: RoomEvent.GameStarted,
-  //   },
-  // ];
   const gameItems = useSelector(({ games }: IAppState) => games.gameItems);
   useEffect(() => {
     SocketService.subscribeTo({
@@ -132,14 +108,15 @@ const UsersListTable = ({
   }, []);
 
   const onItemPress = (roomId: string) => {
-    subscribeToGameStart();
+    // subscribeToGameStart();
 
-    SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
-      // TODO: Will be typeof GameRules
-      console.log("join-game:", stringForNow);
-    });
+    // SocketService.sendData("join-game", roomId, (stringForNow: boolean) => {
+    //   // TODO: Will be typeof GameRules
+    //   console.log("join-game:", stringForNow);
+    // });
+    navigate(`/join-game?roomId=${roomId}`);
   };
-
+  console.log(gameItems);
   return (
     <div className="usersListTable">
       <table>

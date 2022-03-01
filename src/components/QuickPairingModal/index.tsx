@@ -56,6 +56,7 @@ const QuickPairingModal = (props: IProps) => {
       "quick-play",
       gameRules,
       (quickPlayFound: boolean) => {
+        console.log('res', quickPlayFound);
         if (quickPlayFound) {
           setOpenWaitingPopup(true);
         }

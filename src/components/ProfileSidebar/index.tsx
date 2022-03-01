@@ -8,33 +8,31 @@ import { IAppState } from "../../store/reducers";
 import { IUser } from "../../store/user/user.interfaces";
 import { getOpponentName } from "../../helpers/getOpponentNameByPlayMode";
 import { connect } from "react-redux";
+import UserEditInfo from "./UserEditInfo";
+import SettingsTab from "./SettingsTab";
 
-interface Props {
-  currentUser: IUser;
-}
-
-const ProfileSidebar = ({ currentUser }: Props) => {
-
+const ProfileSidebar = ({ currentUser }: { currentUser: IUser }) => {
   const [selectedTab, setSelectedTab] = useState<ProfileTab>("star");
-
-
-
   return (
     <div className="profileSidebarContainer">
       <div className="header">
-        <img src={ProfilePlaceholder} />
+        <span>
+          <img src={currentUser?.Avatar || ProfilePlaceholder} />
+        </span>
         <p>{currentUser ? getOpponentName(false, null, currentUser) : ""}</p>
       </div>
-      {/* <TabHeader onSelect={setSelectedTab} selected={selectedTab} /> */}
+      {!currentUser?.GuestId ? (
+        <TabHeader onSelect={setSelectedTab} selected={selectedTab} />
+      ) : null}
       {selectedTab === "star" && <StarTabContent currentUser={currentUser} />}
-      {/* {selectedTab === "achivement" && <AchivementInfoTabContent />}
-      {selectedTab === "profile" && <ProfileInfoTabContent />} */}
+      {/* {selectedTab === "achivement" && <AchivementInfoTabContent />} */}
+      {selectedTab === "profile" && <UserEditInfo currentUser={currentUser} />}
     </div>
   );
 };
 
-const mapStateToProps = ({
-  user: { currentUser },
-}: IAppState): Props => ({ currentUser });
+const mapStateToProps = ({ user: { currentUser } }: IAppState): Props => ({
+  currentUser,
+});
 
 export default connect(mapStateToProps)(ProfileSidebar);
