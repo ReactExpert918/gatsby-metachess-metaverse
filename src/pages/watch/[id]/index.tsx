@@ -48,6 +48,9 @@ interface SpectatingRoomInfo {
 const Spectating = (props: any) => {
   const [showEndModal, setShowEndModal] = useState<boolean>(false);
   const [winner, setWinner] = useState<"b" | "w" | "draw" | null>(null);
+  // const [replayState, setReplayState] = useState<
+  //   "live" | "replay" | "replay-live"
+  // >("live");
   const [updater, setupdater] = useState<boolean>(false);
   const currentReplayIndex = useRef<number>(0);
   const initialized = useRef<boolean>(false);
@@ -93,6 +96,7 @@ const Spectating = (props: any) => {
   };
   const movePieceCallback = (moveInfo: IMoveSocket) => {
     console.log(moveInfo);
+    // if (replayState === "live")
     chessboardWrapperRef?.current?.handleMove(moveInfo.move as string, true);
     dispatch(
       Actions.setManualTimer({
