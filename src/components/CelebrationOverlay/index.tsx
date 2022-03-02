@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import celebration from "../../assets/images/celebration.gif";
+import Confetti from 'react-confetti'
 
 const CelebrationOverlay = () => {
   useEffect(() => {
@@ -8,10 +8,9 @@ const CelebrationOverlay = () => {
   }, []);
   return (
     <div className="overlay-div-celebration">
-      <img
-        src={celebration}
-        alt="animation"
-        style={{ width: "50%", height: "50%" }}
+      <Confetti
+        width={400}
+        height={550}
       />
       <div className="headerWrapper">
         <div className="header-heading">Level 3 Treasure Found!</div>
