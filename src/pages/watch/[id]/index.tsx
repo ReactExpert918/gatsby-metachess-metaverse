@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ChessboardWrapper from "../../../components/SpectatingChessboardWrapper";
 import { IPieceMove } from "../../../components/ChessboardWrapper/interface";
 import GameInfo from "../../../components/SpectatingChessboardWrapper/GameInfo";
@@ -48,11 +48,11 @@ interface SpectatingRoomInfo {
 const Spectating = (props: any) => {
   const [showEndModal, setShowEndModal] = useState<boolean>(false);
   const [winner, setWinner] = useState<"b" | "w" | "draw" | null>(null);
-  // const [replayState, setReplayState] = useState<
-  //   "live" | "replay" | "replay-live"
-  // >("live");
+  const [replayState, setReplayState] = useState<
+    "live" | "replay" | "replay-live"
+  >("live");
+  const replayStateRef = useRef<"live" | "replay" | "replay-live">(replayState);
   const [updater, setupdater] = useState<boolean>(false);
-  const currentReplayIndex = useRef<number>(0);
   const initialized = useRef<boolean>(false);
   const replayTimeout = useRef<NodeJS.Timeout>(null);
   const chessboardWrapperRef = useRef<ChessboardWrapper>(null);
@@ -61,19 +61,54 @@ const Spectating = (props: any) => {
   const {
     spectate: { roomInfo },
   }: { spectate: ISpectateReducer } = useSelector((state: IAppState) => state);
+  const currentReplayIndex = useRef<number>(0);
+  const currentLiveReplayIndex = useRef<number>(0);
   const fen = useRef<string>(roomInfo?.gameFen || INITIAL_FEN);
   const serverStatus = useSelector(
     (state: IAppState) => state.user.serverStatus
   );
   useEffect(() => {
-    fen.current = roomInfo?.gameFen || INITIAL_FEN;
-  }, [roomInfo?.gameFen]);
+    if (replayState !== "replay-live")
+      fen.current = roomInfo?.gameFen || INITIAL_FEN;
+  }, [roomInfo?.gameFen, replayState]);
+  useEffect(() => {
+    replayStateRef.current = replayState;
+  }, [replayState]);
+  useEffect(() => {
+    if (replayState === "live")
+      currentLiveReplayIndex.current = roomInfo?.historyMoves.length || 0;
+  }, [roomInfo?.historyMoves, replayState]);
   useEffect(() => {
     const roomId: string = props.id;
     console.log(roomId);
     subscribeToSpectate(roomId);
     return () => clearTimeout(replayTimeout.current);
   }, []);
+  const handleMove = (
+    fen: string,
+    playerOnMove: string,
+    move?: string,
+    shouldRerender?: boolean,
+    isCheck?: boolean,
+    isCheckmate?: boolean,
+    isDraw?: boolean,
+    isRepetition?: boolean,
+    isStalemate?: boolean
+  ): void => {
+    dispatch(
+      Actions.addInMoveHistory({
+        move: move,
+        timestamp: new Date().getTime(),
+        fen,
+        isCheck,
+        isCheckmate,
+        isDraw,
+        isRepetition,
+        isStalemate,
+      })
+    );
+    dispatch(Actions.setOnMove(playerOnMove));
+  };
   const onGameEnd = (
     winner: "b" | "w" | "draw",
     isReplay = false,
@@ -94,10 +129,48 @@ const Spectating = (props: any) => {
       dispatch(Actions.setGameWinner(winner));
     }
   };
+  // console.log(replayState);
   const movePieceCallback = (moveInfo: IMoveSocket) => {
-    console.log(moveInfo);
-    // if (replayState === "live")
-    chessboardWrapperRef?.current?.handleMove(moveInfo.move as string, true);
+    if (replayStateRef.current === "live") {
+      // currentReplayIndex.current = roomInfo?.moveHistory.length + 1;
+      chessboardWrapperRef?.current?.handleMove(moveInfo.move as string, true);
+    } else {
+      handleMove(
+        moveInfo.fen,
+        roomInfo.historyMoves.length % 2 === 0 ? "b" : "w",
+        moveInfo.move as string,
+        false,
+        moveInfo.isCheck,
+        moveInfo.isCheckmate,
+        moveInfo.isDraw,
+        moveInfo.isRepetition,
+        moveInfo.isStalemate
+      );
+      if (moveInfo.isCheckmate) {
+        // fen.current = moveInfo.fen;
+        const hostId = roomInfo.host.GuestId || roomInfo.host.Id;
+        const winnerId = moveInfo.winner.Id || moveInfo.winner.GuestId;
+        const hostIsWinner = hostId === winnerId;
+        const opponentColor = roomInfo?.hostColor === "w" ? "b" : "w";
+        const winnerVariable = !hostIsWinner
+          ? opponentColor
+          : roomInfo?.hostColor;
+        dispatch(Actions.stopTimers());
+        onGameEnd(winnerVariable, false, true);
+        setWinner(winnerVariable);
+
+        dispatch(Actions.setGameEndDate(new Date().getTime()));
+        dispatch(Actions.setGameWinner(winnerVariable));
+      }
+      if (moveInfo.isDraw || moveInfo.isRepetition || moveInfo.isStalemate) {
+        dispatch(Actions.stopTimers());
+        onGameEnd("draw", false, true);
+        setWinner("draw");
+
+        dispatch(Actions.setGameEndDate(new Date().getTime()));
+        dispatch(Actions.setGameWinner("draw"));
+      }
+    }
     dispatch(
       Actions.setManualTimer({
         black:
@@ -148,32 +221,6 @@ const Spectating = (props: any) => {
       callback: spectateNotificationCallback,
     });
   };
-  const handleMove = (
-    fen: string,
-    playerOnMove: string,
-    move?: string,
-    shouldRerender?: boolean,
-    isCheck?: boolean,
-    isCheckmate?: boolean,
-    isDraw?: boolean,
-    isRepetition?: boolean,
-    isStalemate?: boolean
-  ): void => {
-    currentReplayIndex.current += 1;
-    dispatch(
-      Actions.addInMoveHistory({
-        move: move,
-        timestamp: new Date().getTime(),
-        fen,
-        isCheck,
-        isCheckmate,
-        isDraw,
-        isRepetition,
-        isStalemate,
-      })
-    );
-    dispatch(Actions.setOnMove(playerOnMove));
-  };
   const onReplayNext = () => {
     if (currentReplayIndex.current === roomInfo?.historyMoves?.length) return;
     clearTimeout(replayTimeout.current);
@@ -190,7 +237,8 @@ const Spectating = (props: any) => {
       historyWithTimestamp[currentReplayIndex.current].move as string,
       true
     );
-    fen.current = roomInfo?.historyMoves?.[currentReplayIndex.current - 1].fen;
+    fen.current = roomInfo?.historyMoves?.[currentReplayIndex.current].fen;
+    currentReplayIndex.current++;
     // currentReplayIndex.current += 1;
     setupdater(!updater);
     replayTimeout.current = setTimeout(
@@ -198,7 +246,41 @@ const Spectating = (props: any) => {
       2000
     );
   };
-
+  const onSetLive = () => {
+    fen.current = roomInfo?.gameFen;
+    currentLiveReplayIndex.current = roomInfo?.historyMoves.length;
+    setReplayState("live");
+  };
+  const onLivePreviousReplay = () => {
+    if (currentLiveReplayIndex.current < 0) return;
+    if (currentLiveReplayIndex.current <= 1) {
+      currentLiveReplayIndex.current = 0;
+      fen.current = INITIAL_FEN;
+    } else {
+      const temp = currentLiveReplayIndex.current - 1;
+      const historyWithTimestamp = roomInfo?.historyMoves;
+      currentLiveReplayIndex.current -= 1;
+      fen.current = historyWithTimestamp[temp - 1].fen || INITIAL_FEN;
+    }
+    setReplayState("replay-live");
+  };
+  const onLiveNextReplay = () => {
+    if (currentLiveReplayIndex.current === roomInfo?.historyMoves?.length) {
+      setReplayState("live");
+      return;
+    }
+    const move = roomInfo?.historyMoves[currentLiveReplayIndex.current];
+    fen.current = move.fen;
+    currentLiveReplayIndex.current += 1;
+    if (currentLiveReplayIndex.current === roomInfo?.historyMoves?.length) {
+      // if (winner) {
+      //   onGameEnd(winner);
+      // }
+      setReplayState("live");
+      return;
+    }
+    setReplayState("replay-live");
+  };
   const onReplayPrevious = () => {
     if (currentReplayIndex.current < 0) return;
     clearTimeout(replayTimeout.current);
@@ -232,9 +314,9 @@ const Spectating = (props: any) => {
   ) => {
     dispatch(Actions.setOnMove(onMove || "w"));
     dispatch(Actions.setMoveHistory(moveHistory || []));
-    currentReplayIndex.current = last || 0;
+    currentReplayIndex.current = 0;
     fen.current = INITIAL_FEN;
-    setupdater(!updater);
+    setReplayState("replay");
     realReplay();
   };
 
@@ -310,6 +392,7 @@ const Spectating = (props: any) => {
           // aiDifficulty={playMode.aiMode}
           // opponent={roomInfo?.opponent}
           // host={roomInfo?.host}
+          onSetLive={onSetLive}
           isReplay={roomInfo.isReplay}
           winner={roomInfo?.winner}
           playMode={{
@@ -321,8 +404,12 @@ const Spectating = (props: any) => {
           }}
           moveHistoryData={roomInfo?.historyMoves}
           serverStatus={serverStatus}
-          onReplayPrevious={onReplayPrevious}
-          onReplayNext={onReplayNext}
+          onReplayPrevious={
+            replayState !== "replay" ? onLivePreviousReplay : onReplayPrevious
+          }
+          onReplayNext={
+            replayState !== "replay" ? onLiveNextReplay : onReplayNext
+          }
           opponent={roomInfo?.secondPlayer}
           host={roomInfo?.host}
           timer={roomInfo?.timer}
@@ -335,8 +422,13 @@ const Spectating = (props: any) => {
             />
           )} */}
         <GameInfo
-          onReplayPrevious={onReplayPrevious}
-          onReplayNext={onReplayNext}
+          onReplayPrevious={
+            replayState !== "replay" ? onLivePreviousReplay : onReplayPrevious
+          }
+          onSetLive={onSetLive}
+          onReplayNext={
+            replayState !== "replay" ? onLiveNextReplay : onReplayNext
+          }
           showFirstMoveTime={false}
         />
 
