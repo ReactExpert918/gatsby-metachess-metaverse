@@ -28,6 +28,7 @@ interface IGameInfoProps {
   showFirstMoveTime: boolean;
   onReplayPrevious: () => void;
   onReplayNext: () => void;
+  onSetLive: () => void;
 }
 
 const getOpponentColor = (playerColor: "b" | "w") => {
@@ -40,10 +41,12 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
     playerColor,
     // opponent,
     timer,
+    isReplay,
     gameElos,
     showFirstMoveTime,
     onReplayPrevious,
     onReplayNext,
+    onSetLive,
   } = props;
 
   const windowWidth = isSSR ? 1024 : window.innerWidth;
@@ -121,7 +124,7 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               />
             </>
           )}
-          {props.isReplay && windowWidth >= 768 && (
+          {windowWidth >= 768 && (
             <div
               style={{
                 width: "100%",
@@ -157,6 +160,20 @@ function GameInfo(props: IGameInfoProps & ISelectProps) {
               >
                 Next {">"}
               </p>
+
+              {!isReplay && (
+                <p
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "bolder",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                  onClick={onSetLive}
+                >
+                  Live
+                </p>
+              )}
             </div>
           )}
         </div>

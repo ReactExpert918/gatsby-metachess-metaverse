@@ -59,6 +59,7 @@ interface IProps {
   moveHistoryData: IMoveWithTimestamp[];
   serverStatus: IServerStatus;
   onReplayPrevious: () => void;
+  onSetLive: () => void;
   onGameEnd: (
     winner: "b" | "w" | "draw",
     isReplay: boolean,
@@ -442,7 +443,7 @@ class ChessboardWrapper extends Component<IProps, IState> {
                 )}
               </React.Suspense>
             )}
-            {this.props.isReplay && windowWidth < 768 && (
+            {windowWidth < 768 && (
               <div
                 style={{
                   width: "100%",
@@ -475,6 +476,20 @@ class ChessboardWrapper extends Component<IProps, IState> {
                 >
                   Next {">"}
                 </p>
+
+                {!this.props.isReplay && (
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "bolder",
+                      color: "#fff",
+                      cursor: "pointer",
+                    }}
+                    onClick={this.props.onSetLive}
+                  >
+                    Live
+                  </p>
+                )}
               </div>
             )}
           </div>
