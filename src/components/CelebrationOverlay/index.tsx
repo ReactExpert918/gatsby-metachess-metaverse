@@ -8,10 +8,7 @@ const CelebrationOverlay = () => {
   }, []);
   return (
     <div className="overlay-div-celebration">
-      <Confetti
-        width={400}
-        height={550}
-      />
+      <Confetti />
       <div className="headerWrapper">
         <div className="header-heading">Level 3 Treasure Found!</div>
       </div>
