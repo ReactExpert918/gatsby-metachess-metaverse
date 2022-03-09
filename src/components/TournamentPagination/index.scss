@@ -11,16 +11,19 @@
 			display: flex;
 			justify-content: center;
     		align-items: center;
-			color: #CCA66A;
-			border: 1px solid #CCA66A;
 			border-radius: 3px;
-			width: 30px;
-			height: 35px;
+			width: 50px;
+			height: 55px;
 			padding: 6px 8px;
 			box-sizing: border-box;
+			.arrow-pagination  {
+				height: 40px;
+			}
+			.arrow-left {
+				height: 40px;
+				transform: rotate(180deg);
+			}
 			&:hover {
-				background: #CCA66A;
-				border: 1px solid #CCA66A;
 				color: #FFFFFF;
 				path {
 					stroke: #FFFFFF;

@@ -2,6 +2,9 @@
     position: relative;
     display: inline-block;
     /* If you want dots under the hoverable text */
+    .squareButtonChildrenWrapper {
+        height: 160px !important;
+    }
 }
 
 

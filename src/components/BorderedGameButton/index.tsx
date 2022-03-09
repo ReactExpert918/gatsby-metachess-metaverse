@@ -20,9 +20,9 @@ const BorderedGameButton = ({
       <p className="title">{title}</p>
       {subtitle && <span className="subtitle">{subtitle}</span>}
       {available ? (
-        <button type="button" onClick={onPlayClick}>
-          Play now
-        </button>
+        <div className="play-button" onClick={onPlayClick}>
+          <p>Play now</p>
+        </div>
       ) : (
         <span className="coming-soon">Coming soon</span>
       )}

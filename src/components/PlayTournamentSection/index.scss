@@ -14,17 +14,18 @@
     justify-content: end;
     align-items: center;
     button {
-      background: linear-gradient(180deg, #dd962b 19.44%, #e39c2d 23.36%, #7e300f 49.18%, #dea85e 79.17%);
+      background: url("./assets/images/create-tournament.png");
+      background-size: 100% 100%;
       cursor: pointer;
       border-radius: 8px;
-      padding: 12px 23.5px;
+      padding: 20px 23.5px;
       font-family: Solway;
       font-style: normal;
       font-weight: 500;
       font-size: 16px;
       text-transform: uppercase;
       color: #ffffff;
-      line-height: 24px;
+      line-height: 102%;
       margin: 0 10px;
     }
   }
@@ -36,9 +37,9 @@
     margin-top: 12px;
     button {
       cursor: pointer;
-      flex: 1 1 0px;
-      margin: 0 10px;
-      border: 2px solid #cca66a;
+      width: 290px;
+      height: 50px;
+      margin: 0 18px;
       box-sizing: border-box;
       border-radius: 8px;
       font-family: Solway;
@@ -50,10 +51,14 @@
       color: #ffffff;
     }
     .colored {
-      background: #cca66a;
+      // background: #cca66a;
+      background: url("./assets/images/lobbybutton.png");
+      background-size: 100% 100%;
       padding: 10px;
     }
     .outlined {
+      background: url("./assets/images/tournament-noback.png");
+      background-size: 100% 100%;
       padding: 10px;
     }
   }
@@ -68,7 +73,7 @@
       font-size: 60px;
       line-height: 72px;
       text-transform: uppercase;
-      background-image: linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+      background-image: linear-gradient(#dd962b 0%, #ffe46e 100%);
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

@@ -11,6 +11,11 @@ import {
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
 import moment from "moment";
+import playAI1 from "../../assets/images/playai1.png";
+import playAI2 from "../../assets/images/playai2.png";
+import Treasure from "../../assets/images/treasure.png"
+import Gift from "../../assets/images/giftbox.png"
+
 interface IProps {
   setMode: typeof UserActions.setChoseMode;
 }
@@ -58,11 +63,16 @@ const ChoosePVEModeSection = (
             tooltipRef1.current.classList.remove("visible")
           }
         >
-          <div className={"bottomAlign mb-25"}>
-            <span className="d-flex pawn"></span>
+          <div className={"bottomAlign"}>
+            {/* <span className="d-flex pawn"></span> */}
+            <div className="person-icon">
+              <img src={playAI1} />
+            </div>
             <span className="squaredButtonTitle mb-35">VS</span>
-            <span className="d-flex user"></span>
-
+            {/* <span className="d-flex user"></span> */}
+            <div className="person-icon">
+              <img src={playAI2} />
+            </div>
             <span className="tooltiptext" ref={tooltipRef1}>
                <p style={{ textTransform: "capitalize" }}>
           The scheduled maintenance would start in approximately 30 minutes, we
@@ -102,11 +112,13 @@ const ChoosePVEModeSection = (
             tooltipRef2.current.classList.remove("visible")
           }
         >
-          <div className={"bottomAlign mb-25"}>
-            <span className="d-flex chest"></span>
-            {/* <span className="squaredButtonTitle mb-35">VS</span> */}
-            <span className="d-flex user"></span>
-
+          <div className={"bottomAlign"}>
+            <div className="person-icon quest-icon">
+              <img src={Gift} />
+            </div>
+            <div className="person-icon">
+              <img src={Treasure} />
+            </div>
             <span className="tooltiptext" ref={tooltipRef2}>
               {props.serverStatus.MaintenanceMode ===
                 MAINTENANCE_MODE.NEW_GAMES_DISABLED ?<p style={{ textTransform: "capitalize" }}>
