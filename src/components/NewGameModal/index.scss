@@ -3,12 +3,19 @@
   width: 733px;
   text-align: center;
   background: #0c1221;
+  background: url("./assets/images/game-setup/background.png");
+  background-size: 100% 100%;
   position: relative;
   h3 {
     font-size: 1.5rem;
     letter-spacing: 1.62px;
     text-transform: uppercase;
-    color: #cca66b;
+    // color: #cca66b;
+    
+    background-image: linear-gradient(#dd962b 0%, #ffe46e 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 30px;
   }
 
@@ -53,8 +60,9 @@
             width: 15px;
           }
           select {
-            border: 2px solid #cca66a;
-            background: none;
+            background: url("assets/images/game-setup/input.png");
+            background-size: 100% 100%;
+            border: none;
             color: #ffffff;
             text-transform: uppercase;
             border-radius: 5px;
@@ -65,6 +73,10 @@
             padding-left: 10px;
             cursor: pointer;
             appearance: none;
+            &:focus-visible {
+              border: none;
+              outline: none;
+            }
             option {
               color: #cca66a;
               padding-top: 5px;
@@ -80,19 +92,23 @@
           > div {
             border-radius: 8px;
             margin-right: 20px;
-            width: 58px;
-            height: 58px;
+            width: 70px;
+            height: 70px;
             display: flex;
             justify-content: center;
             align-items: center;
             img {
-              height: 40px;
+              height: 50px;
             }
           }
           .side {
+            background: url("assets/images/game-setup/select-active.png");
+            background-size: 100% 100%;
           }
           .sideClicked {
-            border: 2px solid #cca66a;
+            // border: 2px solid #cca66a;
+            background: url("assets/images/game-setup/select.png");
+            background-size: 100% 100%;
           }
         }
         .inBetween {
@@ -101,15 +117,19 @@
           min-width: 65px;
         }
         input {
-          border: 2px solid #cca66b;
+          background: url("assets/images/game-setup/mode.png");
+          background-size: 100% 100%;
+          border: none;
           border-radius: 8px;
           opacity: 1;
           font-size: 15px;
           width: 56px;
           height: 32px;
           text-align: center;
-          background: none;
           color: #ffffff;
+          &:focus-visible {
+            outline: none;
+          }
         }
       }
       .timeAndIncrementTitle {
@@ -127,6 +147,8 @@
     button {
       font-size: 20px;
       padding: 14px 20px;
+      background: url("assets/images/game-setup/button.png");
+      background-size: 100% 100%;
     }
   }
 }
