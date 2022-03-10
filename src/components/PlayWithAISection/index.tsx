@@ -53,7 +53,7 @@ const PlayWithAISection = (props: IProps) => {
         >
           <LockOverlay level={1}>
             <div className="bottomAlign">
-              <span className="d-flex beginner"></span>
+              <span className="d-flex pawn"></span>
             </div>
           </LockOverlay>
         </SquaredButton>
@@ -141,7 +141,8 @@ const PlayWithAISection = (props: IProps) => {
         >
           <LockOverlay level={7}>
             <div className="bottomAlign">
-              <span className="d-flex master"></span>
+              <span className="d-flex king"></span>
+              <span className="d-flex queen"></span>
             </div>
           </LockOverlay>
         </SquaredButton>
@@ -155,7 +156,9 @@ const PlayWithAISection = (props: IProps) => {
         >
           <LockOverlay level={8}>
             <div className="bottomAlign">
-              <span className="d-flex grand-master"></span>
+              <span className="d-flex king"></span>
+              <span className="d-flex queen"></span>
+              <span className="d-flex rook"></span>
             </div>
           </LockOverlay>
         </SquaredButton>
@@ -171,7 +174,10 @@ const PlayWithAISection = (props: IProps) => {
         >
           <LockOverlay level={9}>
             <div className="bottomAlign">
-              <span className="d-flex legend"></span>
+              <span className="d-flex king"></span>
+              <span className="d-flex queen"></span>
+              <span className="d-flex rook"></span>
+              <span className="d-flex bishop"></span>
             </div>
           </LockOverlay>
         </SquaredButton>
@@ -185,7 +191,12 @@ const PlayWithAISection = (props: IProps) => {
         >
           <LockOverlay level={10}>
             <div className="bottomAlign">
-              <span className="d-flex immortal"></span>
+              <span className="d-flex king"></span>
+              <span className="d-flex queen"></span>
+              <span className="d-flex rook"></span>
+              <span className="d-flex bishop"></span>
+              <span className="d-flex horse"></span>
+              <span className="d-flex pawn"></span>
             </div>
           </LockOverlay>
         </SquaredButton>

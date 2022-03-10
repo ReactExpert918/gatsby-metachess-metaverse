@@ -8,9 +8,7 @@
 		.tournamentTableHeaderWrapper {
 			& > td {
 				align-items: center;
-				height: 50px;
-				background: url("./assets/images/tournament-noback.png");
-				background-size: 100% 100%;
+				border: 2px solid #CCA66A;
 				box-sizing: border-box;
 				border-radius: 8px;
 				padding: 10px;
@@ -27,12 +25,9 @@
 		.tournamentTableItemWrapper {
 	  		& > td {
 				align-items: center;
-				// background: rgba(255, 255, 255, 0.1);
-				background: url("./assets/images/tournament-back.png");
-				background-size: 100% 100%;
-				height: 50px;
+				background: rgba(255, 255, 255, 0.1);
 				border-radius: 8px;
-				padding: 0px 15px;
+				padding: 8px 15px;
 				font-family: Solway;
 				font-style: normal;
 				font-weight: 500;

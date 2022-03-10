@@ -9,11 +9,6 @@ import {
   IServerStatus,
   MAINTENANCE_MODE,
 } from "../../store/user/user.interfaces";
-
-import human from "../../assets/images/human&tournament.png";
-import playAI2 from "../../assets/images/playai2.png";
-import Treasure from "../../assets/images/treasure2.png"
-
 interface IProps {
   setMode: typeof UserActions.setChoseMode;
 }
@@ -63,15 +58,10 @@ const ChoosePVPModeSection = (
             tooltipRef1.current.classList.remove("visible")
           }
         >
-          <div className={"bottomAlign multiple"}>
-          <div className="person-icon">
-              <img src={Treasure} />
-            </div>
-            <span className="squaredButtonTitle">VS</span>
-            {/* <span className="d-flex user"></span> */}
-            <div className="person-icon">
-              <img src={playAI2} />
-            </div>
+          <div className={"bottomAlign multiple mb-25"}>
+            <span className="d-flex user"></span>
+            <span className="squaredButtonTitle mb-35">VS</span>
+            <span className="d-flex user"></span>
 
             <span className="tooltiptext" ref={tooltipRef1}>
               {props.serverStatus.MaintenanceMode ===
@@ -103,13 +93,12 @@ const ChoosePVPModeSection = (
             tooltipRef2.current.classList.remove("visible")
           }
         >
-          {/* <span className="d-flex pawn"></span>
+          <span className="d-flex pawn"></span>
           <span className="tLine-1"></span>
           <span className="d-flex user user-1"></span>
           <span className="tLine-2"></span>
           <span className="d-flex user user-2"></span>
-          <span className="tLine-3"></span> */}
-          <img src={human} className="humanTournament" />
+          <span className="tLine-3"></span>
 
           <span className="tooltiptext" ref={tooltipRef2}>
             {props.serverStatus.MaintenanceMode ===

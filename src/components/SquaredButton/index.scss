@@ -1,15 +1,14 @@
 .squareButtonContainer {
     position: relative;
-    background: url("./assets/images/environment.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background: #0c1221;
+    box-shadow: 4px 0px 30px rgba(40, 61, 97, 0.7), 0px 4px 30px rgba(32, 49, 79, 0.7);
     width: 400px;
-    height: 400px;
+    height: 356px;
     margin-right: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     * {
         transition: stroke 0.25s;
     }
@@ -25,23 +24,7 @@
         align-items: center;
         width: 100%;
         justify-content: center;
-        // background: radial-gradient( 50.13% 56.13% at 49.97% 46.63%, rgba(59, 91, 141, 0.77) 0%, #0c1221 100%);
-        .person-icon {
-            display: flex;
-            justify-content: center;
-            width: 140px;
-            img {
-                margin-bottom: 15px;
-                height: 200px;
-            }
-        }
-        .quest-icon {
-            justify-content: flex-end;
-            img {
-                height: 110px;
-                margin-top: 30px;
-            }
-        }
+        background: radial-gradient( 50.13% 56.13% at 49.97% 46.63%, rgba(59, 91, 141, 0.77) 0%, #0c1221 100%);
         &.multiple {
             & div:first-of-type {
                 margin-right: 10px;
@@ -51,35 +34,30 @@
 }
 
 .squaredButtonTitle {
-    margin: 15px auto 0 auto;
+    margin: 15px auto 30px auto;
     letter-spacing: 0.84px;
-    color: #ffffff;
+    color: rgba(204, 166, 107, 0.78);
     font-family: Solway;
     font-style: normal;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 28px;
     line-height: 150%;
 }
 
 .squareButtonChildrenWrapper {
     display: flex;
-    height: 150px;
-    margin-top: 35px;
+    flex: 1;
+    width: 100% !important;
+    height: 100% !important;
     .d-flex {
         width: 100% !important;
         height: 100% !important;
-    }
-    .humanTournament {
-        position: absolute;
-        top: 35px;
-        left: 80px;
-        height: 250px;
     }
     .pawn {
         position: relative;
         // height: 150px;
         // width: auto;
-        background-image: url("assets/images/playai1.png");
+        background-image: url("assets/images/PawnPiece.png");
         // &::before {
         //     position: absolute;
         //     content: "";
@@ -105,17 +83,12 @@
         background-position: center center;
         height: 150px;
     }
-    .user-2 {
-        background-image: url("assets/images/playai2.png");
-        width: 115px;
-    }
-
-    .user-1 {
-        background-image: url("assets/images/treasure2.png");
+    .user {
+        background-image: url("assets/images/UserIcon.png");
         width: 115px;
     }
     .chest {
-        background-image: url("assets/images/treasure.png");
+        background-image: url("assets/images/TreasureChest.png");
         width: 115px;
         background-size: contain;
         background-repeat: no-repeat;
@@ -128,8 +101,7 @@
         width: inherit;
         height: inherit;
         display: block;
-        height: 120px;
-        // position: relative;
+        position: relative;
         .user {
             position: absolute;
             bottom: 10px;
@@ -144,8 +116,6 @@
         }
         .pawn {
             height: 150px !important;
-            position: absolute;
-            top: 40px;
             // &::before {
             //     height: 160px;
             //     width: 70px;

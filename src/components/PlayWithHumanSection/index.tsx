@@ -32,7 +32,7 @@ const PlayWithHumanSection = (props: IProps) => {
           <button onClick={() => setModalCustomGame(true)}>
             Create a match
           </button>
-          <button onClick={() => setModalQuickPairing(true)}>
+          <button className="p-lg" onClick={() => setModalQuickPairing(true)}>
             Quick pairing
           </button>
         </div>
