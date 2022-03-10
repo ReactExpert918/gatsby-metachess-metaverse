@@ -1,19 +1,15 @@
 .quick-pairing-modal {
-  padding: 60px 30px 15px;
+  padding: 40px 30px 8px;
   width: auto;
   text-align: center;
   background: #0c1221;
-  background: url("./assets/images/pairingbackground.png");
-  background-size: 100% 100%;
   position: relative;
   h3 {
+    font-size: 1.5rem;
     letter-spacing: 1.62px;
     text-transform: uppercase;
-    font-size: 36px;
-    background-image: linear-gradient(#dd962b 0%, #ffe46e 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #cca66b;
+    font-size: 30px;
   }
 
   .headerRow {
@@ -23,27 +19,22 @@
   }
   .row {
     display: flex;
-    justify-content: center;
     .box {
-      background: url("./assets/images/paring.png");
-      background-size: 100% 100%;
       width: 135px;
       height: 85px;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      // border: 2px solid #cca66a;
-      // background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #cca66a;
+      background: rgba(255, 255, 255, 0.1);
       margin-right: 15px;
       margin-bottom: 15px;
       &:last-child {
         margin-right: 0;
       }
       &:hover {
-        // background: #cca66a;
-        background: url("./assets/images/paring-active.png");
-        background-size: 100% 100%;
+        background: #cca66a;
       }
       &.lg {
         width: 289px;

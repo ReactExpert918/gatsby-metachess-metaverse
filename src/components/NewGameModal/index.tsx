@@ -1,9 +1,6 @@
 import React, { Component, useState, useContext } from "react";
 import Switch from "react-switch";
 import { SVG_ASSETS } from "../../constants/svgAssets";
-import halfColor from "../../assets/images/game-setup/half-color.png";
-import color from "../../assets/images/game-setup/color.png";
-import noColor from "../../assets/images/game-setup/no-color.png";
 import Modal from "../Modal";
 import { Actions as GameplayActions } from "../../store/gameplay/gameplay.action";
 
@@ -93,7 +90,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
   };
 
   return (
-    <Modal onClose={props.closeModal}>
+    <Modal onClose={props.closeModal} withBorder>
       <div className={"newGame"}>
         {/* <div className={"headerRow"}>
           <h3>Betting settings</h3>
@@ -121,7 +118,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
                   setSide(null);
                 }}
               >
-                <img src={halfColor} />
+                <img src={SVG_ASSETS.bwSide} />
               </div>
               <div
                 className={side === "w" ? "sideClicked" : "side"}
@@ -129,7 +126,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
                   setSide("w");
                 }}
               >
-                <img src={color} />
+                <img src={SVG_ASSETS.wSide} />
               </div>
               <div
                 className={side === "b" ? "sideClicked" : "side"}
@@ -137,7 +134,7 @@ const NewGameModal = (props: IProps & ISelectProps) => {
                   setSide("b");
                 }}
               >
-                <img src={noColor} />
+                <img src={SVG_ASSETS.bSide} />
               </div>
             </div>
           </div>

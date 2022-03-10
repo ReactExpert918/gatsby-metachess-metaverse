@@ -1,10 +1,18 @@
 .borderedGameButton {
   width: 340px;
-  height: 340px;
+  height: 275px;
+  border-top: 2px solid #dd962b;
+  border-bottom: 2px solid #dea85e;
+  background-image: linear-gradient(
+      #dd962b 0%,
+      #e39c2d 6.56%,
+      #7e300f 49.79%,
+      #dea85e 100%
+    ),
+    linear-gradient(#dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+  background-size: 2px 100%;
+  background-position: 100% 100%, 0 0;
   background-repeat: no-repeat;
-  background: url("./assets/images/bordergame.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
   position: relative;
   display: flex;
   justify-content: flex-end;
@@ -18,7 +26,7 @@
     line-height: 50px;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #fbb040;
+    color: #cca66b;
   }
   .subtitle {
     font-family: Solway;
@@ -28,28 +36,9 @@
     line-height: 30px;
     text-align: center;
     letter-spacing: 0.01em;
-    color: #fbb040;
+    color: #cca66b;
     + .coming-soon {
       margin: 25px 0 35px;
-    }
-  }
-  .play-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: url("./assets/images/playbutton.png");
-    background-size: 100% 100%;
-    width: 142px;
-    height: 52px;
-    cursor: pointer;
-    margin: 20px 0;
-    p {
-      font-family: Solway;
-      font-style: normal;
-      font-weight: 800;
-      font-size: 22px;
-      line-height: 22px;
-      color: #ffffff;
     }
   }
   button {
