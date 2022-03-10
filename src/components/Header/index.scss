@@ -58,15 +58,15 @@
     font-family: Solway;
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
-    line-height: 16px;
+    font-size: 24px;
+    line-height: 24px;
     cursor: pointer;
-    background-image: repeating-linear-gradient(#ada29f 0%, #6d6461 100%);
+    background-image: repeating-linear-gradient(#d1d3d4 0%, #d1d3d4 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     &.active {
-        background-image: repeating-linear-gradient( #dd962b 0%, #e39c2d 6.56%, #7e300f 49.79%, #dea85e 100%);
+        background-image: linear-gradient(#dd962b 0%, #ffe46e 100%);
     }
 }
 
